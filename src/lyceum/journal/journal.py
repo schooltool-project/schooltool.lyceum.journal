@@ -46,7 +46,7 @@ class LyceumJournal(Persistent):
     def __init__(self):
         self.__parent__ = None
         self.__name__ = None
-        self.__data__ = OOBTree()
+        self.__grade_data__ = OOBTree()
 
     @property
     def section(self):
@@ -56,12 +56,12 @@ class LyceumJournal(Persistent):
 
     def setGrade(self, person, meeting, grade):
         key = (person.__name__, meeting.unique_id)
-        grades = self.__data__.get(key, ())
-        self.__data__[key] = (grade,) + grades
+        grades = self.__grade_data__.get(key, ())
+        self.__grade_data__[key] = (grade,) + grades
 
     def getGrade(self, person, meeting, default=None):
         key = (person.__name__, meeting.unique_id)
-        grades = self.__data__.get(key, ())
+        grades = self.__grade_data__.get(key, ())
         if not grades:
             return default
         return grades[0]

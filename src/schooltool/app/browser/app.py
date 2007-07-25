@@ -22,7 +22,6 @@ SchoolTool application views.
 $Id$
 """
 
-from zope.component import getUtility
 from zope.interface import implements
 from zope.security.interfaces import IParticipation
 from zope.security.management import getSecurityPolicy
@@ -45,7 +44,6 @@ from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.app.interfaces import IAsset
 from schooltool.person.interfaces import IPerson
-from schooltool.person.interfaces import IPersonFactory
 from schooltool.table.table import CheckboxColumn
 from schooltool.table.table import label_cell_formatter_factory
 from schooltool.table.interfaces import ITableFormatter

@@ -269,16 +269,18 @@ class LyceumJournalView(object):
         for term in self.scheduled_terms:
             if date in term:
                 return term
-        return None
+        return self.scheduled_terms[-1]
 
     @property
     def scheduled_terms(self):
+        scheduled_terms = []
         terms = ISchoolToolApplication(None)['terms']
         tt = ITimetables(self.context.section).timetables
         for key in tt.keys():
             term_id, schema_id = key.split(".")
-            term = terms[term_id]
-            yield term
+            scheduled_terms.append(terms[term_id])
+        scheduled_terms.sort(key=lambda term: term.last)
+        return scheduled_terms
 
     @property
     def section(self):

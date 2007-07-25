@@ -72,6 +72,14 @@ Let's log in with the teacher account:
     |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |    |    |
     +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
 
+You can also access the journal through the section:
+
+    >>> teacher.open('http://localhost/persons/bduh')
+    >>> teacher.getLink('Duh B. -- History (1b)').click()
+    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('May').click()
+    >>> teacher.getLink('15').click()
+
     >>> cells = analyze.queryHTML('//input[@type="text"]/@name', teacher.contents)
     >>> teacher.getControl(name=cells[0]).value = '10'
     >>> teacher.getControl(name=cells[1]).value = '5'

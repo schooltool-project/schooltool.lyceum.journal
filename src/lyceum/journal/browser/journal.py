@@ -42,7 +42,6 @@ from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
-from schooltool.course.interfaces import ISection
 from schooltool.person.interfaces import IPerson
 from schooltool.skin.breadcrumbs import Breadcrumbs
 from schooltool.skin.breadcrumbs import CustomNameBreadCrumbInfo
@@ -53,6 +52,8 @@ from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.timetable.interfaces import ITimetables
 from schooltool.traverser.traverser import AdapterTraverserPlugin
 
+from lyceum.journal.browser.table import SelectStudentCellFormatter
+from lyceum.journal.browser.table import SelectableRowTableFormatter
 from lyceum.journal.interfaces import ILyceumJournal
 from lyceum import LyceumMessage as _
 
@@ -130,7 +131,7 @@ class PersonGradesColumn(object):
         journal = ILyceumJournal(self.meeting)
         meeting_id = self.meeting.unique_id
         url = absoluteURL(journal, self.request)
-        url = "%sindex.html?event_id=%s%s" % (url,
+        url = "%s/index.html?event_id=%s%s" % (url,
                                               urllib.quote(self.meeting.unique_id),
                                               self.extra_url())
         header = '<a href="%s">%s</a>' % (url, header)
@@ -191,10 +192,23 @@ class LyceumJournalView(object):
         self.gradebook = queryMultiAdapter((person_container, self.request),
                                            ITableFormatter)
         self.gradebook.setUp(items=self.members(),
+                             formatters=[SelectStudentCellFormatter(self.context)] * 2,
                              columns_before=[GradeClassColumn(title=_('Grade'), name='grade')],
                              columns_after=self.gradeColumns(),
+                             table_formatter=self.formatterFactory,
                              batch_size=0)
         return self.template()
+
+    def formatterFactory(self, *args, **kwargs):
+        students = []
+        if 'student' in self.request:
+            student_id = self.request['student']
+            app = ISchoolToolApplication(None)
+            student = app['persons'].get(student_id)
+            if student:
+                students = [student]
+        kwargs['selected_items'] = students
+        return SelectableRowTableFormatter(*args, **kwargs)
 
     def allMeetings(self):
         term = self.getSelectedTerm()
@@ -299,8 +313,8 @@ class LyceumJournalView(object):
         return month_names[number]
 
     def monthURL(self, month_id):
-        url = absoluteURL(self.context.section, self.request)
-        return "%s/journal/index.html?month=%s%s" % (url, month_id, self.extra_url())
+        url = absoluteURL(self.context, self.request)
+        return "%s/index.html?month=%s%s" % (url, month_id, self.extra_url())
 
     def getActiveMonth(self):
         available_months = list(self.monthsInSelectedTerm())
@@ -331,7 +345,7 @@ class JournalAbsoluteURL(BrowserView):
         section = sections[section_id]
 
         url = zapi.absoluteURL(section, self.request)
-        url += '/journal/'
+        url += '/journal'
         return url
 
     __call__ = __str__

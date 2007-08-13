@@ -25,11 +25,10 @@ We should have a couple of terms now:
 Lets examine a term to see if it was created properly:
 
     >>> manager.getLink('2006 Ruduo').click()
-    >>> manager.getLink('Edit').click()
-    >>> manager.getControl('Start date').value
-    '2006-09-01'
-    >>> manager.getControl('End date').value
-    '2007-01-26'
+    >>> 'September 2006' in manager.contents
+    True
+    >>> 'January 2007' in manager.contents
+    True
 
 We should have two School Timetables as well:
 

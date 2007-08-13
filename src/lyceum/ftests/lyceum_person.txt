@@ -1,0 +1,137 @@
+Functional doctest for SchoolTool Lycem Person
+==============================================
+
+Let's log in with the manager account:
+
+    >>> from zope.testbrowser.testing import Browser
+    >>> manager = Browser()
+    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
+    >>> manager.handleErrors = False
+    >>> manager.open('http://localhost/')
+
+And add a class for our future students:
+
+    >>> manager.getLink('Groups').click()
+    >>> manager.getLink('New Group').click()
+    >>> manager.getControl('Title').value = "1a"
+    >>> manager.getControl('Add').click()
+
+Add a teacher:
+
+    >>> manager.getLink('Persons').click()
+    >>> manager.getLink('New Person').click()
+    >>> manager.getControl('First name').value = "Teache"
+    >>> manager.getControl('Last name').value = "Teacherus"
+    >>> manager.getControl('Gender').value = ['female']
+    >>> manager.getControl('Email').value = 'tee@example.com'
+    >>> manager.getControl('Phone').value = '111-111-1111'
+    >>> manager.getControl('Birth date').value = '1980-01-01'
+
+    >>> manager.getControl('Username').value = "teacher"
+    >>> manager.getControl('Password').value = "pwd"
+    >>> manager.getControl('Confirm').value = "pwd"
+    >>> manager.getControl('Add').click()
+
+And add him to the teacher group:
+
+    >>> manager.getLink('View', url='teacher').click()
+    >>> manager.getLink('edit groups').click()
+    >>> manager.getControl('Teachers').click()
+    >>> manager.getControl('Add').click()
+
+Make him the leader of the 1a group:
+
+    >>> manager.getLink('Groups').click()
+    >>> manager.getLink('1a').click()
+    >>> manager.getLink('Edit Leaders').click()
+    >>> manager.getControl('Teache').click()
+    >>> manager.getControl('Add').click()
+
+Let's create a lyceum student:
+
+    >>> manager.getLink('Persons').click()
+    >>> manager.getLink('New Person').click()
+    >>> manager.getControl('First name').value = "Jonas"
+    >>> manager.getControl('Last name').value = "Petraitis"
+    >>> manager.getControl('Gender').value = ['male']
+    >>> manager.getControl('Email').value = 'jonas@example.com'
+    >>> manager.getControl('Phone').value = 'jonas@example.com'
+    >>> manager.getControl('Grade').value = ['1a']
+    >>> manager.getControl('Birth date').value = '1980-01-01'
+    >>> manager.getControl('Advisor').value = ['teacher']
+
+    >>> manager.getControl('Username').value = "jonas"
+    >>> manager.getControl('Password').value = "pwd"
+    >>> manager.getControl('Confirm').value = "pwd"
+    >>> manager.getControl('Add').click()
+
+    >>> manager.url
+    'http://localhost/persons/jonas'
+
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl('Grade').value
+    ['1a']
+
+    >>> manager.getControl('Gender').value
+    ['male']
+
+    >>> manager.getControl('Advisor').value
+    ['teacher']
+
+Our student was added to the 1a group:
+
+    >>> manager.getLink('View', url='jonas').click()
+    >>> manager.getLink('edit groups').click()
+    >>> manager.getControl('1a').mech_item._control.name
+    'remove_item.1a'
+
+If we will remove him from the group, we will not be able to select
+this group as his grade class:
+
+    >>> manager.getControl('1a').click()
+    >>> manager.getControl('Remove').click()
+    >>> manager.getLink('Edit').click()
+
+    >>> manager.getControl('Grade').value
+    ['']
+
+Let's add him back to the 1a group and add him to the student group:
+
+    >>> manager.getLink('Change Membership').click()
+    >>> manager.getControl('1a').click()
+    >>> manager.getControl('Students').click()
+    >>> manager.getControl('Add').click()
+
+And make 1a his grade:
+
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl('Grade').value = ['1a']
+    >>> manager.getControl('Apply').click()
+
+If our teacher logs in he should not see some things that he can't
+do. For example he should not see the link School Timetable as it is
+quite useless to them at the moment:
+
+    >>> teacher = Browser()
+    >>> teacher.handleErrors = False
+    >>> teacher.open('http://localhost/')
+    >>> teacher.getLink('Log In').click()
+
+    >>> teacher.getControl('Username').value = "teacher"
+    >>> teacher.getControl('Password').value = "pwd"
+    >>> teacher.getControl('Log in').click()
+
+    >>> teacher.getLink('Teacherus Teache').click()
+
+    >>> teacher.getLink('School Timetables')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError
+
+Teacher should not see the edit link as he can't change his name, nor
+surname:
+
+    >>> teacher.getLink(url='teacher/@@edit.html')
+    Traceback (most recent call last):
+    ...
+    LinkNotFoundError

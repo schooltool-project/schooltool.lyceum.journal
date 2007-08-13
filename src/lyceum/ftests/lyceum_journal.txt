@@ -1,0 +1,233 @@
+Functional doctest for SchoolTool CSV Import
+============================================
+
+Let's log in with the manager account:
+
+    >>> from zope.testbrowser.testing import Browser
+    >>> from lyceum.tests import printGradebookTable
+    >>> manager = Browser()
+    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
+    >>> manager.handleErrors = False
+    >>> manager.open('http://localhost/')
+
+Go to the CSV import view and import the data:
+
+    >>> manager.getLink('CSV Import').click()
+    >>> manager.getControl('Import').click()
+
+Let's give a password to a teacher:
+
+    >>> manager.getLink('Groups').click()
+    >>> manager.getLink('2').click()
+    >>> manager.getLink('Teachers').click()
+
+    >>> manager.getLink('Duh').click()
+    >>> manager.getLink('Edit Password').click()
+    >>> manager.getControl('Password').value = 'pwd'
+    >>> manager.getControl('Confirm').value = 'pwd'
+    >>> manager.getControl('Apply').click()
+
+And add one more person to the section:
+
+    >>> manager.getLink('Persons').click()
+    >>> manager.getLink('New Person').click()
+    >>> manager.getControl('First name').value = "Jonas"
+    >>> manager.getControl('Last name').value = "Petraitis"
+    >>> manager.getControl('Username').value = "jonas"
+    >>> manager.getControl('Add').click()
+
+    >>> manager.getLink('Courses').click()
+    >>> manager.getLink('History', url='1b').click()
+    >>> manager.getLink('edit individuals').click()
+    >>> manager.getLink('2').click()
+    >>> manager.getControl('Jonas').click()
+    >>> manager.getControl('Add').click()
+
+Let's log in with the teacher account:
+
+    >>> teacher = Browser()
+    >>> teacher.handleErrors = False
+    >>> teacher.open('http://localhost/')
+    >>> teacher.getLink('Log In').click()
+    >>> teacher.getControl('Username').value = 'bduh'
+    >>> teacher.getControl('Password').value = 'pwd'
+    >>> teacher.getControl('Log in').click()
+
+    >>> teacher.open('http://localhost/persons/bduh/calendar/2007-05-14')
+    >>> teacher.getLink('Journal', url='1b').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14      | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | 31 |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    |    |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+
+
+    >>> teacher.getLink('15').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15      | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | 31 |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    |    |    |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
+
+You can also access the journal through the section:
+
+    >>> teacher.open('http://localhost/persons/bduh')
+    >>> teacher.getLink('Duh B. -- History (1b)').click()
+    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('May').click()
+    >>> teacher.getLink('15').click()
+
+    >>> cells = analyze.queryHTML('//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '10'
+    >>> teacher.getControl(name=cells[1]).value = '5'
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15      | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | 31 |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    |    |    |    |    |    |    | [10___] |    |    |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    |    | [5____] |    |    |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+
+
+Let's look around in the gradebook. If we click on another day, the
+term and the month that is selected should be the same:
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    May</title>
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+
+    >>> teacher.getLink('17').click()
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    May</title>
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+
+Grades are still visible in table cells:
+
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17      | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | 31 |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    |    |    |    |    |    |    | 10 |    | [_____] |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    |    | 5  |    | [_____] |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+
+
+Let's switch to another month now:
+
+    >>> teacher.getLink('April').click()
+
+We got a different month:
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    April</title>
+
+But the semester is still the same:
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+
+There are no grades in the table:
+
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 10 | 11 | 12 | 13 | 16 | 17 | 18 | 19 | 20 | 23 | 24 | 25 | 26 | 27 | 30 |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+
+Let's select a day:
+
+    >>> teacher.getLink('16').click()
+
+Month and semester still stay the same:
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    April</title>
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+
+But we get 2 cells with input boxes in them for entering of grades:
+
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 10 | 11 | 12 | 13 | 16      | 17 | 18 | 19 | 20 | 23 | 24 | 25 | 26 | 27 | 30 |
+    +-------+------------+-----------+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    | [_____] |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+
+
+If we click Update, everything stays the same:
+
+    >>> teacher.getControl('Update').click()
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    April</title>
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+
+If we select a different term, the first month in the term should get
+activated:
+
+    >>> teacher.getControl(name='TERM').value = ['2006-ruduo']
+    >>> teacher.getControl('Update').click()
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    September</title>
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2006-ruduo">2006 Ruduo</option>
+
+Choosing some day should not change neither the term, nor month:
+
+    >>> teacher.getLink('13').click()
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    September</title>
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2006-ruduo">2006 Ruduo</option>
+
+Month switches:
+
+    >>> teacher.getLink('December').click()
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    December</title>
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2006-ruduo">2006 Ruduo</option>
+
+Updating should work too:
+
+    >>> teacher.getControl('Update').click()
+
+    >>> print analyze.queryHTML('//title', teacher.contents)[0]
+    <title>
+      Duh B. -- History (1b) journal  for
+    December</title>
+
+    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
+    <option selected value="2006-ruduo">2006 Ruduo</option>

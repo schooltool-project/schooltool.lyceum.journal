@@ -8,6 +8,7 @@
     <implements interface="schooltool.app.interfaces.IHaveCalendar" />
     <implements interface="schooltool.note.interfaces.IHaveNotes" />
     <implements interface="schooltool.person.interfaces.IHavePreferences" />
+    <implements interface="schooltool.person.interfaces.IPerson" />
     <require
         permission="schooltool.view"
         interface="schooltool.person.interfaces.IReadPerson"
@@ -27,32 +28,9 @@
         set_attributes="modified" />
   </class>
 
-  <adapter
-      factory=".person.LyceumPersonCalendarCrowd"
-      provides="schooltool.app.interfaces.ICalendarParentCrowd"
-      name="schooltool.view" />
-
   <subscriber
       for="schooltool.app.interfaces.ICatalogSetUpEvent"
       handler=".person.catalogSetUpSubscriber"
       />
-
-  <adapter
-      factory=".advisor.PersonAdvisorAdapter" />
-
-  <adapter
-      factory=".advisor.PersonStudentAdapter" />
-
-  <utility
-     factory=".vocabularies.gradeClassVocabularyFactory"
-     provides="zope.schema.interfaces.IVocabularyFactory"
-     name="lyceum.person.grade_class_source" />
-
-  <utility
-     factory=".vocabularies.advisorVocabularyFactory"
-     provides="zope.schema.interfaces.IVocabularyFactory"
-     name="lyceum.person.advisor_source" />
-
-  <include package="lyceum.person.browser" />
 
 </configure>

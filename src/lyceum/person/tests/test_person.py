@@ -24,18 +24,26 @@ $Id$
 import unittest
 
 from zope.component import provideAdapter
+from zope.interface.verify import verifyObject
+from zope.interface import implements
 from zope.app.testing import setup
 from zope.testing import doctest
 
 
-def doctest_LyceumPerson():
-    """Tests for LyceumPerson.
+def doctest_BasicPerson():
+    """Tests for BasicPerson.
 
-         >>> from zope.interface.verify import verifyObject
-         >>> from lyceum.person import LyceumPerson
+         >>> from lyceum.person.person import LyceumPerson
          >>> person = LyceumPerson("peter", "Peter", "Johnson")
 
-         >>> from lyceum.interfaces import ILyceumPerson
+         >>> from lyceum.person.interfaces import ILyceumPerson
+         >>> from schooltool.basicperson.interfaces import IStudent
+         >>> class StudentStub(object):
+         ...     implements(IStudent)
+         ...     def __init__(self, context):
+         ...         pass
+         ...     advisor = "John"
+         >>> provideAdapter(StudentStub, adapts=[ILyceumPerson], provides=IStudent)
          >>> verifyObject(ILyceumPerson, person)
          True
 
@@ -48,11 +56,10 @@ def doctest_LyceumPerson():
 def doctest_PersonFactoryUtility():
     """Tests for PersonFactoryUtility.
 
-        >>> from lyceum.person import PersonFactoryUtility
+        >>> from lyceum.person.person import PersonFactoryUtility
         >>> factory = PersonFactoryUtility()
 
         >>> from schooltool.person.interfaces import IPersonFactory
-        >>> from zope.interface.verify import verifyObject
         >>> verifyObject(IPersonFactory, factory)
         True
 
@@ -72,7 +79,7 @@ def doctest_PersonFactoryUtility_createManagerUser():
 
     First let's create the utility:
 
-        >>> from lyceum.person import PersonFactoryUtility
+        >>> from lyceum.person.person import PersonFactoryUtility
         >>> utility = PersonFactoryUtility()
 
     The title of the manager user is set to "Administratorius" + system name:

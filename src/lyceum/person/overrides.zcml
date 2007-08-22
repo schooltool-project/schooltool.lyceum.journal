@@ -8,13 +8,31 @@
 
   <security:crowd
       name="person_info_viewers"
-      factory=".security.PersonInfoViewersCrowd" />
+      factory="schooltool.basicperson.security.PersonInfoViewersCrowd" />
 
   <adapter
       for="schooltool.person.interfaces.IPersonContainer"
       factory=".person.getPersonContainerCatalog"
       provides="zope.app.catalog.interfaces.ICatalog" />
 
-  <include package=".browser" file="overrides.zcml" />
+  <configure
+      xmlns:zcml="http://namespaces.zope.org/zcml"
+      zcml:condition="have devmode">
+
+    <utility
+        factory=".sampledata.SampleBasicStudents"
+        provides="schooltool.sampledata.interfaces.ISampleDataPlugin"
+        name="students"
+        />
+
+    <utility
+        factory=".sampledata.SampleBasicTeachers"
+        provides="schooltool.sampledata.interfaces.ISampleDataPlugin"
+        name="teachers"
+        />
+
+  </configure>
+
+  <include package="schooltool.basicperson.browser" file="overrides.zcml" />
 
 </configure>

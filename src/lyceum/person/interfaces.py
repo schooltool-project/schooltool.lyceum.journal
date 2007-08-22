@@ -21,85 +21,8 @@ Lyceum person interfaces.
 
 $Id$
 """
-from zope.schema import Date
-from zope.schema import Choice
-from zope.schema import TextLine
-from zope.interface import Interface
-from zope.interface import Attribute
-from zope.schema.interfaces import IIterableSource
-
-from schooltool.demographics.interfaces import SourceList
-
-from lyceum import LyceumMessage as _
+from schooltool.basicperson.interfaces import IBasicPerson
 
 
-class ILyceumPerson(Interface):
+class ILyceumPerson(IBasicPerson):
     """Marker interface for Lyceum specific person."""
-
-    first_name = TextLine(
-        title=_(u"First name"),
-        required=False,
-        )
-
-    last_name = TextLine(
-        title=_(u"Last name"),
-        required=True,
-        )
-
-    gender = Choice(
-        title=_(u"Gender"),
-        source=SourceList([_('male'), _('female')]),
-        required=False,
-        )
-
-    email = TextLine(
-        title=_(u"Email"),
-        required=False,
-        )
-
-    phone = TextLine(
-        title=_(u"Phone"),
-        required=False,
-        )
-
-    gradeclass = Choice(
-        title=_(u"Grade"),
-        source="lyceum.person.grade_class_source",
-        required=False,
-        )
-
-    birth_date = Date(
-        title=_(u"Birth date"),
-        required=False,
-        )
-
-    advisor = Choice(
-        title=_(u"Advisor"),
-        source="lyceum.person.advisor_source",
-        required=False,
-        )
-
-
-class ILyceumPersonSource(IIterableSource):
-    """Marker interface for sources that list lyceum persons."""
-
-
-# XXX should be in skin or common, or more properly - core
-class IGroupSource(IIterableSource):
-    """Marker interface for sources that list schooltool groups."""
-
-
-class IStudent(Interface):
-
-    advisor = Attribute("""Advisor of a student.""")
-
-
-class IAdvisor(Interface):
-
-    students = Attribute("""Students being advised by the advisor.""")
-
-    def addStudent(student):
-        """Add a student to the advised students list."""
-
-    def removeStudent(student):
-        """Remove this student from the advised students list."""

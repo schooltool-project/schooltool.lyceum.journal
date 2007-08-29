@@ -26,8 +26,19 @@ from zope.interface import Interface
 from zope.interface import Attribute
 
 
-class ILyceumJournal(Interface):
+class ISectionJournalData(Interface):
     """A journal for a section."""
+
+    section = Attribute("""Section this data belongs to.""")
+
+    def setGrade(person, meeting, grade):
+        """Set a grade for a person participating in this meeting."""
+
+    def getGrade(person, meetgig, default=None):
+        """Retrieve a grade for a person and a meeting."""
+
+
+class ISectionJournal(Interface):
 
     section = Attribute("""Section this journal belongs to.""")
 
@@ -36,3 +47,13 @@ class ILyceumJournal(Interface):
 
     def getGrade(person, meetgig, default=None):
         """Retrieve a grade for a person and a meeting."""
+
+
+class ITermGradingData(Interface):
+    """Term Grades for a person."""
+
+    def setGrade(course, term, grade):
+        """Set term grade for this course."""
+
+    def getGrade(course, term, default=None):
+        """Retrieve the term grade for this course."""

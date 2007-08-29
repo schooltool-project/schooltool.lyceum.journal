@@ -28,20 +28,23 @@ from persistent import Persistent
 from zope.app.container.btree import BTreeContainer
 from zope.interface import implements
 from zope.location.interfaces import ILocation
+from zope.component import adapts
 
 from schooltool.app.interfaces import ISchoolToolApplication
+from schooltool.course.interfaces import ISection
 from schooltool.app.app import InitBase
 
-from lyceum.journal.interfaces import ILyceumJournal
+from lyceum.journal.interfaces import ISectionJournalData
+from lyceum.journal.interfaces import ISectionJournal
 
 
 class LyceumJournalContainer(BTreeContainer):
     """A container for all the journals in the system."""
 
 
-class LyceumJournal(Persistent):
+class SectionJournalData(Persistent):
     """A journal for a section."""
-    implements(ILyceumJournal, ILocation)
+    implements(ISectionJournalData, ILocation)
 
     def __init__(self):
         self.__parent__ = None
@@ -67,21 +70,45 @@ class LyceumJournal(Persistent):
         return grades[0]
 
 
-def getSectionLyceumJournal(section):
+class SectionJournal(object):
+    """Adapter that adapts a section to it's journal.
+
+    Journal of a section might include grades from related sections as
+    well.
+    """
+
+    implements(ISectionJournal)
+    adapts(ISection)
+
+    def __init__(self, context):
+        self.__parent__ = context
+        self.section = context
+        self.__name__ = "journal"
+
+    def setGrade(self, person, meeting, grade):
+        section_journal_data = ISectionJournalData(meeting.owner)
+        section_journal_data.setGrade(person, meeting, grade)
+
+    def getGrade(self, person, meeting, default=None):
+        section_journal_data = ISectionJournalData(meeting.owner)
+        return section_journal_data.getGrade(person, meeting, default)
+
+
+def getSectionJournalData(section):
     """Get the journal for the section."""
     app = ISchoolToolApplication(None)
     jc = app['lyceum.journal']
     journal = jc.get(section.__name__, None)
     if journal is None:
-        jc[section.__name__] = journal = LyceumJournal()
+        jc[section.__name__] = journal = SectionJournalData()
 
     return journal
 
 
-def getEventLyceumJournal(event):
-    """Get the journal for a TimetableCalendarEvent."""
+def getEventSectionJournal(event):
+    """Get the section journal for a TimetableCalendarEvent."""
     section = event.activity.owner
-    return ILyceumJournal(section)
+    return ISectionJournal(section)
 
 
 class JournalInit(InitBase):

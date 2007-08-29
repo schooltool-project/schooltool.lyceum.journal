@@ -29,11 +29,11 @@ from zope.app.testing import setup
 from zope.testing import doctest
 
 
-def doctest_LyceumJournal():
-    """Tests for LyceumJournal
+def doctest_SectionJournalData():
+    """Tests for SectionJournalData
 
-        >>> from lyceum.journal.journal import LyceumJournal
-        >>> journal = LyceumJournal()
+        >>> from lyceum.journal.journal import SectionJournalData
+        >>> journal = SectionJournalData()
 
     Journals don't really work on their own, as they find out which
     section they belong to by their __name__:
@@ -89,10 +89,10 @@ def doctest_LyceumJournal():
     """
 
 
-def doctest_LyceumJournal():
-    """Tests for getSectionLyceumJournal
+def doctest_getSectionJournalData():
+    """Tests for getSectionJournalData
 
-        >>> from lyceum.journal.journal import getSectionLyceumJournal
+        >>> from lyceum.journal.journal import getSectionJournalData
 
         >>> from zope.app.container.btree import BTreeContainer
         >>> journal_container = BTreeContainer()
@@ -110,11 +110,11 @@ def doctest_LyceumJournal():
         >>> section = SectionStub('some_section')
 
     Initially the journal container is empty, but if we try to get a
-    journal for a section, a LyceumJournal objecgt is created:
+    journal for a section, a SectionJournalData objecgt is created:
 
-        >>> journal = getSectionLyceumJournal(section)
+        >>> journal = getSectionJournalData(section)
         >>> journal
-        <lyceum.journal.journal.LyceumJournal object at ...>
+        <lyceum.journal.journal.SectionJournalData object at ...>
 
         >>> journal.__name__
         u'some_section'
@@ -125,8 +125,52 @@ def doctest_LyceumJournal():
     If we try to get the journal for the second time, we get the same
     journal instance:
 
-        >>> getSectionLyceumJournal(section) is journal
+        >>> getSectionJournalData(section) is journal
         True
+
+    """
+
+
+def doctest_SectionJournal():
+    """Tests for SectionJournal adapter:
+
+        >>> from lyceum.journal.journal import SectionJournal
+        >>> section = object()
+        >>> sj = SectionJournal(section)
+        >>> sj.section is section
+        True
+
+    The section you pass as an argument is set as a section attribute
+    for the journal.
+
+        >>> class SectionDataStub(object):
+        ...     data = {}
+        ...     def setGrade(self, person, meeting, value):
+        ...         self.data[person, meeting] = value
+        ...     def getGrade(self, person, meeting, default):
+        ...         return self.data.get((person, meeting), default)
+        >>> section_data = SectionDataStub()
+
+        >>> class SectionStub(object):
+        ...     def __conform__(self, iface):
+        ...         return section_data
+
+        >>> class MeetingStub(object):
+        ...     owner = SectionStub()
+        >>> meeting = MeetingStub()
+
+    The grades are stored in the section journal data of the section
+    that "owns" the meeting:
+
+        >>> sj.setGrade("john", meeting, 9)
+
+        >>> sj.getGrade("john", meeting, default=0)
+        9
+
+    If there is no value set, the default is returned:
+
+        >>> sj.getGrade("pete", meeting, default=0)
+        0
 
     """
 

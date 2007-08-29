@@ -103,7 +103,7 @@ def doctest_JournalCalendarEventViewlet():
     with the event id passed as a parameter:
 
         >>> from schooltool.timetable.interfaces import ITimetableCalendarEvent
-        >>> from lyceum.journal.interfaces import ILyceumJournal
+        >>> from lyceum.journal.interfaces import ISectionJournal
         >>> class JournalStub(object):
         ...     __name__ = 'journal'
 
@@ -112,7 +112,7 @@ def doctest_JournalCalendarEventViewlet():
         ...     def __init__(self):
         ...         self.unique_id = "unique&id"
         ...     def __conform__(self, iface):
-        ...         if iface == ILyceumJournal:
+        ...         if iface == ISectionJournal:
         ...             journal = JournalStub()
         ...             journal.__parent__ = self
         ...             return journal
@@ -133,7 +133,7 @@ def doctest_PersonGradesColumn():
         >>> dtstart = datetime(2005, 1, 1, 23, 0)
         >>> dtstart = utc.localize(dtstart)
 
-        >>> from lyceum.journal.interfaces import ILyceumJournal
+        >>> from lyceum.journal.interfaces import ISectionJournal
         >>> class JournalStub(object):
         ...     __name__ = 'journal'
         ...     def getGrade(self, person, meeting, default=None):
@@ -143,7 +143,7 @@ def doctest_PersonGradesColumn():
         >>> class MeetingStub(object):
         ...     dtstart = dtstart
         ...     def __conform__(self, iface):
-        ...         if iface == ILyceumJournal:
+        ...         if iface == ISectionJournal:
         ...             journal = JournalStub()
         ...             journal.__parent__ = self
         ...             return journal

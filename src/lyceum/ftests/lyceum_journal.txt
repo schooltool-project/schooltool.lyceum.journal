@@ -231,3 +231,55 @@ Updating should work too:
 
     >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
     <option selected value="2006-ruduo">2006 Ruduo</option>
+
+Let's grade jonas once more:
+
+    >>> teacher.open('http://localhost/persons/bduh/calendar/2007-05-17')
+    >>> teacher.getLink('Journal', url='1b').click()
+    >>> cells = analyze.queryHTML('//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[1]).value = '8'
+    >>> teacher.getControl('Update').click()
+
+And now let's grade our students for this term:
+
+    >>> teacher.open('http://localhost/persons/bduh/calendar/2007-05-14')
+    >>> teacher.getLink('Journal', url='1b').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Grade | First Name | Last Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14      | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | 31 |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | 1b    | Zombe      | Bain      |    |    |    |    |    |    |    |    |    | [_____] | 10 |    |    |    |    |    |    |    |    |    |    |    |    |
+    |       | Jonas      | Petraitis |    |    |    |    |    |    |    |    |    | [_____] | 5  |    | 8  |    |    |    |    |    |    |    |    |    |    |
+    +-------+------------+-----------+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+
+
+    >>> teacher.getLink('Term Grading').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+------------+
+    | Grade | First Name | Last Name | Term Grade |
+    +-------+------------+-----------+------------+
+    | 1b    | Zombe      | Bain      | [_____]    |
+    |       | Jonas      | Petraitis | [_____]    |
+    +-------+------------+-----------+------------+
+
+    >>> teacher.getControl(name='zombe-bain').value = "10"
+    >>> teacher.getControl(name='jonas').value = "6"
+
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+------------+
+    | Grade | First Name | Last Name | Term Grade |
+    +-------+------------+-----------+------------+
+    | 1b    | Zombe      | Bain      | [10___]    |
+    |       | Jonas      | Petraitis | [6____]    |
+    +-------+------------+-----------+------------+
+
+    >>> teacher.getControl(name='zombe-bain').value = "9"
+    >>> teacher.getControl(name='jonas').value = "7"
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-------+------------+-----------+------------+
+    | Grade | First Name | Last Name | Term Grade |
+    +-------+------------+-----------+------------+
+    | 1b    | Zombe      | Bain      | [9____]    |
+    |       | Jonas      | Petraitis | [7____]    |
+    +-------+------------+-----------+------------+

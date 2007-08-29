@@ -42,6 +42,10 @@
           <tal:block tal:replace="python: view.monthTitle(month_id)" />
         </tal:if>
       </span>
+      <span>
+        <a tal:attributes="href string:${context/@@absolute_url}/term_grades.html"
+           i18n:translate="">Term Grading</a>
+      </span>
     </div>
 
     <div class="gradebook">

@@ -28,33 +28,28 @@ from datetime import datetime
 
 from zope.app import zapi
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
-from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
-from zope.publisher.browser import BrowserView
 from zope.traversing.browser.absoluteurl import absoluteURL
-from zope.traversing.browser.interfaces import IAbsoluteURL
 
 from zc.table.interfaces import IColumn
+from zope.cachedescriptors.property import Lazy
 
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.person.interfaces import IPerson
-from schooltool.skin.breadcrumbs import Breadcrumbs
-from schooltool.skin.breadcrumbs import CustomNameBreadCrumbInfo
-from schooltool.skin.interfaces import IBreadcrumbInfo
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.timetable.interfaces import ITimetables
 from schooltool.traverser.traverser import AdapterTraverserPlugin
 
+from lyceum.journal.interfaces import ISectionJournal
 from lyceum.journal.browser.table import SelectStudentCellFormatter
 from lyceum.journal.browser.table import SelectableRowTableFormatter
-from lyceum.journal.interfaces import ILyceumJournal
 from lyceum import LyceumMessage as _
 
 
@@ -78,7 +73,7 @@ class JournalCalendarEventViewlet(object):
         """
         event_for_display = self.manager.event
         calendar_event = event_for_display.context
-        journal = ILyceumJournal(calendar_event, None)
+        journal = ISectionJournal(calendar_event, None)
         if journal:
             return '%s/index.html?event_id=%s' % (
                 zapi.absoluteURL(journal, self.request),
@@ -113,7 +108,7 @@ class PersonGradesColumn(object):
         return date
 
     def getCellValue(self, item):
-        journal = ILyceumJournal(self.meeting)
+        journal = ISectionJournal(self.meeting)
         return journal.getGrade(item, self.meeting, default="")
 
     def extra_url(self):
@@ -128,7 +123,7 @@ class PersonGradesColumn(object):
         header = self.meetingDate().strftime("%d")
 
         self.request = formatter.request
-        journal = ILyceumJournal(self.meeting)
+        journal = ISectionJournal(self.meeting)
         meeting_id = self.meeting.unique_id
         url = absoluteURL(journal, self.request)
         url = "%s/index.html?event_id=%s%s" % (url,
@@ -181,7 +176,6 @@ class LyceumJournalView(object):
 
     def __init__(self, context, request):
         self.context, self.request = context, request
-        self.active_month = self.getActiveMonth()
 
     def __call__(self):
         if 'UPDATE_SUBMIT' in self.request:
@@ -298,9 +292,7 @@ class LyceumJournalView(object):
 
     @property
     def section(self):
-        app = ISchoolToolApplication(None)
-        section = app['sections'][self.__parent__.__name__]
-        return section
+        return self.context.section
 
     def monthsInSelectedTerm(self):
         month = -1
@@ -316,7 +308,8 @@ class LyceumJournalView(object):
         url = absoluteURL(self.context, self.request)
         return "%s/index.html?month=%s%s" % (url, month_id, self.extra_url())
 
-    def getActiveMonth(self):
+    @Lazy
+    def active_month(self):
         available_months = list(self.monthsInSelectedTerm())
         if 'month' in self.request:
             month = int(self.request['month'])
@@ -336,39 +329,5 @@ class LyceumJournalView(object):
         return "&" + "&".join(parameters)
 
 
-class JournalAbsoluteURL(BrowserView):
-    implements(IAbsoluteURL)
-
-    def __str__(self):
-        section_id = self.context.__name__
-        sections = ISchoolToolApplication(None)['sections']
-        section = sections[section_id]
-
-        url = zapi.absoluteURL(section, self.request)
-        url += '/journal'
-        return url
-
-    __call__ = __str__
-
-
-class JournalBreadcrumbs(Breadcrumbs):
-
-    @property
-    def crumbs(self):
-        section_id = self.context.__name__
-        sections = ISchoolToolApplication(None)['sections']
-        section = sections[section_id]
-        section_crumbs = getMultiAdapter((section, self.request),
-                                         name='breadcrumbs')
-        for crumb in section_crumbs.crumbs:
-            yield crumb
-
-        info = getMultiAdapter((self.context, self.request), IBreadcrumbInfo)
-        yield {'name': info.name, 'url': info.url, 'active': info.active}
-
-
-JournalBreadcrumbInfo = CustomNameBreadCrumbInfo(_('Journal'))
-
-
 LyceumJournalTraverserPlugin = AdapterTraverserPlugin(
-    'journal', ILyceumJournal)
+    'journal', ISectionJournal)

@@ -13,35 +13,18 @@
       order="15"
       />
 
-  <zope:view
-      for="lyceum.journal.interfaces.ILyceumJournal"
-      factory=".journal.JournalAbsoluteURL"
-      type="zope.publisher.interfaces.http.IHTTPRequest"
-      permission="zope.Public"
-      provides="zope.traversing.browser.interfaces.IAbsoluteURL"
-      />
-
-  <page
-      for="lyceum.journal.interfaces.ILyceumJournal"
-      name="breadcrumbs"
-      class=".journal.JournalBreadcrumbs"
-      permission="zope.Public"
-      allowed_interface="schooltool.skin.interfaces.IBreadcrumbs"
-      />
-
   <page
       name="index.html"
-      for="lyceum.journal.interfaces.ILyceumJournal"
+      for="lyceum.journal.interfaces.ISectionJournal"
       class=".journal.LyceumJournalView"
       permission="schooltool.view"
       />
 
-  <zope:adapter
-      for="lyceum.journal.interfaces.ILyceumJournal
-           zope.publisher.interfaces.http.IHTTPRequest"
-      factory=".journal.JournalBreadcrumbInfo"
-      trusted="true"
-      permission="zope.Public"
+  <page
+      name="term_grades.html"
+      for="lyceum.journal.interfaces.ISectionJournal"
+      class=".term.TermView"
+      permission="schooltool.edit"
       />
 
   <zope:subscriber

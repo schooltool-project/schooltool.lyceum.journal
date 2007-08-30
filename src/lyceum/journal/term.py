@@ -17,7 +17,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-Lyceum journal content classes.
+Lyceum term grade content classes.
 
 $Id$
 

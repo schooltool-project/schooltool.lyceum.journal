@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns:browser="http://namespaces.zope.org/browser"
            xmlns="http://namespaces.zope.org/zope"
-           i18n_domain="schooltool">
+           i18n_domain="lyceum">
 
   <class class="lyceum.journal.journal.LyceumJournalContainer">
     <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
@@ -37,6 +37,8 @@
       for="schooltool.app.interfaces.ISchoolToolApplication"
       factory=".journal.JournalInit"
       name="lyceum.journal" />
+
+  <!-- Term grades -->
 
   <class class="lyceum.journal.term.LyceumTermDataContainer">
     <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />

@@ -2,4 +2,4 @@
    tal:condition="href"
    tal:attributes="href href"
    i18n:translate=""
-   i18n:domain="schooltool">Journal</a>
+   i18n:domain="lyceum">Journal</a>

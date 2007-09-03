@@ -20,13 +20,13 @@
       zcml:condition="have devmode">
 
     <utility
-        factory=".sampledata.SampleBasicStudents"
+        factory="schooltool.basicperson.sampledata.SampleBasicStudents"
         provides="schooltool.sampledata.interfaces.ISampleDataPlugin"
         name="students"
         />
 
     <utility
-        factory=".sampledata.SampleBasicTeachers"
+        factory="schooltool.basicperson.sampledata.SampleBasicTeachers"
         provides="schooltool.sampledata.interfaces.ISampleDataPlugin"
         name="teachers"
         />

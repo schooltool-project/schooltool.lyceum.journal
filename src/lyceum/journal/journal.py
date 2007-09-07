@@ -29,10 +29,13 @@ from zope.app.container.btree import BTreeContainer
 from zope.interface import implements
 from zope.location.interfaces import ILocation
 from zope.component import adapts
+from zope.cachedescriptors.property import Lazy
 
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.course.interfaces import ISection
 from schooltool.app.app import InitBase
+from schooltool.person.interfaces import IPerson
+from schooltool.app.interfaces import ISchoolToolCalendar
 
 from lyceum.journal.interfaces import ISectionJournalData
 from lyceum.journal.interfaces import ISectionJournal
@@ -92,6 +95,41 @@ class SectionJournal(object):
     def getGrade(self, person, meeting, default=None):
         section_journal_data = ISectionJournalData(meeting.owner)
         return section_journal_data.getGrade(person, meeting, default)
+
+    @Lazy
+    def students(self):
+        return [member for member in self.section.members
+                if IPerson.providedBy(member)]
+
+    def student_sections(self, students):
+        sections = set()
+        for student in students:
+            for section in student.groups:
+                if ISection.providedBy(section):
+                    sections.add(section)
+        return sections
+
+    @Lazy
+    def adjacent_sections(self):
+        """Sections in the same course that share members with this section."""
+        courses = self.section.courses
+        sections = set()
+        for section in self.student_sections(self.students):
+            for course in section.courses:
+                if course in courses:
+                    sections.add(section)
+                    break
+        return sections
+
+    def meetings(self):
+        """Orddered list of all meetings for this and adjacent sections."""
+        calendars = [ISchoolToolCalendar(section)
+                     for section in self.adjacent_sections]
+        events = []
+        for calendar in calendars:
+            for event in calendar:
+                events.append(event)
+        return sorted(events)
 
 
 def getSectionJournalData(section):

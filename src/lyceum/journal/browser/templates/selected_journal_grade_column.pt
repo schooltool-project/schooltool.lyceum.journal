@@ -1,3 +1,0 @@
-<input type="text" style="width: 1.4em"
-       tal:attributes="name python: view.getCellName(context);
-                       value python: view.getCellValue(context)" />

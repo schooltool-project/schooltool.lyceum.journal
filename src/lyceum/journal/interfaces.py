@@ -48,6 +48,9 @@ class ISectionJournal(Interface):
     def getGrade(person, meetgig, default=None):
         """Retrieve a grade for a person and a meeting."""
 
+    def meetings():
+        """List all possible meetings for this section."""
+
 
 class ITermGradingData(Interface):
     """Term Grades for a person."""

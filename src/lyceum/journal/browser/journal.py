@@ -28,7 +28,9 @@ from datetime import datetime
 
 from zope.app import zapi
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 from zope.component import queryMultiAdapter
+from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
 from zope.traversing.browser.absoluteurl import absoluteURL
@@ -92,14 +94,18 @@ class GradeClassColumn(LocaleAwareGetterColumn):
 class PersonGradesColumn(object):
     implements(IColumn)
 
-    template = ViewPageTemplateFile("templates/journal_grade_column.pt")
+    template = PageTemplateFile("templates/journal_grade_column.pt")
 
-    title = None
-    name = None
-
-    def __init__(self, meeting):
+    def __init__(self, meeting, selected=False):
         self.meeting = meeting
-        self.name = meeting.unique_id
+        self.selected = selected
+
+    def today(self):
+        return today()
+
+    @property
+    def name(self):
+        return self.meeting.unique_id
 
     def meetingDate(self):
         app = ISchoolToolApplication(None)
@@ -107,67 +113,103 @@ class PersonGradesColumn(object):
         date = self.meeting.dtstart.astimezone(tzinfo).date()
         return date
 
-    def getCellValue(self, item):
-        journal = ISectionJournal(self.meeting)
-        return journal.getGrade(item, self.meeting, default="")
-
-    def extra_url(self):
+    def extra_parameters(self, request):
         parameters = []
-        if 'month' in self.request:
-            parameters.append("month=%s" % urllib.quote(self.request['month']))
-        if 'TERM' in self.request:
-            parameters.append("TERM=%s" % urllib.quote(self.request['TERM']))
-        return "&" + "&".join(parameters)
+        for info in ['TERM', 'month']:
+            if info in request:
+                parameters.append((info, request[info]))
+        return parameters
+
+    def journalUrl(self, request):
+        journal = ISectionJournal(self.meeting)
+        return absoluteURL(journal, request)
 
     def renderHeader(self, formatter):
-        header = self.meetingDate().strftime("%d")
-
-        self.request = formatter.request
-        journal = ISectionJournal(self.meeting)
-        meeting_id = self.meeting.unique_id
-        url = absoluteURL(journal, self.request)
-        url = "%s/index.html?event_id=%s%s" % (url,
-                                              urllib.quote(self.meeting.unique_id),
-                                              self.extra_url())
-        header = '<a href="%s">%s</a>' % (url, header)
-
         meetingDate = self.meetingDate()
+        header = meetingDate.strftime("%d")
+
         klass = ""
-        if meetingDate == today():
+        if meetingDate == self.today():
             klass = 'class="today" '
+
+        if not self.selected:
+            url = "%s/index.html?%s" % (
+                self.journalUrl(formatter.request),
+                urllib.urlencode([('event_id', self.meeting.unique_id)] +
+                                 self.extra_parameters(formatter.request)))
+            header = '<a href="%s">%s</a>' % (url, header)
 
         return '<span %stitle="%s">%s</span>' % (
             klass, meetingDate.strftime("%Y-%m-%d"), header)
 
+    def getCellValue(self, item):
+        journal = ISectionJournal(self.meeting)
+        return journal.getGrade(item, self.meeting, default="")
+
     def renderCell(self, item, formatter):
-        self.request = formatter.request
-        self.context = item
-        return self.template()
+        value = self.getCellValue(item)
+        name = "%s.%s" % (item.__name__, self.meeting.__name__)
+        return self.template(value=value,
+                             selected=self.selected,
+                             name=name)
 
 
-class SelectedPersonGradesColumn(PersonGradesColumn):
+class SectionTermAverageGradesColumn(object):
+    implements(IColumn)
 
-    template = ViewPageTemplateFile("templates/selected_journal_grade_column.pt")
+    def __init__(self, journal, term):
+        self.term = term
+        self.name = term.__name__ + "average"
+        self.journal = journal
 
-    def getCellName(self, item):
-        return "%s.%s" % (item.__name__, self.meeting.__name__)
+    def getGrades(self, person):
+        grades = []
+        for meeting in self.journal.meetings():
+            if meeting.dtstart.date() in self.term:
+                grade = self.journal.getGrade(person, meeting, default=None)
+                if (grade is not None) and (grade.strip() != ""):
+                    grades.append(grade)
+        return grades
 
-    def getHeader(self):
-        return self.meetingDate().strftime("%d")
+    def renderCell(self, person, formatter):
+        grades = []
+        for grade in self.getGrades(person):
+            try:
+                grade = int(grade)
+            except ValueError:
+                continue
+            grades.append(grade)
+        if not grades:
+            return ""
+        else:
+            return "%.3f" % (sum(grades) / float(len(grades)))
 
     def renderHeader(self, formatter):
-        meetingDate = self.meetingDate()
-        klass = ""
-        if meetingDate == today():
-            klass = 'class="today" '
+        return '<span>%s</span>' % translate(_("Average"),
+                                             context=formatter.request)
 
-        return '<span %stitle="%s">%s</span>' % (
-            klass, meetingDate.strftime("%Y-%m-%d"), self.getHeader())
 
-    def renderCell(self, item, formatter):
-        self.request = formatter.request
-        self.context = item
-        return self.template()
+class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
+
+    def __init__(self, journal, term):
+        self.term = term
+        self.name = term.__name__ + "attendance"
+        self.journal = journal
+
+    def renderCell(self, person, formatter):
+        absences = 0
+        for grade in self.getGrades(person):
+            if (grade.strip().lower() == "n"):
+                absences += 1
+
+        if absences == 0:
+            return ""
+        else:
+            return str(absences)
+
+    def renderHeader(self, formatter):
+        return '<span>%s</span>' % translate(_("Attendance"),
+                                             context=formatter.request)
 
 
 class LyceumJournalView(object):
@@ -243,10 +285,12 @@ class LyceumJournalView(object):
             app = ISchoolToolApplication(None)
             tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
             meeting_date = meeting.dtstart.astimezone(tzinfo).date()
-            if meeting_date == self.selectedDate():
-                columns.append(SelectedPersonGradesColumn(meeting))
-            else:
-                columns.append(PersonGradesColumn(meeting))
+            selected = (meeting_date == self.selectedDate())
+            columns.append(PersonGradesColumn(meeting, selected=selected))
+        columns.append(SectionTermAverageGradesColumn(self.context,
+                                                      self.getSelectedTerm()))
+        columns.append(SectionTermAttendanceColumn(self.context,
+                                                   self.getSelectedTerm()))
         return columns
 
     def getSelectedTerm(self):
@@ -306,7 +350,11 @@ class LyceumJournalView(object):
 
     def monthURL(self, month_id):
         url = absoluteURL(self.context, self.request)
-        return "%s/index.html?month=%s%s" % (url, month_id, self.extra_url())
+        url = "%s/index.html?%s" % (
+            url,
+            urllib.urlencode([('month', month_id)] +
+                             self.extra_parameters(self.request)))
+        return url
 
     @Lazy
     def active_month(self):
@@ -322,11 +370,12 @@ class LyceumJournalView(object):
 
         return available_months[0]
 
-    def extra_url(self):
+    def extra_parameters(self, request):
         parameters = []
-        if 'TERM' in self.request:
-            parameters.append("TERM=%s" % urllib.quote(self.request['TERM']))
-        return "&" + "&".join(parameters)
+        for info in ['TERM']:
+            if info in request:
+                parameters.append((info, request[info]))
+        return parameters
 
 
 LyceumJournalTraverserPlugin = AdapterTraverserPlugin(

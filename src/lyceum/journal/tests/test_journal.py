@@ -27,6 +27,7 @@ import unittest
 from zope.component import provideAdapter
 from zope.app.testing import setup
 from zope.testing import doctest
+from zope.interface import implements
 
 
 def doctest_SectionJournalData():
@@ -171,6 +172,65 @@ def doctest_SectionJournal():
 
         >>> sj.getGrade("pete", meeting, default=0)
         0
+
+    """
+
+
+def doctest_SectionJournal_adjacent_sections():
+    """Tests for SectionJournal.adjacent_sections:
+
+        >>> from lyceum.journal.journal import SectionJournal
+        >>> from schooltool.course.interfaces import ISection
+        >>> class SectionStub(object):
+        ...     implements(ISection)
+        ...     def __init__(self, name):
+        ...         self.name = name
+        ...     def __repr__(self):
+        ...         return "<Section %s>" % self.name
+        ...     def __cmp__(self, other):
+        ...         return cmp(self.name, other.name)
+        ...     courses = []
+        ...     members = []
+        >>> section = SectionStub("Math 1a")
+        >>> section.courses = ["math"]
+        >>> sj = SectionJournal(section)
+        >>> sorted(sj.adjacent_sections)
+        []
+
+        >>> from schooltool.person.interfaces import IPerson
+        >>> class PersonStub(object):
+        ...     implements(IPerson)
+        ...     groups = []
+        >>> john = PersonStub()
+        >>> pete = PersonStub()
+        >>> section.members = [john, pete, "something-else"]
+        >>> sj = SectionJournal(section)
+        >>> sorted(sj.adjacent_sections)
+        []
+
+        >>> sj = SectionJournal(section)
+        >>> section2 = SectionStub("Math 1a A")
+        >>> john.groups = [section2, "something-else"]
+        >>> sorted(sj.adjacent_sections)
+        []
+
+        >>> sj = SectionJournal(section)
+        >>> section2.courses = ["math"]
+        >>> sorted(sj.adjacent_sections)
+        [<Section Math 1a A>]
+
+        >>> sj = SectionJournal(section)
+        >>> section2.courses = ["math", "history"]
+        >>> section.courses = ["math", "history"]
+        >>> sorted(sj.adjacent_sections)
+        [<Section Math 1a A>]
+
+        >>> sj = SectionJournal(section)
+        >>> section3 = SectionStub("Math 1a B")
+        >>> section3.courses = ["math"]
+        >>> pete.groups = [section3]
+        >>> sorted(sj.adjacent_sections)
+        [<Section Math 1a A>, <Section Math 1a B>]
 
     """
 

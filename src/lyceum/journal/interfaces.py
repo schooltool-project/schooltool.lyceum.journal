@@ -40,7 +40,8 @@ class ISectionJournalData(Interface):
 
 class ISectionJournal(Interface):
 
-    section = Attribute("""Section this journal belongs to.""")
+    section = Attribute("Section this journal belongs to.")
+    members = Attribute("List of students that belong to this section or any of the adjacent.")
 
     def setGrade(person, meeting, grade):
         """Set a grade for a person participating in this meeting."""

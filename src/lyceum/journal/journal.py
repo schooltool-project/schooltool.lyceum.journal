@@ -97,7 +97,7 @@ class SectionJournal(object):
         return section_journal_data.getGrade(person, meeting, default)
 
     @Lazy
-    def students(self):
+    def members(self):
         return [member for member in self.section.members
                 if IPerson.providedBy(member)]
 
@@ -114,7 +114,7 @@ class SectionJournal(object):
         """Sections in the same course that share members with this section."""
         courses = self.section.courses
         sections = set()
-        for section in self.student_sections(self.students):
+        for section in self.student_sections(self.members):
             for course in section.courses:
                 if course in courses:
                     sections.add(section)

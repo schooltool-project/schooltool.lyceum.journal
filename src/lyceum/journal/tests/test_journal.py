@@ -87,6 +87,25 @@ def doctest_SectionJournalData():
         >>> journal.getGrade(person2, meeting, default="")
         ''
 
+    Absences work in a very simmilar way:
+
+        >>> journal.setAbsence(person1, meeting)
+
+    If value was not provided, it defaults to True:
+
+        >>> journal.getAbsence(person1, meeting)
+        True
+
+    Absences are treated as unexplained by default:
+
+        >>> journal.getAbsence(person2, meeting)
+        False
+
+    Unless default is provided:
+
+        >>> journal.getAbsence(person2, meeting, default=True)
+        True
+
     """
 
 
@@ -145,11 +164,16 @@ def doctest_SectionJournal():
     for the journal.
 
         >>> class SectionDataStub(object):
-        ...     data = {}
+        ...     grade_data = {}
+        ...     absence_data = {}
         ...     def setGrade(self, person, meeting, value):
-        ...         self.data[person, meeting] = value
+        ...         self.grade_data[person, meeting] = value
         ...     def getGrade(self, person, meeting, default):
-        ...         return self.data.get((person, meeting), default)
+        ...         return self.grade_data.get((person, meeting), default)
+        ...     def setAbsence(self, person, meeting, value):
+        ...         self.absence_data[person, meeting] = value
+        ...     def getAbsence(self, person, meeting, default):
+        ...         return self.absence_data.get((person, meeting), default)
         >>> section_data = SectionDataStub()
 
         >>> class SectionStub(object):
@@ -172,6 +196,13 @@ def doctest_SectionJournal():
 
         >>> sj.getGrade("pete", meeting, default=0)
         0
+
+    Absence information belongs in the journal data of the section too:
+
+        >>> sj.setAbsence("john", meeting, True)
+
+        >>> sj.getAbsence("john", meeting)
+        True
 
     """
 

@@ -167,8 +167,7 @@ class SchoolWeekdayTimetable(object):
         for term_id, term in terms.items():
             if date in term:
                 return term_id
-        else:
-            return None
+        return term_id
 
     @property
     def schooltt_ids(self):

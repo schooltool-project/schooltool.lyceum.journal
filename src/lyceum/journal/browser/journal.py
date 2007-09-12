@@ -50,6 +50,7 @@ from schooltool.timetable.interfaces import ITimetables
 from schooltool.traverser.traverser import AdapterTraverserPlugin
 
 from lyceum.journal.interfaces import ISectionJournal
+from lyceum.journal.browser.interfaces import ISelectableColumn
 from lyceum.journal.browser.table import SelectStudentCellFormatter
 from lyceum.journal.browser.table import SelectableRowTableFormatter
 from lyceum import LyceumMessage as _
@@ -92,7 +93,7 @@ class GradeClassColumn(LocaleAwareGetterColumn):
 
 
 class PersonGradesColumn(object):
-    implements(IColumn)
+    implements(IColumn, ISelectableColumn)
 
     template = PageTemplateFile("templates/journal_grade_column.pt")
 
@@ -115,7 +116,7 @@ class PersonGradesColumn(object):
 
     def extra_parameters(self, request):
         parameters = []
-        for info in ['TERM', 'month']:
+        for info in ['TERM', 'month', 'student']:
             if info in request:
                 parameters.append((info, request[info]))
         return parameters
@@ -145,6 +146,13 @@ class PersonGradesColumn(object):
     def getCellValue(self, item):
         journal = ISectionJournal(self.meeting)
         return journal.getGrade(item, self.meeting, default="")
+
+    def renderSelectedCell(self, item, formatter):
+        value = self.getCellValue(item)
+        name = "%s.%s" % (item.__name__, self.meeting.__name__)
+        return self.template(value=value,
+                             selected=True,
+                             name=name)
 
     def renderCell(self, item, formatter):
         value = self.getCellValue(item)

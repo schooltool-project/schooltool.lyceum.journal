@@ -268,7 +268,7 @@ def doctest_PersonGradesColumn_renderHeader():
     """
 
 
-def doctest_PersonGradesColumn_renderCell():
+def doctest_PersonGradesColumn_renderCell_renderSelectedCell():
     """Tests for PersonGradesColumn.renderCell
 
         >>> from lyceum.journal.browser.journal import PersonGradesColumn
@@ -292,6 +292,11 @@ def doctest_PersonGradesColumn_renderCell():
 
         >>> column.selected = True
         >>> print column.renderCell(PersonStub(), formatter)
+        <input type="text" style="width: 1.4em"
+               name="John.unique-id-2006-01-01" value="John 5" />
+
+        >>> column.selected = False
+        >>> print column.renderSelectedCell(PersonStub(), formatter)
         <input type="text" style="width: 1.4em"
                name="John.unique-id-2006-01-01" value="John 5" />
 

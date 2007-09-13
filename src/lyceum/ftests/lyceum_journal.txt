@@ -359,32 +359,32 @@ And now let's grade our students for this term:
 
     >>> teacher.getLink('Term Grading').click()
     >>> printGradebookTable(teacher.contents)
-    +-------+------------+-----------+------------+
-    | Grade | First Name | Last Name | Term Grade |
-    +-------+------------+-----------+------------+
-    | 1b    | Zombe      | Bain      | [_____]    |
-    |       | Jonas      | Petraitis | [_____]    |
-    +-------+------------+-----------+------------+
+    +-------+------------+-----------+---------+------------+------------+
+    | Grade | First Name | Last Name | Average | Attendance | Term Grade |
+    +-------+------------+-----------+---------+------------+------------+
+    | 1b    | Zombe      | Bain      | 10.000  |            | [_____]    |
+    |       | Jonas      | Petraitis | 6.500   |            | [_____]    |
+    +-------+------------+-----------+---------+------------+------------+
 
     >>> teacher.getControl(name='zombe-bain').value = "10"
     >>> teacher.getControl(name='jonas').value = "6"
 
     >>> teacher.getControl('Update').click()
     >>> printGradebookTable(teacher.contents)
-    +-------+------------+-----------+------------+
-    | Grade | First Name | Last Name | Term Grade |
-    +-------+------------+-----------+------------+
-    | 1b    | Zombe      | Bain      | [10___]    |
-    |       | Jonas      | Petraitis | [6____]    |
-    +-------+------------+-----------+------------+
+    +-------+------------+-----------+---------+------------+------------+
+    | Grade | First Name | Last Name | Average | Attendance | Term Grade |
+    +-------+------------+-----------+---------+------------+------------+
+    | 1b    | Zombe      | Bain      | 10.000  |            | [10___]    |
+    |       | Jonas      | Petraitis | 6.500   |            | [6____]    |
+    +-------+------------+-----------+---------+------------+------------+
 
     >>> teacher.getControl(name='zombe-bain').value = "9"
     >>> teacher.getControl(name='jonas').value = "7"
     >>> teacher.getControl('Update').click()
     >>> printGradebookTable(teacher.contents)
-    +-------+------------+-----------+------------+
-    | Grade | First Name | Last Name | Term Grade |
-    +-------+------------+-----------+------------+
-    | 1b    | Zombe      | Bain      | [9____]    |
-    |       | Jonas      | Petraitis | [7____]    |
-    +-------+------------+-----------+------------+
+    +-------+------------+-----------+---------+------------+------------+
+    | Grade | First Name | Last Name | Average | Attendance | Term Grade |
+    +-------+------------+-----------+---------+------------+------------+
+    | 1b    | Zombe      | Bain      | 10.000  |            | [9____]    |
+    |       | Jonas      | Petraitis | 6.500   |            | [7____]    |
+    +-------+------------+-----------+---------+------------+------------+

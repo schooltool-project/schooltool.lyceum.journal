@@ -208,7 +208,9 @@ def doctest_TermView_gradeColumns():
         >>> view.getSelectedTerm = lambda: TermStub()
         >>> columns = view.gradeColumns()
         >>> columns
-        [<lyceum.journal.browser.term.SectionTermGradingColumn object at ...>]
+        [<lyceum.journal.browser.journal.SectionTermAverageGradesColumn object at ...>,
+         <lyceum.journal.browser.journal.SectionTermAttendanceColumn object at ...>,
+         <lyceum.journal.browser.term.SectionTermGradingColumn object at ...>]
 
         >>> columns[0].journal
         'Journal'

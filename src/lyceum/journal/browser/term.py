@@ -35,6 +35,8 @@ from lyceum import LyceumMessage as _
 from lyceum.journal.browser.journal import GradeClassColumn
 from lyceum.journal.browser.journal import LyceumJournalView
 from lyceum.journal.interfaces import ITermGradingData
+from lyceum.journal.browser.journal import SectionTermAverageGradesColumn
+from lyceum.journal.browser.journal import SectionTermAttendanceColumn
 
 
 class SectionTermGradingColumn(Column):
@@ -89,5 +91,11 @@ class TermView(LyceumJournalView):
         return self.template()
 
     def gradeColumns(self):
-        return [SectionTermGradingColumn(self.context,
-                                         self.getSelectedTerm())]
+        columns = []
+        columns.append(SectionTermAverageGradesColumn(self.context,
+                                                      self.getSelectedTerm()))
+        columns.append(SectionTermAttendanceColumn(self.context,
+                                                   self.getSelectedTerm()))
+        columns.append(SectionTermGradingColumn(self.context,
+                                                self.getSelectedTerm()))
+        return columns

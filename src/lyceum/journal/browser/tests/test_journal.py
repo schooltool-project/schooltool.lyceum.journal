@@ -409,7 +409,7 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
     """
 
 
-def doctest_LyceumJournalView():
+def doctest_LyceumSectionJournalView():
     """
     """
 

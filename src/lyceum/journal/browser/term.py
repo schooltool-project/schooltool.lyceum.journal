@@ -33,7 +33,7 @@ from schooltool.table.interfaces import ITableFormatter
 
 from lyceum import LyceumMessage as _
 from lyceum.journal.browser.journal import GradeClassColumn
-from lyceum.journal.browser.journal import LyceumJournalView
+from lyceum.journal.browser.journal import LyceumSectionJournalView
 from lyceum.journal.interfaces import ITermGradingData
 from lyceum.journal.browser.journal import SectionTermAverageGradesColumn
 from lyceum.journal.browser.journal import SectionTermAttendanceColumn
@@ -59,7 +59,7 @@ class SectionTermGradingColumn(Column):
         return '<span>%s</span>' % translate(_("Term Grade"), context=formatter.request)
 
 
-class TermView(LyceumJournalView):
+class TermView(LyceumSectionJournalView):
 
     template = ViewPageTemplateFile("templates/term.pt")
 

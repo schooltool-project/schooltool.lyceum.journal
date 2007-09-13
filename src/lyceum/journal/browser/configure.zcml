@@ -16,7 +16,7 @@
   <page
       name="index.html"
       for="lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.LyceumJournalView"
+      class=".journal.LyceumSectionJournalView"
       permission="schooltool.view"
       />
 

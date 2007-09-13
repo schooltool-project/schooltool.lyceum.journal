@@ -226,7 +226,7 @@ class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
                                              context=formatter.request)
 
 
-class LyceumJournalView(object):
+class LyceumSectionJournalView(object):
 
     template = ViewPageTemplateFile("templates/journal.pt")
 

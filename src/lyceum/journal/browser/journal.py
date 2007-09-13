@@ -97,9 +97,10 @@ class PersonGradesColumn(object):
 
     template = PageTemplateFile("templates/journal_grade_column.pt")
 
-    def __init__(self, meeting, selected=False):
+    def __init__(self, meeting, journal, selected=False):
         self.meeting = meeting
         self.selected = selected
+        self.journal = journal
 
     def today(self):
         return today()
@@ -122,8 +123,7 @@ class PersonGradesColumn(object):
         return parameters
 
     def journalUrl(self, request):
-        journal = ISectionJournal(self.meeting)
-        return absoluteURL(journal, request)
+        return absoluteURL(self.journal, request)
 
     def renderHeader(self, formatter):
         meetingDate = self.meetingDate()
@@ -144,21 +144,27 @@ class PersonGradesColumn(object):
             klass, meetingDate.strftime("%Y-%m-%d"), header)
 
     def getCellValue(self, item):
-        journal = ISectionJournal(self.meeting)
-        return journal.getGrade(item, self.meeting, default="")
+        if self.journal.hasMeeting(item, self.meeting):
+            return self.journal.getGrade(item, self.meeting, default="")
+        return "X"
+
+    def hasMeeting(self, item):
+        return self.journal.hasMeeting(item, self.meeting)
 
     def renderSelectedCell(self, item, formatter):
         value = self.getCellValue(item)
         name = "%s.%s" % (item.__name__, self.meeting.__name__)
+        selected = self.hasMeeting(item)
         return self.template(value=value,
-                             selected=True,
+                             selected=selected,
                              name=name)
 
     def renderCell(self, item, formatter):
         value = self.getCellValue(item)
         name = "%s.%s" % (item.__name__, self.meeting.__name__)
+        selected = self.selected and self.hasMeeting(item)
         return self.template(value=value,
-                             selected=self.selected,
+                             selected=selected,
                              name=name)
 
 
@@ -259,7 +265,7 @@ class LyceumJournalView(object):
         calendar = ISchoolToolCalendar(self.context.section)
         events = []
         # maybe expand would be better in here
-        for event in calendar:
+        for event in self.context.meetings():
             if (ITimetableCalendarEvent.providedBy(event) and
                 event.dtstart.date() in term):
                 events.append(event)
@@ -274,8 +280,7 @@ class LyceumJournalView(object):
         members = [member for member in self.context.section.members
                    if IPerson.providedBy(member)]
         collator = ICollator(self.request.locale)
-        members.sort(key=lambda a: collator.key(a.last_name))
-        return members
+        return sorted(members, key=lambda a: collator.key(a.last_name))
 
     def updateGradebook(self):
         members = self.members()
@@ -294,7 +299,7 @@ class LyceumJournalView(object):
             tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
             meeting_date = meeting.dtstart.astimezone(tzinfo).date()
             selected = (meeting_date == self.selectedDate())
-            columns.append(PersonGradesColumn(meeting, selected=selected))
+            columns.append(PersonGradesColumn(meeting, self.context, selected=selected))
         columns.append(SectionTermAverageGradesColumn(self.context,
                                                       self.getSelectedTerm()))
         columns.append(SectionTermAttendanceColumn(self.context,
@@ -342,10 +347,6 @@ class LyceumJournalView(object):
         scheduled_terms.sort(key=lambda term: term.last)
         return scheduled_terms
 
-    @property
-    def section(self):
-        return self.context.section
-
     def monthsInSelectedTerm(self):
         month = -1
         for meeting in self.allMeetings():
@@ -380,7 +381,7 @@ class LyceumJournalView(object):
 
     def extra_parameters(self, request):
         parameters = []
-        for info in ['TERM']:
+        for info in ['TERM', 'student']:
             if info in request:
                 parameters.append((info, request[info]))
         return parameters

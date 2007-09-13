@@ -160,7 +160,7 @@ def doctest_PersonGradesColumn_meetingDate():
     set in application preferences:
 
         >>> from lyceum.journal.browser.journal import PersonGradesColumn
-        >>> column = PersonGradesColumn(meeting)
+        >>> column = PersonGradesColumn(meeting, "journal")
         >>> column.meetingDate()
         datetime.date(2006, 1, 1)
 
@@ -181,7 +181,7 @@ def doctest_PersonGradesColumn_extra_parameters():
     empty:
 
         >>> from lyceum.journal.browser.journal import PersonGradesColumn
-        >>> column = PersonGradesColumn("meeting")
+        >>> column = PersonGradesColumn("meeting", "journal")
         >>> request = TestRequest()
         >>> column.extra_parameters(request)
         []
@@ -231,7 +231,7 @@ def doctest_PersonGradesColumn_journalUrl():
     meeting for this column:
 
         >>> meeting = MeetingStub()
-        >>> column = PersonGradesColumn(meeting)
+        >>> column = PersonGradesColumn(meeting, SectionJournalStub())
         >>> request = TestRequest()
         >>> column.journalUrl(request)
         'http://127.0.0.1/section-journal'
@@ -246,7 +246,7 @@ def doctest_PersonGradesColumn_renderHeader():
         ...     pass
         >>> meeting = MeetingStub()
         >>> meeting.unique_id = 'unique-id-2006-01-01'
-        >>> column = PersonGradesColumn(meeting)
+        >>> column = PersonGradesColumn(meeting, "journal")
 
         >>> class FormatterStub(object):
         ...     request = TestRequest()
@@ -274,9 +274,13 @@ def doctest_PersonGradesColumn_renderCell_renderSelectedCell():
         >>> from lyceum.journal.browser.journal import PersonGradesColumn
         >>> class MeetingStub(object):
         ...     pass
+        >>> has_meeting = True
+        >>> class JournalStub(object):
+        ...     def hasMeeting(self, student, meeting):
+        ...         return has_meeting
         >>> meeting = MeetingStub()
         >>> meeting.__name__ = 'unique-id-2006-01-01'
-        >>> column = PersonGradesColumn(meeting)
+        >>> column = PersonGradesColumn(meeting, JournalStub())
         >>> column.getCellValue = lambda person: "%s 5" % person.__name__
 
         >>> class FormatterStub(object):
@@ -286,6 +290,8 @@ def doctest_PersonGradesColumn_renderCell_renderSelectedCell():
         >>> class PersonStub(object):
         ...     def __init__(self):
         ...         self.__name__ = "John"
+
+    If there is a meeting for that date:
 
         >>> print column.renderCell(PersonStub(), formatter)
         John 5
@@ -300,7 +306,23 @@ def doctest_PersonGradesColumn_renderCell_renderSelectedCell():
         <input type="text" style="width: 1.4em"
                name="John.unique-id-2006-01-01" value="John 5" />
 
+    If there is no meeting:
+
+        >>> column.getCellValue = lambda person: "X"
+        >>> has_meeting = False
+        >>> print column.renderCell(PersonStub(), formatter)
+        X
+
+        >>> column.selected = True
+        >>> print column.renderCell(PersonStub(), formatter)
+        X
+
+        >>> column.selected = False
+        >>> print column.renderSelectedCell(PersonStub(), formatter)
+        X
+
     """
+
 
 def doctest_SectionTermAverageGradesColumn_getGrades():
     """Tests for SectionTermAverageGradesColumn.getGrades

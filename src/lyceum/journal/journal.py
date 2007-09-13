@@ -152,6 +152,9 @@ class SectionJournal(object):
                 events.append(event)
         return sorted(events)
 
+    def hasMeeting(self, person, meeting):
+        return person in meeting.activity.owner.members
+
 
 def getSectionJournalData(section):
     """Get the journal for the section."""

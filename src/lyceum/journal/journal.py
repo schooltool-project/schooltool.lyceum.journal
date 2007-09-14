@@ -26,19 +26,19 @@ from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
 from zope.app.container.btree import BTreeContainer
+from zope.cachedescriptors.property import Lazy
+from zope.component import adapts
 from zope.interface import implements
 from zope.location.interfaces import ILocation
-from zope.component import adapts
-from zope.cachedescriptors.property import Lazy
 
-from schooltool.app.interfaces import ISchoolToolApplication
-from schooltool.course.interfaces import ISection
 from schooltool.app.app import InitBase
-from schooltool.person.interfaces import IPerson
+from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
+from schooltool.course.interfaces import ISection
+from schooltool.person.interfaces import IPerson
 
-from lyceum.journal.interfaces import ISectionJournalData
 from lyceum.journal.interfaces import ISectionJournal
+from lyceum.journal.interfaces import ISectionJournalData
 
 
 class LyceumJournalContainer(BTreeContainer):

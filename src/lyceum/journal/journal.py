@@ -85,6 +85,16 @@ class SectionJournalData(Persistent):
             return default
         return attendance[0]
 
+    def recordedMeetingIds(self, person):
+        for person_name, meeting_id in self.__grade_data__.keys():
+            if person_name == person.__name__:
+                yield meeting_id
+
+    def recordedMeetings(self, person):
+        calendar = ISchoolToolCalendar(self.section)
+        for meeting_id in self.recordedMeetingIds(person):
+            yield calendar.find(meeting_id)
+
 
 class SectionJournal(object):
     """Adapter that adapts a section to it's journal.
@@ -135,6 +145,7 @@ class SectionJournal(object):
         """Sections in the same course that share members with this section."""
         courses = self.section.courses
         sections = set()
+        sections.add(self.section)
         for section in self.student_sections(self.members):
             for course in section.courses:
                 if course in courses:
@@ -154,6 +165,16 @@ class SectionJournal(object):
 
     def hasMeeting(self, person, meeting):
         return person in meeting.activity.owner.members
+
+    def findMeeting(self, meeting_id):
+        calendars = [ISchoolToolCalendar(section)
+                     for section in self.adjacent_sections]
+        for calendar in calendars:
+            try:
+                return calendar.find(meeting_id)
+            except KeyError:
+                pass
+        raise KeyError("Could not find a meeting.")
 
 
 def getSectionJournalData(section):

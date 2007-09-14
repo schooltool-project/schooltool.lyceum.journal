@@ -226,7 +226,7 @@ def doctest_SectionJournal_adjacent_sections():
         >>> section.courses = ["math"]
         >>> sj = SectionJournal(section)
         >>> sorted(sj.adjacent_sections)
-        []
+        [<Section Math 1a>]
 
         >>> from schooltool.person.interfaces import IPerson
         >>> class PersonStub(object):
@@ -237,31 +237,80 @@ def doctest_SectionJournal_adjacent_sections():
         >>> section.members = [john, pete, "something-else"]
         >>> sj = SectionJournal(section)
         >>> sorted(sj.adjacent_sections)
-        []
+        [<Section Math 1a>]
 
         >>> sj = SectionJournal(section)
         >>> section2 = SectionStub("Math 1a A")
         >>> john.groups = [section2, "something-else"]
         >>> sorted(sj.adjacent_sections)
-        []
+        [<Section Math 1a>]
 
         >>> sj = SectionJournal(section)
         >>> section2.courses = ["math"]
         >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a A>]
+        [<Section Math 1a>, <Section Math 1a A>]
 
         >>> sj = SectionJournal(section)
         >>> section2.courses = ["math", "history"]
         >>> section.courses = ["math", "history"]
         >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a A>]
+        [<Section Math 1a>, <Section Math 1a A>]
 
         >>> sj = SectionJournal(section)
         >>> section3 = SectionStub("Math 1a B")
         >>> section3.courses = ["math"]
         >>> pete.groups = [section3]
         >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a A>, <Section Math 1a B>]
+        [<Section Math 1a>, <Section Math 1a A>, <Section Math 1a B>]
+
+    """
+
+
+def doctest_SectionJournal_findMeeting():
+    """Test for SectionJournal.findMeeting
+
+        >>> from lyceum.journal.journal import SectionJournal
+        >>> from schooltool.app.interfaces import ISchoolToolCalendar
+        >>> class SectionStub(object):
+        ...     def __conform__(self, iface):
+        ...         if iface == ISchoolToolCalendar:
+        ...             return self.calendar
+        >>> class CalendarStub(object):
+        ...     events = []
+        ...     def find(self, event_id):
+        ...         if event_id in self.events:
+        ...             return "<Event uid=%s>" % event_id
+        ...         else:
+        ...             raise KeyError("Event not found!")
+        >>> section1 = SectionStub()
+        >>> section1.calendar = CalendarStub()
+        >>> section1.calendar.events = ["section-meeting"]
+        >>> sj = SectionJournal(section1)
+        >>> sj.adjacent_sections = [section1]
+
+    If there is no such meeting, a key error is raised:
+
+        >>> sj.findMeeting("some-meeting-id")
+        Traceback (most recent call last):
+        ...
+        KeyError: 'Could not find a meeting.'
+
+    But if we are looking for a meeting that belongs to the calendar
+    of the context section, we should get it:
+
+        >>> sj.findMeeting("section-meeting")
+        '<Event uid=section-meeting>'
+
+    If meeting belongs to some other section that is adjacent, we
+    should still get it's instance:
+
+        >>> section2 = SectionStub()
+        >>> section2.calendar = CalendarStub()
+        >>> section2.calendar.events = ["section2-meeting"]
+        >>> sj.adjacent_sections = [section1, section2]
+
+        >>> sj.findMeeting("section2-meeting")
+        '<Event uid=section2-meeting>'
 
     """
 

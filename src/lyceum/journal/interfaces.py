@@ -43,6 +43,9 @@ class ISectionJournalData(Interface):
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
+    def recordedMeetings(person):
+        """Returns a list of recorded grades/absences for a person."""
+
 
 class ISectionJournal(Interface):
 
@@ -66,6 +69,13 @@ class ISectionJournal(Interface):
 
     def hasMeeting(person, meeting):
         """Returns true if person should participate in a given meeting."""
+
+    def findMeeting(meeting_id):
+        """Returns the meeting object for this meeting id.
+
+        The meeting might belong to any of the adjacent sections so it
+        goes through all their calendars to find the meeting.
+        """
 
 
 class ITermGradingData(Interface):

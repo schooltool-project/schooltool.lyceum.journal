@@ -42,7 +42,6 @@ from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
-from schooltool.person.interfaces import IPerson
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
@@ -262,7 +261,6 @@ class LyceumSectionJournalView(object):
 
     def allMeetings(self):
         term = self.getSelectedTerm()
-        calendar = ISchoolToolCalendar(self.context.section)
         events = []
         # maybe expand would be better in here
         for event in self.context.meetings():

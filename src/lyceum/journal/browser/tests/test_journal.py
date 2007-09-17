@@ -346,7 +346,7 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
         >>> class PersonStub(object):
         ...     pass
         >>> item = PersonStub()
-        >>> journal.meetings = lambda: []
+        >>> journal.recordedMeetings = lambda person: []
         >>> column.getGrades(item)
         []
 
@@ -354,11 +354,14 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
         ...     def __init__(self, datetime, grade=None):
         ...         self.dtstart = datetime
         ...         self.grade = grade
-        >>> journal.meetings = lambda: [MeetingStub(datetime(2006, 1, 1, 10, 15), 'n'),
-        ...                             MeetingStub(datetime(2006, 1, 2, 10, 15), '4'),
-        ...                             MeetingStub(datetime(2006, 1, 3, 10, 15)),
-        ...                             MeetingStub(datetime(2006, 1, 4, 10, 15), " "),
-        ...                             MeetingStub(datetime(2006, 2, 1, 10, 15), '3')]
+        >>> MS = MeetingStub
+        >>> dt = datetime
+        >>> journal.recordedMeetings = lambda person: [
+        ...                                     MS(dt(2006, 1, 1, 10, 15), 'n'),
+        ...                                     MS(dt(2006, 1, 2, 10, 15), '4'),
+        ...                                     MS(dt(2006, 1, 3, 10, 15)),
+        ...                                     MS(dt(2006, 1, 4, 10, 15), " "),
+        ...                                     MS(dt(2006, 2, 1, 10, 15), '3')]
         >>> column.getGrades(item)
         ['n', '4']
 

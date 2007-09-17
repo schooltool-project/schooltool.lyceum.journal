@@ -34,6 +34,7 @@ from zope.location.interfaces import ILocation
 from schooltool.app.app import InitBase
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
+from schooltool.course.interfaces import ILearner
 from schooltool.course.interfaces import ISection
 from schooltool.person.interfaces import IPerson
 
@@ -153,8 +154,9 @@ class SectionJournal(object):
                     break
         return sections
 
+    @Lazy
     def meetings(self):
-        """Orddered list of all meetings for this and adjacent sections."""
+        """Ordered list of all meetings for this and adjacent sections."""
         calendars = [ISchoolToolCalendar(section)
                      for section in self.adjacent_sections]
         events = []
@@ -163,7 +165,19 @@ class SectionJournal(object):
                 events.append(event)
         return sorted(events)
 
+    def recordedMeetings(self, person):
+        """Ordered list of all recorded meetings for this person.
+
+        For this and adjacent sections.
+        """
+        meetings = []
+        for section in self.adjacent_sections:
+            sd = ISectionJournalData(section)
+            meetings.extend(sd.recordedMeetings(person))
+        return sorted(meetings)
+
     def hasMeeting(self, person, meeting):
+        return meeting.activity.owner in ILearner(person).sections()
         return person in meeting.activity.owner.members
 
     def findMeeting(self, meeting_id):

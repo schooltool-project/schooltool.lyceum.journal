@@ -1,8 +1,0 @@
-<tal:if condition="not:options/selected">
-  <tal:block replace="options/value" />
-</tal:if>
-<tal:if condition="options/selected">
-  <input type="text" style="width: 1.4em"
-         tal:attributes="name options/name;
-                         value options/value" />
-</tal:if>

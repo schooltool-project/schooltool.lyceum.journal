@@ -67,6 +67,9 @@ class ISectionJournal(Interface):
     def meetings():
         """List all possible meetings for this section."""
 
+    def recordedMeetings(student):
+        """Returns a list of recorded grades/absences for a person."""
+
     def hasMeeting(person, meeting):
         """Returns true if person should participate in a given meeting."""
 

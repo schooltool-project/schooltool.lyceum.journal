@@ -28,7 +28,6 @@ from datetime import datetime
 
 from zope.app import zapi
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
-from zope.pagetemplate.pagetemplatefile import PageTemplateFile
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
@@ -93,8 +92,6 @@ class GradeClassColumn(LocaleAwareGetterColumn):
 class PersonGradesColumn(object):
     implements(IColumn, ISelectableColumn)
 
-    template = PageTemplateFile("templates/journal_grade_column.pt")
-
     def __init__(self, meeting, journal, selected=False):
         self.meeting = meeting
         self.selected = selected
@@ -142,28 +139,31 @@ class PersonGradesColumn(object):
             klass, meetingDate.strftime("%Y-%m-%d"), header)
 
     def getCellValue(self, item):
-        if self.journal.hasMeeting(item, self.meeting):
+        if self.hasMeeting(item):
             return self.journal.getGrade(item, self.meeting, default="")
         return "X"
 
     def hasMeeting(self, item):
         return self.journal.hasMeeting(item, self.meeting)
 
-    def renderSelectedCell(self, item, formatter):
+    def template(self, item, selected):
         value = self.getCellValue(item)
         name = "%s.%s" % (item.__name__, self.meeting.__name__)
+
+        if not selected:
+            return str(value)
+        else:
+            input = """<input type="text" style="width: 1.4em"
+                              name="%(name)s" value="%(value)s" />"""
+            return input % {'name':name, 'value':value}
+
+    def renderSelectedCell(self, item, formatter):
         selected = self.hasMeeting(item)
-        return self.template(value=value,
-                             selected=selected,
-                             name=name)
+        return self.template(item, selected)
 
     def renderCell(self, item, formatter):
-        value = self.getCellValue(item)
-        name = "%s.%s" % (item.__name__, self.meeting.__name__)
         selected = self.selected and self.hasMeeting(item)
-        return self.template(value=value,
-                             selected=selected,
-                             name=name)
+        return self.template(item, selected)
 
 
 class SectionTermAverageGradesColumn(object):
@@ -176,7 +176,7 @@ class SectionTermAverageGradesColumn(object):
 
     def getGrades(self, person):
         grades = []
-        for meeting in self.journal.meetings():
+        for meeting in self.journal.recordedMeetings(person):
             if meeting.dtstart.date() in self.term:
                 grade = self.journal.getGrade(person, meeting, default=None)
                 if (grade is not None) and (grade.strip() != ""):
@@ -262,7 +262,7 @@ class LyceumSectionJournalView(object):
         term = self.getSelectedTerm()
         events = []
         # maybe expand would be better in here
-        for event in self.context.meetings():
+        for event in self.context.meetings:
             if (ITimetableCalendarEvent.providedBy(event) and
                 event.dtstart.date() in term):
                 events.append(event)

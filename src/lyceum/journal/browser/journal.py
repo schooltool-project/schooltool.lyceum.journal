@@ -41,7 +41,6 @@ from zope.cachedescriptors.property import Lazy
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
-from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
@@ -316,13 +315,14 @@ class LyceumSectionJournalView(object):
     def selectedDate(self):
         event_id = self.request.get('event_id', None)
         if event_id is not None:
-            calendar = ISchoolToolCalendar(self.context.section)
-            event = calendar.find(event_id)
-            app = ISchoolToolApplication(None)
-            tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
-            if event:
+            try:
+                event = self.context.findMeeting(event_id)
+                app = ISchoolToolApplication(None)
+                tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
                 date = event.dtstart.astimezone(tzinfo).date()
                 return date
+            except KeyError:
+                pass
 
         return today()
 

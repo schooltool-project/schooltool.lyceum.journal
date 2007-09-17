@@ -26,6 +26,7 @@ import pytz
 import urllib
 from datetime import datetime
 
+from zope.publisher.browser import BrowserView
 from zope.app import zapi
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.component import queryMultiAdapter
@@ -84,9 +85,13 @@ class GradeClassColumn(LocaleAwareGetterColumn):
 
     def getter(self, item, formatter):
         groups = ISchoolToolApplication(None)['groups']
+        person_name = '<input type="hidden" value="%s" class="person_id" />' % (
+            urllib.quote(item.__name__))
+
         if item.gradeclass is not None:
-            return groups[item.gradeclass].title
-        return ""
+            return groups[item.gradeclass].title + person_name
+
+        return person_name
 
 
 class PersonGradesColumn(object):
@@ -135,8 +140,11 @@ class PersonGradesColumn(object):
                                  self.extra_parameters(formatter.request)))
             header = '<a href="%s">%s</a>' % (url, header)
 
-        return '<span %stitle="%s">%s</span>' % (
+        span = '<span %stitle="%s">%s</span>' % (
             klass, meetingDate.strftime("%Y-%m-%d"), header)
+        event_id = '<input type="hidden" value="%s" class="event_id" />' % (
+            urllib.quote(self.meeting.unique_id))
+        return span + event_id
 
     def getCellValue(self, item):
         if self.hasMeeting(item):
@@ -382,6 +390,19 @@ class LyceumSectionJournalView(object):
             if info in request:
                 parameters.append((info, request[info]))
         return parameters
+
+
+class SectionJournalAjaxView(BrowserView):
+
+    def __call__(self):
+        person_id = self.request['person_id']
+        app = ISchoolToolApplication(None)
+        person = app['persons'].get(person_id)
+        if not person:
+            raise UserError('Person was invalid!')
+        meeting = self.context.findMeeting(urllib.unquote(self.request['event_id']))
+        self.context.setGrade(person, meeting, self.request['grade']);
+        return ""
 
 
 LyceumJournalTraverserPlugin = AdapterTraverserPlugin(

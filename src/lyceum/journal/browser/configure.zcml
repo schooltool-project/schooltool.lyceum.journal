@@ -21,6 +21,13 @@
       />
 
   <page
+      name="ajax.xml"
+      for="lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.SectionJournalAjaxView"
+      permission="schooltool.view"
+      />
+
+  <page
       name="term_grades.html"
       for="lyceum.journal.interfaces.ISectionJournal"
       class=".term.TermView"

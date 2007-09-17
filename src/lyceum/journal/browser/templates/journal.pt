@@ -14,7 +14,161 @@
 </metal:block>
 
 <metal:block metal:fill-slot="body">
+  <script language="javascript">
+    var selected_cell = null;
+
+    function unselectCell() {
+        if (selected_cell) {
+          var cell = selected_cell;
+          var grade = $("#grade")[0].value;
+          $.ajax({
+             url: 'ajax.xml',
+             type: 'POST',
+             timeout: 1000,
+             data: {event_id: cell.event_id,
+                    person_id: cell.person_id,
+                    grade: grade},
+             error: function() {
+               $(cell).removeClass('ajaxinprogress');
+               $(cell).addClass('ajaxerror')
+             },
+             success: function(xml){
+               $(cell).removeClass('ajaxinprogress');
+               $(cell).addClass('ajaxsuccess');
+             }
+          });
+          $("#grade_container").html($("#grade"));
+          $(selected_cell).html(grade);
+          $(selected_cell).addClass('ajaxinprogress')
+          .removeClass('ajaxerror')
+          .removeClass('ajaxsuccess');
+          selected_cell = null;
+        }
+    }
+
+    function selectCell(cell) {
+      unselectCell();
+      var value = $.trim(cell.textContent);
+      $(cell).html($("#grade"));
+      $("#grade")[0].value = value;
+      $("#grade").focus().select();
+      selected_cell = cell;
+    }
+
+    $(document).ready(function(){
+
+      $("#grade").blur(function () {
+        unselectCell();
+      });
+
+      $(".data").click(function(event){
+         if (event.target.person_id &&
+             event.target.event_id)
+         {
+           if (selected_cell != event.target) {
+             selectCell(event.target);
+             return false;
+           }
+         }
+      });
+
+      $(document).keypress(function (event) {
+        if (event.keyCode == 9 && selected_cell) {
+          index = selected_cell.cellIndex;
+          tr = selected_cell.parentNode;
+
+          next_tr = null;
+          if (event.shiftKey) {
+            next_tr = tr.previousSibling.previousSibling;
+          }
+          else {
+            next_tr = tr.nextSibling.nextSibling;
+          }
+
+          if (!next_tr) return true;
+
+          new_td = next_tr.getElementsByTagName('td')[index];
+
+          var inputs = $(new_td).children('INPUT');
+          if (inputs.size()) {
+            unselectCell();
+            $(inputs[0]).focus().select();
+            return false;
+          }
+
+          selectCell(new_td);
+          return false;
+        }
+        if (event.keyCode == 27 && selected_cell) {
+          unselectCell();
+          return false;
+        }
+        if (event.keyCode == 13 && selected_cell) {
+          unselectCell();
+          return false;
+        }
+        return true
+      })
+
+      table = $('.data')[0];
+      rows = table.getElementsByTagName('tr');
+      var event_ids = Array();
+      for (var i = 0; i < rows.length; i++) {
+        row = rows[i];
+        if (i == 0) {
+          cells = row.getElementsByTagName('th');
+          for (var j = 0; j < cells.length; j++) {
+            cell = cells[j];
+
+            inputs = $(cells[j]).children(".event_id");
+            if (inputs.length > 0) {
+              event_ids[j] = inputs[0].value;
+            }
+          }
+        }
+        else
+        {
+          cells = row.getElementsByTagName('td');
+          var person_id = null;
+          if (cells.length > 0) {
+            inputs = $(cells[0]).children(".person_id");
+            if (inputs.length > 0) {
+              person_id = inputs[0].value;
+            }
+          }
+          for (var j = 0; j < cells.length; j++) {
+            cell = cells[j];
+            cell.person_id = person_id;
+            cell.event_id = event_ids[j];
+          }
+        }
+      }
+
+      $(".data INPUT").blur(function () {
+          var cell = this.parentNode;
+          var grade = $.trim(this.value);
+          var input = this;
+          $.ajax({
+             url: 'ajax.xml',
+             type: 'POST',
+             timeout: 1000,
+             data: {event_id: cell.event_id,
+                    person_id: cell.person_id,
+                    grade: grade},
+             error: function() {
+               $(input).css('background', '#FFAAAA');
+             },
+             success: function(xml){
+               $(input).css('background', '#AAFFAA');
+             }
+          });
+          $(this).css('background', '#AAAAFF');
+      });
+
+    });
+  </script>
   <form action="." method="post" tal:attributes="action request/URL">
+    <div name="grade_container" id="grade_container" style="display: None;"><input id="grade" name="grade" type="text" style="width: 1.4em" /></div>
     <select name="TERM">
       <option tal:repeat="term view/scheduled_terms"
               tal:content="term/title"

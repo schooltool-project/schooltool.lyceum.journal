@@ -80,7 +80,7 @@ You can also access the journal through the section:
     >>> teacher.getLink('May').click()
     >>> teacher.getLink('15').click()
 
-    >>> cells = analyze.queryHTML('//input[@type="text"]/@name', teacher.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
     >>> teacher.getControl(name=cells[0]).value = '10'
     >>> teacher.getControl(name=cells[1]).value = '5'
     >>> teacher.getControl('Update').click()
@@ -123,7 +123,7 @@ Grades are still visible in table cells:
 
 Let's grade jonas once more:
 
-    >>> cells = analyze.queryHTML('//input[@type="text"]/@name', teacher.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
     >>> teacher.getControl(name=cells[1]).value = '8'
     >>> teacher.getControl('Update').click()
     >>> printGradebookTable(teacher.contents)
@@ -289,7 +289,7 @@ see if they get represented in the journal properly:
     | 2b    | Zombi      | Bran      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | [_____] | [_____] |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |         |            |
     +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+------------+
 
-    >>> cells = analyze.queryHTML('//input[@type="text"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', manager.contents)
     >>> manager.getControl(name=cells[0]).value = '10'
     >>> manager.getControl(name=cells[1]).value = '5'
     >>> manager.getControl('Update').click()
@@ -325,7 +325,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     | 2a    | Zomie      | Brin      | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  | [_____] | [_____] | X  |         |            |
     +-------+------------+-----------+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+------------+
 
-    >>> cells = analyze.queryHTML('//input[@type="text"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', manager.contents)
     >>> for i in range(8):
     ...     manager.getControl(name=cells[i]).value = 'n'
     >>> manager.getControl('Update').click()
@@ -382,7 +382,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     | Explained: |           | [ ] | [ ] | [ ] | [ ] |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |       |
     +------------+-----------+-----+-----+-----+-----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+-------+
 
-    >>> cells = analyze.queryHTML('//input[@type="checkbox"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[0]).value = ["checked"]
     >>> manager.getControl(name=cells[2]).value = ["checked"]
     >>> manager.getControl('Update').click()
@@ -403,7 +403,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     | Explained: |           | [ ]      | [ ]      |
     +------------+-----------+----------+----------+
 
-    >>> cells = analyze.queryHTML('//input[@type="checkbox"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[1]).value = ["checked"]
     >>> manager.getControl('Update').click()
     >>> printGradebookTable(manager.contents)
@@ -423,7 +423,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     | Explained: |           | [V] | [ ] | [V] | [ ] |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |       |
     +------------+-----------+-----+-----+-----+-----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+-------+
 
-    >>> cells = analyze.queryHTML('//input[@type="checkbox"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[0]).value = []
     >>> manager.getControl('Update').click()
     >>> printGradebookTable(manager.contents)
@@ -443,7 +443,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     | Explained: |           | [ ]      | [V]      |
     +------------+-----------+----------+----------+
 
-    >>> cells = analyze.queryHTML('//input[@type="checkbox"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[0]).value = ["checked"]
     >>> manager.getControl(name=cells[1]).value = []
     >>> manager.getControl('Update').click()
@@ -455,7 +455,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     | Explained: |           | [V]      | [ ]      |
     +------------+-----------+----------+----------+
 
-    >>> cells = analyze.queryHTML('//input[@type="checkbox"]/@name', manager.contents)
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[1]).value = ["checked"]
     >>> manager.getControl('Update').click()
     >>> printGradebookTable(manager.contents)

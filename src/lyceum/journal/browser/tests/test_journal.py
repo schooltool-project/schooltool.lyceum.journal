@@ -255,15 +255,15 @@ def doctest_PersonGradesColumn_renderHeader():
         >>> column.today = lambda: date(2006, 1, 2)
         >>> column.journalUrl = lambda request: 'http://127.0.0.1/section-journal'
         >>> column.renderHeader(formatter)
-        '<span title="2006-01-01"><a href="http://127.0.0.1/section-journal/index.html?event_id=unique-id-2006-01-01">01</a></span>'
+        '<span title="2006-01-01"><a href="http://127.0.0.1/section-journal/index.html?event_id=unique-id-2006-01-01">01</a></span><input type="hidden" value="unique-id-2006-01-01" class="event_id" />'
 
         >>> column.selected = True
         >>> column.renderHeader(formatter)
-        '<span title="2006-01-01">01</span>'
+        '<span title="2006-01-01">01</span><input type="hidden" value="unique-id-2006-01-01" class="event_id" />'
 
         >>> column.meetingDate = lambda: date(2006, 1, 2)
         >>> column.renderHeader(formatter)
-        '<span class="today" title="2006-01-02">02</span>'
+        '<span class="today" title="2006-01-02">02</span><input type="hidden" value="unique-id-2006-01-01" class="event_id" />'
 
     """
 

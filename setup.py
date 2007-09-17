@@ -65,5 +65,9 @@ setup(
     install_requires=['schooltool'],
     dependency_links=['http://ftp.schooltool.org/schooltool/eggs/',
                       'http://download.zope.org/distribution/'],
+    entry_points = """
+    [schooltool.instance_type]
+    lyceum = lyceum.app
+    """,
     include_package_data=True
     )

@@ -6,12 +6,13 @@
     <tal:block i18n:name="month" tal:replace="python: view.monthTitle(view.active_month)" /></title>
 
   <title  i18n:translate=""
-    ><span i18n:name="person" i18n:translate=""
-           tal:replace="view/context/title"/> journal</title>
+    ><span i18n:name="person" tal:replace="view/context/title"/> journal</title>
 </head>
 
 <metal:block metal:fill-slot="content-header">
-    <h1 i18n:translate=""><tal:block tal:replace="view/context/title" /> journal  for <tal:block tal:replace="python: view.monthTitle(view.active_month)" /></h1>
+    <h1 i18n:translate=""><tal:block
+      i18n:name="student_name"
+      tal:replace="view/context/title" /> journal  for <tal:block i18n:name="month" tal:replace="python: view.monthTitle(view.active_month)" /></h1>
 </metal:block>
 
 <metal:block metal:fill-slot="body">

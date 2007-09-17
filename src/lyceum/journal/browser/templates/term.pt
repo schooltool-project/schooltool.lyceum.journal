@@ -5,12 +5,11 @@
     <tal:block i18n:name="section" tal:replace="view/context/section/label" /> journal</title>
 
   <title  i18n:translate=""
-    ><span i18n:name="section" i18n:translate=""
-           tal:replace="view/context/section/label"/> journal</title>
+    ><span i18n:name="section" tal:replace="view/context/section/label"/> journal</title>
 </head>
 
 <metal:block metal:fill-slot="content-header">
-    <h1 i18n:translate=""><tal:block tal:replace="view/context/section/label" /> journal</h1>
+    <h1 i18n:translate=""><tal:block tal:replace="view/context/section/label" i18n:name="section" /> journal</h1>
 </metal:block>
 
 <metal:block metal:fill-slot="body">

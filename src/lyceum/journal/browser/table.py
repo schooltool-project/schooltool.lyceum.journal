@@ -18,9 +18,6 @@
 #
 """
 Common code for journal view table display.
-
-$Id$
-
 """
 import urllib
 
@@ -99,3 +96,8 @@ class SelectableRowTableFormatter(table.FormFullFormatter):
         if item in self.selected_items:
             return self.renderSelectedRow(item)
         return self._renderRow(item)
+
+
+def viewURL(context, request, name, parameters=[]):
+    url = zapi.absoluteURL(context, request)
+    return "%s/%s?%s" % (url, name, urllib.urlencode(parameters))

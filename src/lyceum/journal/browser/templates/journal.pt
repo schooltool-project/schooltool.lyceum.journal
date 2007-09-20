@@ -16,33 +16,34 @@
 <metal:block metal:fill-slot="body">
   <script language="javascript">
     var selected_cell = null;
+    var old_grade = null;
 
     function unselectCell() {
         if (selected_cell) {
           var cell = selected_cell;
-          var grade = $("#grade")[0].value;
-          $.ajax({
-             url: 'ajax.xml',
-             type: 'POST',
-             timeout: 1000,
-             data: {event_id: cell.event_id,
-                    person_id: cell.person_id,
-                    grade: grade},
-             error: function() {
-               $(cell).removeClass('ajaxinprogress');
-               $(cell).addClass('ajaxerror')
-             },
-             success: function(xml){
-               $(cell).removeClass('ajaxinprogress');
-               $(cell).addClass('ajaxsuccess');
-             }
-          });
+          var grade = $.trim($("#grade")[0].value);
+
+          if (grade != old_grade) {
+            $.ajax({
+               url: 'ajax.xml',
+               type: 'POST',
+               timeout: 5000,
+               data: {event_id: cell.event_id,
+                      person_id: cell.person_id,
+                      grade: grade},
+               error: function() {
+                 $(input).css('background', '#FFAAAA');
+               },
+               success: function(xml){
+                 $(input).css('background', '#AAFFAA');
+               }
+            });
+            $(input).css('background', '#AAAAFF');
+          }
           $("#grade_container").html($("#grade"));
           $(selected_cell).html(grade);
-          $(selected_cell).addClass('ajaxinprogress')
-          .removeClass('ajaxerror')
-          .removeClass('ajaxsuccess');
           selected_cell = null;
+          old_grade = null;
         }
     }
 
@@ -51,6 +52,7 @@
       var value = $.trim(cell.textContent);
       $(cell).html($("#grade"));
       $("#grade")[0].value = value;
+      old_grade = value;
       $("#grade").focus().select();
       selected_cell = cell;
     }
@@ -144,25 +146,32 @@
         }
       }
 
+      $(".data INPUT").focus(function () {
+        old_grade = $.trim(this.value);
+      });
+
       $(".data INPUT").blur(function () {
           var cell = this.parentNode;
           var grade = $.trim(this.value);
           var input = this;
-          $.ajax({
-             url: 'ajax.xml',
-             type: 'POST',
-             timeout: 1000,
-             data: {event_id: cell.event_id,
-                    person_id: cell.person_id,
-                    grade: grade},
-             error: function() {
-               $(input).css('background', '#FFAAAA');
-             },
-             success: function(xml){
-               $(input).css('background', '#AAFFAA');
-             }
-          });
-          $(this).css('background', '#AAAAFF');
+          if (grade != old_grade) {
+            $.ajax({
+               url: 'ajax.xml',
+               type: 'POST',
+               timeout: 1000,
+               data: {event_id: cell.event_id,
+                      person_id: cell.person_id,
+                      grade: grade},
+               error: function() {
+                 $(input).css('background', '#FFAAAA');
+               },
+               success: function(xml){
+                 $(input).css('background', '#AAFFAA');
+               }
+            });
+            $(this).css('background', '#AAAAFF');
+          }
+          old_grade = null;
       });
 
     });

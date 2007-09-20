@@ -1,0 +1,142 @@
+# Lithuanian translation for schooltool
+# Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
+# This file is distributed under the same license as the schooltool package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: schooltool\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: Mon Sep 17 15:28:20 2007\n"
+"PO-Revision-Date: 2007-09-20 12:53+0000\n"
+"Last-Translator: Ignas Mikalajūnas <ignas@pov.lt>\n"
+"Language-Team: Lithuanian <lt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Export-Date: 2007-09-20 12:58:09+0000\n"
+
+#: /src/lyceum/browser/configure.zcml:14
+msgid "CSV Import"
+msgstr "CSV Importas"
+
+#: /src/lyceum/browser/configure.zcml:26
+msgid "Member Calendar"
+msgstr "Grupės narių kalendorius"
+
+#: /src/lyceum/browser/configure.zcml:36
+#: /src/lyceum/browser/configure.zcml:46
+#: /src/lyceum/browser/configure.zcml:56
+#: /src/lyceum/browser/configure.zcml:66
+msgid "View Timetable"
+msgstr "Peržiūrėti tvarkaraštį"
+
+#: /src/lyceum/browser/configure.zcml:78
+#: /src/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+msgid "Journal"
+msgstr "Dienynas"
+
+#: /src/lyceum/browser/templates/csv_import.pt:16
+msgid "I"
+msgstr ""
+
+#. Default: "Import"
+#: /src/lyceum/browser/templates/csv_import.pt:16
+msgid "submit-button"
+msgstr "Įkelti"
+
+#: /src/lyceum/browser/templates/csv_import.pt:4
+msgid "Import school data from CSV${title}"
+msgstr ""
+
+#: /src/lyceum/interfaces.py:42
+msgid "Title of the calendar"
+msgstr "Kalendoriaus pavadinimas"
+
+#: /src/lyceum/journal/browser/attendance.py:166
+msgid "Total"
+msgstr "Viso"
+
+#: /src/lyceum/journal/browser/attendance.py:53
+msgid "Explained:"
+msgstr "Pateisinta:"
+
+#: /src/lyceum/journal/browser/journal.py:200
+#: /src/lyceum/journal/browser/student.py:106
+msgid "Average"
+msgstr "Vidurkis"
+
+#: /src/lyceum/journal/browser/journal.py:223
+#: /src/lyceum/journal/browser/configure.zcml:37
+msgid "Attendance"
+msgstr "Praleistos pamokos"
+
+#: /src/lyceum/journal/browser/journal.py:244
+#: /src/lyceum/journal/browser/term.py:87
+msgid "Grade"
+msgstr "Įvertinimas"
+
+#: /src/lyceum/journal/browser/templates/attendance.pt:10
+msgid "${group} journal"
+msgstr "${group} dienynas"
+
+#: /src/lyceum/journal/browser/templates/attendance.pt:6
+#: /src/lyceum/journal/browser/templates/attendance.pt:14
+msgid "${group} journal for ${month}"
+msgstr "${group} dienynas ${month} mėnesiui"
+
+#: /src/lyceum/journal/browser/templates/journal.pt:49
+msgid "Term Grading"
+msgstr "Semestro pažymiai"
+
+#. Default: "Update"
+#: /src/lyceum/journal/browser/templates/journal.pt:59
+#: /src/lyceum/journal/browser/templates/term.pt:44
+#: /src/lyceum/journal/browser/templates/attendance.pt:61
+#: /src/lyceum/journal/browser/templates/student_journal.pt:53
+msgid "update-button"
+msgstr "Patvirtinti"
+
+#: /src/lyceum/journal/browser/templates/journal.pt:59
+#: /src/lyceum/journal/browser/templates/term.pt:44
+#: /src/lyceum/journal/browser/templates/attendance.pt:61
+#: /src/lyceum/journal/browser/templates/student_journal.pt:53
+msgid "U"
+msgstr ""
+
+#: /src/lyceum/journal/browser/templates/journal.pt:6
+#: /src/lyceum/journal/browser/templates/journal.pt:13
+msgid "${section} journal for ${month}"
+msgstr "${section} dienynas ${month} mėnesiui"
+
+#. Default: "Cancel"
+#: /src/lyceum/journal/browser/templates/journal.pt:62
+#: /src/lyceum/journal/browser/templates/term.pt:47
+#: /src/lyceum/journal/browser/templates/attendance.pt:64
+#: /src/lyceum/journal/browser/templates/student_journal.pt:56
+msgid "cancel-button"
+msgstr "Atšaukti"
+
+#: /src/lyceum/journal/browser/templates/journal.pt:9
+#: /src/lyceum/journal/browser/templates/term.pt:5
+#: /src/lyceum/journal/browser/templates/term.pt:8
+#: /src/lyceum/journal/browser/templates/term.pt:12
+msgid "${section} journal"
+msgstr "${section} dienynas"
+
+#: /src/lyceum/journal/browser/templates/student_journal.pt:15
+msgid "${student_name} journal for ${month}"
+msgstr "${student_name} dienynas ${month} mėnesiui"
+
+#: /src/lyceum/journal/browser/templates/student_journal.pt:6
+msgid "${person} journal for ${month}"
+msgstr "${person} dienynas ${month} mėnesiui"
+
+#: /src/lyceum/journal/browser/templates/student_journal.pt:9
+msgid "${person} journal"
+msgstr "${person} dienynas"
+
+#: /src/lyceum/journal/browser/term.py:59
+msgid "Term Grade"
+msgstr "Semestrinis pažymys"

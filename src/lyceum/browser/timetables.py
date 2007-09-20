@@ -48,11 +48,12 @@ class PersonTimetableView(BrowserView):
         dt = datetime.utcnow()
         date = utc.localize(dt).date()
         terms = ISchoolToolApplication(None)["terms"]
+        term_id = None
         for term_id, term in terms.items():
             if date in term:
                 return term_id
-        else:
-            return None
+
+        return term_id
 
     @property
     def schooltt_ids(self):

@@ -1,16 +1,18 @@
 <html metal:use-macro="view/@@standard_macros/page" i18n:domain="lyceum">
 <body>
 <metal:block fill-slot="content-header">
-  <h1>Timetable for:</h1>
-  <form>
-    <select name="WEEKDAY">
-      <option tal:repeat="day view/day_ids"
-              tal:attributes="selected python:day == view.day_id"
-              tal:content="day" />
-    </select>
-    <input type="submit" value="Go" />
-  </form>
-
+  <tal:block i18n:translate="">
+    <h1>Timetable for:</h1>
+    <form i18n:name="weekday">
+      <select name="WEEKDAY">
+        <option tal:repeat="day view/day_titles"
+                tal:attributes="selected python:day['id'] == view.day_id;
+                                value day/id"
+                tal:content="day/title" />
+      </select>
+      <input type="submit" value="Go" i18n:attributes="value" />
+    </form>
+  </tal:block>
 </metal:block>
 
 <metal:block metal:fill-slot="body">

@@ -28,15 +28,13 @@ from pytz import timezone
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.security.proxy import removeSecurityProxy
-from zope.i18n import translate
 
 from schooltool.timetable.interfaces import ICompositeTimetables
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.timetable.interfaces import ITimetables
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
-
-from schooltool import SchoolToolMessage as _
+from schooltool.app.browser.cal import day_of_week_names
 
 
 class PersonTimetableView(BrowserView):
@@ -85,9 +83,9 @@ class PersonTimetableView(BrowserView):
 
     def days(self):
         composite_timetable = self.makeCompositeTimetable()
-        for key in composite_timetable.keys():
+        for number, key in enumerate(composite_timetable.keys()):
             week_day = {}
-            week_day['title'] = translate(_(key), context=self.request)
+            week_day['title'] = day_of_week_names[number]
             week_day['periods'] = []
             day = composite_timetable[key]
             for period in day.periods:
@@ -150,6 +148,10 @@ class SchoolWeekdayTimetable(object):
 
     def day_ids(self):
         return self.defaultTimetable().keys()
+
+    def day_titles(self):
+        return [{'id': id, 'title': day_of_week_names[n]}
+                for n, id in enumerate(self.day_ids())]
 
     def __call__(self):
         tz = timezone(self.defaultTimetable().timezone)

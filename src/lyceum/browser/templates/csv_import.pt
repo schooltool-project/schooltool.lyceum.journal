@@ -1,13 +1,12 @@
 <metal:block use-macro="view/@@standard_macros/page" i18n:domain="lyceum">
 
   <metal:block fill-slot="title">
-    <title i18n:translate="">Import school data from CSV<span tal:replace="context/title"
-        i18n:name="title"/></title>
+    <title i18n:translate="">Import school data from CSV</title>
   </metal:block>
 
   <metal:block fill-slot="content-header">
 
-    <p>Populate an empty SchoolTool instance with data from CSV.</p>
+    <p i18n:translate="">Populate an empty SchoolTool instance with data from CSV.</p>
   </metal:block>
 
   <metal:block metal:fill-slot="body">

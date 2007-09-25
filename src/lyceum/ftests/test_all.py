@@ -23,13 +23,14 @@ $Id$
 """
 
 import unittest
+import pkg_resources
 import os
 
 from schooltool.testing.functional import collect_ftests
 from schooltool.testing.functional import ZCMLLayer
 
-dir = os.path.abspath(os.path.dirname(__file__))
-filename = os.path.join(dir, 'ftesting.zcml')
+filename = pkg_resources.resource_filename("lyceum", os.path.join("ftests",
+                                                                  "ftesting.zcml"))
 
 lyceum_functional_layer = ZCMLLayer(filename,
                                     __name__,

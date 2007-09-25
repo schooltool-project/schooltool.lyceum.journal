@@ -23,6 +23,8 @@ $Id$
 """
 import csv
 import os
+import pkg_resources
+from StringIO import StringIO
 from datetime import time, timedelta, date
 
 from zope.security.proxy import removeSecurityProxy
@@ -53,7 +55,8 @@ def encode_row(row):
 
 
 def load_csv(file_name):
-    return map(encode_row, csv.reader(open(file_name)))
+    content = StringIO(pkg_resources.resource_string("lyceum", file_name))
+    return map(encode_row, csv.reader(content))
 
 
 lit_map = {0x0020: u'-',
@@ -67,11 +70,9 @@ lit_map = {0x0020: u'-',
            0x0173: u'u',
            0x017e: u'z'}
 
-tvarkarastis_template = os.path.join(os.path.dirname(__file__), "csv",
-                                     "tvarkarastis%s.csv")
+tvarkarastis_template = os.path.join("csv", "tvarkarastis%s.csv")
 tvarkarastis_csvs = map(load_csv, [tvarkarastis_template % n for n in range(1,6)])
-klases_csv = load_csv(os.path.join(os.path.dirname(__file__), "csv",
-                                   "klases.csv"))[2:]
+klases_csv = load_csv(os.path.join("csv", "klases.csv"))[2:]
 
 merged_tvarkarastis_csvs = []
 for lst in tvarkarastis_csvs:

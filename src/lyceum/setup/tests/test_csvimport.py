@@ -34,7 +34,7 @@ from zope.testing import doctest
 def doctest_CSVStudent():
     r"""Tests for CSVStudent.
 
-        >>> from lyceum.csvimport import CSVStudent
+        >>> from lyceum.setup.csvimport import CSVStudent
         >>> student = CSVStudent(u"John", u"Johnson", "1a")
         >>> student.name
         u'John'
@@ -121,7 +121,7 @@ def doctest_CSVStudent():
 def doctest_LyceumGroupsAndStudents():
     """Tests for LyceumGroupsAndStudents.
 
-        >>> from lyceum.csvimport import LyceumGroupsAndStudents
+        >>> from lyceum.setup.csvimport import LyceumGroupsAndStudents
         >>> plugin = LyceumGroupsAndStudents()
         >>> app = {}
         >>> app['groups'] = {}
@@ -167,7 +167,7 @@ def doctest_CSVTeacher():
 
     Parse a string that denotes a teacher:
 
-        >>> from lyceum.csvimport import CSVTeacher
+        >>> from lyceum.setup.csvimport import CSVTeacher
         >>> teacher = CSVTeacher(u"B. Johnson")
         >>> teacher.user_name
         u'bjohnson'
@@ -186,7 +186,7 @@ def doctest_CSVTeacher():
 def doctest_LyceumTeachers():
     """Tests for LyceumTeachers.
 
-        >>> from lyceum.csvimport import LyceumTeachers
+        >>> from lyceum.setup.csvimport import LyceumTeachers
         >>> lt = LyceumTeachers()
         >>> app = {}
         >>> app['persons'] = {}
@@ -223,7 +223,7 @@ def doctest_make_course():
     Create a course title from the name of the base course and the
     level extracted from a list of groups:
 
-        >>> from lyceum.csvimport import make_course
+        >>> from lyceum.setup.csvimport import make_course
         >>> make_course('tb1 en', 'History')
         'History tb1 en'
         >>> make_course('2abd', 'English')
@@ -241,7 +241,7 @@ def doctest_parse_level():
 
     parse_level returns the level (as in A, B, S) of the section:
 
-        >>> from lyceum.csvimport import parse_level
+        >>> from lyceum.setup.csvimport import parse_level
         >>> parse_level('3d A')
         'A'
 
@@ -260,7 +260,7 @@ def doctest_normalize_groups():
     Normalize groups - removes the level, and translates any of the
     formats to describe members of a section into a standard form:
 
-        >>> from lyceum.csvimport import normalize_groups
+        >>> from lyceum.setup.csvimport import normalize_groups
         >>> normalize_groups('3d A')
         '3d'
 
@@ -285,7 +285,7 @@ def CSVCourse():
     Parse a string that describes a course into an intermediate course
     object:
 
-        >>> from lyceum.csvimport import CSVCourse
+        >>> from lyceum.setup.csvimport import CSVCourse
         >>> course = CSVCourse(u'English lang. 1')
         >>> course.title
         u'English lang. 1'
@@ -311,7 +311,7 @@ def CSVCourse():
 def doctest_LyceumCourses():
     """Tests for LyceumCourses.
 
-        >>> from lyceum.csvimport import LyceumCourses
+        >>> from lyceum.setup.csvimport import LyceumCourses
         >>> class CourseStub(object):
         ...     def __init__(self, title):
         ...         self.title = title
@@ -331,7 +331,7 @@ def doctest_parse_groups():
 
     Parse a string that describes multiple groups into a list of group ids:
 
-        >>> from lyceum.csvimport import parse_groups
+        >>> from lyceum.setup.csvimport import parse_groups
         >>> parse_groups("1a,b,c")
         ['1a', '1b', '1c']
         >>> parse_groups("2abc")
@@ -352,7 +352,7 @@ def doctest_LyceumScheduling_create_sections():
     Create sections creates a dict with section descriptors as keys
     and associated meetings as values:
 
-        >>> from lyceum.csvimport import LyceumScheduling
+        >>> from lyceum.setup.csvimport import LyceumScheduling
         >>> plugin = LyceumScheduling()
         >>> from zope.app.security.tests.test_directives import pprint
         >>> pprint(sorted(plugin.create_sections().items()))
@@ -444,10 +444,10 @@ def doctest_LyceumScheduling_create_sections():
 def doctest_LyceumScheduling_schedule_section():
     """Tests for LyceumScheduling.schedule_section.
 
-        >>> from lyceum.csvimport import days
-        >>> from lyceum.csvimport import LyceumScheduling
+        >>> from lyceum.setup.csvimport import days
+        >>> from lyceum.setup.csvimport import LyceumScheduling
         >>> plugin = LyceumScheduling()
-        >>> from lyceum.csvimport import CSVRoom
+        >>> from lyceum.setup.csvimport import CSVRoom
         >>> ttschema_id = 'ttschema1'
         >>> app = {}
         >>> app['sections'] = {}
@@ -532,7 +532,7 @@ def doctest_LyceumScheduling_generate():
 
     Generate should creates all sections, add members and schedules all of them:
 
-        >>> from lyceum.csvimport import LyceumScheduling
+        >>> from lyceum.setup.csvimport import LyceumScheduling
         >>> plugin = LyceumScheduling()
         >>> def schedule_section(app, sid, level, meetings):
         ...     section = app['sections'][sid]
@@ -659,7 +659,7 @@ def doctest_LyceumSchoolTimetables():
 
     We create our generator, and generate the data:
 
-        >>> from lyceum.csvimport import LyceumSchoolTimetables
+        >>> from lyceum.setup.csvimport import LyceumSchoolTimetables
         >>> generator = LyceumSchoolTimetables()
         >>> generator.generate(app)
 
@@ -718,7 +718,7 @@ def doctest_LyceumTerms_addTerm():
         >>> app = AppStub()
 
         >>> from schooltool.common import DateRange
-        >>> from lyceum.csvimport import LyceumTerms
+        >>> from lyceum.setup.csvimport import LyceumTerms
         >>> from datetime import date
 
     Ranges of dates that are holidays for students are stored in the
@@ -774,7 +774,7 @@ def doctest_LyceumTerms_generate():
         ...         self['terms'] = {}
         >>> app = AppStub()
 
-        >>> from lyceum.csvimport import LyceumTerms
+        >>> from lyceum.setup.csvimport import LyceumTerms
         >>> generator = LyceumTerms()
         >>> generator.generate(app)
 

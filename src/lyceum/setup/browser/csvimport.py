@@ -24,10 +24,10 @@ $Id$
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
-from lyceum.csvimport import LyceumGroupsAndStudents
-from lyceum.csvimport import (LyceumTeachers, LyceumSchoolTimetables,
-                              LyceumCourses, LyceumResources, LyceumScheduling,
-                              LyceumTerms)
+from lyceum.setup.csvimport import LyceumGroupsAndStudents
+from lyceum.setup.csvimport import (LyceumTeachers, LyceumSchoolTimetables,
+                                    LyceumCourses, LyceumResources, LyceumScheduling,
+                                    LyceumTerms)
 
 
 class LyceumCSVImportView(BrowserView):

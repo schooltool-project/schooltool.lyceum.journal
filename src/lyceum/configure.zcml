@@ -7,36 +7,6 @@
   <!-- Translations -->
   <i18n:registerTranslations directory="locales" />
 
-  <utility
-     factory=".csvimport.LyceumGroupsAndStudents"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_groups_students"
-     />
-
-  <utility
-     factory=".csvimport.LyceumTeachers"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_teachers"
-     />
-
-  <utility
-     factory=".csvimport.LyceumCourses"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_courses"
-     />
-
-  <utility
-     factory=".csvimport.LyceumResources"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_resources"
-     />
-
-  <utility
-     factory=".csvimport.LyceumScheduling"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_scheduling"
-     />
-
   <adapter
       for="schooltool.group.interfaces.IGroup"
       factory=".group_calendar.GroupTimetableCalendar"
@@ -70,5 +40,6 @@
   <include package="lyceum.person" />
   <include package="lyceum.journal" />
   <include package="lyceum.browser" />
+  <include package="lyceum.setup" />
 
 </configure>

@@ -21,6 +21,10 @@ Helper function for tests.
 
 $Id$
 """
+from cStringIO import StringIO
+import os
+import pkg_resources
+
 from schooltool.testing.analyze import queryHTML
 
 
@@ -115,3 +119,10 @@ def printGradebookTable(contents):
         if grades:
             table_rows.append(grades)
     print format_table(table_rows, header_rows=1)
+
+
+def attach_csv(browser, name, filename):
+    control = browser.getControl(name=name)
+    filename = os.path.join("csv", filename)
+    string = pkg_resources.resource_string("lyceum", filename)
+    control.add_file(StringIO(string), "text/plain", filename)

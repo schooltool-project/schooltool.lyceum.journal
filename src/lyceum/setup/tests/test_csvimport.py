@@ -31,6 +31,56 @@ from zope.app.testing import setup
 from zope.testing import doctest
 
 
+students_csv = [['Students'],
+                ['', '', ''],
+                ['1a', 'Zobie', 'Brai'],
+                ['2a', 'Zomie', 'Brin'],
+                ['1b', 'Zombe', 'Bain'],
+                ['2b', 'Zombi', 'Bran'],
+                ['1c', 'Zmbie', 'Bran'],
+                ['2c', 'Zombie', 'Brain'],
+                ['1d', 'Zobie', 'Bain'],
+                ['2d', 'Zombe', 'Bran']]
+
+
+timetable_csvs = [
+    # Monday
+    [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
+     ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['8', 'R. Mah', '2b A', '212', '2b', '212', '2c A', '212', '2c B', '212', '2a,d', '212', '2a d', '212', '2d', '212', '', '', '']],
+    # Tuesday
+    [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
+     ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
+    # Wednesday
+    [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
+     ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
+    # Thursday
+    [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
+     ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
+    # Friday
+    [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
+     ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']]]
+
+
 def doctest_CSVStudent():
     r"""Tests for CSVStudent.
 
@@ -122,7 +172,7 @@ def doctest_LyceumGroupsAndStudents():
     """Tests for LyceumGroupsAndStudents.
 
         >>> from lyceum.setup.csvimport import LyceumGroupsAndStudents
-        >>> plugin = LyceumGroupsAndStudents()
+        >>> plugin = LyceumGroupsAndStudents(students_csv, timetable_csvs)
         >>> app = {}
         >>> app['groups'] = {}
         >>> app['persons'] = {}
@@ -187,7 +237,7 @@ def doctest_LyceumTeachers():
     """Tests for LyceumTeachers.
 
         >>> from lyceum.setup.csvimport import LyceumTeachers
-        >>> lt = LyceumTeachers()
+        >>> lt = LyceumTeachers(students_csv, timetable_csvs)
         >>> app = {}
         >>> app['persons'] = {}
         >>> class TeacherStub(object):
@@ -317,7 +367,7 @@ def doctest_LyceumCourses():
         ...         self.title = title
         ...     def addToApp(self, app):
         ...         print "Adding %s to app." % self.title
-        >>> lc = LyceumCourses()
+        >>> lc = LyceumCourses(students_csv, timetable_csvs)
         >>> lc.course_factory = CourseStub
         >>> lc.generate({})
         Adding History 1 to app.
@@ -353,7 +403,7 @@ def doctest_LyceumScheduling_create_sections():
     and associated meetings as values:
 
         >>> from lyceum.setup.csvimport import LyceumScheduling
-        >>> plugin = LyceumScheduling()
+        >>> plugin = LyceumScheduling(students_csv, timetable_csvs)
         >>> from zope.app.security.tests.test_directives import pprint
         >>> pprint(sorted(plugin.create_sections().items()))
         [((u'history-1', u'B. Duh', u'1a', ''),
@@ -446,7 +496,7 @@ def doctest_LyceumScheduling_schedule_section():
 
         >>> from lyceum.setup.csvimport import days
         >>> from lyceum.setup.csvimport import LyceumScheduling
-        >>> plugin = LyceumScheduling()
+        >>> plugin = LyceumScheduling(students_csv, timetable_csvs)
         >>> from lyceum.setup.csvimport import CSVRoom
         >>> ttschema_id = 'ttschema1'
         >>> app = {}
@@ -533,7 +583,7 @@ def doctest_LyceumScheduling_generate():
     Generate should creates all sections, add members and schedules all of them:
 
         >>> from lyceum.setup.csvimport import LyceumScheduling
-        >>> plugin = LyceumScheduling()
+        >>> plugin = LyceumScheduling(students_csv, timetable_csvs)
         >>> def schedule_section(app, sid, level, meetings):
         ...     section = app['sections'][sid]
         ...     section.title = sid
@@ -660,7 +710,7 @@ def doctest_LyceumSchoolTimetables():
     We create our generator, and generate the data:
 
         >>> from lyceum.setup.csvimport import LyceumSchoolTimetables
-        >>> generator = LyceumSchoolTimetables()
+        >>> generator = LyceumSchoolTimetables(students_csv, timetable_csvs)
         >>> generator.generate(app)
 
     We get two SchoolTimetables:
@@ -724,7 +774,7 @@ def doctest_LyceumTerms_addTerm():
     Ranges of dates that are holidays for students are stored in the
     holidays attrribute of the generator:
 
-        >>> generator = LyceumTerms()
+        >>> generator = LyceumTerms(students_csv, timetable_csvs)
         >>> generator.holidays = [DateRange(date(2003, 1, 2), date(2003, 1, 2))]
 
     We must pass it the start and end dates, title and an id:
@@ -775,7 +825,7 @@ def doctest_LyceumTerms_generate():
         >>> app = AppStub()
 
         >>> from lyceum.setup.csvimport import LyceumTerms
-        >>> generator = LyceumTerms()
+        >>> generator = LyceumTerms(students_csv, timetable_csvs)
         >>> generator.generate(app)
 
     We get two terms created by default:

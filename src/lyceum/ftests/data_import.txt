@@ -11,7 +11,16 @@ Let's log in with the manager account:
 
 Go to the CSV import view and import the data:
 
+    >>> from lyceum.tests import attach_csv
+
     >>> manager.getLink('CSV Import').click()
+
+    >>> attach_csv(manager, name='students_csv', filename='klases.csv')
+    >>> for i in range(5):
+    ...     attach_csv(manager,
+    ...                name='weekday%s_csv' % i,
+    ...                filename='tvarkarastis%s.csv' % (i + 1))
+
     >>> manager.getControl('Import').click()
 
 We should have a couple of terms now:

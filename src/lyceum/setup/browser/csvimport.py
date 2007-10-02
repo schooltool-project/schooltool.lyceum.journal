@@ -21,6 +21,8 @@ Lyceum person csv import views.
 
 $Id$
 """
+import csv
+
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
@@ -36,14 +38,20 @@ class LyceumCSVImportView(BrowserView):
 
     def __call__(self):
         if 'IMPORT' in self.request:
-            generators = [LyceumSchoolTimetables(),
-                          LyceumTerms(),
-                          LyceumGroupsAndStudents(),
-                          LyceumTeachers(),
-                          LyceumCourses(),
-                          LyceumResources(),
-                          LyceumScheduling(),
-                          ]
+            students = list(csv.reader(self.request['students_csv'].readlines()))
+            timetables = []
+            for weekday in range(5):
+                timetables.append(list(csv.reader(self.request['weekday%s_csv' % weekday].readlines())))
+
+            generators = []
+            generators.append(LyceumSchoolTimetables(students, timetables))
+            generators.append(LyceumTerms(students, timetables))
+            generators.append(LyceumGroupsAndStudents(students, timetables))
+            generators.append(LyceumTeachers(students, timetables))
+            generators.append(LyceumCourses(students, timetables))
+            generators.append(LyceumResources(students, timetables))
+            generators.append(LyceumScheduling(students, timetables))
             for generator in generators:
                 generator.generate(self.context)
+
         return self.template()

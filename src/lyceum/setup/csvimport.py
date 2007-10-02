@@ -47,7 +47,7 @@ from lyceum.person import LyceumPerson
 
 
 def encode_row(row):
-    return [unicode(cell, 'UTF-8') for cell in row]
+    return [unicode(cell, 'UTF-8').strip() for cell in row]
 
 
 lit_map = {0x0020: u'-',

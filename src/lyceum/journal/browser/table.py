@@ -40,7 +40,7 @@ class SelectStudentCellFormatter(object):
         parameters = []
         for info in self.extra_info:
             if info in request:
-                parameters.append((info, request[info]))
+                parameters.append((info, request[info].encode('utf-8')))
         return parameters
 
     def __call__(self, value, item, formatter):

@@ -24,8 +24,10 @@ $Id$
 """
 import pytz
 import urllib
+import base64
 from datetime import datetime
 
+from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.app import zapi
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
@@ -78,7 +80,7 @@ class JournalCalendarEventViewlet(object):
         if journal:
             return '%s/index.html?event_id=%s' % (
                 zapi.absoluteURL(journal, self.request),
-                urllib.quote(event_for_display.context.unique_id))
+                urllib.quote(event_for_display.context.unique_id.encode('utf-8')))
 
 
 class GradeClassColumn(LocaleAwareGetterColumn):
@@ -119,7 +121,7 @@ class PersonGradesColumn(object):
         parameters = []
         for info in ['TERM', 'month', 'student']:
             if info in request:
-                parameters.append((info, request[info]))
+                parameters.append((info, request[info].encode('utf-8')))
         return parameters
 
     def journalUrl(self, request):
@@ -136,14 +138,14 @@ class PersonGradesColumn(object):
         if not self.selected:
             url = "%s/index.html?%s" % (
                 self.journalUrl(formatter.request),
-                urllib.urlencode([('event_id', self.meeting.unique_id)] +
+                urllib.urlencode([('event_id', self.meeting.unique_id.encode('utf-8'))] +
                                  self.extra_parameters(formatter.request)))
             header = '<a href="%s">%s</a>' % (url, header)
 
         span = '<span %stitle="%s">%s</span>' % (
             klass, meetingDate.strftime("%Y-%m-%d"), header)
         event_id = '<input type="hidden" value="%s" class="event_id" />' % (
-            urllib.quote(self.meeting.unique_id))
+            urllib.quote(base64.encodestring(self.meeting.unique_id.encode('utf-8'))))
         return span + event_id
 
     def getCellValue(self, item):
@@ -388,7 +390,7 @@ class LyceumSectionJournalView(object):
         parameters = []
         for info in ['TERM', 'student']:
             if info in request:
-                parameters.append((info, request[info]))
+                parameters.append((info, request[info].encode('utf-8')))
         return parameters
 
 
@@ -400,7 +402,7 @@ class SectionJournalAjaxView(BrowserView):
         person = app['persons'].get(person_id)
         if not person:
             raise UserError('Person was invalid!')
-        meeting = self.context.findMeeting(urllib.unquote(self.request['event_id']))
+        meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
         self.context.setGrade(person, meeting, self.request['grade']);
         return ""
 

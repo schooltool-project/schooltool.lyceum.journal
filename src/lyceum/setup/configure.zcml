@@ -1,36 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope" >
 
-  <utility
-     factory=".csvimport.LyceumGroupsAndStudents"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_groups_students"
-     />
-
-  <utility
-     factory=".csvimport.LyceumTeachers"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_teachers"
-     />
-
-  <utility
-     factory=".csvimport.LyceumCourses"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_courses"
-     />
-
-  <utility
-     factory=".csvimport.LyceumResources"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_resources"
-     />
-
-  <utility
-     factory=".csvimport.LyceumScheduling"
-     provides="schooltool.setupdata.interfaces.ISetupDataPlugin"
-     name="lyceum_scheduling"
-     />
-
   <include package=".browser" />
 
 </configure>

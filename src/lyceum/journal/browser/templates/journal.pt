@@ -32,13 +32,13 @@
                       person_id: cell.person_id,
                       grade: grade},
                error: function() {
-                 $(input).css('background', '#FFAAAA');
+                 $(cell).css('background', '#FFAAAA');
                },
                success: function(xml){
-                 $(input).css('background', '#AAFFAA');
+                 $(cell).css('background', '#AAFFAA');
                }
             });
-            $(input).css('background', '#AAAAFF');
+            $(cell).css('background', '#AAAAFF');
           }
           $("#grade_container").html($("#grade"));
           $(selected_cell).html(grade);

@@ -334,7 +334,7 @@ class LyceumSectionJournalView(object):
             except KeyError:
                 pass
 
-        return today()
+        return self.scheduled_terms[-1].last
 
     def getCurrentTerm(self):
         date = self.selectedDate()

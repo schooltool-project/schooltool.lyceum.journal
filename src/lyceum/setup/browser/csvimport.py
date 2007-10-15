@@ -29,7 +29,7 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from lyceum.setup.csvimport import LyceumGroupsAndStudents
 from lyceum.setup.csvimport import (LyceumTeachers, LyceumSchoolTimetables,
                                     LyceumCourses, LyceumResources, LyceumScheduling,
-                                    LyceumTerms)
+                                    LyceumTerms2006, LyceumTerms2007)
 
 
 class LyceumCSVImportView(BrowserView):
@@ -37,21 +37,40 @@ class LyceumCSVImportView(BrowserView):
     template = ViewPageTemplateFile('templates/csv_import.pt')
 
     def __call__(self):
-        if 'IMPORT' in self.request:
+        if 'IMPORT_STUDENTS' in self.request:
             students = list(csv.reader(self.request['students_csv'].readlines()))
+            generator = LyceumGroupsAndStudents(students)
+            generator.generate(self.context)
+
+        if 'IMPORT_TIMETABLES' in self.request:
+            term_id = self.request.get('TERM')
             timetables = []
             for weekday in range(5):
                 timetables.append(list(csv.reader(self.request['weekday%s_csv' % weekday].readlines())))
 
-            generators = []
-            generators.append(LyceumSchoolTimetables(students, timetables))
-            generators.append(LyceumTerms(students, timetables))
-            generators.append(LyceumGroupsAndStudents(students, timetables))
-            generators.append(LyceumTeachers(students, timetables))
-            generators.append(LyceumCourses(students, timetables))
-            generators.append(LyceumResources(students, timetables))
-            generators.append(LyceumScheduling(students, timetables))
+            factories = [LyceumSchoolTimetables,
+                         LyceumTeachers,
+                         LyceumCourses,
+                         LyceumResources,
+                         LyceumScheduling]
+
+            generators = [factory(term_id, timetables)
+                          for factory in factories]
+
             for generator in generators:
                 generator.generate(self.context)
 
+        if 'GENERATE_TERMS_2006' in self.request:
+            generator = LyceumTerms2006()
+            generator.generate(self.context)
+
+        if 'GENERATE_TERMS_2007' in self.request:
+            generator = LyceumTerms2007()
+            generator.generate(self.context)
+
         return self.template()
+
+    @property
+    def terms(self):
+        return sorted(self.context['terms'].values(),
+                      key=lambda term: term.title)

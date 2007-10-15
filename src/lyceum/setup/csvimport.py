@@ -64,8 +64,8 @@ lit_map = {0x0020: u'-',
 
 class CSVImportPlugin(object):
 
-    def __init__(self, students_csv, timetable_csvs):
-        self.students_csv = map(encode_row, students_csv)[2:]
+    def __init__(self, term_id, timetable_csvs):
+        self.term_id = term_id
         self.timetable_csvs = [map(encode_row, timetable_csv)
                                for timetable_csv in timetable_csvs]
         self.merged_timetable_csvs = []
@@ -101,7 +101,7 @@ class CSVStudent(object):
         annotations[CalendarSTOverlayView.SHOW_TIMETABLE_KEY] = False
 
 
-class LyceumGroupsAndStudents(CSVImportPlugin):
+class LyceumGroupsAndStudents(object):
     """Plugin that creates all persons and groups.
 
     Add person to groups they belong to.
@@ -113,7 +113,10 @@ class LyceumGroupsAndStudents(CSVImportPlugin):
     group_factory = Group
     student_factory = CSVStudent
 
-    def generate(self, app, students=None, timetables=None):
+    def __init__(self, students_csv):
+        self.students_csv = map(encode_row, students_csv)[2:]
+
+    def generate(self, app):
         """Create a person object for every student.
 
         Adds the person to the appropriate group.
@@ -148,14 +151,14 @@ class LyceumTeachers(CSVImportPlugin):
     name = "lyceum_teachers"
     teacher_factory = CSVTeacher
 
-    def generate(self, app, students=None, timetables=None):
+    def generate(self, app):
         """Create a person for each teacher.
 
         Add persons to the teacher group.
         """
         for table in self.timetable_csvs:
             for row in table[2:]:
-                if row[0].strip() != '' and row[1].strip() != '':
+                if row[1].strip()[1] == '.':
                     teacher = self.teacher_factory(row[1])
                     if teacher.user_name not in app['persons']:
                         teacher.addToApp(app)
@@ -178,7 +181,8 @@ class CSVCourse(object):
         self.title = str
 
     def addToApp(self, app):
-        app['courses'][self.id] = Course(title=self.title)
+        if self.id not in app['courses']:
+            app['courses'][self.id] = Course(title=self.title)
 
 
 class LyceumCourses(CSVImportPlugin):
@@ -188,7 +192,7 @@ class LyceumCourses(CSVImportPlugin):
     name = "lyceum_courses"
     course_factory = CSVCourse
 
-    def generate(self, app, students=None, timetables=None):
+    def generate(self, app):
         """Parse strings into course objects.
 
         Add course objects to the application.
@@ -196,7 +200,7 @@ class LyceumCourses(CSVImportPlugin):
         courses = []
         current_course = None
         for row in self.merged_timetable_csvs:
-            if row[0].strip() == '' and row[1].strip() != '':
+            if row[1].strip()[1] != '.':
                 current_course = row[1].strip()
                 continue
             if current_course:
@@ -259,7 +263,7 @@ class LyceumResources(CSVImportPlugin):
     dependencies = ()
     name = "lyceum_resources"
 
-    def generate(self, app, students=None, timetables=None):
+    def generate(self, app):
         rooms = []
         for row in self.merged_timetable_csvs:
             for n, cell in enumerate(row[2:]):
@@ -269,7 +273,8 @@ class LyceumResources(CSVImportPlugin):
         rooms = set(rooms)
         for room in rooms:
             room = CSVRoom(room)
-            app['resources'][room.id] = Location(title=room.title)
+            if room.id not in app['resources']:
+                app['resources'][room.id] = Location(title=room.title)
 
 
 days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
@@ -290,10 +295,10 @@ class LyceumScheduling(CSVImportPlugin):
         sections = {}
         for day, csv_data in enumerate(self.timetable_csvs):
             for row in csv_data[1:]:
-                if row[0].strip() == '' and row[1].strip() != '':
+                if row[1].strip()[1] != '.':
                     current_course = row[1].strip()
                     continue
-                if row[0].strip() != '' and row[1].strip() != '':
+                if row[1].strip()[1] == '.':
                     current_teacher = row[1].strip()
                 for n, cell in enumerate(row[2:]):
                     if n % 2 == 0 and cell.strip() != '':
@@ -323,19 +328,21 @@ class LyceumScheduling(CSVImportPlugin):
         sob.title = activity_title
         ttschema_id = meetings[0][2]
         ttschema = removeSecurityProxy(app['ttschemas'][ttschema_id])
-        for term in removeSecurityProxy(app['terms']).values():
-            key = '%s.%s' % (term.__name__, ttschema_id)
-            timetable = ttschema.createTimetable()
-            for id, period, _, room in  meetings:
-                day_id = days[id-1]
-                resources = []
-                if room != '':
-                    resources = [removeSecurityProxy(app['resources'][room])]
-                act = TimetableActivity(title=activity_title, owner=sob,
-                                        resources=resources)
-                timetable[day_id].add('%d pamoka' % period, act,
-                                      send_events=False)
-            ITimetables(sob).timetables[key] = timetable
+
+        term = app['terms'][self.term_id]
+        key = '%s.%s' % (term.__name__, ttschema_id)
+        timetable = ttschema.createTimetable()
+        for id, period, _, room in  meetings:
+            day_id = days[id-1]
+            resources = []
+            if room != '':
+                resources = [removeSecurityProxy(app['resources'][room])]
+            act = TimetableActivity(title=activity_title, owner=sob,
+                                    resources=resources)
+            timetable[day_id].add('%d pamoka' % period, act,
+                                  send_events=False)
+        ITimetables(sob).timetables[key] = timetable
+
         for group in list(sob.members):
             for person in group.members:
                 sob.members.add(person)
@@ -343,7 +350,7 @@ class LyceumScheduling(CSVImportPlugin):
 
     section_factory = Section
 
-    def generate(self, app, students=None, timetables=None):
+    def generate(self, app):
         sections = self.create_sections()
         # schedule the section
         unscheduled_sections = {}
@@ -358,9 +365,9 @@ class LyceumScheduling(CSVImportPlugin):
                 ttschema = 'iii-iv-kursui'
 
             if level:
-                sid = (course_id + ' ' + groups + ' ' + level + ' ' + teacher.user_name).strip()
+                sid = (course_id + ' ' + self.term_id + ' ' + groups + ' ' + level + ' ' + teacher.user_name).strip()
             else:
-                sid = (course_id + ' ' + groups + ' ' + teacher.user_name).strip()
+                sid = (course_id + ' ' + self.term_id + ' ' + groups + ' ' + teacher.user_name).strip()
 
             for day, period, room in sorted(meetings, key=lambda meeting: meeting[2].id):
                 meeting = (day, period, ttschema, room.id)
@@ -397,9 +404,11 @@ class LyceumSchoolTimetables(CSVImportPlugin):
         ttschema = TimetableSchema(days, title=title, model=model)
         for day in days:
             ttschema[day] = TimetableSchemaDay(tuple(periods))
-        app['ttschemas'][id] = ttschema
 
-    def generate(self, app, students=None, timetables=None):
+        if id not in app['ttschemas']:
+            app['ttschemas'][id] = ttschema
+
+    def generate(self, app):
 
         lesson_starts = [(8, 0), (8, 55), (9, 50),
                          (11, 5), (12, 0), (13, 5),
@@ -413,14 +422,10 @@ class LyceumSchoolTimetables(CSVImportPlugin):
                                      lesson_starts)
 
 
-class LyceumTerms(CSVImportPlugin):
+class LyceumTerms(object):
 
-    def __init__(self, *args):
-        super(CSVImportPlugin, self).__init__(*args)
+    def __init__(self):
         self.holidays = []
-        self.holidays.append(DateRange(date(2006, 10, 30), date(2006, 11, 5)))
-        self.holidays.append(DateRange(date(2006, 12, 24), date(2007, 1, 6)))
-        self.holidays.append(DateRange(date(2007, 4, 2), date(2007, 4, 9)))
 
     def addTerm(self, app, title, id, first, last):
         term = Term(title, first, last)
@@ -436,7 +441,16 @@ class LyceumTerms(CSVImportPlugin):
         term.removeWeekdays(6)
         app['terms'][id] = term
 
-    def generate(self, app, students=None, timetables=None):
+
+class LyceumTerms2006(LyceumTerms):
+
+    def __init__(self):
+        self.holidays = []
+        self.holidays.append(DateRange(date(2006, 10, 30), date(2006, 11, 5)))
+        self.holidays.append(DateRange(date(2006, 12, 24), date(2007, 1, 6)))
+        self.holidays.append(DateRange(date(2007, 4, 2), date(2007, 4, 9)))
+
+    def generate(self, app):
         first = date(2006, 9, 1)
         last = date(2007, 1, 26)
         self.addTerm(app, "2006 Ruduo", "2006-ruduo", first, last)
@@ -444,3 +458,21 @@ class LyceumTerms(CSVImportPlugin):
         first = date(2007, 1, 29)
         last = date(2007, 6, 15)
         self.addTerm(app, "2007 Pavasaris", "2007-pavasaris", first, last)
+
+
+class LyceumTerms2007(LyceumTerms):
+
+    def __init__(self):
+        self.holidays = []
+        self.holidays.append(DateRange(date(2007, 10, 27), date(2007, 11, 4)))
+        self.holidays.append(DateRange(date(2007, 12, 24), date(2008, 1, 7)))
+        self.holidays.append(DateRange(date(2008, 4, 2), date(2008, 4, 9)))
+
+    def generate(self, app):
+        first = date(2007, 9, 1)
+        last = date(2008, 1, 26)
+        self.addTerm(app, "2007 Ruduo", "2007-ruduo", first, last)
+
+        first = date(2008, 1, 29)
+        last = date(2008, 6, 15)
+        self.addTerm(app, "2008 Pavasaris", "2008-pavasaris", first, last)

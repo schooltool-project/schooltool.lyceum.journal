@@ -15,14 +15,24 @@ Go to the CSV import view and import the data:
     >>> from lyceum.tests import attach_csv
 
     >>> manager.getLink('CSV Import').click()
-
     >>> attach_csv(manager, name='students_csv', filename='klases.csv')
+    >>> manager.getControl('Import').click()
+
+    >>> manager.getControl('Generate Terms for year 2006').click()
+
+    >>> manager.getControl('For term:').value = ['2006-ruduo']
     >>> for i in range(5):
     ...     attach_csv(manager,
     ...                name='weekday%s_csv' % i,
     ...                filename='tvarkarastis%s.csv' % (i + 1))
+    >>> manager.getControl('Import', index=1).click()
 
-    >>> manager.getControl('Import').click()
+    >>> manager.getControl('For term:').value = ['2007-pavasaris']
+    >>> for i in range(5):
+    ...     attach_csv(manager,
+    ...                name='weekday%s_csv' % i,
+    ...                filename='tvarkarastis%s.csv' % (i + 1))
+    >>> manager.getControl('Import', index=1).click()
 
 Let's give a password to a teacher:
 
@@ -46,7 +56,14 @@ And add one more person to the section:
     >>> manager.getControl('Add').click()
 
     >>> manager.getLink('Courses').click()
-    >>> manager.getLink('History', url='1b').click()
+    >>> manager.getLink('History', url='2006-ruduo%201b').click()
+    >>> manager.getLink('edit individuals').click()
+    >>> manager.getLink('2').click()
+    >>> manager.getControl('Jonas').click()
+    >>> manager.getControl('Add').click()
+
+    >>> manager.getLink('Courses').click()
+    >>> manager.getLink('History', url='2007-pavasaris%201b').click()
     >>> manager.getLink('edit individuals').click()
     >>> manager.getLink('2').click()
     >>> manager.getControl('Jonas').click()
@@ -84,7 +101,7 @@ Let's log in with the teacher account:
 You can also access the journal through the section:
 
     >>> teacher.open('http://localhost/persons/bduh')
-    >>> teacher.getLink('Duh B. -- History (1b)').click()
+    >>> teacher.getLink('Duh B. -- History (1b)', index=1).click()
     >>> teacher.getLink('Journal').click()
     >>> teacher.getLink('May').click()
     >>> teacher.getLink('15').click()
@@ -207,37 +224,38 @@ If we click Update, everything stays the same:
 If we select a different term, the first month in the term should get
 activated:
 
-    >>> teacher.getControl(name='TERM').value = ['2006-ruduo']
-    >>> teacher.getControl('Update').click()
+    >>> teacher.open('http://localhost/persons/bduh')
+    >>> teacher.getLink('Duh B. -- History (1b)').click()
+    >>> teacher.getLink('Journal').click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    September</title>
+    January</title>
 
     >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
     <option selected value="2006-ruduo">2006 Ruduo</option>
 
 Choosing some day should not change neither the term, nor month:
 
-    >>> teacher.getLink('13').click()
+    >>> teacher.getLink('12').click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    September</title>
+    January</title>
 
     >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
     <option selected value="2006-ruduo">2006 Ruduo</option>
 
 Month switches:
 
-    >>> teacher.getLink('December').click()
+    >>> teacher.getLink('September').click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    December</title>
+    September</title>
 
     >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
     <option selected value="2006-ruduo">2006 Ruduo</option>
@@ -249,7 +267,7 @@ Updating should work too:
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    December</title>
+    September</title>
 
     >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
     <option selected value="2006-ruduo">2006 Ruduo</option>
@@ -269,12 +287,15 @@ Lyceum has some very interesting structures in their gradebook, let's
 see if they get represented in the journal properly:
 
     >>> manager.open('http://localhost/sections')
-    >>> manager.getLink('Science (2b) A lygis').click()
+    >>> manager.getLink('2').click()
+    >>> manager.getLink('Science (2b) A lygis', index=1).click()
     >>> manager.getLink('Journal').click()
-    >>> manager.url
-    'http://localhost/sections/science-2%202b%20A%20rmah/journal'
-    >>> manager.getLink('May').url
-    'http://localhost/sections/science-2%202b%20A%20rmah/journal/index.html?month=5'
+
+    >>> from urllib import unquote
+    >>> unquote(manager.url)
+    'http://localhost/sections/science-2 2007-pavasaris 2b A rmah/journal'
+    >>> unquote(manager.getLink('May').url)
+    'http://localhost/sections/science-2 2007-pavasaris 2b A rmah/journal/index.html?month=5'
     >>> manager.getLink('May').click()
     >>> printGradebookTable(manager.contents)
     +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+------------+
@@ -283,12 +304,12 @@ see if they get represented in the journal properly:
     | 2b    | Zombi      | Bran      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |         |            |
     +-------+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+------------+
 
-    >>> manager.getLink('04').url
-    'http://localhost/sections/science-2%202b%20A%20rmah/journal/index.html?event_id=...&month=5'
-    >>> manager.getLink('10').url
-    'http://localhost/sections/science-2%202b%20A%20rmah/journal/index.html?event_id=...&month=5'
-    >>> manager.getLink('14').url
-    'http://localhost/sections/science-2%202b%20A%20rmah/journal/index.html?event_id=...&month=5'
+    >>> unquote(manager.getLink('04').url)
+    'http://localhost/sections/science-2 2007-pavasaris 2b A rmah/journal/index.html?event_id=...&month=5'
+    >>> unquote(manager.getLink('10').url)
+    'http://localhost/sections/science-2 2007-pavasaris 2b A rmah/journal/index.html?event_id=...&month=5'
+    >>> unquote(manager.getLink('14').url)
+    'http://localhost/sections/science-2 2007-pavasaris 2b A rmah/journal/index.html?event_id=...&month=5'
 
     >>> manager.getLink('14').click()
     >>> printGradebookTable(manager.contents)
@@ -312,7 +333,8 @@ see if they get represented in the journal properly:
 
 
     >>> manager.open('http://localhost/sections')
-    >>> manager.getLink('Science (2a, 2d)').click()
+    >>> manager.getLink('2').click()
+    >>> manager.getLink('Science (2a, 2d)', index=1).click()
     >>> manager.getLink('Journal').click()
     >>> manager.getLink('May').click()
     >>> printGradebookTable(manager.contents)
@@ -356,7 +378,7 @@ Let's mark Zomie Brin as if he has skipped some lessons:
     +-------+------------+-----------+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+---------+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+---------+----+---------+------------+
 
     >>> manager.open('http://localhost/sections')
-    >>> manager.getLink('Science (2a)').click()
+    >>> manager.getLink('Science (2a)', index=1).click()
     >>> manager.getLink('Journal').click()
     >>> manager.getLink('May').click()
     >>> printGradebookTable(manager.contents)
@@ -529,6 +551,7 @@ And now let's grade our students for this term:
     +-------+------------+-----------+---------+------------+------------+
 
     >>> teacher.open('http://localhost/persons/jonas/journal.html')
+    >>> teacher.getLink('January').click()
     >>> printGradebookTable(teacher.contents)
     +-----------+----+----+----+---------+
     | Title     | 29 | 30 | 31 | Average |

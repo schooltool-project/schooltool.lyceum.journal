@@ -47,38 +47,38 @@ timetable_csvs = [
     # Monday
     [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
      ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
      ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['8', 'R. Mah', '2b A', '212', '2b', '212', '2c A', '212', '2c B', '212', '2a,d', '212', '2a d', '212', '2d', '212', '', '', '']],
+     ['', 'R. Mah', '2b A', '212', '2b', '212', '2c A', '212', '2c B', '212', '2a,d', '212', '2a d', '212', '2d', '212', '', '', '']],
     # Tuesday
     [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
      ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
      ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
+     ['', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
     # Wednesday
     [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
      ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
      ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
+     ['', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
     # Thursday
     [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
      ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
      ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
+     ['', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']],
     # Friday
     [['', '', '1', '', '2', '', '3', '', '4', '', '5', '', '6', '', '7', '', '8', '', '9'],
      ['', 'History', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['1', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['3', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
+     ['', 'T. Surname', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+     ['', 'B. Duh', '1a', '311', '1a', '311', '1b', '311', '1c', '311', '1d', '311', '1d', '311', '1c', '311', '', '', ''],
      ['', 'Science', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-     ['8', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']]]
+     ['', 'R. Mah', '2b', '212', '2b', '212', '2c', '212', '2c', '212', '2a', '212', '2a', '212', '2d', '212', '', '', '']]]
 
 
 def doctest_CSVStudent():
@@ -172,7 +172,7 @@ def doctest_LyceumGroupsAndStudents():
     """Tests for LyceumGroupsAndStudents.
 
         >>> from lyceum.setup.csvimport import LyceumGroupsAndStudents
-        >>> plugin = LyceumGroupsAndStudents(students_csv, timetable_csvs)
+        >>> plugin = LyceumGroupsAndStudents(students_csv)
         >>> app = {}
         >>> app['groups'] = {}
         >>> app['persons'] = {}
@@ -403,7 +403,7 @@ def doctest_LyceumScheduling_create_sections():
     and associated meetings as values:
 
         >>> from lyceum.setup.csvimport import LyceumScheduling
-        >>> plugin = LyceumScheduling(students_csv, timetable_csvs)
+        >>> plugin = LyceumScheduling('2006-fall', timetable_csvs)
         >>> from zope.app.security.tests.test_directives import pprint
         >>> pprint(sorted(plugin.create_sections().items()))
         [((u'history-1', u'B. Duh', u'1a', ''),
@@ -496,7 +496,7 @@ def doctest_LyceumScheduling_schedule_section():
 
         >>> from lyceum.setup.csvimport import days
         >>> from lyceum.setup.csvimport import LyceumScheduling
-        >>> plugin = LyceumScheduling(students_csv, timetable_csvs)
+        >>> plugin = LyceumScheduling('term1', timetable_csvs)
         >>> from lyceum.setup.csvimport import CSVRoom
         >>> ttschema_id = 'ttschema1'
         >>> app = {}
@@ -583,7 +583,7 @@ def doctest_LyceumScheduling_generate():
     Generate should creates all sections, add members and schedules all of them:
 
         >>> from lyceum.setup.csvimport import LyceumScheduling
-        >>> plugin = LyceumScheduling(students_csv, timetable_csvs)
+        >>> plugin = LyceumScheduling('2006-fall', timetable_csvs)
         >>> def schedule_section(app, sid, level, meetings):
         ...     section = app['sections'][sid]
         ...     section.title = sid
@@ -621,73 +621,73 @@ def doctest_LyceumScheduling_generate():
         >>> plugin.generate(app)
         >>> from zope.testing.doctestunit import pprint
         >>> pprint(sorted(app['sections'].items()))
-        [(u'history-1 1a bduh', <Section history-1 1a bduh
+        [(u'history-1 2006-fall 1a bduh', <Section history-1 2006-fall 1a bduh
               Courses=[History 1]
               Resources=[]
               Members=[1a]
               Instructors=[Teacher Bduh]
               scheduled=True>),
-         (u'history-1 1b bduh', <Section history-1 1b bduh
+         (u'history-1 2006-fall 1b bduh', <Section history-1 2006-fall 1b bduh
               Courses=[History 1]
               Resources=[]
               Members=[1b]
               Instructors=[Teacher Bduh]
               scheduled=True>),
-         (u'history-1 1c bduh', <Section history-1 1c bduh
+         (u'history-1 2006-fall 1c bduh', <Section history-1 2006-fall 1c bduh
               Courses=[History 1]
               Resources=[]
               Members=[1c]
               Instructors=[Teacher Bduh]
               scheduled=True>),
-         (u'history-1 1d bduh', <Section history-1 1d bduh
+         (u'history-1 2006-fall 1d bduh', <Section history-1 2006-fall 1d bduh
               Courses=[History 1]
               Resources=[]
               Members=[1d]
               Instructors=[Teacher Bduh]
               scheduled=True>),
-         (u'science-2 2a rmah', <Section science-2 2a rmah
+         (u'science-2 2006-fall 2a rmah', <Section science-2 2006-fall 2a rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2a]
               Instructors=[Teacher Rmah]
               scheduled=True>),
-         (u'science-2 2ad rmah', <Section science-2 2ad rmah
+         (u'science-2 2006-fall 2ad rmah', <Section science-2 2006-fall 2ad rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2a,
               2d] Instructors=[Teacher
               Rmah] scheduled=True>),
-         (u'science-2 2b A rmah', <Section science-2 2b A rmah
+         (u'science-2 2006-fall 2b A rmah', <Section science-2 2006-fall 2b A rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2b]
               Instructors=[Teacher Rmah]
               scheduled=True>),
-         (u'science-2 2b rmah', <Section science-2 2b rmah
+         (u'science-2 2006-fall 2b rmah', <Section science-2 2006-fall 2b rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2b]
               Instructors=[Teacher Rmah]
               scheduled=True>),
-         (u'science-2 2c A rmah', <Section science-2 2c A rmah
+         (u'science-2 2006-fall 2c A rmah', <Section science-2 2006-fall 2c A rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2c]
               Instructors=[Teacher Rmah]
               scheduled=True>),
-         (u'science-2 2c B rmah', <Section science-2 2c B rmah
+         (u'science-2 2006-fall 2c B rmah', <Section science-2 2006-fall 2c B rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2c]
               Instructors=[Teacher Rmah]
               scheduled=True>),
-         (u'science-2 2c rmah', <Section science-2 2c rmah
+         (u'science-2 2006-fall 2c rmah', <Section science-2 2006-fall 2c rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2c]
               Instructors=[Teacher Rmah]
               scheduled=True>),
-         (u'science-2 2d rmah', <Section science-2 2d rmah
+         (u'science-2 2006-fall 2d rmah', <Section science-2 2006-fall 2d rmah
               Courses=[Science 2]
               Resources=[]
               Members=[2d]
@@ -710,7 +710,7 @@ def doctest_LyceumSchoolTimetables():
     We create our generator, and generate the data:
 
         >>> from lyceum.setup.csvimport import LyceumSchoolTimetables
-        >>> generator = LyceumSchoolTimetables(students_csv, timetable_csvs)
+        >>> generator = LyceumSchoolTimetables('2006-fall', timetable_csvs)
         >>> generator.generate(app)
 
     We get two SchoolTimetables:
@@ -774,7 +774,7 @@ def doctest_LyceumTerms_addTerm():
     Ranges of dates that are holidays for students are stored in the
     holidays attrribute of the generator:
 
-        >>> generator = LyceumTerms(students_csv, timetable_csvs)
+        >>> generator = LyceumTerms()
         >>> generator.holidays = [DateRange(date(2003, 1, 2), date(2003, 1, 2))]
 
     We must pass it the start and end dates, title and an id:
@@ -813,7 +813,7 @@ def doctest_LyceumTerms_addTerm():
     """
 
 
-def doctest_LyceumTerms_generate():
+def doctest_LyceumTerms2006_generate():
     """Tests for Lyceum Term generation.
 
     LyceumTerms generator creates default terms for lyceum schooltool
@@ -824,8 +824,8 @@ def doctest_LyceumTerms_generate():
         ...         self['terms'] = {}
         >>> app = AppStub()
 
-        >>> from lyceum.setup.csvimport import LyceumTerms
-        >>> generator = LyceumTerms(students_csv, timetable_csvs)
+        >>> from lyceum.setup.csvimport import LyceumTerms2006
+        >>> generator = LyceumTerms2006()
         >>> generator.generate(app)
 
     We get two terms created by default:

@@ -4,76 +4,76 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="schooltool">
 
-  <zope:configure package="schooltool.skin">
-
-    <navigationViewlet
+  <navigationViewlet
       name="open-in-ical"
       for="schooltool.app.interfaces.ISchoolToolCalendar"
       manager="schooltool.skin.IActionMenuManager"
       class="schooltool.skin.skin.DisableNavigationViewlet"
-      permission="schooltool.view" />
+      permission="schooltool.view"
+      layer="lyceum.browser.skin.ILyceumLayer" />
 
-    <navigationViewlet
+  <navigationViewlet
       name="schedule-student"
       for="schooltool.person.interfaces.IPerson"
       manager="schooltool.skin.IActionMenuManager"
       class="schooltool.skin.skin.DisableNavigationViewlet"
       permission="schooltool.view"
-      />
+      layer="lyceum.browser.skin.ILyceumLayer" />
 
-    <navigationViewlet
+  <navigationViewlet
       name="schedule-resource"
       for="schooltool.resource.interfaces.IResource"
       manager="schooltool.skin.IActionMenuManager"
       class="schooltool.skin.skin.DisableNavigationViewlet"
       permission="schooltool.view"
-      />
+      layer="lyceum.browser.skin.ILyceumLayer" />
+
+  <zope:configure package="schooltool.skin">
 
     <navigationViewlet
-      name="view-calendar"
-      for="schooltool.group.interfaces.IGroup"
-      manager="schooltool.skin.IActionMenuManager"
-      template="templates/actionsViewlet.pt"
-      permission="schooltool.edit"
-      link="calendar"
-      title="View Calendar"
-      order="10"
-      />
-
-    <!-- Set more restrictive permissions for SchoolTimetable list -->
-    <navigationViewlet
-      name="ttschemas"
-      for="*"
-      manager="schooltool.skin.INavigationManager"
-      template="templates/navigationViewlet.pt"
-      class="schooltool.skin.TopLevelContainerNavigationViewlet"
-      permission="schooltool.edit"
-      link="ttschemas"
-      title="School Timetables"
-      order="80"
-      />
+        name="view-calendar"
+        for="schooltool.group.interfaces.IGroup"
+        manager="schooltool.skin.IActionMenuManager"
+        template="templates/actionsViewlet.pt"
+        permission="schooltool.edit"
+        link="calendar"
+        title="View Calendar"
+        order="10"
+        layer="lyceum.browser.skin.ILyceumLayer" />
 
     <!-- Set more restrictive permissions for SchoolTimetable list -->
     <navigationViewlet
-      name="courses"
-      for="*"
-      manager="schooltool.skin.INavigationManager"
-      template="templates/navigationViewlet.pt"
-      class="schooltool.skin.TopLevelContainerNavigationViewlet"
-      permission="schooltool.edit"
-      link="courses"
-      title="Courses"
-      order="80"
-      />
+        name="ttschemas"
+        for="*"
+        manager="schooltool.skin.INavigationManager"
+        template="templates/navigationViewlet.pt"
+        class="schooltool.skin.TopLevelContainerNavigationViewlet"
+        permission="schooltool.edit"
+        link="ttschemas"
+        title="School Timetables"
+        order="80"
+        layer="lyceum.browser.skin.ILyceumLayer" />
+
+    <!-- Set more restrictive permissions for SchoolTimetable list -->
+    <navigationViewlet
+        name="courses"
+        for="*"
+        manager="schooltool.skin.INavigationManager"
+        template="templates/navigationViewlet.pt"
+        class="schooltool.skin.TopLevelContainerNavigationViewlet"
+        permission="schooltool.edit"
+        link="courses"
+        title="Courses"
+        order="80"
+        layer="lyceum.browser.skin.ILyceumLayer" />
 
   </zope:configure>
 
   <page
       for="schooltool.calendar.interfaces.ICalendar"
       name="daily_calendar_rows"
-      layer="schooltool.skin.ISchoolToolLayer"
+      layer="lyceum.browser.skin.ILyceumLayer"
       class=".calendar.LyceumDailyCalendarRowsView"
-      permission="zope.View"
-      />
+      permission="zope.View" />
 
 </configure>

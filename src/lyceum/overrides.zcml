@@ -7,6 +7,4 @@
   <include package="lyceum.browser" file="overrides.zcml" />
   <include package="lyceum.person" file="overrides.zcml" />
 
-  <browser:defaultSkin name="SchoolTool" />
-
 </configure>

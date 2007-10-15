@@ -131,4 +131,10 @@
        />
   </zope:configure>
 
+  <zope:interface
+      interface=".skin.ILyceumSchoolToolSkin"
+      type="zope.publisher.interfaces.browser.IBrowserSkinType"
+      name="Lyceum"
+      />
+
 </configure>

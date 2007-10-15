@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<configure xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser">
 
   <include package="schooltool.help" file="meta.zcml" />
 
@@ -14,6 +15,6 @@
 
   <includeOverrides package="lyceum" file="overrides.zcml" />
 
-  <include files="plugins/*.zcml" />
+  <browser:defaultSkin name="Lyceum" />
 
 </configure>

@@ -22,11 +22,12 @@ Lyceum skin.
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 from schooltool.skin.skin import ISchoolToolSkin
+from schooltool.basicperson.browser.skin import IBasicPersonLayer
 
 
 class ILyceumLayer(IBrowserRequest):
     """SchoolTool layer."""
 
 
-class ILyceumSchoolToolSkin(ILyceumLayer, ISchoolToolSkin):
+class ILyceumSchoolToolSkin(ILyceumLayer, IBasicPersonLayer, ISchoolToolSkin):
     """The Lyceum skin"""

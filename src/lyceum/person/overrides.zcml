@@ -33,6 +33,4 @@
 
   </configure>
 
-  <include package="schooltool.basicperson.browser" file="overrides.zcml" />
-
 </configure>

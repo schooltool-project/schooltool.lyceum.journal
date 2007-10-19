@@ -464,15 +464,15 @@ class LyceumTerms2007(LyceumTerms):
 
     def __init__(self):
         self.holidays = []
-        self.holidays.append(DateRange(date(2007, 10, 27), date(2007, 11, 4)))
-        self.holidays.append(DateRange(date(2007, 12, 24), date(2008, 1, 7)))
-        self.holidays.append(DateRange(date(2008, 4, 2), date(2008, 4, 9)))
+        self.holidays.append(DateRange(date(2007, 10, 29), date(2007, 11, 2)))
+        self.holidays.append(DateRange(date(2007, 12, 24), date(2008, 1, 4)))
+        self.holidays.append(DateRange(date(2008, 3, 17), date(2008, 3, 24)))
 
     def generate(self, app):
         first = date(2007, 9, 1)
-        last = date(2008, 1, 26)
+        last = date(2008, 1, 27)
         self.addTerm(app, "2007 Ruduo", "2007-ruduo", first, last)
 
-        first = date(2008, 1, 29)
-        last = date(2008, 6, 15)
+        first = date(2008, 1, 28)
+        last = date(2008, 6, 20)
         self.addTerm(app, "2008 Pavasaris", "2008-pavasaris", first, last)

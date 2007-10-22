@@ -564,9 +564,9 @@ def doctest_LyceumScheduling_schedule_section():
         >>> meet2 = (2, 2, ttschema_id, "201")
         >>> meet3 = (4, 2, ttschema_id, "")
         >>> plugin.schedule_section(app, sid, "A", [meet1, meet2, meet3])
-        Adding TimetableActivity('History (1a, 1b) A lygis', <Section title=History (1a, 1b) A lygis>, None, ('Room 201',)) on Monday - 1 pamoka
-        Adding TimetableActivity('History (1a, 1b) A lygis', <Section title=History (1a, 1b) A lygis>, None, ('Room 201',)) on Tuesday - 2 pamoka
-        Adding TimetableActivity('History (1a, 1b) A lygis', <Section title=History (1a, 1b) A lygis>, None, ()) on Thursday - 2 pamoka
+        Adding TimetableActivity('History (1a, 1b) A lygis', <Section title=History (1a, 1b) A lygis>, None, ('Room 201',)) on Monday - 1
+        Adding TimetableActivity('History (1a, 1b) A lygis', <Section title=History (1a, 1b) A lygis>, None, ('Room 201',)) on Tuesday - 2
+        Adding TimetableActivity('History (1a, 1b) A lygis', <Section title=History (1a, 1b) A lygis>, None, ()) on Thursday - 2
 
     Group members were added to sections, groups themselves were
     removed from there:
@@ -727,8 +727,8 @@ def doctest_LyceumSchoolTimetables():
         >>> timetable.day_ids
         ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
         >>> timetable.days['Monday'].periods
-        ('1 pamoka', '2 pamoka', '3 pamoka', '4 pamoka', '5 pamoka',
-         '6 pamoka', '7 pamoka', '8 pamoka', '9 pamoka', '10 pamoka')
+        ('1', '2', '3', '4', '5',
+         '6', '7', '8', '9', '10')
 
     The model is weekly, with all the days having the same DayTemplate:
 

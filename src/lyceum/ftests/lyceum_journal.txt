@@ -427,23 +427,23 @@ Let's mark Zomie Brin as if he has skipped some lessons:
 
     >>> manager.getLink('02').click()
     >>> printGradebookTable(manager.contents)
-    +------------+-----------+----------+----------+
-    | First Name | Last Name | 5 pamoka | 6 pamoka |
-    +------------+-----------+----------+----------+
-    | Zomie      | Brin      | n        | n        |
-    | Explained: |           | [ ]      | [ ]      |
-    +------------+-----------+----------+----------+
+    +------------+-----------+-----+-----+
+    | First Name | Last Name | 5   | 6   |
+    +------------+-----------+-----+-----+
+    | Zomie      | Brin      | n   | n   |
+    | Explained: |           | [ ] | [ ] |
+    +------------+-----------+-----+-----+
 
     >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[1]).value = ["checked"]
     >>> manager.getControl('Update').click()
     >>> printGradebookTable(manager.contents)
-    +------------+-----------+----------+----------+
-    | First Name | Last Name | 5 pamoka | 6 pamoka |
-    +------------+-----------+----------+----------+
-    | Zomie      | Brin      | n        | n        |
-    | Explained: |           | [ ]      | [V]      |
-    +------------+-----------+----------+----------+
+    +------------+-----------+-----+-----+
+    | First Name | Last Name | 5   | 6   |
+    +------------+-----------+-----+-----+
+    | Zomie      | Brin      | n   | n   |
+    | Explained: |           | [ ] | [V] |
+    +------------+-----------+-----+-----+
 
     >>> manager.getLink('Show the whole month').click()
     >>> printGradebookTable(manager.contents)
@@ -467,35 +467,35 @@ Let's mark Zomie Brin as if he has skipped some lessons:
 
     >>> manager.getLink('02').click()
     >>> printGradebookTable(manager.contents)
-    +------------+-----------+----------+----------+
-    | First Name | Last Name | 5 pamoka | 6 pamoka |
-    +------------+-----------+----------+----------+
-    | Zomie      | Brin      | n        | n        |
-    | Explained: |           | [ ]      | [V]      |
-    +------------+-----------+----------+----------+
+    +------------+-----------+-----+-----+
+    | First Name | Last Name | 5   | 6   |
+    +------------+-----------+-----+-----+
+    | Zomie      | Brin      | n   | n   |
+    | Explained: |           | [ ] | [V] |
+    +------------+-----------+-----+-----+
 
     >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[0]).value = ["checked"]
     >>> manager.getControl(name=cells[1]).value = []
     >>> manager.getControl('Update').click()
     >>> printGradebookTable(manager.contents)
-    +------------+-----------+----------+----------+
-    | First Name | Last Name | 5 pamoka | 6 pamoka |
-    +------------+-----------+----------+----------+
-    | Zomie      | Brin      | n        | n        |
-    | Explained: |           | [V]      | [ ]      |
-    +------------+-----------+----------+----------+
+    +------------+-----------+-----+-----+
+    | First Name | Last Name | 5   | 6   |
+    +------------+-----------+-----+-----+
+    | Zomie      | Brin      | n   | n   |
+    | Explained: |           | [V] | [ ] |
+    +------------+-----------+-----+-----+
 
     >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="checkbox"]/@name', manager.contents)
     >>> manager.getControl(name=cells[1]).value = ["checked"]
     >>> manager.getControl('Update').click()
     >>> printGradebookTable(manager.contents)
-    +------------+-----------+----------+----------+
-    | First Name | Last Name | 5 pamoka | 6 pamoka |
-    +------------+-----------+----------+----------+
-    | Zomie      | Brin      | n        | n        |
-    | Explained: |           | [V]      | [V]      |
-    +------------+-----------+----------+----------+
+    +------------+-----------+-----+-----+
+    | First Name | Last Name | 5   | 6   |
+    +------------+-----------+-----+-----+
+    | Zomie      | Brin      | n   | n   |
+    | Explained: |           | [V] | [V] |
+    +------------+-----------+-----+-----+
 
     >>> manager.getLink('Show the whole month').click()
     >>> printGradebookTable(manager.contents)

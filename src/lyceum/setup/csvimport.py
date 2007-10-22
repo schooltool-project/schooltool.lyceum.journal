@@ -339,7 +339,7 @@ class LyceumScheduling(CSVImportPlugin):
                 resources = [removeSecurityProxy(app['resources'][room])]
             act = TimetableActivity(title=activity_title, owner=sob,
                                     resources=resources)
-            timetable[day_id].add('%d pamoka' % period, act,
+            timetable[day_id].add('%d' % period, act,
                                   send_events=False)
         ITimetables(sob).timetables[key] = timetable
 
@@ -398,7 +398,7 @@ class LyceumSchoolTimetables(CSVImportPlugin):
         return template
 
     def generateSchoolTimetable(self, app, title, id, lesson_starts):
-        periods = ['%d pamoka' % n for n in range(1, 11)]
+        periods = ['%d' % n for n in range(1, 11)]
         template = self.generateSchoolDayTemplate(lesson_starts)
         model = WeeklyTimetableModel(day_templates={None: template})
         ttschema = TimetableSchema(days, title=title, model=model)

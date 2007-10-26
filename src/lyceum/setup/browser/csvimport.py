@@ -28,7 +28,8 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
 from lyceum.setup.csvimport import LyceumGroupsAndStudents
 from lyceum.setup.csvimport import (LyceumTeachers, LyceumSchoolTimetables,
-                                    LyceumCourses, LyceumResources, LyceumScheduling,
+                                    LyceumCourses, LyceumResources,
+                                    LyceumScheduling, LyceumUpdateScheduling,
                                     LyceumTerms2006, LyceumTerms2007)
 
 
@@ -59,6 +60,14 @@ class LyceumCSVImportView(BrowserView):
 
             for generator in generators:
                 generator.generate(self.context)
+
+        if 'UPDATE_TIMETABLES' in self.request:
+            term_id = self.request.get('TERM')
+            timetables = []
+            for weekday in range(5):
+                timetables.append(list(csv.reader(self.request['weekday%s_csv' % weekday].readlines())))
+            generator = LyceumUpdateScheduling(term_id, timetables)
+            generator.generate(self.context)
 
         if 'GENERATE_TERMS_2006' in self.request:
             generator = LyceumTerms2006()

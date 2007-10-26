@@ -31,7 +31,7 @@
       </fieldset>
 
       <fieldset>
-        <legend i18n:translate="">Titmetables</legend>
+        <legend i18n:translate="">Timetables</legend>
 
         <tal:if condition="not:view/terms">
 
@@ -130,6 +130,8 @@
           <div class="controls">
             <input type="submit" id="IMPORT_TIMETABLES" name="IMPORT_TIMETABLES" value="Import" class="button-ok"
                    i18n:attributes="value submit-button;" />
+            <input type="submit" id="UPDATE_TIMETABLES" name="UPDATE_TIMETABLES" value="Update" class="button-ok"
+                   i18n:attributes="value update-button;" />
           </div>
         </tal:if>
       </fieldset>

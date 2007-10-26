@@ -28,6 +28,7 @@ from zope.exceptions.interfaces import UserError
 from zope.app.container.interfaces import INameChooser
 from zope.annotation.interfaces import IAnnotations
 
+from schooltool.calendar.utils import parse_date
 from schooltool.common import DateRange
 from schooltool.course.course import Course
 from schooltool.course.section import Section
@@ -75,13 +76,16 @@ class CSVImportPlugin(object):
 class CSVStudent(object):
     """An intermediate object that stores persons information."""
 
-    def __init__(self, name, surname, group):
+    def __init__(self, name, surname, group, birth_date=None):
         self.name = name.capitalize()
         self.surname = surname.capitalize()
         self.title = u"%s %s" % (self.surname, self.name)
         user_name = u"%s-%s" % (name.lower(), surname.lower())
         self.user_name = user_name.translate(lit_map)
         self.group_id = group
+        self.birth_date = None
+        if birth_date:
+            self.birth_date = parse_date(birth_date)
 
     def addToApp(self, app):
         """Add a person to a container"""
@@ -96,6 +100,7 @@ class CSVStudent(object):
         group = removeSecurityProxy(app['groups'][self.group_id])
         group.members.add(person)
         person.gradeclass = self.group_id
+        person.birth_date = self.birth_date
 
         annotations = IAnnotations(person)
         annotations[CalendarSTOverlayView.SHOW_TIMETABLE_KEY] = False
@@ -106,9 +111,6 @@ class LyceumGroupsAndStudents(object):
 
     Add person to groups they belong to.
     """
-
-    dependencies = ()
-    name = "lyceum_groups_students"
 
     group_factory = Group
     student_factory = CSVStudent
@@ -126,8 +128,12 @@ class LyceumGroupsAndStudents(object):
         for id in group_ids:
             app['groups'][id] = self.group_factory(title=id)
 
-        for group_id, name, surname in reversed(self.students_csv):
-            self.student_factory(name, surname, group_id).addToApp(app)
+        for info in reversed(self.students_csv):
+            group_id, name, surname = info[:3]
+            birth_date = ''
+            if len(info) > 3:
+                birth_date = info[4]
+            self.student_factory(name, surname, group_id, birth_date).addToApp(app)
 
 
 class CSVTeacher(CSVStudent):
@@ -139,6 +145,7 @@ class CSVTeacher(CSVStudent):
         user_name = self.name[0].lower() + self.surname.strip().lower()
         self.user_name = user_name.translate(lit_map)
         self.group_id = "teachers"
+        self.birth_date = None
 
 
 class LyceumTeachers(CSVImportPlugin):
@@ -147,8 +154,6 @@ class LyceumTeachers(CSVImportPlugin):
     And adds them to the teacher group.
     """
 
-    dependencies = ()
-    name = "lyceum_teachers"
     teacher_factory = CSVTeacher
 
     def generate(self, app):
@@ -170,7 +175,11 @@ def make_course(cell, course):
     else:
         level = cell[:3]
         if len(cell) > 3:
-             level += ' ' + cell[-2:]
+            type = cell[-2:]
+            if type == 'en':
+                level += ' en'
+            elif type == 'Ab':
+                level += ' Ab Initio'
     return "%s %s" % (course, level)
 
 
@@ -188,8 +197,6 @@ class CSVCourse(object):
 class LyceumCourses(CSVImportPlugin):
     """Creates course objects and add them to the course container."""
 
-    dependencies = ()
-    name = "lyceum_courses"
     course_factory = CSVCourse
 
     def generate(self, app):
@@ -216,7 +223,7 @@ class LyceumCourses(CSVImportPlugin):
 def parse_groups(groups):
     if groups[0] in '1234':
         level = groups[0]
-        if groups[-1] in 'AB':
+        if groups[-1] in 'AB4':
             segments = groups[1:-1].strip()
         else:
             segments = groups[1:].strip()
@@ -229,7 +236,7 @@ def parse_groups(groups):
 def normalize_groups(groups):
     if groups[0] in '1234':
         level = groups[0]
-        if groups[-1] in 'AB':
+        if groups[-1] in 'AB4':
             segments = groups[1:-1].strip()
         else:
             segments = groups[1:].strip()
@@ -241,7 +248,17 @@ def normalize_groups(groups):
 
 
 def parse_level(groups):
-    if groups[-1] in 'AB':
+    if groups.lower().startswith('tb'):
+        lgroups = groups.lower()
+        if (lgroups.endswith('s') or
+            lgroups.endswith('sl')):
+            return 'SL'
+        elif (lgroups.endswith('h') or
+              lgroups.endswith('hl')):
+            return 'HL'
+        elif lgroups.endswith('ab'):
+            return None
+    if groups[-1] in 'AB4':
         return groups[-1]
 
 
@@ -259,9 +276,6 @@ class CSVRoom(object):
 
 
 class LyceumResources(CSVImportPlugin):
-
-    dependencies = ()
-    name = "lyceum_resources"
 
     def generate(self, app):
         rooms = []
@@ -281,10 +295,6 @@ days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 
 
 class LyceumScheduling(CSVImportPlugin):
-
-    dependencies = ("lyceum_groups_students", "lyceum_teachers",
-                    "lyceum_courses", "lyceum_resources")
-    name = "lyceum_scheduling"
 
     def create_sections(self):
         """Generates a dict that contains all sections and their meetings.
@@ -386,6 +396,99 @@ class LyceumScheduling(CSVImportPlugin):
 
         for (sid, level), meetings in unscheduled_sections.items():
             self.schedule_section(app, sid, level, meetings)
+
+
+class LyceumUpdateScheduling(LyceumScheduling):
+
+    error = ""
+    status = ""
+
+    def get_section_meetings(self, app, sob, ttschema_id):
+        timetables = ITimetables(sob).timetables
+        timetable = timetables['%s.%s' % (self.term_id, ttschema_id)]
+
+        meetings = []
+        for day, period, activity in timetable.activities():
+            meeting = []
+            meeting.append(days.index(day) + 1)
+            meeting.append(list(timetable.days[day].periods).index(period) + 1)
+            meeting.append(ttschema_id)
+
+            if activity.resources:
+                meeting.append(activity.resources[0].__name__)
+            else:
+                meeting.append("")
+            meetings.append(tuple(meeting))
+        return meetings
+
+    def maybe_schedule_section(self, app, sid, level, meetings):
+        sob = removeSecurityProxy(app['sections'][sid])
+        ttschema_id = meetings[0][2]
+        ttschema = removeSecurityProxy(app['ttschemas'][ttschema_id])
+
+        term = app['terms'][self.term_id]
+        key = '%s.%s' % (self.term_id, ttschema_id)
+
+        old_meetings = self.get_section_meetings(app, sob, ttschema_id)
+
+        meetings_to_remove = set(old_meetings) - set(meetings)
+        meetings_to_add = set(meetings) - set(old_meetings)
+
+        activity_title = sob.title
+        timetable = ITimetables(sob).timetables[key]
+        for id, period, _, room in meetings_to_remove:
+            day_id = days[id-1]
+            period_id = '%d' % period
+            activity = list(timetable[day_id][period_id])[0]
+            timetable[day_id].remove(period_id, activity)
+
+        for id, period, _, room in meetings_to_add:
+            day_id = days[id-1]
+            period_id = '%d' % period
+            resources = []
+            if room != '':
+                resources = [removeSecurityProxy(app['resources'][room])]
+            act = TimetableActivity(title=activity_title, owner=sob,
+                                    resources=resources)
+            timetable[day_id].add(period_id, act,
+                                  send_events=True)
+
+        return meetings_to_remove, meetings_to_add
+
+    def generate(self, app):
+        sections = self.create_sections()
+        # schedule the section
+        unscheduled_sections = {}
+        for section, meetings in sections.items():
+            course_id, teacher, groups, level = section
+            teacher = CSVTeacher(teacher)
+            current_room = None
+            grp = parse_groups(groups)[0]
+            if grp[0] in '12':
+                ttschema = 'i-ii-kursui'
+            else:
+                ttschema = 'iii-iv-kursui'
+
+            if level:
+                sid = (course_id + ' ' + self.term_id + ' ' + groups + ' ' + level + ' ' + teacher.user_name).strip()
+            else:
+                sid = (course_id + ' ' + self.term_id + ' ' + groups + ' ' + teacher.user_name).strip()
+
+            for day, period, room in sorted(meetings, key=lambda meeting: meeting[2].id):
+                meeting = (day, period, ttschema, room.id)
+                if (sid, level) not in unscheduled_sections:
+                    unscheduled_sections[sid, level] = [meeting]
+                else:
+                    unscheduled_sections[sid, level].append(meeting)
+                if sid not in app['sections']:
+                    self.error = "No sections with id ${section_id} were found!"
+                    return
+
+        self.meetings_changed = {}
+        for (sid, level), meetings in unscheduled_sections.items():
+            removed, added = self.maybe_schedule_section(app, sid, level, meetings)
+            if removed or added:
+                meetings_changed[sid] = removed, added
 
 
 class LyceumSchoolTimetables(CSVImportPlugin):

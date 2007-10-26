@@ -199,15 +199,15 @@ def doctest_LyceumGroupsAndStudents():
 
     As well as persons:
 
-        >>> app['persons']
-        {(u'Zobie', u'Brai', u'1a'): 'A Student',
-         (u'Zmbie', u'Bran', u'1c'): 'A Student',
-         (u'Zombe', u'Bain', u'1b'): 'A Student',
-         (u'Zomie', u'Brin', u'2a'): 'A Student',
-         (u'Zobie', u'Bain', u'1d'): 'A Student',
-         (u'Zombe', u'Bran', u'2d'): 'A Student',
-         (u'Zombi', u'Bran', u'2b'): 'A Student',
-         (u'Zombie', u'Brain', u'2c'): 'A Student'}
+        >>> sorted(app['persons'].items())
+        [((u'Zmbie', u'Bran', u'1c', ''), 'A Student'),
+         ((u'Zobie', u'Bain', u'1d', ''), 'A Student'),
+         ((u'Zobie', u'Brai', u'1a', ''), 'A Student'),
+         ((u'Zombe', u'Bain', u'1b', ''), 'A Student'),
+         ((u'Zombe', u'Bran', u'2d', ''), 'A Student'),
+         ((u'Zombi', u'Bran', u'2b', ''), 'A Student'),
+         ((u'Zombie', u'Brain', u'2c', ''), 'A Student'),
+         ((u'Zomie', u'Brin', u'2a', ''), 'A Student')]
 
     """
 
@@ -283,6 +283,36 @@ def doctest_make_course():
         >>> make_course('tb2', 'English')
         'English tb2'
 
+        >>> make_course('tb1 sl', 'History')
+        'History tb1'
+
+        >>> make_course('tb1Ab', 'French')
+        'French tb1 Ab Initio'
+
+        >>> make_course('tb1B', 'Physics')
+        'Physics tb1'
+
+        >>> make_course('tb1H', 'Math')
+        'Math tb1'
+
+        >>> make_course('tb1sl', 'History')
+        'History tb1'
+
+        >>> make_course('tb2 H', 'Biology')
+        'Biology tb2'
+
+        >>> make_course('tb2AB', 'French')
+        'French tb2'
+
+        >>> make_course('tb2HL', 'Physics')
+        'Physics tb2'
+
+        >>> make_course('tb2S', 'Math')
+        'Math tb2'
+
+        >>> make_course('3bd 4', 'French')
+        'French 3'
+
     """
 
 
@@ -300,6 +330,36 @@ def doctest_parse_level():
 
         >>> parse_level('2abd B')
         'B'
+
+        >>> parse_level('tb1 sl')
+        'SL'
+
+        >>> parse_level('tb1Ab') is None
+        True
+
+        >>> parse_level('tb1B')
+        'B'
+
+        >>> parse_level('tb1H')
+        'HL'
+
+        >>> parse_level('tb1sl')
+        'SL'
+
+        >>> parse_level('tb2 H')
+        'HL'
+
+        >>> parse_level('tb2AB') is None
+        True
+
+        >>> parse_level('tb2HL')
+        'HL'
+
+        >>> parse_level('tb2S')
+        'SL'
+
+        >>> parse_level('3bd 4')
+        '4'
 
     """
 
@@ -325,6 +385,36 @@ def doctest_normalize_groups():
 
         >>> normalize_groups('2a b')
         '2ab'
+
+        >>> normalize_groups('tb1 sl')
+        'TB1'
+
+        >>> normalize_groups('tb1Ab')
+        'TB1'
+
+        >>> normalize_groups('tb1B')
+        'TB1'
+
+        >>> normalize_groups('tb1H')
+        'TB1'
+
+        >>> normalize_groups('tb1sl')
+        'TB1'
+
+        >>> normalize_groups('tb2 H')
+        'TB2'
+
+        >>> normalize_groups('tb2AB')
+        'TB2'
+
+        >>> normalize_groups('tb2HL')
+        'TB2'
+
+        >>> normalize_groups('tb2S')
+        'TB2'
+
+        >>> normalize_groups('3bd 4')
+        '3bd'
 
     """
 
@@ -392,6 +482,26 @@ def doctest_parse_groups():
         ['1a', '1b']
         >>> parse_groups("Tb1")
         ['TB1']
+        >>> parse_groups('tb1 sl')
+        ['TB1']
+        >>> parse_groups('tb1Ab')
+        ['TB1']
+        >>> parse_groups('tb1B')
+        ['TB1']
+        >>> parse_groups('tb1H')
+        ['TB1']
+        >>> parse_groups('tb1sl')
+        ['TB1']
+        >>> parse_groups('tb2 H')
+        ['TB2']
+        >>> parse_groups('tb2AB')
+        ['TB2']
+        >>> parse_groups('tb2HL')
+        ['TB2']
+        >>> parse_groups('tb2S')
+        ['TB2']
+        >>> parse_groups('3bd 4')
+        ['3b', '3d']
 
     """
 

@@ -132,7 +132,7 @@ class LyceumGroupsAndStudents(object):
             group_id, name, surname = info[:3]
             birth_date = ''
             if len(info) > 3:
-                birth_date = info[4]
+                birth_date = info[3]
             self.student_factory(name, surname, group_id, birth_date).addToApp(app)
 
 

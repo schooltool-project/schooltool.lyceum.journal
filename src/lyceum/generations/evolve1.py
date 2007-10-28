@@ -20,8 +20,6 @@
 Upgrade SchoolTool to generation 1.
 
 Install catalog for lyceum persons and reindex them.
-
-$Id$
 """
 from zope.app.generations.utility import findObjectsProviding
 from zope.app.publication.zopepublication import ZopePublication

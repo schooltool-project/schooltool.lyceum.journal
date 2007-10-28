@@ -18,9 +18,6 @@
 #
 """
 Interfaces for Lyceum specific code.
-
-$Id$
-
 """
 from zope.interface import Interface
 from zope.interface import Attribute

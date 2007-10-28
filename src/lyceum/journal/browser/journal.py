@@ -18,9 +18,6 @@
 #
 """
 Lyceum journal views.
-
-$Id$
-
 """
 import pytz
 import urllib

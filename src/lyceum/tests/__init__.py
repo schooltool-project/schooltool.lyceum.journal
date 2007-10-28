@@ -18,8 +18,6 @@
 #
 """
 Helper function for tests.
-
-$Id$
 """
 from cStringIO import StringIO
 import os

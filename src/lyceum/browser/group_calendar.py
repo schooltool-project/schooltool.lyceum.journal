@@ -18,8 +18,6 @@
 #
 """
 Merged calendar for groups.
-
-$Id$
 """
 from zope.security.proxy import removeSecurityProxy
 

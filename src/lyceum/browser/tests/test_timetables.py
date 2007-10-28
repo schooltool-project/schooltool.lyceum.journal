@@ -18,8 +18,6 @@
 #
 """
 Unit tests for group timetable views.
-
-$Id$
 """
 import unittest
 from pytz import utc

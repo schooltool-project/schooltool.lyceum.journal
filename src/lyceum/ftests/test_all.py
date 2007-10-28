@@ -18,8 +18,6 @@
 #
 """
 Functional tests for schooltool.lyceum.
-
-$Id$
 """
 
 import unittest

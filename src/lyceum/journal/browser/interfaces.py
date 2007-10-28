@@ -18,9 +18,6 @@
 #
 """
 Lyceum journal interfaces.
-
-$Id$
-
 """
 from zope.interface import Interface
 

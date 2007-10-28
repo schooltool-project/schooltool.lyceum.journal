@@ -18,8 +18,6 @@
 #
 """
 Unit tests for schooltool.generations.evolve3
-
-$Id$
 """
 
 import unittest

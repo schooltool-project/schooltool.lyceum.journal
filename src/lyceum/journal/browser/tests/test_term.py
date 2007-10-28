@@ -19,8 +19,6 @@
 #
 """
 Unit tests for lyceum journal.
-
-$Id$
 """
 import unittest
 from pytz import timezone

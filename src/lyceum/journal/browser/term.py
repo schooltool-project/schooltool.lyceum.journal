@@ -18,9 +18,6 @@
 #
 """
 Lyceum journal views.
-
-$Id$
-
 """
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.component import getMultiAdapter

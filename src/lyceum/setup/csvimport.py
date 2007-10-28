@@ -18,8 +18,6 @@
 #
 """
 Lyceum person csv import functionality.
-
-$Id$
 """
 from datetime import time, timedelta, date
 

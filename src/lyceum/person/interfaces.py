@@ -18,8 +18,6 @@
 #
 """
 Lyceum person interfaces.
-
-$Id$
 """
 from schooltool.basicperson.interfaces import IBasicPerson
 

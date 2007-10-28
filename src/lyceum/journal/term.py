@@ -18,9 +18,6 @@
 #
 """
 Lyceum term grade content classes.
-
-$Id$
-
 """
 from BTrees.OOBTree import OOBTree
 from persistent import Persistent

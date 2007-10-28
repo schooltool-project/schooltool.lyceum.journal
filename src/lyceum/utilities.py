@@ -18,9 +18,6 @@
 #
 """
 Utilities for Lyceum specific code.
-
-$Id$
-
 """
 from zope.interface import directlyProvidedBy
 

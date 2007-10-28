@@ -18,8 +18,6 @@
 #
 """
 Lyceum person csv import views.
-
-$Id$
 """
 import csv
 

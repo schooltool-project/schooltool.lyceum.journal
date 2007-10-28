@@ -18,8 +18,6 @@
 #
 """
 Unit tests for lyceum person.
-
-$Id$
 """
 import unittest
 

@@ -18,8 +18,6 @@
 #
 """
 Unit tests for lyceum calendaring views.
-
-$Id$
 """
 import unittest
 from pytz import utc

@@ -18,8 +18,6 @@
 #
 """
 Lyceum specific calendar views.
-
-$Id$
 """
 from schooltool.app.browser.cal import DailyCalendarRowsView
 from schooltool.timetable.interfaces import ITimetableCalendarEvent

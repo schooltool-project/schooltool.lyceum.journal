@@ -18,8 +18,6 @@
 #
 """
 Unit tests for lyceum csv import.
-
-$Id$
 """
 __docformat__ = 'reStructuredText'
 

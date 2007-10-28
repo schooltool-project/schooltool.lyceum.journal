@@ -1,6 +1,6 @@
 #
 # SchoolTool - common information systems platform for school administration
-# Copyright (c) 2005 Shuttleworth Foundation
+# Copyright (c) 2007 Shuttleworth Foundation
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,12 +17,20 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-Generations for database version upgrades.
+Upgrade SchoolTool to generation 4.
+
+Add lesson description storage to journal.
 """
+from BTrees.OOBTree import OOBTree
 
-from zope.app.generations.generations import SchemaManager
+from zope.app.generations.utility import findObjectsProviding
+from zope.app.publication.zopepublication import ZopePublication
 
-schemaManager = SchemaManager(
-    minimum_generation=4,
-    generation=4,
-    package_name='lyceum.generations')
+from schooltool.app.interfaces import ISchoolToolApplication
+
+
+def evolve(context):
+    root = context.connection.root()[ZopePublication.root_name]
+    for app in findObjectsProviding(root, ISchoolToolApplication):
+        for sjd in app['lyceum.journal'].values():
+            sjd.__description_data__ = OOBTree()

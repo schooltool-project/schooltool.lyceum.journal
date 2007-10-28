@@ -43,6 +43,12 @@ class ISectionJournalData(Interface):
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
+    def setDescription(meeting, description):
+        """Set the description of the meeting."""
+
+    def getDescription(meeting):
+        """Retrieve the description of a meeting."""
+
     def recordedMeetings(person):
         """Returns a list of recorded grades/absences for a person."""
 
@@ -63,6 +69,12 @@ class ISectionJournal(Interface):
 
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
+
+    def setDescription(meeting, description):
+        """Set the description of the meeting."""
+
+    def getDescription(meeting):
+        """Retrieve the description of a meeting."""
 
     def meetings():
         """List all possible meetings for this section."""

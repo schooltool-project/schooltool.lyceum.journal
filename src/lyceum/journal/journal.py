@@ -54,6 +54,7 @@ class SectionJournalData(Persistent):
         self.__parent__ = None
         self.__name__ = None
         self.__grade_data__ = OOBTree()
+        self.__description_data__ = OOBTree()
         self.__attendance_data__ = OOBTree()
 
     @property
@@ -85,6 +86,12 @@ class SectionJournalData(Persistent):
         if not attendance:
             return default
         return attendance[0]
+
+    def getDescription(self, meeting):
+        return self.__description_data__.get(meeting.unique_id)
+
+    def setDescription(self, meeting, description):
+        self.__description_data__[meeting.unique_id] = description
 
     def recordedMeetingIds(self, person):
         for person_name, meeting_id in self.__grade_data__.keys():
@@ -127,6 +134,14 @@ class SectionJournal(object):
     def getAbsence(self, person, meeting, default=False):
         section_journal_data = ISectionJournalData(meeting.owner)
         return section_journal_data.getAbsence(person, meeting, default)
+
+    def setDescription(self, meeting, description):
+        section_journal_data = ISectionJournalData(meeting.owner)
+        return section_journal_data.setDescription(description)
+
+    def getDescription(self, meeting):
+        section_journal_data = ISectionJournalData(meeting.owner)
+        return section_journal_data.getDescription()
 
     @Lazy
     def members(self):

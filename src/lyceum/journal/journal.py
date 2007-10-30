@@ -22,6 +22,7 @@ Lyceum journal content classes.
 from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
+from zope.security.proxy import removeSecurityProxy
 from zope.app.container.btree import BTreeContainer
 from zope.cachedescriptors.property import Lazy
 from zope.component import adapts
@@ -160,6 +161,7 @@ class SectionJournal(object):
         sections = set()
         sections.add(self.section)
         for section in self.student_sections(self.members):
+            section = removeSecurityProxy(section)
             for course in section.courses:
                 if course in courses:
                     sections.add(section)

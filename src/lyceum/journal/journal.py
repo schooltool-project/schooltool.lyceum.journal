@@ -156,16 +156,20 @@ class SectionJournal(object):
 
     @Lazy
     def adjacent_sections(self):
-        """Sections in the same course that share members with this section."""
+        """Sections in the same course that share members and at least one
+        teacher with this section."""
         courses = self.section.courses
+        instructors = self.section.instructors
         sections = set()
         sections.add(self.section)
         for section in self.student_sections(self.members):
             section = removeSecurityProxy(section)
             for course in section.courses:
                 if course in courses:
-                    sections.add(section)
-                    break
+                    for instructor in section.instructors:
+                        if instructor in instructors:
+                            sections.add(section)
+                            break
         return sections
 
     @Lazy

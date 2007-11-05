@@ -220,6 +220,7 @@ def doctest_SectionJournal_adjacent_sections():
         ...         return cmp(self.name, other.name)
         ...     courses = []
         ...     members = []
+        ...     instructors = []
         >>> section = SectionStub("Math 1a")
         >>> section.courses = ["math"]
         >>> sj = SectionJournal(section)
@@ -232,7 +233,9 @@ def doctest_SectionJournal_adjacent_sections():
         ...     groups = []
         >>> john = PersonStub()
         >>> pete = PersonStub()
+        >>> teacher = PersonStub()
         >>> section.members = [john, pete, "something-else"]
+        >>> section.instructors = [teacher]
         >>> sj = SectionJournal(section)
         >>> sorted(sj.adjacent_sections)
         [<Section Math 1a>]
@@ -245,6 +248,7 @@ def doctest_SectionJournal_adjacent_sections():
 
         >>> sj = SectionJournal(section)
         >>> section2.courses = ["math"]
+        >>> section2.instructors = [teacher]
         >>> sorted(sj.adjacent_sections)
         [<Section Math 1a>, <Section Math 1a A>]
 
@@ -257,6 +261,7 @@ def doctest_SectionJournal_adjacent_sections():
         >>> sj = SectionJournal(section)
         >>> section3 = SectionStub("Math 1a B")
         >>> section3.courses = ["math"]
+        >>> section3.instructors = [teacher]
         >>> pete.groups = [section3]
         >>> sorted(sj.adjacent_sections)
         [<Section Math 1a>, <Section Math 1a A>, <Section Math 1a B>]

@@ -135,11 +135,11 @@ class SectionJournal(object):
 
     def setDescription(self, meeting, description):
         section_journal_data = ISectionJournalData(meeting.owner)
-        return section_journal_data.setDescription(description)
+        return section_journal_data.setDescription(meeting, description)
 
     def getDescription(self, meeting):
         section_journal_data = ISectionJournalData(meeting.owner)
-        return section_journal_data.getDescription()
+        return section_journal_data.getDescription(meeting)
 
     @Lazy
     def members(self):

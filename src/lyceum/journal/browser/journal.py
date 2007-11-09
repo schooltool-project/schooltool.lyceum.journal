@@ -248,7 +248,8 @@ class LyceumSectionJournalView(object):
                                            ITableFormatter)
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,
-                             columns_before=[GradeClassColumn(title=_('Grade'), name='grade')],
+                             columns_before=[GradeClassColumn(title=_('Class'),
+                                                              name='class')],
                              columns_after=self.gradeColumns(),
                              table_formatter=self.formatterFactory,
                              batch_size=0)

@@ -81,8 +81,8 @@ class TermView(LyceumSectionJournalView):
         self.gradebook = getMultiAdapter((person_container, self.request),
                                          ITableFormatter)
         self.gradebook.setUp(items=self.members(),
-                             columns_before=[GradeClassColumn(title=_('Grade'),
-                                                              name='grade')],
+                             columns_before=[GradeClassColumn(title=_('Class'),
+                                                              name='class')],
                              columns_after=self.gradeColumns(),
                              batch_size=0)
         return self.template()

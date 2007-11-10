@@ -298,12 +298,11 @@ class LyceumSectionJournalView(object):
 
     def gradeColumns(self):
         columns = []
+        selected_meeting = self.selectedEvent()
         for meeting in self.meetings():
-            app = ISchoolToolApplication(None)
-            tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
-            meeting_date = meeting.dtstart.astimezone(tzinfo).date()
-            selected = (meeting_date == self.selectedDate())
-            columns.append(PersonGradesColumn(meeting, self.context, selected=selected))
+            selected = selected_meeting and selected_meeting == meeting
+            columns.append(PersonGradesColumn(meeting, self.context,
+                                              selected=selected))
         columns.append(SectionTermAverageGradesColumn(self.context,
                                                       self.getSelectedTerm()))
         columns.append(SectionTermAttendanceColumn(self.context,
@@ -320,25 +319,30 @@ class LyceumSectionJournalView(object):
 
         return self.getCurrentTerm()
 
-    def selectedDate(self):
+    def selectedEvent(self):
         event_id = self.request.get('event_id', None)
         if event_id is not None:
             try:
-                event = self.context.findMeeting(event_id)
-                app = ISchoolToolApplication(None)
-                tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
-                date = event.dtstart.astimezone(tzinfo).date()
-                return date
+                return self.context.findMeeting(event_id)
             except KeyError:
                 pass
 
-        return self.scheduled_terms[-1].last
+    def selectedDate(self):
+        event = self.selectedEvent()
+        if event:
+            app = ISchoolToolApplication(None)
+            tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
+            date = event.dtstart.astimezone(tzinfo).date()
+            return date
+        else:
+            return today()
 
     def getCurrentTerm(self):
-        date = self.selectedDate()
-        for term in self.scheduled_terms:
-            if date in term:
-                return term
+        event = self.selectedEvent()
+        if event:
+            terms = ISchoolToolApplication(None)['terms']
+            term_id, schema_id = event.activity.timetable.__name__.split(".")
+            return terms[term_id]
         return self.scheduled_terms[-1]
 
     @property
@@ -378,9 +382,12 @@ class LyceumSectionJournalView(object):
             if month in available_months:
                 return month
 
-        month = self.selectedDate().month
-        if month in available_months:
-            return month
+        term = self.getSelectedTerm()
+        date = self.selectedDate()
+        if term.first <= date <= term.last:
+            month = date.month
+            if month in available_months:
+                return month
 
         return available_months[0]
 

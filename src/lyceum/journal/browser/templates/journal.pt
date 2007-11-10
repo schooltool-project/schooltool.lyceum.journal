@@ -222,8 +222,6 @@
       <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Update"
              title="Shortcut: Alt-U" accesskey="U"
              i18n:attributes="value update-button; accesskey" />
-      <input type="submit" class="button-cancel" name="CANCEL" value="Cancel"
-             i18n:attributes="value cancel-button" />
     </div>
 
   </form>

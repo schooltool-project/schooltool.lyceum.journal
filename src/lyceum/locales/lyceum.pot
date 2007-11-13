@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SchoolTool Version SVN\n"
-"POT-Creation-Date: Mon Sep 17 15:28:20 2007\n"
+"POT-Creation-Date: Tue Nov 13 13:43:16 2007\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -26,40 +26,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18nextract.py\n"
 
-#: /src/lyceum/browser/configure.zcml:14
-msgid "CSV Import"
-msgstr ""
-
-#: /src/lyceum/browser/configure.zcml:26
-msgid "Member Calendar"
-msgstr ""
-
-#: /src/lyceum/browser/configure.zcml:36
-#: /src/lyceum/browser/configure.zcml:46
-#: /src/lyceum/browser/configure.zcml:56
-#: /src/lyceum/browser/configure.zcml:66
+#: /src/lyceum/browser/configure.zcml:18
+#: /src/lyceum/browser/configure.zcml:28
+#: /src/lyceum/browser/configure.zcml:38
+#: /src/lyceum/browser/configure.zcml:48
 msgid "View Timetable"
 msgstr ""
 
-#: /src/lyceum/browser/configure.zcml:78
+#: /src/lyceum/browser/configure.zcml:60
 #: /src/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 msgid "Journal"
 msgstr ""
 
-#: /src/lyceum/browser/templates/csv_import.pt:16
-msgid "I"
+#: /src/lyceum/browser/configure.zcml:8
+msgid "Member Calendar"
 msgstr ""
 
-#: /src/lyceum/browser/templates/csv_import.pt:16
-#. Default: "Import"
-msgid "submit-button"
+#: /src/lyceum/browser/templates/weekday-timetable.pt:13
+msgid "Go"
 msgstr ""
 
-#: /src/lyceum/browser/templates/csv_import.pt:4
-msgid "Import school data from CSV${title}"
+#: /src/lyceum/browser/templates/weekday-timetable.pt:6
+msgid "<h1>Timetable for:</h1> ${weekday}"
 msgstr ""
 
-#: /src/lyceum/interfaces.py:42
+#: /src/lyceum/interfaces.py:39
 msgid "Title of the calendar"
 msgstr ""
 
@@ -71,19 +62,19 @@ msgstr ""
 msgid "Explained:"
 msgstr ""
 
-#: /src/lyceum/journal/browser/journal.py:200
+#: /src/lyceum/journal/browser/journal.py:207
 #: /src/lyceum/journal/browser/student.py:106
 msgid "Average"
 msgstr ""
 
-#: /src/lyceum/journal/browser/journal.py:223
-#: /src/lyceum/journal/browser/configure.zcml:37
+#: /src/lyceum/journal/browser/journal.py:230
+#: /src/lyceum/journal/browser/configure.zcml:44
 msgid "Attendance"
 msgstr ""
 
-#: /src/lyceum/journal/browser/journal.py:244
-#: /src/lyceum/journal/browser/term.py:87
-msgid "Grade"
+#: /src/lyceum/journal/browser/journal.py:251
+#: /src/lyceum/journal/browser/term.py:84
+msgid "Class"
 msgstr ""
 
 #: /src/lyceum/journal/browser/templates/attendance.pt:10
@@ -95,36 +86,29 @@ msgstr ""
 msgid "${group} journal for ${month}"
 msgstr ""
 
-#: /src/lyceum/journal/browser/templates/journal.pt:49
+#: /src/lyceum/journal/browser/templates/journal.pt:212
 msgid "Term Grading"
 msgstr ""
 
-#: /src/lyceum/journal/browser/templates/journal.pt:59
-#: /src/lyceum/journal/browser/templates/term.pt:44
-#: /src/lyceum/journal/browser/templates/attendance.pt:61
-#: /src/lyceum/journal/browser/templates/student_journal.pt:53
-#. Default: "Update"
-msgid "update-button"
-msgstr ""
-
-#: /src/lyceum/journal/browser/templates/journal.pt:59
+#: /src/lyceum/journal/browser/templates/journal.pt:222
 #: /src/lyceum/journal/browser/templates/term.pt:44
 #: /src/lyceum/journal/browser/templates/attendance.pt:61
 #: /src/lyceum/journal/browser/templates/student_journal.pt:53
 msgid "U"
 msgstr ""
 
+#: /src/lyceum/journal/browser/templates/journal.pt:222
+#: /src/lyceum/journal/browser/templates/term.pt:44
+#: /src/lyceum/journal/browser/templates/attendance.pt:61
+#: /src/lyceum/journal/browser/templates/student_journal.pt:53
+#: /src/lyceum/setup/browser/templates/csv_import.pt:133
+#. Default: "Update"
+msgid "update-button"
+msgstr ""
+
 #: /src/lyceum/journal/browser/templates/journal.pt:6
 #: /src/lyceum/journal/browser/templates/journal.pt:13
 msgid "${section} journal for ${month}"
-msgstr ""
-
-#: /src/lyceum/journal/browser/templates/journal.pt:62
-#: /src/lyceum/journal/browser/templates/term.pt:47
-#: /src/lyceum/journal/browser/templates/attendance.pt:64
-#: /src/lyceum/journal/browser/templates/student_journal.pt:56
-#. Default: "Cancel"
-msgid "cancel-button"
 msgstr ""
 
 #: /src/lyceum/journal/browser/templates/journal.pt:9
@@ -146,7 +130,50 @@ msgstr ""
 msgid "${person} journal"
 msgstr ""
 
-#: /src/lyceum/journal/browser/term.py:59
+#: /src/lyceum/journal/browser/templates/term.pt:47
+#: /src/lyceum/journal/browser/templates/attendance.pt:64
+#: /src/lyceum/journal/browser/templates/student_journal.pt:56
+#. Default: "Cancel"
+msgid "cancel-button"
+msgstr ""
+
+#: /src/lyceum/journal/browser/term.py:56
 msgid "Term Grade"
+msgstr ""
+
+#: /src/lyceum/setup/browser/configure.zcml:14
+msgid "CSV Import"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:14
+#: /src/lyceum/setup/browser/templates/csv_import.pt:18
+msgid "Students"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:28
+#: /src/lyceum/setup/browser/templates/csv_import.pt:131
+#. Default: "Import"
+msgid "submit-button"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:34
+msgid "Timetables"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:4
+#: /src/lyceum/setup/browser/templates/csv_import.pt:11
+msgid "Import school data from CSV"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:44
+msgid "Generate Terms for year 2006"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:48
+msgid "Generate Terms for year 2007"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:58
+msgid "For term:"
 msgstr ""
 

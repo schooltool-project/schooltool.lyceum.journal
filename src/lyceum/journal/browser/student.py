@@ -103,7 +103,8 @@ class CourseTermAverageGradesColumn(object):
         return ""
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Average"))
+        return '<span>%s</span>' % translate(_("Average"),
+                                             context=formatter.request)
 
 
 class LyceumStudentJournalView(LyceumSectionJournalView):

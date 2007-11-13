@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-09-20 18:30+0000\n"
+"POT-Creation-Date: Tue Nov 13 13:43:16 2007\n"
 "PO-Revision-Date: 2007-09-21 10:10+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
@@ -17,38 +17,19 @@ msgstr ""
 "X-Launchpad-Export-Date: 2007-09-21 10:18+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: /src/lyceum/browser/configure.zcml:14
-msgid "CSV Import"
-msgstr "CSV Importas"
-
-#: /src/lyceum/browser/configure.zcml:26
-msgid "Member Calendar"
-msgstr "Grupės narių kalendorius"
-
-#: /src/lyceum/browser/configure.zcml:36
-#: /src/lyceum/browser/configure.zcml:46
-#: /src/lyceum/browser/configure.zcml:56
-#: /src/lyceum/browser/configure.zcml:66
+#: /src/lyceum/browser/configure.zcml:18 /src/lyceum/browser/configure.zcml:28
+#: /src/lyceum/browser/configure.zcml:38 /src/lyceum/browser/configure.zcml:48
 msgid "View Timetable"
 msgstr "Peržiūrėti tvarkaraštį"
 
-#: /src/lyceum/browser/configure.zcml:78
+#: /src/lyceum/browser/configure.zcml:60
 #: /src/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 msgid "Journal"
 msgstr "Dienynas"
 
-#: /src/lyceum/browser/templates/csv_import.pt:16
-msgid "I"
-msgstr "I"
-
-#. Default: "Import"
-#: /src/lyceum/browser/templates/csv_import.pt:16
-msgid "submit-button"
-msgstr "Įkelti"
-
-#: /src/lyceum/browser/templates/csv_import.pt:4
-msgid "Import school data from CSV${title}"
-msgstr ""
+#: /src/lyceum/browser/configure.zcml:8
+msgid "Member Calendar"
+msgstr "Grupės narių kalendorius"
 
 #: /src/lyceum/browser/templates/weekday-timetable.pt:13
 msgid "Go"
@@ -58,7 +39,7 @@ msgstr "Pasirinkti"
 msgid "<h1>Timetable for:</h1> ${weekday}"
 msgstr "<h1>Tvarkaraštis:</h1> ${weekday}"
 
-#: /src/lyceum/interfaces.py:42
+#: /src/lyceum/interfaces.py:39
 msgid "Title of the calendar"
 msgstr "Kalendoriaus pavadinimas"
 
@@ -70,20 +51,20 @@ msgstr "Viso"
 msgid "Explained:"
 msgstr "Pateisinta:"
 
-#: /src/lyceum/journal/browser/journal.py:208
+#: /src/lyceum/journal/browser/journal.py:207
 #: /src/lyceum/journal/browser/student.py:106
 msgid "Average"
 msgstr "Vidurkis"
 
-#: /src/lyceum/journal/browser/journal.py:231
+#: /src/lyceum/journal/browser/journal.py:230
 #: /src/lyceum/journal/browser/configure.zcml:44
 msgid "Attendance"
 msgstr "Praleistos pamokos"
 
-#: /src/lyceum/journal/browser/journal.py:252
-#: /src/lyceum/journal/browser/term.py:87
-msgid "Grade"
-msgstr "Įvertinimas"
+#: /src/lyceum/journal/browser/journal.py:251
+#: /src/lyceum/journal/browser/term.py:84
+msgid "Class"
+msgstr ""
 
 #: /src/lyceum/journal/browser/templates/attendance.pt:10
 msgid "${group} journal"
@@ -98,14 +79,6 @@ msgstr "${group} dienynas ${month} mėnesiui"
 msgid "Term Grading"
 msgstr "Semestro pažymiai"
 
-#. Default: "Update"
-#: /src/lyceum/journal/browser/templates/journal.pt:222
-#: /src/lyceum/journal/browser/templates/term.pt:44
-#: /src/lyceum/journal/browser/templates/attendance.pt:61
-#: /src/lyceum/journal/browser/templates/student_journal.pt:53
-msgid "update-button"
-msgstr "Patvirtinti"
-
 #: /src/lyceum/journal/browser/templates/journal.pt:222
 #: /src/lyceum/journal/browser/templates/term.pt:44
 #: /src/lyceum/journal/browser/templates/attendance.pt:61
@@ -113,13 +86,14 @@ msgstr "Patvirtinti"
 msgid "U"
 msgstr "U"
 
-#. Default: "Cancel"
-#: /src/lyceum/journal/browser/templates/journal.pt:225
-#: /src/lyceum/journal/browser/templates/term.pt:47
-#: /src/lyceum/journal/browser/templates/attendance.pt:64
-#: /src/lyceum/journal/browser/templates/student_journal.pt:56
-msgid "cancel-button"
-msgstr "Atšaukti"
+#. Default: "Update"
+#: /src/lyceum/journal/browser/templates/journal.pt:222
+#: /src/lyceum/journal/browser/templates/term.pt:44
+#: /src/lyceum/journal/browser/templates/attendance.pt:61
+#: /src/lyceum/journal/browser/templates/student_journal.pt:53
+#: /src/lyceum/setup/browser/templates/csv_import.pt:133
+msgid "update-button"
+msgstr "Patvirtinti"
 
 #: /src/lyceum/journal/browser/templates/journal.pt:6
 #: /src/lyceum/journal/browser/templates/journal.pt:13
@@ -131,9 +105,7 @@ msgstr "${section} dienynas ${month} mėnesiui"
 #: /src/lyceum/journal/browser/templates/term.pt:8
 #: /src/lyceum/journal/browser/templates/term.pt:12
 msgid "${section} journal"
-msgstr ""
-"Copy text   \t\n"
-"${section} dienynas"
+msgstr "${section} dienynas"
 
 #: /src/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} journal for ${month}"
@@ -147,6 +119,56 @@ msgstr "${person} dienynas ${month} mėnesiui"
 msgid "${person} journal"
 msgstr "${person} dienynas"
 
-#: /src/lyceum/journal/browser/term.py:59
+#. Default: "Cancel"
+#: /src/lyceum/journal/browser/templates/term.pt:47
+#: /src/lyceum/journal/browser/templates/attendance.pt:64
+#: /src/lyceum/journal/browser/templates/student_journal.pt:56
+msgid "cancel-button"
+msgstr "Atšaukti"
+
+#: /src/lyceum/journal/browser/term.py:56
 msgid "Term Grade"
 msgstr "Semestrinis pažymys"
+
+#: /src/lyceum/setup/browser/configure.zcml:14
+msgid "CSV Import"
+msgstr "CSV Importas"
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:14
+#: /src/lyceum/setup/browser/templates/csv_import.pt:18
+msgid "Students"
+msgstr ""
+
+#. Default: "Import"
+#: /src/lyceum/setup/browser/templates/csv_import.pt:28
+#: /src/lyceum/setup/browser/templates/csv_import.pt:131
+msgid "submit-button"
+msgstr "Įkelti"
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:34
+#, fuzzy
+msgid "Timetables"
+msgstr "Peržiūrėti tvarkaraštį"
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:4
+#: /src/lyceum/setup/browser/templates/csv_import.pt:11
+msgid "Import school data from CSV"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:44
+msgid "Generate Terms for year 2006"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:48
+msgid "Generate Terms for year 2007"
+msgstr ""
+
+#: /src/lyceum/setup/browser/templates/csv_import.pt:58
+msgid "For term:"
+msgstr ""
+
+#~ msgid "I"
+#~ msgstr "I"
+
+#~ msgid "Grade"
+#~ msgstr "Įvertinimas"

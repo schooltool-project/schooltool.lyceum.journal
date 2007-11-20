@@ -608,3 +608,34 @@ And now let's grade our students for this term:
     +-----------+----+----+----+---------+
     | History 1 |    |    |    | *7*     |
     +-----------+----+----+----+---------+
+
+Let's look at things from the perspective of a student, to do that we
+will have to give our student a password:
+
+    >>> manager.open('http://localhost/persons/zombe-bain/@@password_edit.html')
+    >>> manager.getControl('Password').value = "aaa"
+    >>> manager.getControl('Confirm').value = "aaa"
+    >>> manager.getControl('Apply').click()
+
+A student should be able to see all the section calendars overlaid in
+his calendar:
+
+    >>> student = Browser()
+    >>> student.addHeader('Authorization', 'Basic zombe-bain:aaa')
+    >>> student.open('http://localhost/persons/zombe-bain/calendar')
+    >>> analyze.queryHTML('//table[@class="overlays"]//td[@style="width: 100%"]', student.contents)
+    ['<td style="width: 100%">My Calendar</td>',
+     '<td style="width: 100%">Duh B. -- History (1b)</td>',
+     '<td style="width: 100%">Duh B. -- History (1b)</td>',
+     '<td style="width: 100%">SchoolTool</td>']
+
+And he should be capable of accessing his own gradebook:
+
+    >>> student.getLink('Bain Zombe').click()
+    >>> student.getLink('Gradebook').click()
+    >>> printGradebookTable(student.contents)
+    +-----------+----+----+----+---------+
+    | Title     | 29 | 30 | 31 | Average |
+    +-----------+----+----+----+---------+
+    | History 1 |    |    |    | *9*     |
+    +-----------+----+----+----+---------+

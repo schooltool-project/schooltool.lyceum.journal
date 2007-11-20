@@ -1,6 +1,6 @@
 #
 # SchoolTool - common information systems platform for school administration
-# Copyright (c) 2005 Shuttleworth Foundation
+# Copyright (c) 2007 Shuttleworth Foundation
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,12 +17,19 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-Generations for database version upgrades.
+Upgrade SchoolTool to generation 5.
+
+Fix capitalization in names of persons with more than one name.
 """
+from zope.app.generations.utility import findObjectsProviding
+from zope.app.publication.zopepublication import ZopePublication
 
-from zope.app.generations.generations import SchemaManager
+from schooltool.app.interfaces import ISchoolToolApplication
 
-schemaManager = SchemaManager(
-    minimum_generation=5,
-    generation=5,
-    package_name='lyceum.generations')
+
+def evolve(context):
+    root = context.connection.root()[ZopePublication.root_name]
+    for app in findObjectsProviding(root, ISchoolToolApplication):
+        for person in app['persons'].values():
+            person.first_name = " ".join([name.capitalize()
+                                          for name in person.first_name.split()])

@@ -75,7 +75,8 @@ class CSVStudent(object):
     """An intermediate object that stores persons information."""
 
     def __init__(self, name, surname, group, birth_date=None):
-        self.name = name.capitalize()
+        self.name = " ".join([n.capitalize()
+                              for n in name.split()])
         self.surname = surname.capitalize()
         self.title = u"%s %s" % (self.surname, self.name)
         user_name = u"%s-%s" % (name.lower(), surname.lower())

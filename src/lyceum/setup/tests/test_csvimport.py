@@ -146,12 +146,12 @@ def doctest_CSVStudent():
 
         >>> person = appStub['persons'][u'-acee-isuuz']
         >>> person.title
-        u'\u012e\u0161\u016b\u0173\u017e  \u0105\u010d\u0117\u0119'
+        u'\u012e\u0161\u016b\u0173\u017e \u0104\u010d\u0117\u0119'
         >>> person.username
         u'-acee-isuuz'
 
         >>> person.first_name
-        u' \u0105\u010d\u0117\u0119'
+        u'\u0104\u010d\u0117\u0119'
         >>> person.last_name
         u'\u012e\u0161\u016b\u0173\u017e'
 

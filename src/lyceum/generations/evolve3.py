@@ -19,7 +19,7 @@
 """
 Upgrade SchoolTool to generation 3.
 
-Install catalog for lyceum persons and reindex them.
+Fix capitalization in names of persons with more than one name.
 """
 from zope.app.generations.utility import findObjectsProviding
 from zope.app.publication.zopepublication import ZopePublication

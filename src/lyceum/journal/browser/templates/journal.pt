@@ -219,9 +219,7 @@
     </div>
 
     <div class="controls">
-      <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Update"
-             title="Shortcut: Alt-U" accesskey="U"
-             i18n:attributes="value update-button; accesskey" />
+      <tal:block metal:use-macro="view/@@standard_macros/update-button" />
     </div>
 
   </form>

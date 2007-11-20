@@ -17,12 +17,17 @@
 
 <metal:block metal:fill-slot="body">
   <form action="." method="post" tal:attributes="action request/URL">
-    <select name="TERM">
-      <option tal:repeat="term view/scheduled_terms"
-              tal:content="term/title"
-              tal:attributes="value term/__name__;
-                              selected python:term is view.getSelectedTerm()" />
-    </select>
+    <div class="controls">
+      <select name="TERM">
+        <option tal:repeat="term view/scheduled_terms"
+                tal:content="term/title"
+                tal:attributes="value term/__name__;
+                                selected python:term is view.getSelectedTerm()" />
+      </select>
+      <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Select"
+             title="Shortcut: Alt-S" accesskey="S"
+             i18n:attributes="value select-button;accesskey schortcut-letter-for-select;title title-for-select-button" />
+    </div>
 
     <input tal:condition="request/month|nothing"
            type="hidden"
@@ -47,14 +52,6 @@
 
     <div class="gradebook">
       <tal:block replace="structure view/gradebook/render" />
-    </div>
-
-    <div class="controls">
-      <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Update"
-             title="Shortcut: Alt-U" accesskey="U"
-             i18n:attributes="value update-button; accesskey" />
-      <input type="submit" class="button-cancel" name="CANCEL" value="Cancel"
-             i18n:attributes="value cancel-button" />
     </div>
   </form>
 </metal:block>

@@ -55,6 +55,8 @@
       for="lyceum.person.interfaces.ILyceumPerson"
       class=".student.LyceumStudentJournalView"
       permission="schooltool.view"
+      menu="schooltool_actions"
+      title="Gradebook"
       />
 
 </configure>

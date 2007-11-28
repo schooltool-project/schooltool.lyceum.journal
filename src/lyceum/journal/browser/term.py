@@ -30,6 +30,7 @@ from schooltool.table.interfaces import ITableFormatter
 
 from lyceum import LyceumMessage as _
 from lyceum.journal.browser.journal import GradeClassColumn
+from lyceum.journal.browser.journal import StudentNumberColumn
 from lyceum.journal.browser.journal import LyceumSectionJournalView
 from lyceum.journal.interfaces import ITermGradingData
 from lyceum.journal.browser.journal import SectionTermAverageGradesColumn
@@ -81,7 +82,9 @@ class TermView(LyceumSectionJournalView):
         self.gradebook = getMultiAdapter((person_container, self.request),
                                          ITableFormatter)
         self.gradebook.setUp(items=self.members(),
-                             columns_before=[GradeClassColumn(title=_('Class'),
+                             columns_before=[StudentNumberColumn(title=_('Nr'),
+                                                                 name='nr'),
+                                             GradeClassColumn(title=_('Class'),
                                                               name='class')],
                              columns_after=self.gradeColumns(),
                              batch_size=0)

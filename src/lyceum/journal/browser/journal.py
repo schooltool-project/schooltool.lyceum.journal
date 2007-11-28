@@ -99,6 +99,10 @@ class StudentNumberColumn(GetterColumn):
     def getter(self, item, formatter):
         return str(formatter.row)
 
+    def renderHeader(self, formatter):
+        return '<span>%s</span>' % translate(_("Nr."),
+                                             context=formatter.request)
+
 
 class PersonGradesColumn(object):
     implements(IColumn, ISelectableColumn)
@@ -255,7 +259,7 @@ class LyceumSectionJournalView(object):
                                            ITableFormatter)
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,
-                             columns_before=[StudentNumberColumn(title=_('Nr.'),
+                             columns_before=[StudentNumberColumn(title=_('Nr'),
                                                                  name='nr'),
                                              GradeClassColumn(title=_('Class'),
                                                               name='class')],

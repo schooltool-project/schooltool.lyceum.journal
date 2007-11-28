@@ -34,6 +34,7 @@ from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
 from zope.traversing.browser.absoluteurl import absoluteURL
 
+from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
@@ -91,6 +92,12 @@ class GradeClassColumn(LocaleAwareGetterColumn):
             return groups[item.gradeclass].title + person_name
 
         return person_name
+
+
+class StudentNumberColumn(GetterColumn):
+
+    def getter(self, item, formatter):
+        return str(formatter.row)
 
 
 class PersonGradesColumn(object):
@@ -248,7 +255,9 @@ class LyceumSectionJournalView(object):
                                            ITableFormatter)
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,
-                             columns_before=[GradeClassColumn(title=_('Class'),
+                             columns_before=[StudentNumberColumn(title=_('Nr.'),
+                                                                 name='nr'),
+                                             GradeClassColumn(title=_('Class'),
                                                               name='class')],
                              columns_after=self.gradeColumns(),
                              table_formatter=self.formatterFactory,

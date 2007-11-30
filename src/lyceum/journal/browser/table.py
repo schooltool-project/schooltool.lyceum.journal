@@ -50,7 +50,7 @@ class SelectStudentCellFormatter(object):
             url,
             urllib.urlencode([('student', item.__name__)] +
                              self.extra_parameters(request)))
-        return '<a href="%s">%s</a>' % (url, value)
+        return '<a class="select-row" href="%s">%s</a>' % (url, value)
 
 
 class SelectableRowTableFormatter(table.FormFullFormatter):

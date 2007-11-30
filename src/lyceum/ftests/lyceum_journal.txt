@@ -128,19 +128,15 @@ term and the month that is selected should be the same:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-      Duh B. -- History (1b) journal  for
-    May</title>
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+      Duh B. -- History (1b)
+      journal for May 2007</title>
 
     >>> teacher.getLink('17').click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-      Duh B. -- History (1b) journal  for
-    May</title>
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+      Duh B. -- History (1b)
+      journal for May 2007</title>
 
 Grades are still visible in table cells:
 
@@ -173,13 +169,8 @@ We got a different month:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-      Duh B. -- History (1b) journal  for
-    April</title>
-
-But the semester is still the same:
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+      Duh B. -- History (1b)
+      journal for April 2007</title>
 
 There are no grades in the table:
 
@@ -199,11 +190,8 @@ Month and semester still stay the same:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-      Duh B. -- History (1b) journal  for
-    April</title>
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+      Duh B. -- History (1b)
+      journal for April 2007</title>
 
 But we get 2 cells with input boxes in them for entering of grades:
 
@@ -220,11 +208,8 @@ If we click Update, everything stays the same:
     >>> teacher.getControl('Update').click()
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-      Duh B. -- History (1b) journal  for
-    April</title>
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2007-pavasaris">2007 Pavasaris</option>
+      Duh B. -- History (1b)
+      journal for April 2007</title>
 
 If we select a different term, the first month in the term should get
 activated:
@@ -236,10 +221,7 @@ activated:
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    September</title>
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2006-ruduo">2006 Ruduo</option>
+    September 2006</title>
 
 Choosing some day should not change neither the term, nor month:
 
@@ -248,10 +230,7 @@ Choosing some day should not change neither the term, nor month:
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    September</title>
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2006-ruduo">2006 Ruduo</option>
+    September 2006</title>
 
 Month switches:
 
@@ -260,10 +239,7 @@ Month switches:
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    January</title>
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2006-ruduo">2006 Ruduo</option>
+    January 2007</title>
 
 Updating should work too:
 
@@ -272,10 +248,7 @@ Updating should work too:
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
       Duh B. -- History (1b) journal  for
-    January</title>
-
-    >>> print analyze.queryHTML('//select/option[@selected]', teacher.contents)[0]
-    <option selected value="2006-ruduo">2006 Ruduo</option>
+    January 2007</title>
 
 Now let's look at the gradebook of the person:
 

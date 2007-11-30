@@ -254,15 +254,19 @@ def doctest_PersonGradesColumn_renderHeader():
         >>> column.today = lambda: date(2006, 1, 2)
         >>> column.journalUrl = lambda request: 'http://127.0.0.1/section-journal'
         >>> column.renderHeader(formatter)
-        '<span title="2006-01-01"><a href="http://127.0.0.1/section-journal/index.html?event_id=unique-id-2006-01-01">01</a></span><input type="hidden" value="dW5pcXVlLWlkLTIwMDYtMDEtMDE%3D%0A" class="event_id" />'
+        '<span class="select-column" title="2006-01-01"><a
+           href="http://127.0.0.1/section-journal/index.html?event_id=unique-id-2006-01-01">01</a></span><input
+              type="hidden" value="dW5pcXVlLWlkLTIwMDYtMDEtMDE%3D%0A" class="event_id" />'
 
         >>> column.selected = True
         >>> column.renderHeader(formatter)
-        '<span title="2006-01-01">01</span><input type="hidden" value="dW5pcXVlLWlkLTIwMDYtMDEtMDE%3D%0A" class="event_id" />'
+        '<span class="select-column" title="2006-01-01">01</span><input
+           type="hidden" value="dW5pcXVlLWlkLTIwMDYtMDEtMDE%3D%0A" class="event_id" />'
 
         >>> column.meetingDate = lambda: date(2006, 1, 2)
         >>> column.renderHeader(formatter)
-        '<span class="today" title="2006-01-02">02</span><input type="hidden" value="dW5pcXVlLWlkLTIwMDYtMDEtMDE%3D%0A" class="event_id" />'
+        '<span class="select-column today" title="2006-01-02">02</span><input
+           type="hidden" value="dW5pcXVlLWlkLTIwMDYtMDEtMDE%3D%0A" class="event_id" />'
 
     """
 
@@ -293,32 +297,34 @@ def doctest_PersonGradesColumn_renderCell_renderSelectedCell():
     If there is a meeting for that date:
 
         >>> print column.renderCell(PersonStub(), formatter)
-        John 5
+        <td>John 5</td>
 
         >>> column.selected = True
         >>> print column.renderCell(PersonStub(), formatter)
-        <input type="text" style="width: 1.4em"
-               name="John.unique-id-2006-01-01" value="John 5" />
+        <td class="selected-column"><input
+               type="text" style="width: 1.4em"
+               name="John.unique-id-2006-01-01" value="John 5" /></td>
 
         >>> column.selected = False
         >>> print column.renderSelectedCell(PersonStub(), formatter)
-        <input type="text" style="width: 1.4em"
-               name="John.unique-id-2006-01-01" value="John 5" />
+        <td class="selected-column"><input
+              type="text" style="width: 1.4em"
+              name="John.unique-id-2006-01-01" value="John 5" /></td>
 
     If there is no meeting:
 
         >>> column.getCellValue = lambda person: "X"
         >>> has_meeting = False
         >>> print column.renderCell(PersonStub(), formatter)
-        X
+        <td>X</td>
 
         >>> column.selected = True
         >>> print column.renderCell(PersonStub(), formatter)
-        X
+        <td>X</td>
 
         >>> column.selected = False
         >>> print column.renderSelectedCell(PersonStub(), formatter)
-        X
+        <td>X</td>
 
     """
 

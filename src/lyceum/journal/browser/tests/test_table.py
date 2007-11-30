@@ -67,7 +67,7 @@ def doctest_SelectStudentCellFormatter():
         ...     __name__ = "john"
         >>> item = PersonStub()
         >>> formatter("John", item, table_formatter)
-        '<a href="http://127.0.0.1/index.html?student=john&event_id=some-event-id&month=july">John</a>'
+        '<a class="select-row" href="http://127.0.0.1/index.html?student=john&event_id=some-event-id&month=july">John</a>'
 
     """
 

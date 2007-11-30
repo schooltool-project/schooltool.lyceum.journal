@@ -48,6 +48,7 @@ from schooltool.timetable.interfaces import ITimetables
 from schooltool.traverser.traverser import AdapterTraverserPlugin
 
 from lyceum.journal.interfaces import ISectionJournal
+from lyceum.journal.browser.interfaces import IIndependentColumn
 from lyceum.journal.browser.interfaces import ISelectableColumn
 from lyceum.journal.browser.table import SelectStudentCellFormatter
 from lyceum.journal.browser.table import SelectableRowTableFormatter
@@ -85,19 +86,18 @@ class GradeClassColumn(LocaleAwareGetterColumn):
 
     def getter(self, item, formatter):
         groups = ISchoolToolApplication(None)['groups']
-        person_name = '<input type="hidden" value="%s" class="person_id" />' % (
-            urllib.quote(item.__name__))
-
         if item.gradeclass is not None:
-            return groups[item.gradeclass].title + person_name
-
-        return person_name
+            return groups[item.gradeclass].title
+        return ""
 
 
 class StudentNumberColumn(GetterColumn):
 
     def getter(self, item, formatter):
-        return str(formatter.row)
+        person_name = '<input type="hidden" value="%s" class="person_id" />' % (
+            urllib.quote(item.__name__))
+
+        return str(formatter.row) + person_name
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Nr."),
@@ -105,7 +105,7 @@ class StudentNumberColumn(GetterColumn):
 
 
 class PersonGradesColumn(object):
-    implements(IColumn, ISelectableColumn)
+    implements(IColumn, ISelectableColumn, IIndependentColumn)
 
     def __init__(self, meeting, journal, selected=False):
         self.meeting = meeting
@@ -139,9 +139,9 @@ class PersonGradesColumn(object):
         meetingDate = self.meetingDate()
         header = meetingDate.strftime("%d")
 
-        klass = ""
+        today_class = ""
         if meetingDate == self.today():
-            klass = 'class="today" '
+            today_class = ' today'
 
         if not self.selected:
             url = "%s/index.html?%s" % (
@@ -150,8 +150,8 @@ class PersonGradesColumn(object):
                                  self.extra_parameters(formatter.request)))
             header = '<a href="%s">%s</a>' % (url, header)
 
-        span = '<span %stitle="%s">%s</span>' % (
-            klass, meetingDate.strftime("%Y-%m-%d"), header)
+        span = '<span class="select-column%s" title="%s">%s</span>' % (
+            today_class, meetingDate.strftime("%Y-%m-%d"), header)
         event_id = '<input type="hidden" value="%s" class="event_id" />' % (
             urllib.quote(base64.encodestring(self.meeting.unique_id.encode('utf-8'))))
         return span + event_id
@@ -169,11 +169,13 @@ class PersonGradesColumn(object):
         name = "%s.%s" % (item.__name__, self.meeting.__name__)
 
         if not selected:
-            return str(value)
+            return "<td>%s</td>" % str(value)
         else:
-            input = """<input type="text" style="width: 1.4em"
-                              name="%(name)s" value="%(value)s" />"""
-            return input % {'name':name, 'value':value}
+            klass = ' class="selected-column"'
+            input = """<td%(class)s><input type="text" style="width: 1.4em"
+                                           name="%(name)s"
+                                           value="%(value)s" /></td>"""
+            return input % {'class': klass, 'name':name, 'value':value}
 
     def renderSelectedCell(self, item, formatter):
         selected = self.hasMeeting(item)
@@ -386,6 +388,26 @@ class LyceumSectionJournalView(object):
             urllib.urlencode([('month', month_id)] +
                              self.extra_parameters(self.request)))
         return url
+
+    @Lazy
+    def active_year(self):
+        event = self.selectedEvent()
+        if event:
+            return event.dtstart.year
+
+        available_months = list(self.monthsInSelectedTerm())
+        selected_month = None
+        if 'month' in self.request:
+            month = int(self.request['month'])
+            if month in available_months:
+                selected_month = month
+
+        if not selected_month:
+            selected_month = available_months[0]
+
+        for meeting in self.allMeetings():
+            if meeting.dtstart.date().month == selected_month:
+                return meeting.dtstart.year
 
     @Lazy
     def active_month(self):

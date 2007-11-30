@@ -259,12 +259,19 @@ class LyceumSectionJournalView(object):
         person_container = app['persons']
         self.gradebook = queryMultiAdapter((person_container, self.request),
                                            ITableFormatter)
+
+        columns_before = [StudentNumberColumn(title=_('Nr'), name='nr')]
+
+        all_classes = set()
+        for member in self.members():
+            all_classes.add(member.gradeclass)
+
+        if len(all_classes) > 1:
+            columns_before.append(GradeClassColumn(title=_('Class'), name='class'))
+
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,
-                             columns_before=[StudentNumberColumn(title=_('Nr'),
-                                                                 name='nr'),
-                                             GradeClassColumn(title=_('Class'),
-                                                              name='class')],
+                             columns_before=columns_before,
                              columns_after=self.gradeColumns(),
                              table_formatter=self.formatterFactory,
                              batch_size=0)

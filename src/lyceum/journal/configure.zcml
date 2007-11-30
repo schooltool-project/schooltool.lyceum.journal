@@ -63,6 +63,19 @@
       factory=".term.TermGradingDataInit"
       name="lyceum.term_grades" />
 
+  <browser:viewlet
+      name="journal_css"
+      for="*"
+      manager="schooltool.skin.ICSSManager"
+      class=".journal.JournalCSSViewlet"
+      permission="zope.View"
+      />
+
+  <browser:resource
+      name="journal.css"
+      file="resources/journal.css"
+      layer="schooltool.skin.ISchoolToolLayer" />
+
   <include package="lyceum.journal.browser" />
 
 </configure>

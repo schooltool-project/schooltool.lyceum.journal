@@ -22,6 +22,7 @@ Lyceum journal content classes.
 from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
+from zope.viewlet.viewlet import CSSViewlet
 from zope.security.proxy import removeSecurityProxy
 from zope.app.container.btree import BTreeContainer
 from zope.cachedescriptors.property import Lazy
@@ -230,3 +231,6 @@ class JournalInit(InitBase):
 
     def __call__(self):
         self.app['lyceum.journal'] = LyceumJournalContainer()
+
+
+JournalCSSViewlet = CSSViewlet("journal.css")

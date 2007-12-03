@@ -304,9 +304,11 @@ class LyceumSectionJournalView(object):
                 yield event
 
     def members(self):
-        members = self.context.members
+        members = list(self.context.members)
         collator = ICollator(self.request.locale)
-        return sorted(members, key=lambda a: collator.key(a.last_name))
+        members.sort(key=lambda a: collator.key(a.first_name))
+        members.sort(key=lambda a: collator.key(a.last_name))
+        return members
 
     def updateGradebook(self):
         members = self.members()

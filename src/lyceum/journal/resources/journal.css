@@ -2,7 +2,6 @@
 
 .gradebook TABLE.data {
    border-spacing: 0px;
-   border-collapse: separate;
 }
 
 .gradebook TABLE.data TD

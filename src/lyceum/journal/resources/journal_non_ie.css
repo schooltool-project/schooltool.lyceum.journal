@@ -1,0 +1,6 @@
+/* styles for the gradebook that IE should not be seeing */
+
+.gradebook TABLE.data {
+   border-spacing: 0px;
+   border-collapse: separate;
+}

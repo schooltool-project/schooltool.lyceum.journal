@@ -9,13 +9,11 @@
     ><span i18n:name="section" tal:replace="view/context/section/label"/> journal</title>
 </head>
 
-<metal:block metal:fill-slot="content-header">
-    <h1 i18n:translate="">
-      <tal:block i18n:name="section" tal:replace="view/context/section/label" />
-      journal for <tal:block i18n:name="month" tal:replace="python: view.monthTitle(view.active_month)" /> <tal:block i18n:name="year" tal:replace="view/active_year" /></h1>
-</metal:block>
-
-<metal:block metal:fill-slot="body">
+<tal:block metal:fill-slot="extrahead">
+  <!--[if !IE]>-->
+    <link type="text/css" rel="stylesheet" href="journal_non_ie.css"
+          tal:attributes="href context/++resource++journal_non_ie.css" />
+  <!--<![endif]-->
   <script language="javascript">
     var selected_cell = null;
     var old_grade = null;
@@ -333,6 +331,15 @@
 
     });
   </script>
+</tal:block>
+
+<metal:block metal:fill-slot="content-header">
+    <h1 i18n:translate="">
+      <tal:block i18n:name="section" tal:replace="view/context/section/label" />
+      journal for <tal:block i18n:name="month" tal:replace="python: view.monthTitle(view.active_month)" /> <tal:block i18n:name="year" tal:replace="view/active_year" /></h1>
+</metal:block>
+
+<metal:block metal:fill-slot="body">
   <form action="." method="post" tal:attributes="action request/URL">
     <div name="grade_container" id="grade_container" style="display: None;"><input id="grade" name="grade" type="text" style="width: 1.4em" /></div>
     <input tal:condition="request/month|nothing"

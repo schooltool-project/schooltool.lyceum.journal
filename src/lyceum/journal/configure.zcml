@@ -76,6 +76,11 @@
       file="resources/journal.css"
       layer="schooltool.skin.ISchoolToolLayer" />
 
+  <browser:resource
+      name="journal_non_ie.css"
+      file="resources/journal_non_ie.css"
+      layer="schooltool.skin.ISchoolToolLayer" />
+
   <include package="lyceum.journal.browser" />
 
 </configure>

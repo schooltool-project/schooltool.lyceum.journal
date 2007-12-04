@@ -169,7 +169,7 @@ class PersonGradesColumn(object):
         name = "%s.%s" % (item.__name__, self.meeting.__name__)
 
         if not selected:
-            return "<td>%s</td>" % str(value)
+            return "<td>%s</td>" % value
         else:
             klass = ' class="selected-column"'
             input = """<td%(class)s><input type="text" style="width: 1.4em"

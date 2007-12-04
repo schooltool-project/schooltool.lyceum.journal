@@ -5,14 +5,9 @@
    border-collapse: separate;
 }
 
-.gradebook TABLE.data COL
-{
-  background-color: #666;
-}
-
 .gradebook TABLE.data TD
 {
-  border-left: solid 1px #BBB;
+  border-left: 1px solid #BBB;
 }
 
 .gradebook TD span.today {
@@ -21,12 +16,17 @@
 
 .gradebook TABLE.data TD.selected-column
 {
-  border-left: dashed 1px #000;
-  border-right: dashed 1px #000;
+  border-left: 1px dashed #000;
+  border-right: 1px dashed #000;
+}
+
+.gradebook TABLE.data TD.selected-cell
+{
+  border: solid 1px #000;
 }
 
 .gradebook TABLE.data TD.selected-row
 {
-  border-top: dashed 1px #000;
-  border-bottom: dashed 1px #000;
+  border-top: 1px dashed #000;
+  border-bottom: 1px dashed #000;
 }

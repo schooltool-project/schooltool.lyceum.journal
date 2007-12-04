@@ -19,6 +19,19 @@
     var old_grade = null;
     var grade = null;
 
+    function saveLessonDescription(input, event_id) {
+        console.log(input.value)
+        $.ajax({
+           url: 'setLessonDescription.xml',
+           type: 'POST',
+           timeout: 5000,
+           data: {event_id: event_id,
+                  lesson_description: input.value},
+           error: function() {},
+           success: function(xml){}
+        });
+    }
+
     function unselectCell() {
         if (selected_cell) {
           var cell = selected_cell;
@@ -84,6 +97,25 @@
              $(cell).addClass("selected-column");
            }
         });
+
+
+        var event_id = null;
+        var inputs = $(event.target.parentNode).children(".event_id");
+        if (inputs.length > 0) {
+           event_id = inputs[0].value;
+        }
+
+        $.ajax({
+           url: 'getLessonDescription.xml',
+           type: 'POST',
+           timeout: 5000,
+           data: {event_id: event_id},
+           error: function() {},
+           success: function(xml){
+               $('.lesson-description').html(xml);
+           }
+        });
+
         return false;
       });
 
@@ -284,10 +316,6 @@
         return true;
       });
 
-      $("#grade").blur(function () {
-        unselectCell();
-      });
-
       table = $('.data')[0];
       rows = table.getElementsByTagName('tr');
       var event_ids = Array();
@@ -341,7 +369,16 @@
 
 <metal:block metal:fill-slot="body">
   <form action="." method="post" tal:attributes="action request/URL">
-    <div name="grade_container" id="grade_container" style="display: None;"><input id="grade" name="grade" type="text" style="width: 1.4em" /></div>
+
+    <div class="lesson-description">
+      <tal:block condition="request/event_id|nothing"
+                 define="meeting view/selectedEvent">
+        <div>Lesson description for <tal:block content="meeting/dtstart/@@shortDate" /> period <tal:block content="meeting/period_id" /></div>
+        <textarea tal:attributes="onBlur string:saveLessonDescription(this, '${view/encodedSelectedEventId}')"
+                  name="lesson_description" cols="100" rows="6" tal:content="view/selectedEventLessonDescription"></textarea>
+      </tal:block>
+    </div>
+
     <input tal:condition="request/month|nothing"
            type="hidden"
            name="month"

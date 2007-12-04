@@ -28,6 +28,20 @@
       />
 
   <page
+      name="getLessonDescription.xml"
+      for="lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.GetLessonDescriptionAjaxView"
+      permission="schooltool.view"
+      />
+
+  <page
+      name="setLessonDescription.xml"
+      for="lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.SetLessonDescriptionAjaxView"
+      permission="schooltool.view"
+      />
+
+  <page
       name="term_grades.html"
       for="lyceum.journal.interfaces.ISectionJournal"
       class=".term.TermView"

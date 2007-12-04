@@ -277,6 +277,16 @@ class LyceumSectionJournalView(object):
                              batch_size=0)
         return self.template()
 
+    def encodedSelectedEventId(self):
+        event = self.selectedEvent()
+        if event:
+            return urllib.quote(base64.encodestring(event.unique_id.encode('utf-8')))
+
+    def selectedEventLessonDescription(self):
+        event = self.selectedEvent()
+        if event:
+            return self.context.getDescription(event)
+
     def formatterFactory(self, *args, **kwargs):
         students = []
         if 'student' in self.request:
@@ -319,6 +329,10 @@ class LyceumSectionJournalView(object):
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
                     self.context.setGrade(person, meeting, cell_value)
+
+        meeting = self.selectedEvent()
+        if meeting:
+            self.context.setDescription(meeting, self.request['lesson_description']);
 
     def gradeColumns(self):
         columns = []
@@ -453,6 +467,25 @@ class SectionJournalAjaxView(BrowserView):
             raise UserError('Person was invalid!')
         meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
         self.context.setGrade(person, meeting, self.request['grade']);
+        return ""
+
+
+class GetLessonDescriptionAjaxView(BrowserView):
+
+    template = ViewPageTemplateFile("templates/lesson_description.pt")
+
+    def __call__(self):
+        self.meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
+        self.description = self.context.getDescription(self.meeting)
+        self.date = self.meeting.dtstart.strftime("%Y-%m-%d")
+        return  self.template()
+
+
+class SetLessonDescriptionAjaxView(BrowserView):
+
+    def __call__(self):
+        meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
+        self.context.setDescription(meeting, self.request['lesson_description']);
         return ""
 
 

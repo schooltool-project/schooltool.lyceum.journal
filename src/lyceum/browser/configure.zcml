@@ -210,4 +210,13 @@
       class=".calendar.LyceumDailyCalendarRowsView"
       permission="zope.View" />
 
+  <page
+      for="*"
+      name="calendar_overlay"
+      layer="lyceum.browser.skin.ILyceumLayer"
+      class="schooltool.app.browser.cal.CalendarSTOverlayView"
+      template="templates/calendar_overlay.pt"
+      permission="zope.View"
+      />
+
 </configure>

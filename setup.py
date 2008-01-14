@@ -39,13 +39,18 @@ pkg_resources.require("setuptools>=0.6a11")
 import os
 from setuptools import setup, find_packages
 
+version = open("version.txt").read().strip()
+if version.endswith("dev"):
+    bzrversion = os.popen('bzr revno').read().strip()
+    version += "_r" + bzrversion
+
 # Setup Lyceum
 setup(
     name="lyceum",
     description="Plugin for SchoolTool that adds Lyceum specific functionality.",
     long_description="""A Lithuania specific gradebook, and some
     timetabling/calendaring improvements are included.""",
-    version="2007-dev",
+    version=version,
     url='http://www.schooltool.org',
     license="GPL",
     maintainer="SchoolTool development team",

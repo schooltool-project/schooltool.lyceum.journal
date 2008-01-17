@@ -2,7 +2,6 @@
 #
 # SchoolTool - common information systems platform for school administration
 # Copyright (c) 2005    Shuttleworth Foundation,
-#                       Brian Sutherland
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +18,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-SchoolTool Lyceum plugin setup script.
+SchoolTool Schooltool.Lyceum.Journal plugin setup script.
 """
 
 
@@ -44,10 +43,10 @@ if version.endswith("dev"):
     bzrversion = os.popen('bzr revno').read().strip()
     version += "_r" + bzrversion
 
-# Setup Lyceum
+# Setup Schooltool.Lyceum.Journal
 setup(
-    name="lyceum",
-    description="Plugin for SchoolTool that adds Lyceum specific functionality.",
+    name="schooltool.lyceum.journal",
+    description="Plugin for SchoolTool that adds Schooltool.Lyceum.Journal specific functionality.",
     long_description="""A Lithuania specific gradebook, and some
     timetabling/calendaring improvements are included.""",
     version=version,
@@ -69,10 +68,5 @@ setup(
     packages=find_packages('src'),
     install_requires=['schooltool'],
     dependency_links=['http://ftp.schooltool.org/schooltool/releases/nightly/'],
-    entry_points = """
-    [schooltool.instance_type]
-    lyceum = lyceum.app
-
-    """,
     include_package_data=True
     )

@@ -1,6 +1,6 @@
 #!/usr/bin/make
 #
-# Makefile for lyceum Buildout
+# Makefile for schooltool.lyceum.journal Buildout
 #
 
 BOOTSTRAP_PYTHON=python2.4
@@ -44,7 +44,7 @@ release:
 
 .PHONY: move-release
 move-release:
-	 mv dist/lyceum-*.tar.gz /home/ftp/pub/schooltool/releases/nightly
+	 mv dist/schooltool.lyceum.journal-*.tar.gz /home/ftp/pub/schooltool/releases/nightly
 
 .PHONY: coverage
 coverage: build
@@ -58,7 +58,7 @@ coverage-reports-html:
 	test -d coverage/reports || rm -rf coverage/reports
 	mkdir coverage/reports
 	bin/coverage
-	ln -s lyceum.html coverage/reports/index.html
+	ln -s schooltool.lyceum.journal.html coverage/reports/index.html
 
 .PHONY: ubuntu-environment
 ubuntu-environment:

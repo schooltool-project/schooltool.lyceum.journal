@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/browser"
+           xmlns:zope="http://namespaces.zope.org/zope"
+           i18n_domain="lyceum">
+
+  <viewlet
+      name="journal-link"
+      for="*"
+      manager="schooltool.app.browser.skin.ICalendarEventViewletManager"
+      template="templates/section_journal_viewlet.pt"
+      class=".journal.JournalCalendarEventViewlet"
+      permission="zope.Public"
+      order="15"
+      />
+
+  <page
+      name="index.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.LyceumSectionJournalView"
+      permission="schooltool.view"
+      />
+
+  <page
+      name="ajax.xml"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.SectionJournalAjaxView"
+      permission="schooltool.view"
+      />
+
+  <page
+      name="getLessonDescription.xml"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.GetLessonDescriptionAjaxView"
+      permission="schooltool.view"
+      />
+
+  <page
+      name="setLessonDescription.xml"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.SetLessonDescriptionAjaxView"
+      permission="schooltool.view"
+      />
+
+  <page
+      name="term_grades.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".term.TermView"
+      permission="schooltool.edit"
+      />
+
+  <zope:subscriber
+     for="schooltool.course.interfaces.ISection
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      provides="schooltool.traverser.interfaces.ITraverserPlugin"
+      factory=".journal.LyceumJournalTraverserPlugin"
+      />
+
+  <page
+      name="attendance.html"
+      for="schooltool.group.interfaces.IGroup"
+      class=".attendance.GroupAttendanceView"
+      permission="schooltool.view"
+      menu="schooltool_actions"
+      title="Attendance"
+      />
+
+  <page
+      name="journal.html"
+      for="schooltool.person.interfaces.IPerson"
+      class=".student.LyceumStudentJournalView"
+      permission="schooltool.view"
+      menu="schooltool_actions"
+      title="Gradebook"
+      />
+
+</configure>

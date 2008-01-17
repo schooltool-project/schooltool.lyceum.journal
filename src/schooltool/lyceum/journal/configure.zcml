@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<configure xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns="http://namespaces.zope.org/zope"
+           i18n_domain="schooltool.lyceum.journal">
+
+  <class class="schooltool.lyceum.journal.journal.LyceumJournalContainer">
+    <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
+    <require permission="schooltool.view"
+             attributes="keys values items __iter__ __len__" />
+    <require permission="schooltool.edit"
+             interface="zope.app.container.interfaces.IWriteContainer" />
+  </class>
+
+  <class class="schooltool.lyceum.journal.journal.SectionJournalData">
+    <allow interface="schooltool.lyceum.journal.interfaces.ISectionJournalData" />
+  </class>
+
+  <class class="schooltool.lyceum.journal.journal.SectionJournal">
+    <allow interface="schooltool.lyceum.journal.interfaces.ISectionJournal" />
+  </class>
+
+  <adapter
+      for="schooltool.course.interfaces.ISection"
+      provides="schooltool.lyceum.journal.journal.ISectionJournalData"
+      factory="schooltool.lyceum.journal.journal.getSectionJournalData"
+      />
+
+  <adapter factory="schooltool.lyceum.journal.journal.SectionJournal" />
+
+  <adapter
+      for="schooltool.timetable.interfaces.ITimetableCalendarEvent"
+      provides="schooltool.lyceum.journal.journal.ISectionJournal"
+      factory="schooltool.lyceum.journal.journal.getEventSectionJournal"
+      />
+
+  <adapter
+      for="schooltool.app.interfaces.ISchoolToolApplication"
+      factory=".journal.JournalInit"
+      name="schooltool.lyceum.journal" />
+
+  <!-- Term grades -->
+
+  <class class="schooltool.lyceum.journal.term.LyceumTermDataContainer">
+    <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
+    <require permission="schooltool.view"
+             attributes="keys values items __iter__ __len__" />
+    <require permission="schooltool.edit"
+             interface="zope.app.container.interfaces.IWriteContainer" />
+  </class>
+
+  <class class="schooltool.lyceum.journal.term.TermGradingData">
+    <allow interface="schooltool.lyceum.journal.interfaces.ITermGradingData" />
+  </class>
+
+  <adapter
+      for="schooltool.person.interfaces.IPerson"
+      provides="schooltool.lyceum.journal.interfaces.ITermGradingData"
+      factory="schooltool.lyceum.journal.term.getPersonTermGradingData"
+      />
+
+  <adapter
+      for="schooltool.app.interfaces.ISchoolToolApplication"
+      factory=".term.TermGradingDataInit"
+      name="lyceum.term_grades" />
+
+  <browser:viewlet
+      name="journal_css"
+      for="*"
+      manager="schooltool.skin.ICSSManager"
+      class=".journal.JournalCSSViewlet"
+      permission="zope.View"
+      />
+
+  <browser:resource
+      name="journal.css"
+      file="resources/journal.css"
+      layer="schooltool.skin.ISchoolToolLayer" />
+
+  <browser:resource
+      name="journal_non_ie.css"
+      file="resources/journal_non_ie.css"
+      layer="schooltool.skin.ISchoolToolLayer" />
+
+  <include package="schooltool.lyceum.journal.browser" />
+
+</configure>

@@ -38,10 +38,10 @@ pkg_resources.require("setuptools>=0.6a11")
 import os
 from setuptools import setup, find_packages
 
-version = open("version.txt").read().strip()
-if version.endswith("dev"):
-    bzrversion = os.popen('bzr revno').read().strip()
-    version += "_r" + bzrversion
+if os.path.exists("version.txt"):
+    version = open("version.txt").read().strip()
+else:
+    version = open("version.txt.in").read().strip()
 
 # Setup Schooltool.Lyceum.Journal
 setup(

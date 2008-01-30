@@ -377,11 +377,14 @@ class GroupAttendanceView(LyceumSectionJournalView):
             if month in available_months:
                 return month
 
+        term = self.getSelectedTerm()
         date = self.selectedDate()
         if not date:
             date = today()
-        month = date.month
-        if month in available_months:
-            return month
+
+        if term.first <= date <= term.last:
+            month = date.month
+            if month in available_months:
+                return month
 
         return available_months[-1]

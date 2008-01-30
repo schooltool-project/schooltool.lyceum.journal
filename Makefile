@@ -23,7 +23,7 @@ buildout:
 
 .PHONY: update
 update: build
-	svn up
+	bzr up
 	bin/buildout -n
 
 .PHONY: test
@@ -39,7 +39,7 @@ ftest: build
 	bin/test -f
 
 .PHONY: release
-release:
+release: compile-translations
 	echo -n `sed -e 's/\n//' version.txt.in` > version.txt
 	echo -n "_r" >> version.txt
 	bzr revno >> version.txt

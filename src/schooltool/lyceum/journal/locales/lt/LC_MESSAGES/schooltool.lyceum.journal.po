@@ -1,0 +1,115 @@
+# Lithuanian translation for schooltool
+# Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
+# This file is distributed under the same license as the schooltool package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: schooltool\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: Thu Jan 31 00:15:34 2008\n"
+"PO-Revision-Date: 2007-09-21 10:10+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Lithuanian <lt@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2007-09-21 10:18+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: /src/schooltool/lyceum/journal/browser/attendance.py:166
+msgid "Total"
+msgstr "Viso"
+
+#: /src/schooltool/lyceum/journal/browser/attendance.py:53
+msgid "Explained:"
+msgstr "Pateisinta:"
+
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:67
+msgid "Gradebook"
+msgstr "Pažymių knygelė"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:103
+msgid "Nr."
+msgstr "Nr."
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:220
+#: /src/schooltool/lyceum/journal/browser/student.py:106
+msgid "Average"
+msgstr "Vidurkis"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:243
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:58
+msgid "Attendance"
+msgstr "Praleistos pamokos"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:263
+#: /src/schooltool/lyceum/journal/browser/term.py:85
+msgid "Nr"
+msgstr "Nr"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:270
+#: /src/schooltool/lyceum/journal/browser/term.py:87
+msgid "Class"
+msgstr "Klasė"
+
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:10
+msgid "${group} journal"
+msgstr "${group} dienynas"
+
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:14
+msgid "${group} journal for ${month}"
+msgstr "${group} dienynas ${month} mėnesiui"
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:412
+msgid "Term Grading"
+msgstr "Semestro pažymiai"
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:373
+#, fuzzy
+msgid "${section} journal for ${month} ${year}"
+msgstr "${section} dienynas ${month} mėnesiui"
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+msgid "${section} journal"
+msgstr "${section} dienynas"
+
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+msgid "Journal"
+msgstr "Dienynas"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
+msgid "${student_name} journal for ${month}"
+msgstr "${student_name} dienynas ${month} mėnesiui"
+
+#. Default: "Shortcut: Alt-S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "title-for-select-button"
+msgstr ""
+
+#. Default: "Select"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "select-button"
+msgstr "Pasirinkti"
+
+#. Default: "S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "schortcut-letter-for-select"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
+msgid "${person} journal for ${month}"
+msgstr "${person} dienynas ${month} mėnesiui"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
+msgid "${person} journal"
+msgstr "${person} dienynas"
+
+#: /src/schooltool/lyceum/journal/browser/term.py:57
+msgid "Term Grade"
+msgstr "Semestrinis pažymys"

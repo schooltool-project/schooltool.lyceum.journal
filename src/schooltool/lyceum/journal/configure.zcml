@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
            xmlns="http://namespaces.zope.org/zope"
            i18n_domain="schooltool.lyceum.journal">
 
@@ -82,5 +83,9 @@
       layer="schooltool.skin.ISchoolToolLayer" />
 
   <include package="schooltool.lyceum.journal.browser" />
+
+  <!-- Translations -->
+
+  <i18n:registerTranslations directory="locales" />
 
 </configure>

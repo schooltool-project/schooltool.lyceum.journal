@@ -63,6 +63,29 @@ coverage-reports-html:
 	bin/coverage
 	ln -s schooltool.lyceum.journal.html coverage/reports/index.html
 
+.PHONY: extract-translations
+extract-translations: build
+	bin/i18nextract --egg schooltool.lyceum.journal --domain schooltool.lyceum.journal --zcml schooltool/lyceum/journal/translation.zcml --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
+
+
+.PHONY: compile-translations
+compile-translations:
+	set -e; \
+	locales=src/schooltool/lyceum/journal/locales; \
+	for f in $${locales}/*/LC_MESSAGES/schooltool.lyceum.journal.po; do \
+	    msgfmt -o $${f%.po}.mo $$f;\
+	done
+
+.PHONY: update-translations
+update-translations: extract-translations
+	set -e; \
+	locales=src/schooltool/lyceum/journal/locales; \
+	for f in $${locales}/*/LC_MESSAGES/schooltool.lyceum.journal.po; do \
+	    msgmerge -qU $$f $${locales}/schooltool.lyceum.journal.pot ;\
+	done
+	$(MAKE) PYTHON=$(PYTHON) compile-translations
+
+
 .PHONY: ubuntu-environment
 ubuntu-environment:
 	@if [ `whoami` != "root" ]; then { \

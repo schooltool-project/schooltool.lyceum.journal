@@ -240,7 +240,7 @@ class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
             return str(absences)
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Attendance"),
+        return '<span>%s</span>' % translate(_("Absences"),
                                              context=formatter.request)
 
 

@@ -1,0 +1,9 @@
+bin
+develop-eggs
+parts
+src/schooltool.lyceum.journal.egg-info
+ID
+TAGS
+tags
+.installed.cfg
+python

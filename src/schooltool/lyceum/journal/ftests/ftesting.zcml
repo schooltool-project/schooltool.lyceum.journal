@@ -1,0 +1,26 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="zope">
+
+  <include package="schooltool.help" file="meta.zcml" />
+
+  <include package="schooltool.common" />
+
+  <include package="schooltool.course" />
+  <include package="schooltool.term" />
+  <include package="schooltool.timetable" />
+  <include package="schooltool.demographics" />
+  <include package="schooltool.basicperson" />
+  <include package="schooltool.lyceum.journal" />
+
+  <interface
+      interface="schooltool.basicperson.ftesting.IBasicPersonFtestingSkin"
+      type="zope.publisher.interfaces.browser.IBrowserSkinType"
+      name="BasicPerson"
+      />
+
+  <includeOverrides package="schooltool.basicperson" file="overrides.zcml" />
+
+  <browser:defaultSkin name="BasicPerson" />
+
+</configure>

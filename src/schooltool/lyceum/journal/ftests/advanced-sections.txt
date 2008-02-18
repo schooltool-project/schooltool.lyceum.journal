@@ -1,0 +1,217 @@
+Functional doctest for SchoolTool Journal Advanced Sections
+===========================================================
+
+Let's log in with the manager account:
+
+    >>> from zope.testbrowser.testing import Browser
+    >>> from schooltool.lyceum.journal.ftests import printGradebookTable
+    >>> manager = Browser()
+    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
+    >>> manager.handleErrors = False
+    >>> manager.open('http://localhost/')
+
+Add some teachers:
+
+    >>> from schooltool.basicperson.browser.ftests.setup import addPerson
+    >>> addPerson('Pete', 'Teacher', username='pete', password='pwd', groups=['teachers'])
+    >>> addPerson('John', 'Teacher', username='john', password='pwd', groups=['teachers'])
+
+And some students:
+
+    >>> addPerson('Frum', 'Student', username='frum', password='pwd', groups=['students'])
+    >>> addPerson('Grum', 'Student', username='grum', password='pwd', groups=['students'])
+    >>> addPerson('Bogon', 'Student', username='bogon', password='pwd', groups=['students'])
+
+Add 2 Terms:
+
+    >>> manager.getLink('Terms').click()
+    >>> manager.getLink('New Term').click()
+    >>> manager.getControl('Title').value = '2005 Fall 1'
+    >>> manager.getControl('Start date').value = '2005-09-01'
+    >>> manager.getControl('End date').value = '2005-10-31'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Saturday').click()
+    >>> manager.getControl('Sunday').click()
+    >>> manager.getControl('Add term').click()
+
+Timetable schema:
+
+    >>> manager.getLink('School Timetables').click()
+    >>> manager.getLink('New Timetable').click()
+    >>> manager.getLink('simple weekly timetable schema').click()
+
+    >>> manager.getControl(name='field.period_name_1').value = 'A'
+    >>> manager.getControl(name='field.period_start_1').value = '9:00'
+    >>> manager.getControl(name='field.period_finish_1').value = '10:00'
+
+    >>> manager.getControl(name='field.period_name_2').value = 'B'
+    >>> manager.getControl(name='field.period_start_2').value = '10:30'
+    >>> manager.getControl(name='field.period_finish_2').value = '11:30'
+
+    >>> manager.getControl('Create').click()
+
+A couple of sections:
+
+    >>> from schooltool.app.browser.ftests.setup import addSection
+    >>> from schooltool.app.browser.ftests.setup import addCourse
+    >>> addCourse("History")
+
+    >>> addSection("History", title="History (1a, 1d)",
+    ...            instructors=['Pete', 'John'],
+    ...            members=['Grum', 'Frum'])
+
+    >>> addSection("History", title="History (1d) A",
+    ...            instructors=['John'],
+    ...            members=['Frum'])
+
+    >>> addSection("History", title="History (1a) A",
+    ...            instructors=['John'],
+    ...            members=['Grum'])
+
+Let's schedule the sections:
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-1']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Tuesday.A').value = True
+    >>> manager.getControl(name='Tuesday.B').value = True
+    >>> manager.getControl(name='Wednesday.A').value = True
+    >>> manager.getControl('Save').click()
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/2').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-1']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Wednesday.B').value = True
+    >>> manager.getControl('Save').click()
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/3').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-1']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Thursday.A').value = True
+    >>> manager.getControl(name='Thursday.B').value = True
+    >>> manager.getControl('Save').click()
+
+Let's log in with the teacher account:
+
+    >>> teacher = Browser()
+    >>> teacher.handleErrors = False
+    >>> teacher.open('http://localhost/')
+    >>> teacher.getLink('Log In').click()
+    >>> teacher.getControl('Username').value = 'pete'
+    >>> teacher.getControl('Password').value = 'pwd'
+    >>> teacher.getControl('Log in').click()
+
+Journal supports an interesting way of combining multiple sections:
+
+    >>> teacher.open('http://localhost/sections/1')
+    >>> teacher.getLink('Journal').click()
+
+    >>> from urllib import unquote
+    >>> unquote(teacher.url)
+    'http://localhost/sections/1/journal'
+    >>> unquote(teacher.getLink('October').url)
+    'http://localhost/sections/1/journal/index.html?month=10'
+    >>> teacher.getLink('October').click()
+    >>> printGradebookTable(teacher.contents) # doctest: -REPORT_NDIFF
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 04 | 04 | 05 | 05 | 06 | 06 | 11 | 11 | 12 | 12 | 13 | 13 | 18 | 18 | 19 | 19 | 20 | 20 | 25 | 25 | 26 | 26 | 27 | 27 | Average | Absences |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   |    |    |    |    | X  | X  |    |    |    |    | X  | X  |    |    |    |    | X  | X  |    |    |    |    | X  | X  |         |          |
+    | 2   | Grum       | Student   |    |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |         |          |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+    >>> unquote(teacher.getLink('04').url)
+    'http://localhost/sections/1/journal/index.html?event_id=...&month=10'
+    >>> unquote(teacher.getLink('11').url)
+    'http://localhost/sections/1/journal/index.html?event_id=...&month=10'
+    >>> unquote(teacher.getLink('19').url)
+    'http://localhost/sections/1/journal/index.html?event_id=...&month=10'
+
+    >>> teacher.getLink('18').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 04 | 04 | 05 | 05 | 06 | 06 | 11 | 11 | 12 | 12 | 13 | 13 | 18      | 18 | 19 | 19 | 20 | 20 | 25 | 25 | 26 | 26 | 27 | 27 | Average | Absences |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   |    |    |    |    | X  | X  |    |    |    |    | X  | X  | [_____] |    |    |    | X  | X  |    |    |    |    | X  | X  |         |          |
+    | 2   | Grum       | Student   |    |    |    | X  |    |    |    |    |    | X  |    |    | [_____] |    |    | X  |    |    |    |    |    | X  |    |    |         |          |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '10'
+    >>> teacher.getControl('Update').click()
+
+    >>> teacher.getLink('11').click()
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '5'
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 04 | 04 | 05 | 05 | 06 | 06 | 11      | 11 | 12 | 12 | 13 | 13 | 18 | 18 | 19 | 19 | 20 | 20 | 25 | 25 | 26 | 26 | 27 | 27 | Average | Absences |
+    +-----+------------+-----------+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   |    |    |    |    | X  | X  | [5____] |    |    |    | X  | X  | 10 |    |    |    | X  | X  |    |    |    |    | X  | X  | 7.500   |          |
+    | 2   | Grum       | Student   |    |    |    | X  |    |    | [_____] |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |         |          |
+    +-----+------------+-----------+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+    >>> teacher.open('http://localhost/sections/1')
+    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('October').click()
+    >>> printGradebookTable(teacher.contents) # doctest: -REPORT_NDIFF
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 04 | 04 | 05 | 05 | 06 | 06 | 11 | 11 | 12 | 12 | 13 | 13 | 18 | 18 | 19 | 19 | 20 | 20 | 25 | 25 | 26 | 26 | 27 | 27 | Average | Absences |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   |    |    |    |    | X  | X  | 5  |    |    |    | X  | X  | 10 |    |    |    | X  | X  |    |    |    |    | X  | X  | 7.500   |          |
+    | 2   | Grum       | Student   |    |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |         |          |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+A test for a regresion when teacher has no permission to see one of
+the sections, even though he is teaching another one:
+
+    >>> teacher2 = Browser()
+    >>> teacher2.handleErrors = False
+    >>> teacher2.open('http://localhost/')
+    >>> teacher2.getLink('Log In').click()
+    >>> teacher2.getControl('Username').value = 'john'
+    >>> teacher2.getControl('Password').value = 'pwd'
+    >>> teacher2.getControl('Log in').click()
+
+    >>> teacher2.open(teacher.url)
+    >>> printGradebookTable(teacher2.contents)
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 04 | 04 | 05 | 05 | 06 | 06 | 11 | 11 | 12 | 12 | 13 | 13 | 18 | 18 | 19 | 19 | 20 | 20 | 25 | 25 | 26 | 26 | 27 | 27 | Average | Absences |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   |    |    |    |    | X  | X  | 5  |    |    |    | X  | X  | 10 |    |    |    | X  | X  |    |    |    |    | X  | X  | 7.500   |          |
+    | 2   | Grum       | Student   |    |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |         |          |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+Now let's change the teacher for the adjacent section section:
+
+    >>> manager.open('http://localhost/sections/2/')
+    >>> manager.getLink('edit instructors').click()
+    >>> manager.getControl('John').click()
+    >>> manager.getControl('Remove').click()
+
+Current teacher can see only the meetings he is lecturing in:
+
+    >>> teacher2.reload()
+    >>> printGradebookTable(teacher2.contents)
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 04 | 04 | 05 | 06 | 06 | 11 | 11 | 12 | 13 | 13 | 18 | 18 | 19 | 20 | 20 | 25 | 25 | 26 | 27 | 27 | Average | Absences |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   |    |    |    | X  | X  | 5  |    |    | X  | X  | 10 |    |    | X  | X  |    |    |    | X  | X  | 7.500   |          |
+    | 2   | Grum       | Student   |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |         |          |
+    +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+

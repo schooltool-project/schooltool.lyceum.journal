@@ -1,0 +1,253 @@
+Functional doctest for SchoolTool Journal Term Grades
+=====================================================
+
+Let's log in with the manager account:
+
+    >>> from zope.testbrowser.testing import Browser
+    >>> from schooltool.lyceum.journal.ftests import printGradebookTable
+    >>> manager = Browser()
+    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
+    >>> manager.handleErrors = False
+    >>> manager.open('http://localhost/')
+
+Add some teachers:
+
+    >>> from schooltool.basicperson.browser.ftests.setup import addPerson
+    >>> addPerson('Pete', 'Teacher', username='pete', password='pwd', groups=['teachers'])
+    >>> addPerson('John', 'Teacher', username='john', password='pwd', groups=['teachers'])
+
+And some students:
+
+    >>> addPerson('Frum', 'Student', username='frum', password='pwd', groups=['students'])
+    >>> addPerson('Grum', 'Student', username='grum', password='pwd', groups=['students'])
+    >>> addPerson('Bogon', 'Student', username='bogon', password='pwd', groups=['students'])
+
+Add 2 Terms:
+
+    >>> manager.getLink('Terms').click()
+    >>> manager.getLink('New Term').click()
+    >>> manager.getControl('Title').value = '2005 Fall 1'
+    >>> manager.getControl('Start date').value = '2005-09-01'
+    >>> manager.getControl('End date').value = '2005-10-31'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Saturday').click()
+    >>> manager.getControl('Sunday').click()
+    >>> manager.getControl('Add term').click()
+
+    >>> manager.getLink('New Term').click()
+    >>> manager.getControl('Title').value = '2005 Fall 2'
+    >>> manager.getControl('Start date').value = '2005-11-01'
+    >>> manager.getControl('End date').value = '2005-12-31'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Saturday').click()
+    >>> manager.getControl('Sunday').click()
+    >>> manager.getControl('Add term').click()
+
+Timetable schema:
+
+    >>> manager.getLink('School Timetables').click()
+    >>> manager.getLink('New Timetable').click()
+    >>> manager.getLink('simple weekly timetable schema').click()
+
+    >>> manager.getControl(name='field.period_name_1').value = 'A'
+    >>> manager.getControl(name='field.period_start_1').value = '9:00'
+    >>> manager.getControl(name='field.period_finish_1').value = '10:00'
+
+    >>> manager.getControl(name='field.period_name_2').value = 'B'
+    >>> manager.getControl(name='field.period_start_2').value = '10:30'
+    >>> manager.getControl(name='field.period_finish_2').value = '11:30'
+
+    >>> manager.getControl('Create').click()
+
+A couple of sections:
+
+    >>> from schooltool.app.browser.ftests.setup import addSection
+    >>> from schooltool.app.browser.ftests.setup import addCourse
+    >>> addCourse("History")
+
+    >>> addSection("History", title="History (1a)",
+    ...            instructors=['Pete'],
+    ...            members=['Grum', 'Frum'])
+
+    >>> addSection("History", title="History (1b)",
+    ...            instructors=['John'],
+    ...            members=['Bogon'])
+
+    >>> addSection("History", title="History (1a)",
+    ...            instructors=['Pete'],
+    ...            members=['Grum', 'Frum'])
+
+    >>> addSection("History", title="History (1b)",
+    ...            instructors=['John'],
+    ...            members=['Bogon'])
+
+Let's schedule the sections:
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-1']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Tuesday.A').value = True
+    >>> manager.getControl(name='Tuesday.B').value = True
+    >>> manager.getControl(name='Wednesday.A').value = True
+    >>> manager.getControl('Save').click()
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/3').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-2']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-2.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Tuesday.A').value = True
+    >>> manager.getControl(name='Tuesday.B').value = True
+    >>> manager.getControl(name='Wednesday.A').value = True
+    >>> manager.getControl('Save').click()
+
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/2').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-1']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Wednesday.B').value = True
+    >>> manager.getControl(name='Thursday.A').value = True
+    >>> manager.getControl(name='Thursday.B').value = True
+    >>> manager.getControl('Save').click()
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/4').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-2']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-2.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Wednesday.B').value = True
+    >>> manager.getControl(name='Thursday.A').value = True
+    >>> manager.getControl(name='Thursday.B').value = True
+    >>> manager.getControl('Save').click()
+
+Let's log in with the teacher account:
+
+    >>> teacher = Browser()
+    >>> teacher.handleErrors = False
+    >>> teacher.open('http://localhost/')
+    >>> teacher.getLink('Log In').click()
+    >>> teacher.getControl('Username').value = 'pete'
+    >>> teacher.getControl('Password').value = 'pwd'
+    >>> teacher.getControl('Log in').click()
+
+Let's look at the journal:
+
+    >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
+    >>> teacher.getLink('Journal').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 06      | 06 | 07 | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   | [_____] |    |    |    |    |    |    |    |    |    |    |    |         |          |
+    | 2   | Grum       | Student   | [_____] |    |    |    |    |    |    |    |    |    |    |    |         |          |
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+And now let's add some grades for this term:
+
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '10'
+    >>> teacher.getControl(name=cells[1]).value = '5'
+    >>> teacher.getControl('Update').click()
+
+    >>> teacher.getLink('7').click()
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '8'
+    >>> teacher.getControl(name=cells[1]).value = '6'
+    >>> teacher.getControl('Update').click()
+
+    >>> printGradebookTable(teacher.contents) # doctest: -REPORT_NDIFF
+    +-----+------------+-----------+----+----+---------+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 06 | 06 | 07      | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |
+    +-----+------------+-----------+----+----+---------+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   | 10 |    | [8____] |    |    |    |    |    |    |    |    |    | 9.000   |          |
+    | 2   | Grum       | Student   | 5  |    | [6____] |    |    |    |    |    |    |    |    |    | 5.500   |          |
+    +-----+------------+-----------+----+----+---------+----+----+----+----+----+----+----+----+----+---------+----------+
+
+    >>> teacher.getLink('Term Grading').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+-------+------------+-----------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 9.000   |          | [_____]    |
+    | 2   |       | Grum       | Student   | 5.500   |          | [_____]    |
+    +-----+-------+------------+-----------+---------+----------+------------+
+
+    >>> teacher.getControl(name='frum').value = "10"
+    >>> teacher.getControl(name='grum').value = "6"
+
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+-------+------------+-----------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 9.000   |          | [10___]    |
+    | 2   |       | Grum       | Student   | 5.500   |          | [6____]    |
+    +-----+-------+------------+-----------+---------+----------+------------+
+
+    >>> teacher.getControl(name='frum').value = "9"
+    >>> teacher.getControl(name='grum').value = "5"
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+-------+------------+-----------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 9.000   |          | [9____]    |
+    | 2   |       | Grum       | Student   | 5.500   |          | [5____]    |
+    +-----+-------+------------+-----------+---------+----------+------------+
+
+    >>> teacher.open('http://localhost/persons/frum/journal.html')
+    >>> teacher.getControl(name='TERM').value = ['2005-fall-1']
+    >>> teacher.getControl('Select').click()
+    >>> printGradebookTable(teacher.contents)
+    +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
+    | Title   | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | Average |
+    +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
+    | History |    |    |    |    |    | 10 | 8  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | *9*     |
+    +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
+
+Let's look at things from the perspective of a student. A student
+should be able to see all the section calendars overlaid in his
+calendar:
+
+    >>> student = Browser()
+    >>> student.addHeader('Authorization', 'Basic frum:pwd')
+    >>> student.open('http://localhost/persons/frum/calendar')
+    >>> for item in analyze.queryHTML('//table[@class="overlays"]//td[@style="width: 100%"]', student.contents):
+    ...    print item
+    <td style="width: 100%">My Calendar</td>
+    <BLANKLINE>
+    <td style="width: 100%">Teacher Pete -- History (1a)</td>
+    <BLANKLINE>
+    <td style="width: 100%">Teacher Pete -- History (1a)</td>
+    <BLANKLINE>
+    <td style="width: 100%">SchoolTool</td>
+    <BLANKLINE>
+
+And he should be capable of accessing his own gradebook:
+
+    >>> student.getLink('Student Frum').click()
+    >>> student.getLink('Gradebook').click()
+    >>> student.getControl(name='TERM').value = ['2005-fall-1']
+    >>> student.getControl('Select').click()
+    >>> printGradebookTable(student.contents)
+    +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
+    | Title   | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | Average |
+    +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
+    | History |    |    |    |    |    | 10 | 8  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | *9*     |
+    +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+

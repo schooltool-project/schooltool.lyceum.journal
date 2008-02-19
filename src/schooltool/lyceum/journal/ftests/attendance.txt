@@ -94,7 +94,7 @@ Let's log in with the teacher account:
     >>> teacher.getControl('Password').value = 'pwd'
     >>> teacher.getControl('Log in').click()
 
-Let's mark Zomie Brin as if he has skipped some lessons:
+Let's mark Frum as if he has skipped some lessons:
 
     >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
     >>> teacher.getLink('Journal').click()

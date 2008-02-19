@@ -97,9 +97,19 @@ Now let's try using Ajax views to set both public and teacher's
 description of the lesson:
 
     >>> old_url = teacher.url
-    >>> event_id = "ODk5OTYzMzgxLS9zZWN0aW9ucy8xL3RpbWV0YWJsZXMvMjAwNS1mYWxsLTEuZGVmYXVsdEBsb2Nh%0AbGhvc3QubG9jYWxkb21haW4%3D%0A"
+
+We'll have to extract the event_id first:
+
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> event_id = cells[0].split(".")[1]
+
+And generate some urls:
+
     >>> public_url = 'http://localhost/sections/1/journal/setPublicDescription.xml?event_id=%s&lesson_description=%s'
     >>> teacher_url = 'http://localhost/sections/1/journal/setLessonDescription.xml?event_id=%s&lesson_description=%s'
+
+And now we set the descriptions:
+
     >>> teacher.open(teacher_url % (event_id, "New description for this lesson."))
     >>> teacher.open(public_url % (event_id, "New public description for this lesson."))
 

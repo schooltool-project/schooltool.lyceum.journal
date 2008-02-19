@@ -1,0 +1,173 @@
+Functional doctest for SchoolTool Journal
+=========================================
+
+Let's log in with the manager account:
+
+    >>> from zope.testbrowser.testing import Browser
+    >>> from schooltool.lyceum.journal.ftests import printGradebookTable
+    >>> manager = Browser()
+    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
+    >>> manager.handleErrors = False
+    >>> manager.open('http://localhost/')
+
+Add some teachers:
+
+    >>> from schooltool.basicperson.browser.ftests.setup import addPerson
+    >>> addPerson('Pete', 'Teacher', username='pete', password='pwd', groups=['teachers'])
+
+And some students:
+
+    >>> addPerson('Frum', 'Student', username='frum', password='pwd', groups=['students'])
+    >>> addPerson('Grum', 'Student', username='grum', password='pwd', groups=['students'])
+
+Add a term:
+
+    >>> manager.getLink('Terms').click()
+    >>> manager.getLink('New Term').click()
+    >>> manager.getControl('Title').value = '2005 Fall 1'
+    >>> manager.getControl('Start date').value = '2005-09-01'
+    >>> manager.getControl('End date').value = '2005-10-31'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Saturday').click()
+    >>> manager.getControl('Sunday').click()
+    >>> manager.getControl('Add term').click()
+
+Timetable schema:
+
+    >>> manager.getLink('School Timetables').click()
+    >>> manager.getLink('New Timetable').click()
+    >>> manager.getLink('simple weekly timetable schema').click()
+
+    >>> manager.getControl(name='field.period_name_1').value = 'A'
+    >>> manager.getControl(name='field.period_start_1').value = '9:00'
+    >>> manager.getControl(name='field.period_finish_1').value = '10:00'
+
+    >>> manager.getControl(name='field.period_name_2').value = 'B'
+    >>> manager.getControl(name='field.period_start_2').value = '10:30'
+    >>> manager.getControl(name='field.period_finish_2').value = '11:30'
+
+    >>> manager.getControl('Create').click()
+
+A section:
+
+    >>> from schooltool.app.browser.ftests.setup import addSection
+    >>> from schooltool.app.browser.ftests.setup import addCourse
+    >>> addCourse("History")
+
+    >>> addSection("History", title="History (1a)",
+    ...            instructors=['Pete'],
+    ...            members=['Grum', 'Frum'])
+
+Let's schedule the section:
+
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl(name='terms').value = ['2005-fall-1']
+    >>> manager.getControl('Add').click()
+    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Edit').click()
+    >>> manager.getControl(name='Tuesday.A').value = True
+    >>> manager.getControl(name='Tuesday.B').value = True
+    >>> manager.getControl(name='Wednesday.A').value = True
+    >>> manager.getControl('Save').click()
+
+Let's log in with the teacher account:
+
+    >>> teacher = Browser()
+    >>> teacher.handleErrors = False
+    >>> teacher.open('http://localhost/')
+    >>> teacher.getLink('Log In').click()
+    >>> teacher.getControl('Username').value = 'pete'
+    >>> teacher.getControl('Password').value = 'pwd'
+    >>> teacher.getControl('Log in').click()
+
+    >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
+    >>> teacher.getLink('Journal').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 06      | 06 | 07 | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   | [_____] |    |    |    |    |    |    |    |    |    |    |    |         |          |
+    | 2   | Grum       | Student   | [_____] |    |    |    |    |    |    |    |    |    |    |    |         |          |
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+Now let's try using Ajax views to set both public and teacher's
+description of the lesson:
+
+    >>> old_url = teacher.url
+    >>> event_id = "ODk5OTYzMzgxLS9zZWN0aW9ucy8xL3RpbWV0YWJsZXMvMjAwNS1mYWxsLTEuZGVmYXVsdEBsb2Nh%0AbGhvc3QubG9jYWxkb21haW4%3D%0A"
+    >>> public_url = 'http://localhost/sections/1/journal/setPublicDescription.xml?event_id=%s&lesson_description=%s'
+    >>> teacher_url = 'http://localhost/sections/1/journal/setLessonDescription.xml?event_id=%s&lesson_description=%s'
+    >>> teacher.open(teacher_url % (event_id, "New description for this lesson."))
+    >>> teacher.open(public_url % (event_id, "New public description for this lesson."))
+
+Values should be visible when we refresh the page:
+
+    >>> teacher.open(old_url)
+    >>> teacher.getControl(name='field.teacher_description').value
+    'New description for this lesson.'
+    >>> teacher.getControl(name='field.public_description').value
+    'New public description for this lesson.'
+
+There is an ajax view that shows us both text fields as well:
+
+    >>> get_url = 'http://localhost/sections/1/journal/getLessonDescription.xml?event_id=%s'
+    >>> teacher.open(get_url % event_id)
+    >>> print teacher.contents
+    <div>Lesson description for 9/6/05 period A</div>
+    <div>
+    <textarea cols="60" id="field.teacher_description" name="field.teacher_description" rows="15" >New description for this lesson.</textarea>
+    <script type="text/javascript" language="JavaScript">
+    var oFCKeditor_teacher_description = new FCKeditor(
+            "field.teacher_description", 400, 150, "schooltool");
+        oFCKeditor_teacher_description.BasePath = "/@@/fckeditor/";
+        oFCKeditor_teacher_description.Config["CustomConfigurationsPath"] = "http://localhost/@@/editor_config.js";
+        oFCKeditor_teacher_description.ReplaceTextarea();
+        document.getElementById('field.teacher_description').event_id = '...';
+    </script>
+    <BLANKLINE>
+    <textarea cols="60" id="field.public_description" name="field.public_description" rows="15" >New public description for this lesson.</textarea>
+    <script type="text/javascript" language="JavaScript">
+    var oFCKeditor_public_description = new FCKeditor(
+            "field.public_description", 400, 150, "schooltool");
+        oFCKeditor_public_description.BasePath = "/@@/fckeditor/";
+        oFCKeditor_public_description.Config["CustomConfigurationsPath"] = "http://localhost/@@/editor_config.js";
+        oFCKeditor_public_description.ReplaceTextarea();
+        document.getElementById('field.public_description').event_id = '...';
+    </script>
+    <BLANKLINE>
+    </div>
+    <BLANKLINE>
+
+Let's add some grades:
+
+    >>> grade_url = 'http://localhost/sections/1/journal/ajax.xml?event_id=%s&person_id=%s&grade=%s'
+    >>> teacher.open(grade_url % (event_id, 'frum', 9))
+    >>> teacher.open(grade_url % (event_id, 'grum', 3))
+    >>> teacher.open(old_url)
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | Nr. | First Name | Last Name | 06      | 06 | 07 | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+    | 1   | Frum       | Student   | [9____] |    |    |    |    |    |    |    |    |    |    |    | 9.000   |          |
+    | 2   | Grum       | Student   | [3____] |    |    |    |    |    |    |    |    |    |    |    | 3.000   |          |
+    +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
+
+What if Grum tries to circumvent the security and use the ajax url
+directly to set his grades:
+
+    >>> grum = Browser()
+    >>> grum.handleErrors = False
+    >>> grum.open('http://localhost/')
+    >>> grum.getLink('Log In').click()
+    >>> grum.getControl('Username').value = 'grum'
+    >>> grum.getControl('Password').value = 'pwd'
+    >>> grum.getControl('Log in').click()
+    >>> grum.open(grade_url % (event_id, 'grum', 10))
+    Traceback (most recent call last):
+    ...
+    Unauthorized: (<zope.app.publisher.browser.viewmeta.SectionJournalAjaxView object at ...>,
+                    'browserDefault', 'schooltool.edit')
+

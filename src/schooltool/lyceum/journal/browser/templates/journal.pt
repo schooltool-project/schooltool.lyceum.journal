@@ -14,22 +14,45 @@
     <link type="text/css" rel="stylesheet" href="journal_non_ie.css"
           tal:attributes="href context/++resource++journal_non_ie.css" />
   <!--<![endif]-->
+  <script tal:content="string: var here = '${context/@@absolute_url}/';"/>
   <script language="javascript">
     var selected_cell = null;
     var old_grade = null;
     var grade = null;
 
-    function saveLessonDescription(input, event_id) {
-        console.log(input.value)
+    function saveLessonDescription(value, event_id) {
         $.ajax({
-           url: 'setLessonDescription.xml',
+           url: here + 'setLessonDescription.xml',
            type: 'POST',
            timeout: 5000,
            data: {event_id: event_id,
-                  lesson_description: input.value},
+                  lesson_description: value},
            error: function() {},
            success: function(xml){}
         });
+    }
+
+    function savePublicDescription(value, event_id) {
+        $.ajax({
+           url: here + 'setPublicDescription.xml',
+           type: 'POST',
+           timeout: 5000,
+           data: {event_id: event_id,
+                  lesson_description: value},
+           error: function() {},
+           success: function(xml){}
+        });
+    }
+
+    function FCKeditor_OnComplete(editorInstance)
+    {
+      editorInstance.Events.AttachEvent("OnBlur", function () {
+        var elem = document.getElementById(editorInstance.Name);
+        if (editorInstance.Name == 'field.teacher_description')
+            saveLessonDescription(editorInstance.GetXHTML(), elem.event_id);
+        if (editorInstance.Name == 'field.public_description')
+            savePublicDescription(editorInstance.GetXHTML(), elem.event_id);
+      });
     }
 
     function unselectCell() {
@@ -38,7 +61,7 @@
 
           if (grade != old_grade) {
             $.ajax({
-               url: 'ajax.xml',
+               url: here + 'ajax.xml',
                type: 'POST',
                timeout: 5000,
                data: {event_id: cell.event_id,
@@ -106,7 +129,7 @@
         }
 
         $.ajax({
-           url: 'getLessonDescription.xml',
+           url: here + 'getLessonDescription.xml',
            type: 'POST',
            timeout: 5000,
            data: {event_id: event_id},
@@ -379,9 +402,13 @@
     <div class="lesson-description">
       <tal:block condition="request/event_id|nothing"
                  define="meeting view/selectedEvent">
-        <div>Lesson description for <tal:block content="meeting/dtstart/@@shortDate" /> period <tal:block content="meeting/period_id" /></div>
-        <textarea tal:attributes="onBlur string:saveLessonDescription(this, '${view/encodedSelectedEventId}')"
-                  name="lesson_description" cols="100" rows="6" tal:content="view/selectedEventLessonDescription"></textarea>
+        <div>
+          <span><div>Lesson description for <tal:block content="meeting/dtstart/@@shortDate" /> period <tal:block content="meeting/period_id" /></div>
+            <tal:block tal:content="structure view/teacher_description_widget" />
+          </span>
+          <span>
+            <tal:block tal:content="structure view/public_description_widget" />
+          </span>
       </tal:block>
     </div>
 

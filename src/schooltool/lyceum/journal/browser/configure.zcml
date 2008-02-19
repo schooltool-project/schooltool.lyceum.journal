@@ -39,7 +39,7 @@
       name="ajax.xml"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.SectionJournalAjaxView"
-      permission="schooltool.view"
+      permission="schooltool.edit"
       />
 
   <page
@@ -53,7 +53,14 @@
       name="setLessonDescription.xml"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.SetLessonDescriptionAjaxView"
-      permission="schooltool.view"
+      permission="schooltool.edit"
+      />
+
+  <page
+      name="setPublicDescription.xml"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.SetPublicDescriptionAjaxView"
+      permission="schooltool.edit"
       />
 
   <page

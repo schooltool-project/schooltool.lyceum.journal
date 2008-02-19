@@ -1,3 +1,5 @@
 <div i18n:domain="schooltool.lyceum.journal">Lesson description for <tal:block content="view/meeting/dtstart/@@shortDate" /> period <tal:block content="view/meeting/period_id" /></div>
-<textarea tal:attributes="onBlur string:saveLessonDescription(this, '${request/event_id}')"
-          name="lesson_description" cols="100" rows="6" tal:content="view/description"></textarea>
+<div>
+<tal:block tal:content="structure view/teacher_description_widget" />
+<tal:block tal:content="structure view/public_description_widget" />
+</div>

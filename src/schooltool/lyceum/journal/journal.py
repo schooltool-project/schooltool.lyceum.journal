@@ -41,6 +41,33 @@ from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 
 
+def student_sections(students):
+    sections = set()
+    for student in students:
+        for section in student.groups:
+            if ISection.providedBy(section):
+                sections.add(section)
+    return sections
+
+
+def adjacent_sections(section):
+    courses = section.courses
+    instructors = section.instructors
+    sections = set()
+    sections.add(section)
+    members = [member for member in section.members
+               if IPerson.providedBy(member)]
+    for section in student_sections(members):
+        section = removeSecurityProxy(section)
+        for course in section.courses:
+            if course in courses:
+                for instructor in section.instructors:
+                    if instructor in instructors:
+                        sections.add(section)
+                        break
+    return sections
+
+
 class LyceumJournalContainer(BTreeContainer):
     """A container for all the journals in the system."""
 
@@ -147,31 +174,11 @@ class SectionJournal(object):
         return [member for member in self.section.members
                 if IPerson.providedBy(member)]
 
-    def student_sections(self, students):
-        sections = set()
-        for student in students:
-            for section in student.groups:
-                if ISection.providedBy(section):
-                    sections.add(section)
-        return sections
-
     @Lazy
     def adjacent_sections(self):
         """Sections in the same course that share members and at least one
         teacher with this section."""
-        courses = self.section.courses
-        instructors = self.section.instructors
-        sections = set()
-        sections.add(self.section)
-        for section in self.student_sections(self.members):
-            section = removeSecurityProxy(section)
-            for course in section.courses:
-                if course in courses:
-                    for instructor in section.instructors:
-                        if instructor in instructors:
-                            sections.add(section)
-                            break
-        return sections
+        return adjacent_sections(self.section)
 
     @Lazy
     def meetings(self):

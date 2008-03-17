@@ -15,7 +15,10 @@
           tal:attributes="href context/++resource++journal_non_ie.css" />
   <!--<![endif]-->
   <script tal:content="string: var here = '${context/@@absolute_url}/';"/>
-  <script language="javascript" tal:attributes="src context/++resource++schooltool.lyceum.journal.js">
+  <script language="javascript" type="text/javascript"
+	  tal:content="view/keyCodeInitialization"></script>
+  <script language="javascript" type="text/javascript"
+	  tal:attributes="src context/++resource++schooltool.lyceum.journal.js">
   </script>
 </tal:block>
 

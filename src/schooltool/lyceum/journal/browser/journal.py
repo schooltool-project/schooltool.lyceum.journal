@@ -256,6 +256,22 @@ class LyceumSectionJournalView(object):
     def __init__(self, context, request):
         self.context, self.request = context, request
 
+    def keyCodeInitialization(self):
+        # 78=n, 110=N, 80=p, 112=P
+        absentLetter = translate(_(u"Single letter that represents an absent mark for a student",
+                                   default=u'a'))
+        tardyLetter = translate(_(u"Single letter that represents an tardy mark for a student",
+                                  default=u't'))
+        return """
+        var absentKeyCodeLower = %s;
+        var absentKeyCodeUpper = %s;
+        var absentLetter = '%s';
+        var tardyKeyCodeLower = %s;
+        var tardyKeyCodeUpper = %s;
+        var tardyLetter = '%s';
+        """ % (ord(absentLetter), ord(absentLetter.upper()), absentLetter,
+               ord(tardyLetter), ord(tardyLetter.upper()), tardyLetter)
+
     def __call__(self):
         zc.resourcelibrary.need("fckeditor")
 

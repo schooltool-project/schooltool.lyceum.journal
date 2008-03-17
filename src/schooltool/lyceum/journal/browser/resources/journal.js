@@ -215,11 +215,13 @@ $(document).ready(function(){
   $(document).keypress(function (event) {
     if (selected_cell && !event.ctrlKey && !event.altKey) {
       //absent is n or N, tardy is p or P
+      //absent/tardy(KeyCode)Lower/Upper are defined by
+      // keyCodeInitialization call from journal.pt
       var keys = {enter: event.which == 13,
                   escape: event.which == 27,
                   space: event.which == 32,
-                  absent: event.which == 78 || event.which == 110,
-                  tardy: event.which == 80 || event.which == 112,
+                  absent: event.which == absentKeyCodeLower || event.which == absentKeyCodeUpper,
+                  tardy: event.which == tardyKeyCodeLower || event.which == tardyKeyCodeUpper,
                   0: event.which == 48,
                   1: event.which == 49,
                   2: event.which == 50,
@@ -328,15 +330,15 @@ $(document).ready(function(){
         $(selected_cell).html(grade);
         return false;
       }
-
+      //absentLetter defined by keyCodeInitialization call in journal.pt
       if (keys.absent) { // N, n
-        grade = 'n';
+        grade = absentLetter;
         $(selected_cell).html(grade);
         return false;
       }
-
+      //tardyLetter defined by keyCodeInitialization call in journal.pt
       if (keys.tardy) { // P, p
-        grade = 'p';
+        grade = tardyLetter;
         $(selected_cell).html(grade);
         return false;
       }

@@ -232,11 +232,11 @@ calendar:
     ...    print item
     <td style="width: 100%">My Calendar</td>
     <BLANKLINE>
-    <td style="width: 100%">Teacher Pete -- History (1a)</td>
-    <BLANKLINE>
-    <td style="width: 100%">Teacher Pete -- History (1a)</td>
-    <BLANKLINE>
     <td style="width: 100%">SchoolTool</td>
+    <BLANKLINE>
+    <td style="width: 100%">Teacher Pete -- History (1a)</td>
+    <BLANKLINE>
+    <td style="width: 100%">Teacher Pete -- History (1a)</td>
     <BLANKLINE>
 
 And he should be capable of accessing his own gradebook:

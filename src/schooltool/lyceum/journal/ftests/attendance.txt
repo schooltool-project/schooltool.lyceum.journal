@@ -249,3 +249,39 @@ Let's mark Frum as if he has skipped some lessons:
     | Explained: |           | [ ] | [ ] | [V] | [ ] | [ ] |    |    |    |       |
     | Grum       | Student   |     |     |     |     |     |    |    |    |       |
     +------------+-----------+-----+-----+-----+-----+-----+----+----+----+-------+
+
+Attendance should keep working even if there are no meetings scheduled
+for the current term:
+
+    >>> manager.getLink('Terms').click()
+    >>> manager.getLink('New Term').click()
+    >>> manager.getControl('Title').value = '2005 Fall 2'
+    >>> manager.getControl('Start date').value = '2005-11-01'
+    >>> manager.getControl('End date').value = '2005-12-31'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Saturday').click()
+    >>> manager.getControl('Sunday').click()
+    >>> manager.getControl('Add term').click()
+
+We will not see any meetings in the table though...
+
+    >>> manager.open('http://localhost/groups/2a/attendance.html')
+    >>> print analyze.queryHTML('//div[@id="content-body"]', manager.contents)[0]
+    <div id="content-body">
+      <form action="http://localhost/groups/2a/attendance.html" method="post">
+      ...<div>There have been no meetings in the selected term.</div>
+      ...
+      </form>
+    </div>
+
+But we will be able to select the previous term:
+
+    >>> manager.getControl(name='TERM').value = ['2005-fall-1']
+    >>> manager.getControl('Update').click()
+    >>> printGradebookTable(manager.contents)
+    +------------+-----------+----+----+----+----+----+----+----+----+-------+
+    | First Name | Last Name | 04 | 05 | 11 | 12 | 18 | 19 | 25 | 26 | Total |
+    +------------+-----------+----+----+----+----+----+----+----+----+-------+
+    | Frum       | Student   |    |    |    |    |    |    |    |    | 8     |
+    | Grum       | Student   |    |    |    |    |    |    |    |    |       |
+    +------------+-----------+----+----+----+----+----+----+----+----+-------+

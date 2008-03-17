@@ -255,6 +255,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
 
     def updateAttendance(self):
         student_id = self.request.get('student', None)
+        student = None
         if student_id:
             app = ISchoolToolApplication(None)
             student = app['persons'].get(student_id)
@@ -386,5 +387,8 @@ class GroupAttendanceView(LyceumSectionJournalView):
             month = date.month
             if month in available_months:
                 return month
+
+        if not available_months:
+            return None
 
         return available_months[-1]

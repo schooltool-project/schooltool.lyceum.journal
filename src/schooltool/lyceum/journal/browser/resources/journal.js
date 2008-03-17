@@ -146,7 +146,7 @@ $(document).ready(function(){
 
   $(document).keydown(function (event) {
     if (selected_cell && !event.ctrlKey && !event.altKey) {
-      if (event.keyCode == 37) { // left
+      if (event.which == 37) { // left
         index = selected_cell.cellIndex;
         tr = selected_cell.parentNode;
         new_td = tr.getElementsByTagName('td')[index-1];
@@ -156,7 +156,7 @@ $(document).ready(function(){
         }
       }
 
-      if (event.keyCode == 38) { // up
+      if (event.which == 38) { // up
         index = selected_cell.cellIndex;
         tr = selected_cell.parentNode;
 
@@ -175,7 +175,7 @@ $(document).ready(function(){
         }
       }
 
-      if (event.keyCode == 39) { // right
+      if (event.which == 39) { // right
         index = selected_cell.cellIndex;
         tr = selected_cell.parentNode;
 
@@ -187,7 +187,7 @@ $(document).ready(function(){
         }
       }
 
-      if (event.keyCode == 40) { // down
+      if (event.which == 40) { // down
         index = selected_cell.cellIndex;
         tr = selected_cell.parentNode;
 
@@ -204,7 +204,7 @@ $(document).ready(function(){
         }
       }
 
-      if (event.keyCode == 8 || event.keyCode == 46) { // Backspace, Del
+      if (event.which == 8 || event.which == 46) { // Backspace, Del
         grade = '';
         $(selected_cell).html(grade);
         return false;

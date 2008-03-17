@@ -181,35 +181,63 @@ And now let's add some grades for this term:
 
     >>> teacher.getLink('Term Grading').click()
     >>> printGradebookTable(teacher.contents)
-    +-----+-------+------------+-----------+---------+----------+------------+
-    | Nr. | Class | First Name | Last Name | Average | Absences | Term Grade |
-    +-----+-------+------------+-----------+---------+----------+------------+
-    | 1   |       | Frum       | Student   | 9.000   |          | [_____]    |
-    | 2   |       | Grum       | Student   | 5.500   |          | [_____]    |
-    +-----+-------+------------+-----------+---------+----------+------------+
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Grades | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 10,8   | 9.000   |          | [_____]    |
+    | 2   |       | Grum       | Student   | 5,6    | 5.500   |          | [_____]    |
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
 
     >>> teacher.getControl(name='frum').value = "10"
     >>> teacher.getControl(name='grum').value = "6"
 
     >>> teacher.getControl('Update').click()
     >>> printGradebookTable(teacher.contents)
-    +-----+-------+------------+-----------+---------+----------+------------+
-    | Nr. | Class | First Name | Last Name | Average | Absences | Term Grade |
-    +-----+-------+------------+-----------+---------+----------+------------+
-    | 1   |       | Frum       | Student   | 9.000   |          | [10___]    |
-    | 2   |       | Grum       | Student   | 5.500   |          | [6____]    |
-    +-----+-------+------------+-----------+---------+----------+------------+
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Grades | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 10,8   | 9.000   |          | [10___]    |
+    | 2   |       | Grum       | Student   | 5,6    | 5.500   |          | [6____]    |
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
 
     >>> teacher.getControl(name='frum').value = "9"
     >>> teacher.getControl(name='grum').value = "5"
     >>> teacher.getControl('Update').click()
     >>> printGradebookTable(teacher.contents)
-    +-----+-------+------------+-----------+---------+----------+------------+
-    | Nr. | Class | First Name | Last Name | Average | Absences | Term Grade |
-    +-----+-------+------------+-----------+---------+----------+------------+
-    | 1   |       | Frum       | Student   | 9.000   |          | [9____]    |
-    | 2   |       | Grum       | Student   | 5.500   |          | [5____]    |
-    +-----+-------+------------+-----------+---------+----------+------------+
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Grades | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 10,8   | 9.000   |          | [9____]    |
+    | 2   |       | Grum       | Student   | 5,6    | 5.500   |          | [5____]    |
+    +-----+-------+------------+-----------+--------+---------+----------+------------+
+
+    >>> teacher.getLink('September').click()
+    >>> teacher.getLink('13').click()
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '4'
+    >>> teacher.getControl(name=cells[1]).value = 'n'
+    >>> teacher.getControl('Update').click()
+
+    >>> teacher.getLink('20').click()
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = '2'
+    >>> teacher.getControl(name=cells[1]).value = '8'
+    >>> teacher.getControl('Update').click()
+
+    >>> teacher.getLink('27').click()
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> teacher.getControl(name=cells[0]).value = 'p'
+    >>> teacher.getControl(name=cells[1]).value = '7'
+    >>> teacher.getControl('Update').click()
+
+    >>> teacher.getLink('Term Grading').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+-------+------------+-----------+----------+---------+----------+------------+
+    | Nr. | Class | First Name | Last Name | Grades   | Average | Absences | Term Grade |
+    +-----+-------+------------+-----------+----------+---------+----------+------------+
+    | 1   |       | Frum       | Student   | 10,8,4,2 | 6.000   |          | [9____]    |
+    | 2   |       | Grum       | Student   | 5,6,8,7  | 6.500   | 1        | [5____]    |
+    +-----+-------+------------+-----------+----------+---------+----------+------------+
 
     >>> teacher.open('http://localhost/persons/frum/journal.html')
     >>> teacher.getControl(name='TERM').value = ['2005-fall-1']
@@ -218,7 +246,7 @@ And now let's add some grades for this term:
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
     | Title   | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | Average |
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
-    | History |    |    |    |    |    | 10 | 8  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | *9*     |
+    | History |    |    |    |    |    | 10 | 8  |    |    |    |    |    | 4  |    |    |    |    |    |    | 2  |    |    |    |    |    |    | p  |    |    |    | *9*     |
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
 
 Let's look at things from the perspective of a student. A student
@@ -249,5 +277,5 @@ And he should be capable of accessing his own gradebook:
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
     | Title   | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | Average |
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+
-    | History |    |    |    |    |    | 10 | 8  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | *9*     |
+    | History |    |    |    |    |    | 10 | 8  |    |    |    |    |    | 4  |    |    |    |    |    |    | 2  |    |    |    |    |    |    | p  |    |    |    | *9*     |
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+

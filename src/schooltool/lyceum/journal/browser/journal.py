@@ -108,8 +108,18 @@ class StudentNumberColumn(GetterColumn):
         return '<span>%s</span>' % translate(_("Nr."),
                                              context=formatter.request)
 
+class GradesColumn(object):
+    def getGrades(self, person):
+        """Get the grades for the person."""
+        grades = []
+        for meeting in self.journal.recordedMeetings(person):
+            if meeting.dtstart.date() in self.term:
+                grade = self.journal.getGrade(person, meeting, default=None)
+                if (grade is not None) and (grade.strip() != ""):
+                    grades.append(grade)
+        return grades
 
-class PersonGradesColumn(object):
+class PersonGradesColumn(GradesColumn):
     implements(IColumn, ISelectableColumn, IIndependentColumn)
 
     def __init__(self, meeting, journal, selected=False):
@@ -191,22 +201,38 @@ class PersonGradesColumn(object):
         return self.template(item, selected)
 
 
-class SectionTermAverageGradesColumn(object):
+class SectionTermGradesColumn(GradesColumn):
+    implements(IColumn)
+
+    def __init__(self, journal, term):
+        self.term = term
+        self.name = term.__name__ + "grades"
+        self.journal = journal
+
+    def renderCell(self, person, formatter):
+        grades = []
+        for grade in self.getGrades(person):
+            try:
+                grade = int(grade)
+            except ValueError:
+                continue
+            grades.append(grade)
+        if not grades:
+            return ""
+        else:
+            return ",".join(["%s" % grade for grade in grades])
+
+    def renderHeader(self, formatter):
+        return '<span>%s</span>' % translate(_("Grades"),
+                                             context=formatter.request)
+
+class SectionTermAverageGradesColumn(GradesColumn):
     implements(IColumn)
 
     def __init__(self, journal, term):
         self.term = term
         self.name = term.__name__ + "average"
         self.journal = journal
-
-    def getGrades(self, person):
-        grades = []
-        for meeting in self.journal.recordedMeetings(person):
-            if meeting.dtstart.date() in self.term:
-                grade = self.journal.getGrade(person, meeting, default=None)
-                if (grade is not None) and (grade.strip() != ""):
-                    grades.append(grade)
-        return grades
 
     def renderCell(self, person, formatter):
         grades = []

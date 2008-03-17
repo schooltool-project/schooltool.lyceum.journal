@@ -33,6 +33,7 @@ from schooltool.lyceum.journal.browser.journal import GradeClassColumn
 from schooltool.lyceum.journal.browser.journal import StudentNumberColumn
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ITermGradingData
+from schooltool.lyceum.journal.browser.journal import SectionTermGradesColumn
 from schooltool.lyceum.journal.browser.journal import SectionTermAverageGradesColumn
 from schooltool.lyceum.journal.browser.journal import SectionTermAttendanceColumn
 
@@ -92,6 +93,8 @@ class TermView(LyceumSectionJournalView):
 
     def gradeColumns(self):
         columns = []
+        columns.append(SectionTermGradesColumn(self.context,
+                                               self.getSelectedTerm()))
         columns.append(SectionTermAverageGradesColumn(self.context,
                                                       self.getSelectedTerm()))
         columns.append(SectionTermAttendanceColumn(self.context,

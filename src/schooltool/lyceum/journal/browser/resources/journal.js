@@ -214,7 +214,25 @@ $(document).ready(function(){
 
   $(document).keypress(function (event) {
     if (selected_cell && !event.ctrlKey && !event.altKey) {
-      if (event.keyCode == 13) { // enter
+      //absent is n or N, tardy is p or P
+      var keys = {enter: event.which == 13,
+                  escape: event.which == 27,
+                  space: event.which == 32,
+                  absent: event.which == 78 || event.which == 110,
+                  tardy: event.which == 80 || event.which == 112,
+                  0: event.which == 48,
+                  1: event.which == 49,
+                  2: event.which == 50,
+                  3: event.which == 51,
+                  4: event.which == 52,
+                  5: event.which == 53,
+                  6: event.which == 54,
+                  7: event.which == 55,
+                  8: event.which == 56,
+                  9: event.which == 57,
+                  }
+
+      if (keys.enter) { // enter
         var selection = $(".selected-column");
         var selected_rows = $(".selected-row");
 
@@ -238,86 +256,86 @@ $(document).ready(function(){
         return false;
       }
 
-      if (event.keyCode == 27) { // esc
+      if (keys.escape) { // esc
         grade = old_grade;
         $(selected_cell).html(grade);
         unselectCell();
         return false;
       }
 
-      if (event.charCode == 32 || event.keyCode == 32) { // Space
+      if (keys.space) { // Space
         grade = '';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 49 || event.keyCode == 49) { // 1
+      if (keys['1']) { // 1
         grade = '1';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 50 || event.keyCode == 50) { // 2
+      if (keys['2']) { // 2
         grade = '2';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 51 || event.keyCode == 51) { // 3
+      if (keys['3']) { // 3
         grade = '3';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 52 || event.keyCode == 52) { // 4
+      if (keys['4']) { // 4
         grade = '4';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 53 || event.keyCode == 53) { // 5
+      if (keys['5']) { // 5
         grade = '5';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 54 || event.keyCode == 54) { // 6
+      if (keys['6']) { // 6
         grade = '6';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 55 || event.keyCode == 55) { // 7
+      if (keys['7']) { // 7
         grade = '7';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 56 || event.keyCode == 56) { // 8
+      if (keys['8']) { // 8
         grade = '8';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 57 || event.keyCode == 57) { // 9
+      if (keys['9']) { // 9
         grade = '9';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 48 || event.keyCode == 48) { // 0
+      if (keys['0']) { // 0
         grade = '10';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 78 || event.charCode == 110 || event.keyCode == 78  || event.keyCode == 110) { // N, n
+      if (keys.absent) { // N, n
         grade = 'n';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (event.charCode == 80 || event.charCode == 112 || event.keyCode == 80 || event.keyCode == 112) { // P, p
+      if (keys.tardy) { // P, p
         grade = 'p';
         $(selected_cell).html(grade);
         return false;

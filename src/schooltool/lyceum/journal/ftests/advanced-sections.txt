@@ -75,12 +75,11 @@ Let's schedule the sections:
     >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
-    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
-    >>> manager.getLink('Edit').click()
     >>> manager.getControl(name='Tuesday.A').value = True
     >>> manager.getControl(name='Tuesday.B').value = True
     >>> manager.getControl(name='Wednesday.A').value = True
@@ -89,24 +88,22 @@ Let's schedule the sections:
     >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/2').click()
-    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
-    >>> manager.getLink('Edit').click()
     >>> manager.getControl(name='Wednesday.B').value = True
     >>> manager.getControl('Save').click()
 
     >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/3').click()
-    >>> manager.getLink('View Timetables').click()
+    >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
-    >>> manager.getLink('Edit').click()
     >>> manager.getControl(name='Thursday.A').value = True
     >>> manager.getControl(name='Thursday.B').value = True
     >>> manager.getControl('Save').click()

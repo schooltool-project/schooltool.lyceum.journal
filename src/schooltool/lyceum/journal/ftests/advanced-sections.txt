@@ -24,6 +24,7 @@ And some students:
 
 Add 2 Terms:
 
+    >>> manager.getLink('Manage').click()
     >>> manager.getLink('Terms').click()
     >>> manager.getLink('New Term').click()
     >>> manager.getControl('Title').value = '2005 Fall 1'
@@ -36,6 +37,7 @@ Add 2 Terms:
 
 Timetable schema:
 
+    >>> manager.getLink('Manage').click()
     >>> manager.getLink('School Timetables').click()
     >>> manager.getLink('New Timetable').click()
     >>> manager.getLink('simple weekly timetable schema').click()
@@ -70,6 +72,7 @@ A couple of sections:
 
 Let's schedule the sections:
 
+    >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('View Timetables').click()
@@ -83,6 +86,7 @@ Let's schedule the sections:
     >>> manager.getControl(name='Wednesday.A').value = True
     >>> manager.getControl('Save').click()
 
+    >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/2').click()
     >>> manager.getLink('View Timetables').click()
@@ -94,6 +98,7 @@ Let's schedule the sections:
     >>> manager.getControl(name='Wednesday.B').value = True
     >>> manager.getControl('Save').click()
 
+    >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/3').click()
     >>> manager.getLink('View Timetables').click()

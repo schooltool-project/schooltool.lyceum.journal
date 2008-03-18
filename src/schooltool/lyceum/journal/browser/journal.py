@@ -52,12 +52,25 @@ from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.timetable.interfaces import ITimetables
 from schooltool.traverser.traverser import AdapterTraverserPlugin
 
+from schooltool.lyceum.journal.journal import ABSENT, TARDY
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
 from schooltool.lyceum.journal.browser.table import SelectableRowTableFormatter
 from schooltool.lyceum.journal import LyceumMessage as _
+
+
+# set up translation from data base data to locale representation and back
+ABSENT_LETTER = translate(_(u"Single letter that represents an absent mark for a student",
+                           default='a'))
+TARDY_LETTER = translate(_(u"Single letter that represents an tardy mark for a student",
+                          default='t'))
+
+ATTENDANCE_DATA_TO_TRANSLATION = {ABSENT: ABSENT_LETTER,
+                                  TARDY:  TARDY_LETTER}
+ATTENDANCE_TRANSLATION_TO_DATA = {ABSENT_LETTER: ABSENT,
+                                  TARDY_LETTER:  TARDY}
 
 
 def today():
@@ -163,7 +176,8 @@ class PersonGradesColumn(object):
 
     def getCellValue(self, item):
         if self.hasMeeting(item):
-            return self.journal.getGrade(item, self.meeting, default="")
+            grade = self.journal.getGrade(item, self.meeting, default="")
+            return ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
         return "X"
 
     def hasMeeting(self, item):
@@ -258,10 +272,6 @@ class LyceumSectionJournalView(object):
 
     def keyCodeInitialization(self):
         # 78=n, 110=N, 80=p, 112=P
-        absentLetter = translate(_(u"Single letter that represents an absent mark for a student",
-                                   default=u'a'))
-        tardyLetter = translate(_(u"Single letter that represents an tardy mark for a student",
-                                  default=u't'))
         return """
         var absentKeyCodeLower = %s;
         var absentKeyCodeUpper = %s;
@@ -269,8 +279,8 @@ class LyceumSectionJournalView(object):
         var tardyKeyCodeLower = %s;
         var tardyKeyCodeUpper = %s;
         var tardyLetter = '%s';
-        """ % (ord(absentLetter), ord(absentLetter.upper()), absentLetter,
-               ord(tardyLetter), ord(tardyLetter.upper()), tardyLetter)
+        """ % (ord(ABSENT_LETTER), ord(ABSENT_LETTER.upper()), ABSENT_LETTER,
+               ord(TARDY_LETTER), ord(TARDY_LETTER.upper()), TARDY_LETTER)
 
     def __call__(self):
         zc.resourcelibrary.need("fckeditor")
@@ -394,6 +404,7 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
                 cell_id = "%s.%s" % (person.__name__, meeting.__name__)
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
+                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
                     self.context.setGrade(person, meeting, cell_value)
 
         meeting = self.selectedEvent()
@@ -533,7 +544,9 @@ class SectionJournalAjaxView(BrowserView):
         if not person:
             raise UserError('Person was invalid!')
         meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
-        self.context.setGrade(person, meeting, self.request['grade']);
+        grade = self.request['grade']
+        grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade, grade)
+        self.context.setGrade(person, meeting, grade);
         return ""
 
 

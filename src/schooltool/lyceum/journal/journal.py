@@ -41,6 +41,9 @@ from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 
 
+ABSENT = 'n' #n means absent in lithuanian
+TARDY = 'p' #p means tardy in lithuanian
+
 class LyceumJournalContainer(BTreeContainer):
     """A container for all the journals in the system."""
 

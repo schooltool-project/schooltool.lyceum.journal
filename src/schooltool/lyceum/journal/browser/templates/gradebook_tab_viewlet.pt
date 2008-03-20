@@ -1,0 +1,6 @@
+<tal:if condition="view/enabled"
+        define="person request/principal/schooltool:person">
+  <span><a i18n:translate=""
+           tal:attributes="href string:${person/@@absolute_url}/gradebook.html"
+           >Gradebook</a></span>
+</tal:if>

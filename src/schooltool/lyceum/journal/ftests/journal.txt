@@ -149,7 +149,7 @@ Let's log in with the teacher account:
     >>> teacher.getControl('Log in').click()
 
     >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
     >>> printGradebookTable(teacher.contents)
     +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
     | Nr. | First Name | Last Name | 06      | 06 | 07 | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |
@@ -171,7 +171,7 @@ You can also access the journal through the section:
 
     >>> teacher.open('http://localhost/persons/frum')
     >>> teacher.getLink('Teacher Pete -- History (1a)', index=1).click()
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
     >>> teacher.getLink('December').click()
     >>> teacher.getLink('7').click()
 
@@ -281,7 +281,7 @@ activated:
 
     >>> teacher.open('http://localhost/persons/frum')
     >>> teacher.getLink('Teacher Pete -- History (1a)').click()
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
@@ -317,7 +317,7 @@ Updating should work too:
 
 Now let's look at the gradebook of the person - we can see his grades:
 
-    >>> teacher.open('http://localhost/persons/frum/journal.html')
+    >>> teacher.open('http://localhost/persons/frum/gradebook.html')
     >>> teacher.getLink('December').click()
     >>> printGradebookTable(teacher.contents)
     +---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+

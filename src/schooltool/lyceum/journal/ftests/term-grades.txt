@@ -150,7 +150,7 @@ Let's log in with the teacher account:
 Let's look at the journal:
 
     >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
     >>> printGradebookTable(teacher.contents)
     +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
     | Nr. | First Name | Last Name | 06      | 06 | 07 | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |
@@ -240,7 +240,7 @@ And now let's add some grades for this term:
     | 2   |       | Grum       | Student   | 5,6,8,7  | 6.500   | 1        | [5____]    |
     +-----+-------+------------+-----------+----------+---------+----------+------------+
 
-    >>> teacher.open('http://localhost/persons/frum/journal.html')
+    >>> teacher.open('http://localhost/persons/frum/gradebook.html')
     >>> teacher.getControl(name='TERM').value = ['2005-fall-1']
     >>> teacher.getControl('Select').click()
     >>> printGradebookTable(teacher.contents)

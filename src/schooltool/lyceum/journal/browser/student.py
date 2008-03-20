@@ -170,7 +170,7 @@ class LyceumStudentJournalView(LyceumSectionJournalView):
 
     def monthURL(self, month_id):
         url = absoluteURL(self.context, self.request)
-        url = "%s/journal.html?%s" % (
+        url = "%s/gradebook.html?%s" % (
             url,
             urllib.urlencode([('month', month_id)] +
                              self.extra_parameters(self.request)))

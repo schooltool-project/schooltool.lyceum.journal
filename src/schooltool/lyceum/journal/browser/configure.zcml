@@ -13,6 +13,24 @@
       order="15"
       />
 
+  <navigationViewlet
+      name="journal-tab"
+      for="*"
+      manager="schooltool.skin.skin.INavigationManager"
+      template="templates/journal_tab_viewlet.pt"
+      class="schooltool.lyceum.journal.browser.journal.TeacherJournalTabViewlet"
+      permission="schooltool.view"
+      order="20" />
+
+  <navigationViewlet
+      name="gradebook-tab"
+      for="*"
+      manager="schooltool.skin.skin.INavigationManager"
+      template="templates/gradebook_tab_viewlet.pt"
+      class="schooltool.lyceum.journal.browser.journal.StudentGradebookTabViewlet"
+      permission="schooltool.view"
+      order="20" />
+
   <zope:configure package="schooltool.skin"
                   i18n_domain="schooltool.lyceum.journal">
 
@@ -92,12 +110,18 @@
       />
 
   <page
-      name="journal.html"
+      name="gradebook.html"
       for="schooltool.person.interfaces.IPerson"
       class=".student.LyceumStudentJournalView"
       permission="schooltool.view"
-      menu="schooltool_actions"
-      title="Gradebook"
+      />
+
+  <page
+      name="journal.html"
+      for="schooltool.person.interfaces.IPerson"
+      class=".journal.TeacherJournalView"
+      template="templates/teacher_journal.pt"
+      permission="schooltool.view"
       />
 
 </configure>

@@ -100,7 +100,7 @@ Let's log in with the teacher account:
 Let's mark Frum as if he has skipped some lessons:
 
     >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
     >>> teacher.getLink('Frum').click()
     >>> printGradebookTable(teacher.contents)
     +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+

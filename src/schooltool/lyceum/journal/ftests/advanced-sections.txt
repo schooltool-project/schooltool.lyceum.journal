@@ -121,7 +121,7 @@ Let's log in with the teacher account:
 Journal supports an interesting way of combining multiple sections:
 
     >>> teacher.open('http://localhost/sections/1')
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
 
     >>> from urllib import unquote
     >>> unquote(teacher.url)
@@ -170,7 +170,7 @@ Journal supports an interesting way of combining multiple sections:
     +-----+------------+-----------+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
 
     >>> teacher.open('http://localhost/sections/1')
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
     >>> teacher.getLink('October').click()
     >>> printGradebookTable(teacher.contents) # doctest: -REPORT_NDIFF
     +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+

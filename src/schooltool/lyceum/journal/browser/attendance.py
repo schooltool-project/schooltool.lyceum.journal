@@ -21,6 +21,7 @@ Lyceum attendance views.
 """
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.cachedescriptors.property import CachedProperty
+from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
@@ -32,6 +33,7 @@ from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.common import parse_date
 from schooltool.course.interfaces import ILearner
 from schooltool.table.interfaces import ITableFormatter
+from schooltool.term.interfaces import IDateManager
 
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
@@ -40,7 +42,6 @@ from schooltool.lyceum.journal.browser.table import viewURL
 from schooltool.lyceum.journal.browser.table import SelectableRowTableFormatter
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
 from schooltool.lyceum.journal.interfaces import ISectionJournal
-from schooltool.lyceum.journal.browser.journal import today
 
 from schooltool.lyceum.journal import LyceumMessage as _
 
@@ -363,7 +364,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
     def getCurrentTerm(self):
         date = self.selectedDate()
         if not date:
-            date = today()
+            date = getUtility(IDateManager).today
         for term in self.scheduled_terms:
             if date in term:
                 return term
@@ -381,7 +382,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
         term = self.getSelectedTerm()
         date = self.selectedDate()
         if not date:
-            date = today()
+            date = getUtility(IDateManager).today
 
         if term.first <= date <= term.last:
             month = date.month

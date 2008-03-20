@@ -35,47 +35,6 @@ from zope.interface import directlyProvides
 from zope.traversing.interfaces import IContainmentRoot
 
 
-def doctest_today():
-    """Test for today.
-
-    Today returns the date of today, according to the application
-    prefered timezone:
-
-        >>> from schooltool.lyceum.journal.browser.journal import today
-        >>> from schooltool.app.interfaces import IApplicationPreferences
-        >>> tz_name = "Europe/Vilnius"
-        >>> class PrefStub(object):
-        ...     @property
-        ...     def timezone(self):
-        ...         return tz_name
-
-        >>> class STAppStub(dict):
-        ...     def __init__(self, context):
-        ...         pass
-        ...     def __conform__(self, iface):
-        ...         if iface == IApplicationPreferences:
-        ...             return PrefStub()
-
-        >>> from schooltool.app.interfaces import ISchoolToolApplication
-        >>> provideAdapter(STAppStub, adapts=[None], provides=ISchoolToolApplication)
-
-        >>> current_time = timezone('UTC').localize(datetime.utcnow())
-
-        >>> tz_name = 'Pacific/Midway'
-        >>> tz = timezone(tz_name)
-        >>> today_date = current_time.astimezone(tz).date()
-        >>> today() == today_date
-        True
-
-        >>> tz_name = 'Pacific/Funafuti'
-        >>> tz = timezone('Pacific/Funafuti')
-        >>> today_date = current_time.astimezone(tz).date()
-        >>> today() == today_date
-        True
-
-    """
-
-
 def doctest_JournalCalendarEventViewlet():
     """Tests for JournalCalendarEventViewlet.
 
@@ -429,6 +388,85 @@ def doctest_JournalAbsoluteURL():
 
 def doctest_JournalBreadcrumbs():
     """
+    """
+
+
+def doctest_SectionListView():
+    """Test for the SectionListView
+
+    SectionListView lists all the sections a person is teaching that
+    are in the current term.
+
+        >>> from schooltool.term.term import Term
+        >>> from schooltool.term.tests import setUpDateManagerStub
+        >>> term1 = Term("2001", date(2001, 1, 1), date(2001, 2, 1))
+        >>> term2 = Term("2002", date(2002, 1, 1), date(2002, 2, 1))
+        >>> setUpDateManagerStub(current_term=term1)
+
+        >>> from zope.ucol.localeadapter import LocaleCollator
+        >>> from zope.i18n.interfaces.locales import ICollator
+        >>> from zope.component import provideAdapter
+        >>> provideAdapter(LocaleCollator, adapts=[None], provides=ICollator)
+
+        >>> from schooltool.lyceum.journal.browser.journal import SectionListView
+        >>> view = SectionListView(None, TestRequest())
+
+        >>> section_list = []
+        >>> class InstructorStub(object):
+        ...     def sections(self):
+        ...         return section_list
+
+        >>> terms = []
+        >>> class TimetablesStub(object):
+        ...     def __init__(self, terms):
+        ...         self.terms = terms
+
+        >>> from zope.traversing.interfaces import IContainmentRoot
+        >>> class SectionStub(object):
+        ...     implements(IContainmentRoot)
+        ...     def __init__(self, name, terms):
+        ...         self.terms = terms
+        ...         self.__name__ = self.title = name
+        ...     def __conform__(self, interface):
+        ...         if interface == ITimetables:
+        ...             return TimetablesStub(self.terms)
+
+        >>> from schooltool.timetable.interfaces import ITimetables
+        >>> from schooltool.course.interfaces import IInstructor
+        >>> class TeacherStub(object):
+        ...     def __conform__(self, interface):
+        ...         if interface == IInstructor:
+        ...             return InstructorStub()
+
+    If the person is not related to any sections - it returns an empty
+    list:
+
+        >>> teacher = TeacherStub()
+        >>> view.getSectionsForPerson(teacher)
+        []
+
+        >>> section_list = [SectionStub("section1", [term1]),
+        ...                 SectionStub("section2", [term1, term2]),
+        ...                 SectionStub("section3", [term2])]
+
+    If there are sections associated with the teacher, only the
+    sections in the current term will get returned:
+
+        >>> view.getSectionsForPerson(teacher)
+        [{'url': 'http://127.0.0.1/section1/journal/', 'title': 'section1'},
+         {'url': 'http://127.0.0.1/section2/journal/', 'title': 'section2'}]
+
+        >>> setUpDateManagerStub(current_term=term2)
+        >>> view.getSectionsForPerson(teacher)
+        [{'url': 'http://127.0.0.1/section2/journal/', 'title': 'section2'},
+         {'url': 'http://127.0.0.1/section3/journal/', 'title': 'section3'}]
+
+    If there is no current term - no sections will be returned:
+
+        >>> setUpDateManagerStub(current_term=None)
+        >>> view.getSectionsForPerson(teacher)
+        []
+
     """
 
 

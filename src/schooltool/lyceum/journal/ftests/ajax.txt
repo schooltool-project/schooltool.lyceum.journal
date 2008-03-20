@@ -86,7 +86,7 @@ Let's log in with the teacher account:
     >>> teacher.getControl('Log in').click()
 
     >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
-    >>> teacher.getLink('Journal').click()
+    >>> teacher.getLink('Journal', index=1).click()
     >>> printGradebookTable(teacher.contents)
     +-----+------------+-----------+---------+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
     | Nr. | First Name | Last Name | 06      | 06 | 07 | 13 | 13 | 14 | 20 | 20 | 21 | 27 | 27 | 28 | Average | Absences |

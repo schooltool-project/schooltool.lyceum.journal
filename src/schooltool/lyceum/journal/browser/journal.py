@@ -22,8 +22,9 @@ Lyceum journal views.
 import pytz
 import urllib
 import base64
-from datetime import datetime
 
+from zope.security.proxy import removeSecurityProxy
+from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.app import zapi
@@ -36,6 +37,7 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 from zope.formlib import form
 from zope.html.field import HtmlFragment
 from zope.app.form.interfaces import IInputWidget
+from zope.component import getUtility
 from zope.component import getMultiAdapter
 
 import zc.resourcelibrary
@@ -43,9 +45,16 @@ from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
+from schooltool.course.interfaces import ILearner, IInstructor
+from schooltool.relationship.relationship import getRelatedObjects
+from schooltool.person.interfaces import IPerson
+from schooltool.app.relationships import URIInstruction
+from schooltool.app.relationships import URISection
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
+from schooltool.term.interfaces import IDateManager
+from schooltool.term.term import getNextTermForDate
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
@@ -71,13 +80,6 @@ ATTENDANCE_DATA_TO_TRANSLATION = {ABSENT: ABSENT_LETTER,
                                   TARDY:  TARDY_LETTER}
 ATTENDANCE_TRANSLATION_TO_DATA = {ABSENT_LETTER: ABSENT,
                                   TARDY_LETTER:  TARDY}
-
-
-def today():
-    app = ISchoolToolApplication(None)
-    tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
-    dt = pytz.utc.localize(datetime.utcnow())
-    return dt.astimezone(tzinfo).date()
 
 
 class JournalCalendarEventViewlet(object):
@@ -141,7 +143,7 @@ class PersonGradesColumn(GradesColumn):
         self.journal = journal
 
     def today(self):
-        return today()
+        return getUtility(IDateManager).today
 
     @property
     def name(self):
@@ -477,7 +479,7 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
             date = event.dtstart.astimezone(tzinfo).date()
             return date
         else:
-            return today()
+            return getUtility(IDateManager).today
 
     def getCurrentTerm(self):
         event = self.selectedEvent()
@@ -648,6 +650,54 @@ class SetPublicDescriptionAjaxView(MeetingAjaxView):
     def __call__(self):
         self.meeting.description = self.request['lesson_description']
         return ""
+
+
+class SectionListView(BrowserView):
+
+    def getSectionsForPerson(self, person):
+        current_term = getUtility(IDateManager).current_term
+        sections = IInstructor(person).sections()
+        results = []
+        for section in sections:
+            if current_term in ITimetables(section).terms:
+                url = "%s/journal/" % absoluteURL(section, self.request)
+                results.append({'title': removeSecurityProxy(section).title,
+                                'url': url})
+
+        collator = ICollator(self.request.locale)
+        results.sort(key=lambda s: collator.key(s['title']))
+        return results
+
+
+class TeacherJournalView(SectionListView):
+    """A view that lists all the sections teacher is teaching to.
+
+    The links go to the journals of these sections and only sections
+    in the current term are displayed.
+    """
+
+    def getSections(self):
+        return self.getSectionsForPerson(self.context)
+
+
+class TeacherJournalTabViewlet(SectionListView):
+    implements(IViewlet)
+
+    def enabled(self):
+        person = IPerson(self.request.principal, None)
+        if not person:
+            return False
+        return bool(list(self.getSectionsForPerson(person)))
+
+
+class StudentGradebookTabViewlet(object):
+    implements(IViewlet)
+
+    def enabled(self):
+        person = IPerson(self.request.principal, None)
+        if not person:
+            return False
+        return bool(list(ILearner(person).sections()))
 
 
 LyceumJournalTraverserPlugin = AdapterTraverserPlugin(

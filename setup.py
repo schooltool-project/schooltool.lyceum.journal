@@ -67,7 +67,6 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     install_requires=['schooltool'],
-    dependency_links=['http://ftp.schooltool.org/schooltool/releases/nightly/'],
     include_package_data=True,
     zip_safe=False
     )

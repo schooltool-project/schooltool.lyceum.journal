@@ -265,7 +265,7 @@ calendar:
     <BLANKLINE>
     <td style="width: 100%">History (1a)</td>
     <BLANKLINE>
-    <td style="width: 100%">SchoolTool</td>
+    <td style="width: 100%">Your School</td>
     <BLANKLINE>
 
 And he should be capable of accessing his own gradebook:

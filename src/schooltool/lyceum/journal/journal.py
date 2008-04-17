@@ -30,6 +30,7 @@ from zope.component import adapts
 from zope.interface import implements
 from zope.location.interfaces import ILocation
 
+from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.app.app import InitBase
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
@@ -191,7 +192,8 @@ class SectionJournal(object):
         events = []
         for calendar in calendars:
             for event in calendar:
-                events.append(event)
+                if ITimetableCalendarEvent.providedBy(event):
+                    events.append(event)
         return sorted(events)
 
     def recordedMeetings(self, person):

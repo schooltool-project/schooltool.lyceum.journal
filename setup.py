@@ -67,7 +67,8 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     namespace_packages=["schooltool"],
-    install_requires=['schooltool'],
+    install_requires=['schooltool',
+                      'setuptools'],
     include_package_data=True,
     zip_safe=False
     )

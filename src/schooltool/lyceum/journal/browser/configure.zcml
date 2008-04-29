@@ -93,11 +93,11 @@
       permission="schooltool.edit"
       />
 
-  <zope:subscriber
-     for="schooltool.course.interfaces.ISection
-           zope.publisher.interfaces.browser.IBrowserRequest"
-      provides="schooltool.traverser.interfaces.ITraverserPlugin"
-      factory=".journal.LyceumJournalTraverserPlugin"
+  <zope:adapterTraverserPlugin
+      for="schooltool.course.interfaces.ISection"
+      layer="zope.publisher.interfaces.browser.IBrowserRequest"
+      name="journal"
+      adapter="schooltool.lyceum.journal.interfaces.ISectionJournal"
       />
 
   <page

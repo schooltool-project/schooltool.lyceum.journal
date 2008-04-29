@@ -59,7 +59,6 @@ from schooltool.table.interfaces import ITableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.timetable.interfaces import ITimetables
-from schooltool.traverser.traverser import AdapterTraverserPlugin
 
 from schooltool.lyceum.journal.journal import ABSENT, TARDY
 from schooltool.lyceum.journal.interfaces import ISectionJournal
@@ -698,7 +697,3 @@ class StudentGradebookTabViewlet(object):
         if not person:
             return False
         return bool(list(ILearner(person).sections()))
-
-
-LyceumJournalTraverserPlugin = AdapterTraverserPlugin(
-    'journal', ISectionJournal)

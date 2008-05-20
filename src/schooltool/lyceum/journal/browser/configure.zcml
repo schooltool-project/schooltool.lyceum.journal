@@ -105,8 +105,6 @@
       for="schooltool.group.interfaces.IGroup"
       class=".attendance.GroupAttendanceView"
       permission="schooltool.view"
-      menu="schooltool_actions"
-      title="Attendance"
       />
 
   <page

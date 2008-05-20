@@ -293,6 +293,7 @@ class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
 class LyceumSectionJournalView(object):
 
     template = ViewPageTemplateFile("templates/journal.pt")
+    no_timetable_template = ViewPageTemplateFile("templates/no_timetable_journal.pt")
 
     def __init__(self, context, request):
         self.context, self.request = context, request
@@ -310,6 +311,9 @@ class LyceumSectionJournalView(object):
                ord(TARDY_LETTER), ord(TARDY_LETTER.upper()), TARDY_LETTER)
 
     def __call__(self):
+        if not ITimetables(self.context.section).terms:
+            return self.no_timetable_template()
+
         zc.resourcelibrary.need("fckeditor")
 
         if 'UPDATE_SUBMIT' in self.request:

@@ -83,7 +83,29 @@ A couple of sections:
     ...            instructors=['John'],
     ...            members=['Bogon'])
 
-Let's schedule the sections:
+Let's check that looking at a section journal without scheduling it
+first works:
+
+    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('Journal').click()
+    >>> print analyze.queryHTML('//div[@id="content-body"]', manager.contents)[0]
+    <div id="content-body">
+      <div>
+        This section is not scheduled for any term, to use the journal you
+        should add a timetable first.
+      </div>
+      <div>
+        You can manage timetables for this section here:
+        <a href="http://localhost/sections/1/timetables/">
+          Timetables
+        </a>
+      </div>
+    </div>
+
+As we have the link to the list of timetables for this sections, we
+might as well use it and schedule the section:
 
     >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()
@@ -97,6 +119,8 @@ Let's schedule the sections:
     >>> manager.getControl(name='Tuesday.B').value = True
     >>> manager.getControl(name='Wednesday.A').value = True
     >>> manager.getControl('Save').click()
+
+Now let's schedule the other sections:
 
     >>> manager.getLink('Manage').click()
     >>> manager.getLink('Sections').click()

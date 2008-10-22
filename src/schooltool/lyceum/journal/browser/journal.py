@@ -45,16 +45,14 @@ from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
+from schooltool.group.interfaces import IGroupContainer
 from schooltool.course.interfaces import ILearner, IInstructor
-from schooltool.relationship.relationship import getRelatedObjects
 from schooltool.person.interfaces import IPerson
-from schooltool.app.relationships import URIInstruction
-from schooltool.app.relationships import URISection
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
+from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
-from schooltool.term.term import getNextTermForDate
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
@@ -104,7 +102,7 @@ class JournalCalendarEventViewlet(object):
 class GradeClassColumn(LocaleAwareGetterColumn):
 
     def getter(self, item, formatter):
-        groups = ISchoolToolApplication(None)['groups']
+        groups = IGroupContainer(ISchoolToolApplication(None))
         if item.gradeclass is not None:
             return groups[item.gradeclass].title
         return ""
@@ -457,7 +455,7 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
         return columns
 
     def getSelectedTerm(self):
-        terms = ISchoolToolApplication(None)['terms']
+        terms = ITermContainer(self.context)
         term_id = self.request.get('TERM', None)
         if term_id:
             term = terms[term_id]
@@ -487,19 +485,16 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
     def getCurrentTerm(self):
         event = self.selectedEvent()
         if event:
-            terms = ISchoolToolApplication(None)['terms']
-            term_id, schema_id = event.activity.timetable.__name__.split(".")
-            return terms[term_id]
+            return event.activity.timetable.term
         return self.scheduled_terms[-1]
 
     @property
     def scheduled_terms(self):
         scheduled_terms = []
-        terms = ISchoolToolApplication(None)['terms']
+        terms = ITermContainer(self.context)
         tt = ITimetables(self.context.section).timetables
-        for key in tt.keys():
-            term_id, schema_id = key.split(".")
-            scheduled_terms.append(terms[term_id])
+        for tt in tt.values():
+            scheduled_terms.append(tt.term)
         scheduled_terms.sort(key=lambda term: term.last)
         return scheduled_terms
 

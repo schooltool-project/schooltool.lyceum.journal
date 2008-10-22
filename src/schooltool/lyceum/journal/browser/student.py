@@ -29,7 +29,9 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 
 from zc.table.interfaces import IColumn
 
+from schooltool.term.interfaces import ITermContainer
 from schooltool.table.interfaces import ITableFormatter
+from schooltool.course.interfaces import ICourseContainer
 from schooltool.course.interfaces import ILearner
 from schooltool.app.interfaces import ISchoolToolApplication
 
@@ -121,8 +123,8 @@ class LyceumStudentJournalView(LyceumSectionJournalView):
                 self.courses.add(course)
 
     def __call__(self):
-        app = ISchoolToolApplication(None)
-        course_container = app['courses']
+        term = self.getSelectedTerm()
+        course_container = ICourseContainer(term)
         self.gradebook = queryMultiAdapter((course_container, self.request),
                                            ITableFormatter)
         self.gradebook.setUp(items=self.courses,
@@ -157,7 +159,7 @@ class LyceumStudentJournalView(LyceumSectionJournalView):
 
     @property
     def scheduled_terms(self):
-        terms = ISchoolToolApplication(None)['terms']
+        terms = ITermContainer(self.context)
         scheduled_terms = list(terms.values())
         return sorted(scheduled_terms, key=lambda t: t.last)
 

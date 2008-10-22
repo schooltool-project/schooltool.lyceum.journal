@@ -22,9 +22,13 @@ Unit tests for lyceum journal.
 """
 import unittest
 
+from schooltool.course.interfaces import ISection
+from schooltool.lyceum.journal.interfaces import ISectionJournalData
+from zope.component import adapter
 from zope.component import provideAdapter
 from zope.app.testing import setup
 from zope.testing import doctest
+from zope.interface import implementer
 from zope.interface import implements
 
 
@@ -34,24 +38,15 @@ def doctest_SectionJournalData():
         >>> from schooltool.lyceum.journal.journal import SectionJournalData
         >>> journal = SectionJournalData()
 
-    Journals don't really work on their own, as they find out which
-    section they belong to by their __name__:
-
-        >>> journal.__name__ = 'some_section'
-
         >>> class SectionStub(object):
         ...     pass
         >>> section = SectionStub()
 
-        >>> class STAppStub(dict):
-        ...     def __init__(self, context):
-        ...         self['sections'] = {'some_section': section}
+        >>> @adapter(ISectionJournalData)
+        ... @implementer(ISection)
+        ... def getSection(jd):
+        ...     return section
 
-        >>> from schooltool.app.interfaces import ISchoolToolApplication
-        >>> provideAdapter(STAppStub, adapts=[None], provides=ISchoolToolApplication)
-
-        >>> journal.section is section
-        True
 
     Grades can be added for every person/meeting pair:
 
@@ -121,6 +116,14 @@ def doctest_getSectionJournalData():
         >>> from schooltool.app.interfaces import ISchoolToolApplication
         >>> provideAdapter(STAppStub, adapts=[None], provides=ISchoolToolApplication)
 
+        >>> from zope.app.intid.interfaces import IIntIds
+        >>> from zope.component import provideUtility
+        >>> class FakeIntID(object):
+        ...     implements(IIntIds)
+        ...     def getId(self, object):
+        ...         return id(object)
+        >>> provideUtility(FakeIntID())
+
         >>> class SectionStub(object):
         ...     def __init__(self, name):
         ...         self.__name__ = name
@@ -134,10 +137,10 @@ def doctest_getSectionJournalData():
         >>> journal
         <schooltool.lyceum.journal.journal.SectionJournalData object at ...>
 
-        >>> journal.__name__
-        u'some_section'
+        >>> journal.__name__ == str(id(section))
+        True
 
-        >>> journal_container[section.__name__] is journal
+        >>> journal_container[str(id(section))] is journal
         True
 
     If we try to get the journal for the second time, we get the same

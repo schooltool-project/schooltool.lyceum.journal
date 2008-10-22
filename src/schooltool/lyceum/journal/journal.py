@@ -24,9 +24,13 @@ from persistent import Persistent
 
 from zope.viewlet.viewlet import CSSViewlet
 from zope.security.proxy import removeSecurityProxy
+from zope.app.intid.interfaces import IIntIds
 from zope.app.container.btree import BTreeContainer
 from zope.cachedescriptors.property import Lazy
+from zope.component import getUtility
+from zope.component import adapter
 from zope.component import adapts
+from zope.interface import implementer
 from zope.interface import implements
 from zope.location.interfaces import ILocation
 
@@ -76,6 +80,13 @@ class LyceumJournalContainer(BTreeContainer):
     """A container for all the journals in the system."""
 
 
+@adapter(ISectionJournalData)
+@implementer(ISection)
+def getSectionForSectionJournalData(jd):
+    int_ids = getUtility(IIntIds)
+    return int_ids.getObject(int(jd.__name__))
+
+
 class SectionJournalData(Persistent):
     """A journal for a section."""
     implements(ISectionJournalData, ILocation)
@@ -89,9 +100,7 @@ class SectionJournalData(Persistent):
 
     @property
     def section(self):
-        app = ISchoolToolApplication(None)
-        sections = app['sections']
-        return sections[self.__name__]
+        return ISection(self)
 
     def setGrade(self, person, meeting, grade):
         key = (person.__name__, meeting.unique_id)
@@ -226,9 +235,13 @@ def getSectionJournalData(section):
     """Get the journal for the section."""
     app = ISchoolToolApplication(None)
     jc = app['schooltool.lyceum.journal']
-    journal = jc.get(section.__name__, None)
+
+    int_ids = getUtility(IIntIds)
+    journal_id = str(int_ids.getId(section))
+
+    journal = jc.get(journal_id, None)
     if journal is None:
-        jc[section.__name__] = journal = SectionJournalData()
+        jc[journal_id] = journal = SectionJournalData()
 
     return journal
 

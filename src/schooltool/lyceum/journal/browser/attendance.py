@@ -33,6 +33,7 @@ from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.common import parse_date
 from schooltool.course.interfaces import ILearner
 from schooltool.table.interfaces import ITableFormatter
+from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
@@ -221,7 +222,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
 
     @property
     def scheduled_terms(self):
-        terms = ISchoolToolApplication(None)['terms']
+        terms = ITermContainer(self.context)
         return sorted(terms.values(), key=lambda t: t.last)
 
     def monthsInSelectedTerm(self):
@@ -340,7 +341,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
         return columns
 
     def getSelectedTerm(self):
-        terms = ISchoolToolApplication(None)['terms']
+        terms = ITermContainer(self.context)
         term_id = self.request.get('TERM', None)
         if term_id:
             term = terms[term_id]

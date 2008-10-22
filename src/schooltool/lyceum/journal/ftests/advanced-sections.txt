@@ -3,12 +3,18 @@ Functional doctest for SchoolTool Journal Advanced Sections
 
 Let's log in with the manager account:
 
-    >>> from zope.testbrowser.testing import Browser
     >>> from schooltool.lyceum.journal.ftests import printGradebookTable
-    >>> manager = Browser()
-    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
-    >>> manager.handleErrors = False
-    >>> manager.open('http://localhost/')
+    >>> manager = Browser('manager', 'schooltool')
+
+Set up a basic school year:
+
+    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('School Years').click()
+    >>> manager.getLink('New School Year').click()
+    >>> manager.getControl('Title').value = '2005'
+    >>> manager.getControl('First day').value = '05/09/01'
+    >>> manager.getControl('Last day').value = '06/07/31'
+    >>> manager.getControl('Add').click()
 
 Add some teachers:
 
@@ -24,9 +30,7 @@ And some students:
 
 Add 2 Terms:
 
-    >>> manager.getLink('Manage').click()
-    >>> manager.getLink('Terms').click()
-    >>> manager.getLink('New Term').click()
+    >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 1'
     >>> manager.getControl('Start date').value = '2005-09-01'
     >>> manager.getControl('End date').value = '2005-10-31'
@@ -37,7 +41,7 @@ Add 2 Terms:
 
 Timetable schema:
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
     >>> manager.getLink('School Timetables').click()
     >>> manager.getLink('New Timetable').click()
     >>> manager.getLink('simple weekly timetable schema').click()
@@ -56,28 +60,31 @@ A couple of sections:
 
     >>> from schooltool.app.browser.ftests.setup import addSection
     >>> from schooltool.app.browser.ftests.setup import addCourse
-    >>> addCourse("History")
+    >>> addCourse("History", "2005")
 
-    >>> addSection("History", title="History (1a, 1d)",
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1a, 1d)",
     ...            instructors=['Pete', 'John'],
     ...            members=['Grum', 'Frum'])
 
-    >>> addSection("History", title="History (1d) A",
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1d) A",
     ...            instructors=['John'],
     ...            members=['Frum'])
 
-    >>> addSection("History", title="History (1a) A",
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1a) A",
     ...            instructors=['John'],
     ...            members=['Grum'])
 
 Let's schedule the sections:
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
     >>> manager.getControl(name='Tuesday.A').value = True
@@ -85,23 +92,23 @@ Let's schedule the sections:
     >>> manager.getControl(name='Wednesday.A').value = True
     >>> manager.getControl('Save').click()
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/2').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
     >>> manager.getControl(name='Wednesday.B').value = True
     >>> manager.getControl('Save').click()
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/3').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
     >>> manager.getControl(name='Thursday.A').value = True
@@ -120,14 +127,14 @@ Let's log in with the teacher account:
 
 Journal supports an interesting way of combining multiple sections:
 
-    >>> teacher.open('http://localhost/sections/1')
+    >>> teacher.open('http://localhost/schoolyears/2005/2005-fall-1/sections/1')
     >>> teacher.getLink('Journal', index=1).click()
 
     >>> from urllib import unquote
     >>> unquote(teacher.url)
-    'http://localhost/sections/1/journal'
+    'http://localhost/schoolyears/2005/2005-fall-1/sections/1/journal'
     >>> unquote(teacher.getLink('October').url)
-    'http://localhost/sections/1/journal/index.html?month=10'
+    'http://localhost/schoolyears/2005/2005-fall-1/sections/1/journal/index.html?month=10'
     >>> teacher.getLink('October').click()
     >>> printGradebookTable(teacher.contents) # doctest: -REPORT_NDIFF
     +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
@@ -138,11 +145,11 @@ Journal supports an interesting way of combining multiple sections:
     +-----+------------+-----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
 
     >>> unquote(teacher.getLink('04').url)
-    'http://localhost/sections/1/journal/index.html?event_id=...&month=10'
+    'http://localhost/schoolyears/2005/2005-fall-1/sections/1/journal/index.html?event_id=...&month=10'
     >>> unquote(teacher.getLink('11').url)
-    'http://localhost/sections/1/journal/index.html?event_id=...&month=10'
+    'http://localhost/schoolyears/2005/2005-fall-1/sections/1/journal/index.html?event_id=...&month=10'
     >>> unquote(teacher.getLink('19').url)
-    'http://localhost/sections/1/journal/index.html?event_id=...&month=10'
+    'http://localhost/schoolyears/2005/2005-fall-1/sections/1/journal/index.html?event_id=...&month=10'
 
     >>> teacher.getLink('18').click()
     >>> printGradebookTable(teacher.contents)
@@ -169,7 +176,7 @@ Journal supports an interesting way of combining multiple sections:
     | 2   | Grum       | Student   |    |    |    | X  |    |    | [_____] |    |    | X  |    |    |    |    |    | X  |    |    |    |    |    | X  |    |    |         |          |
     +-----+------------+-----------+----+----+----+----+----+----+---------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+---------+----------+
 
-    >>> teacher.open('http://localhost/sections/1')
+    >>> teacher.open('http://localhost/schoolyears/2005/2005-fall-1/sections/1')
     >>> teacher.getLink('Journal', index=1).click()
     >>> teacher.getLink('October').click()
     >>> printGradebookTable(teacher.contents) # doctest: -REPORT_NDIFF
@@ -202,7 +209,7 @@ the sections, even though he is teaching another one:
 
 Now let's change the teacher for the adjacent section section:
 
-    >>> manager.open('http://localhost/sections/2/')
+    >>> manager.open('http://localhost/schoolyears/2005/2005-fall-1/sections/2/')
     >>> manager.getLink('edit instructors').click()
     >>> manager.getControl('John').click()
     >>> manager.getControl('Remove').click()

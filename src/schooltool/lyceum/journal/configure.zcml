@@ -21,6 +21,9 @@
   </class>
 
   <adapter
+      factory="schooltool.lyceum.journal.journal.getSectionForSectionJournalData" />
+
+  <adapter
       for="schooltool.course.interfaces.ISection"
       provides="schooltool.lyceum.journal.journal.ISectionJournalData"
       factory="schooltool.lyceum.journal.journal.getSectionJournalData"

@@ -3,12 +3,18 @@ Functional doctest for SchoolTool Journal
 
 Let's log in with the manager account:
 
-    >>> from zope.testbrowser.testing import Browser
     >>> from schooltool.lyceum.journal.ftests import printGradebookTable
-    >>> manager = Browser()
-    >>> manager.addHeader('Authorization', 'Basic manager:schooltool')
-    >>> manager.handleErrors = False
-    >>> manager.open('http://localhost/')
+    >>> manager = Browser('manager', 'schooltool')
+
+Set up a basic school year:
+
+    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('School Years').click()
+    >>> manager.getLink('New School Year').click()
+    >>> manager.getControl('Title').value = '2005'
+    >>> manager.getControl('First day').value = '05/09/01'
+    >>> manager.getControl('Last day').value = '06/07/31'
+    >>> manager.getControl('Add').click()
 
 Add some teachers:
 
@@ -24,9 +30,7 @@ And some students:
 
 Add 2 Terms:
 
-    >>> manager.getLink('Manage').click()
-    >>> manager.getLink('Terms').click()
-    >>> manager.getLink('New Term').click()
+    >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 1'
     >>> manager.getControl('Start date').value = '2005-09-01'
     >>> manager.getControl('End date').value = '2005-10-31'
@@ -35,7 +39,7 @@ Add 2 Terms:
     >>> manager.getControl('Sunday').click()
     >>> manager.getControl('Add term').click()
 
-    >>> manager.getLink('New Term').click()
+    >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 2'
     >>> manager.getControl('Start date').value = '2005-11-01'
     >>> manager.getControl('End date').value = '2005-12-31'
@@ -46,7 +50,7 @@ Add 2 Terms:
 
 Timetable schema:
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
     >>> manager.getLink('School Timetables').click()
     >>> manager.getLink('New Timetable').click()
     >>> manager.getLink('simple weekly timetable schema').click()
@@ -65,28 +69,33 @@ A couple of sections:
 
     >>> from schooltool.app.browser.ftests.setup import addSection
     >>> from schooltool.app.browser.ftests.setup import addCourse
-    >>> addCourse("History")
+    >>> addCourse("History", "2005")
 
-    >>> addSection("History", title="History (1a)",
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1a)",
     ...            instructors=['Pete'],
     ...            members=['Grum', 'Frum'])
 
-    >>> addSection("History", title="History (1b)",
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1b)",
     ...            instructors=['John'],
     ...            members=['Bogon'])
 
-    >>> addSection("History", title="History (1a)",
+    >>> addSection("History", "2005", "2005 Fall 2",
+    ...            title="History (1a)",
     ...            instructors=['Pete'],
     ...            members=['Grum', 'Frum'])
 
-    >>> addSection("History", title="History (1b)",
+    >>> addSection("History", "2005", "2005 Fall 2",
+    ...            title="History (1b)",
     ...            instructors=['John'],
     ...            members=['Bogon'])
 
 Let's check that looking at a section journal without scheduling it
 first works:
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Journal').click()
@@ -98,7 +107,7 @@ first works:
       </div>
       <div>
         You can manage timetables for this section here:
-        <a href="http://localhost/sections/1/timetables/">
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/timetables/">
           Timetables
         </a>
       </div>
@@ -107,12 +116,12 @@ first works:
 As we have the link to the list of timetables for this sections, we
 might as well use it and schedule the section:
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
     >>> manager.getControl(name='Tuesday.A').value = True
@@ -122,12 +131,12 @@ might as well use it and schedule the section:
 
 Now let's schedule the other sections:
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 2').click()
     >>> manager.getLink('Sections').click()
-    >>> manager.getLink(url='sections/3').click()
+    >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-2']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-2.default').click()
     >>> manager.getControl(name='Tuesday.A').value = True
@@ -136,12 +145,12 @@ Now let's schedule the other sections:
     >>> manager.getControl('Save').click()
 
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/2').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-1']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-1.default').click()
     >>> manager.getControl(name='Wednesday.B').value = True
@@ -149,12 +158,12 @@ Now let's schedule the other sections:
     >>> manager.getControl(name='Thursday.B').value = True
     >>> manager.getControl('Save').click()
 
-    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 2').click()
     >>> manager.getLink('Sections').click()
-    >>> manager.getLink(url='sections/4').click()
+    >>> manager.getLink(url='sections/2').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl(name='terms').value = ['2005-fall-2']
     >>> manager.getControl('Add').click()
     >>> manager.getLink('2005-fall-2.default').click()
     >>> manager.getControl(name='Wednesday.B').value = True

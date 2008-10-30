@@ -133,9 +133,22 @@ There is an ajax view that shows us both text fields as well:
     >>> get_url = 'http://localhost/schoolyears/2005/2005-fall-1/sections/1/journal/getLessonDescription.xml?event_id=%s'
     >>> teacher.open(get_url % event_id)
     >>> print teacher.contents
-    <div>Lesson description for 9/6/05 period A</div>
-    <div>
-    <textarea cols="60" id="field.teacher_description" name="field.teacher_description" rows="15" >New description for this lesson.</textarea>
+    <table>
+      <tr>
+        <td>
+            Personal lesson description for
+            9/6/05 period
+            A
+        </td>
+        <td>
+            Public lesson description for
+            9/6/05 period
+            A
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <textarea cols="60" id="field.teacher_description" name="field.teacher_description" rows="15" >New description for this lesson.</textarea>
     <script type="text/javascript" language="JavaScript">
     var oFCKeditor_teacher_description = new FCKeditor(
             "field.teacher_description", 400, 150, "schooltool");
@@ -145,7 +158,9 @@ There is an ajax view that shows us both text fields as well:
         document.getElementById('field.teacher_description').event_id = '...';
     </script>
     <BLANKLINE>
-    <textarea cols="60" id="field.public_description" name="field.public_description" rows="15" >New public description for this lesson.</textarea>
+        </td>
+        <td>
+          <textarea cols="60" id="field.public_description" name="field.public_description" rows="15" >New public description for this lesson.</textarea>
     <script type="text/javascript" language="JavaScript">
     var oFCKeditor_public_description = new FCKeditor(
             "field.public_description", 400, 150, "schooltool");
@@ -155,7 +170,9 @@ There is an ajax view that shows us both text fields as well:
         document.getElementById('field.public_description').event_id = '...';
     </script>
     <BLANKLINE>
-    </div>
+        </td>
+      </tr>
+    </table>
     <BLANKLINE>
 
 Let's add some grades:

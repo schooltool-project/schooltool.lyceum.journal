@@ -1,5 +1,24 @@
-<div i18n:domain="schooltool.lyceum.journal">Lesson description for <tal:block content="view/meeting/dtstart/@@shortDate" /> period <tal:block content="view/meeting/period_id" /></div>
-<div>
-<tal:block tal:content="structure view/teacher_description_widget" />
-<tal:block tal:content="structure view/public_description_widget" />
-</div>
+<table>
+  <tr>
+    <td i18n:translate="">
+        Personal lesson description for
+        <tal:block i18n:name="date" content="view/meeting/dtstart/@@shortDate" />
+        period
+        <tal:block i18n:name="period" content="view/meeting/period_id" />
+    </td>
+    <td i18n:translate="">
+        Public lesson description for
+        <tal:block i18n:name="date" content="view/meeting/dtstart/@@shortDate" />
+        period
+        <tal:block i18n:name="period" content="view/meeting/period_id" />
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <tal:block tal:content="structure view/teacher_description_widget" />
+    </td>
+    <td>
+      <tal:block tal:content="structure view/public_description_widget" />
+    </td>
+  </tr>
+</table>

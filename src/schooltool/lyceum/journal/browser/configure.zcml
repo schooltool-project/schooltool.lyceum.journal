@@ -53,10 +53,13 @@
       permission="schooltool.view"
       />
 
-  <resource
-      name="schooltool.lyceum.journal.js"
-      file="resources/journal.js"
-      layer="schooltool.skin.ISchoolToolLayer" />
+  <page
+      name="journal.js"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.SectionJournalJSView"
+      template="templates/journal_js.pt"
+      permission="schooltool.view"
+      />
 
   <page
       name="ajax.xml"

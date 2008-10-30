@@ -29,3 +29,25 @@
   border-top: 1px dashed #000;
   border-bottom: 1px dashed #000;
 }
+
+div.gradebook_content {
+    float: left;
+}
+
+div.gradebook_legend {
+    float: right;
+}
+
+.gradebook_legend h3 {
+    padding-left: .5ex;
+}
+
+.gradebook_legend table th {
+    padding: .5ex;
+    background: #cccccc;
+}
+
+.gradebook_legend table td {
+    padding: .5ex;
+    background: #eeeeee;
+}

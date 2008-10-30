@@ -16,9 +16,7 @@
   <!--<![endif]-->
   <script tal:content="string: var here = '${context/@@absolute_url}/';"/>
   <script language="javascript" type="text/javascript"
-	  tal:content="view/keyCodeInitialization"></script>
-  <script language="javascript" type="text/javascript"
-	  tal:attributes="src context/++resource++schooltool.lyceum.journal.js">
+	  tal:attributes="src string:${context/@@absolute_url}/@@journal.js">
   </script>
 </tal:block>
 
@@ -29,6 +27,8 @@
 </metal:block>
 
 <metal:block metal:fill-slot="body">
+
+<div class="gradebook_content">
   <form action="." method="post" tal:attributes="action request/URL">
 
     <div class="lesson-description">
@@ -99,5 +99,20 @@
     </div>
 
   </form>
+</div>
+
+<div class="gradebook_legend">
+  <h3 i18n:translate="">Legend</h3>
+  <table>
+    <tr>
+      <th i18n:translate="" colspan="2">Attendance / grade</th>
+    </tr>
+    <tr tal:repeat="item view/getLegendItems">
+      <td tal:content="item/value" />
+      <td tal:content="item/description" />
+    </tr>
+  </table>
+</div>
+
 </metal:block>
 </html>

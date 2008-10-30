@@ -140,7 +140,10 @@ class SectionJournalData(Persistent):
     def recordedMeetings(self, person):
         calendar = ISchoolToolCalendar(self.section)
         for meeting_id in self.recordedMeetingIds(person):
-            yield calendar.find(meeting_id)
+            try:
+                yield calendar.find(meeting_id)
+            except KeyError:
+                pass
 
 
 class SectionJournal(object):

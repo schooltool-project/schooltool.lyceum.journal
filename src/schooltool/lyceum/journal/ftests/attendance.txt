@@ -39,8 +39,8 @@ Add a term:
     >>> manager.getLink('2005').click()
     >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 1'
-    >>> manager.getControl('Start date').value = '2005-09-01'
-    >>> manager.getControl('End date').value = '2005-10-31'
+    >>> manager.getControl('Start date').value = '05/09/01'
+    >>> manager.getControl('End date').value = '05/10/31'
     >>> manager.getControl('Next').click()
     >>> manager.getControl('Saturday').click()
     >>> manager.getControl('Sunday').click()
@@ -267,8 +267,8 @@ for the current term:
 
     >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 2'
-    >>> manager.getControl('Start date').value = '2005-11-01'
-    >>> manager.getControl('End date').value = '2005-12-31'
+    >>> manager.getControl('Start date').value = '05/11/01'
+    >>> manager.getControl('End date').value = '05/12/31'
     >>> manager.getControl('Next').click()
     >>> manager.getControl('Saturday').click()
     >>> manager.getControl('Sunday').click()

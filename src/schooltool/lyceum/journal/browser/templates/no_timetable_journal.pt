@@ -9,15 +9,6 @@
     ><span i18n:name="section" tal:replace="view/context/section/label"/> journal</title>
 </head>
 
-<tal:block metal:fill-slot="extrahead">
-  <script tal:content="string: var here = '${context/@@absolute_url}/';"/>
-  <script language="javascript" type="text/javascript"
-	  tal:content="view/keyCodeInitialization"></script>
-  <script language="javascript" type="text/javascript"
-	  tal:attributes="src context/++resource++schooltool.lyceum.journal.js">
-  </script>
-</tal:block>
-
 <metal:block metal:fill-slot="content-header">
     <h1 i18n:translate="">
       <tal:block i18n:name="section" tal:replace="view/context/section/label" />

@@ -214,27 +214,7 @@ $(document).ready(function(){
 
   $(document).keypress(function (event) {
     if (selected_cell && !event.ctrlKey && !event.altKey) {
-      //absent is n or N, tardy is p or P
-      //absent/tardy(KeyCode)Lower/Upper are defined by
-      // keyCodeInitialization call from journal.pt
-      var keys = {enter: event.which == 13,
-                  escape: event.which == 27,
-                  space: event.which == 32,
-                  absent: event.which == absentKeyCodeLower || event.which == absentKeyCodeUpper,
-                  tardy: event.which == tardyKeyCodeLower || event.which == tardyKeyCodeUpper,
-                  0: event.which == 48,
-                  1: event.which == 49,
-                  2: event.which == 50,
-                  3: event.which == 51,
-                  4: event.which == 52,
-                  5: event.which == 53,
-                  6: event.which == 54,
-                  7: event.which == 55,
-                  8: event.which == 56,
-                  9: event.which == 57,
-                  }
-
-      if (keys.enter) { // enter
+      if (event.which == 13) { // enter
         var selection = $(".selected-column");
         var selected_rows = $(".selected-row");
 
@@ -258,90 +238,27 @@ $(document).ready(function(){
         return false;
       }
 
-      if (keys.escape) { // esc
+      if (event.which == 27) { // esc
         grade = old_grade;
         $(selected_cell).html(grade);
         unselectCell();
         return false;
       }
 
-      if (keys.space) { // Space
+      if (event.which == 32) { // Space
         grade = '';
         $(selected_cell).html(grade);
         return false;
       }
 
-      if (keys['1']) { // 1
-        grade = '1';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['2']) { // 2
-        grade = '2';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['3']) { // 3
-        grade = '3';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['4']) { // 4
-        grade = '4';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['5']) { // 5
-        grade = '5';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['6']) { // 6
-        grade = '6';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['7']) { // 7
-        grade = '7';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['8']) { // 8
-        grade = '8';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['9']) { // 9
-        grade = '9';
-        $(selected_cell).html(grade);
-        return false;
-      }
-
-      if (keys['0']) { // 0
-        grade = '10';
-        $(selected_cell).html(grade);
-        return false;
-      }
-      //absentLetter defined by keyCodeInitialization call in journal.pt
-      if (keys.absent) { // N, n
-        grade = absentLetter;
-        $(selected_cell).html(grade);
-        return false;
-      }
-      //tardyLetter defined by keyCodeInitialization call in journal.pt
-      if (keys.tardy) { // P, p
-        grade = tardyLetter;
-        $(selected_cell).html(grade);
-        return false;
-      }
+      // Grade assignment event handling
+      <tal:block repeat="event view/grading_events">
+        if (<tal:block content="event/js_condition" />) {
+          grade = <tal:block content="event/grade_value" />;
+          $(selected_cell).html(grade);
+          return false;
+        }
+      </tal:block>
 
     }
     return true;

@@ -287,6 +287,34 @@ class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
         return '<span>%s</span>' % translate(_("Absences"),
                                              context=formatter.request)
 
+def journal_grades():
+    grades = [
+        {'keys': [ABSENT_LETTER.lower(), ABSENT_LETTER.upper()],
+         'value': ABSENT_LETTER,
+         'legend': _('Absent')},
+        {'keys': [TARDY_LETTER.lower(), TARDY_LETTER.upper()],
+         'value': TARDY_LETTER,
+         'legend': _('Tardy')}]
+    for i in range(9):
+        grades.append({'keys': [chr(i + ord('1'))],
+                       'value': unicode(i+1),
+                       'legend': u''})
+    grades.append({'keys': ['0'],
+                   'value': u'10',
+                   'legend': u''})
+    return grades
+
+
+class SectionJournalJSView(BrowserView):
+
+    def grading_events(self):
+        for grade in journal_grades():
+            event_check = ' || '.join([
+                'event.which == %d' % ord(key)
+                for key in grade['keys']])
+            yield {'js_condition': event_check,
+                   'grade_value': "'%s'" % grade['value']}
+
 
 class LyceumSectionJournalView(object):
 
@@ -295,18 +323,6 @@ class LyceumSectionJournalView(object):
 
     def __init__(self, context, request):
         self.context, self.request = context, request
-
-    def keyCodeInitialization(self):
-        # 78=n, 110=N, 80=p, 112=P
-        return """
-        var absentKeyCodeLower = %s;
-        var absentKeyCodeUpper = %s;
-        var absentLetter = '%s';
-        var tardyKeyCodeLower = %s;
-        var tardyKeyCodeUpper = %s;
-        var tardyLetter = '%s';
-        """ % (ord(ABSENT_LETTER), ord(ABSENT_LETTER.upper()), ABSENT_LETTER,
-               ord(TARDY_LETTER), ord(TARDY_LETTER.upper()), TARDY_LETTER)
 
     def __call__(self):
         if not ITimetables(self.context.section).terms:
@@ -369,6 +385,12 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
 
         widget.setRenderedValue(value)
         return widget
+
+    def getLegendItems(self):
+        for grade in journal_grades():
+            yield {'keys': u', '.join(grade['keys']),
+                   'value': grade['value'],
+                   'description': grade['legend']}
 
     def setUpLessonDescriptionWidgets(self):
         event = self.selectedEvent()

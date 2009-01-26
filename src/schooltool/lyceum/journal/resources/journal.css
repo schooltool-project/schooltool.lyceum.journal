@@ -1,33 +1,38 @@
 /* styles for the gradebook */
 
+.gradebook TABLE {
+    border-top: solid 1px #bbb;
+    border-bottom: solid 1px #bbb;
+}
+
 .gradebook TABLE.data {
-   border-spacing: 0px;
+    border-spacing: 0px;
 }
 
 .gradebook TABLE.data TD
 {
-  border-left: 1px solid #BBB;
+    border-left: 1px solid #BBB;
 }
 
 .gradebook TD span.today {
-   background-color: #EAFAE3;
+    background-color: #EAFAE3;
 }
 
 .gradebook TABLE.data TD.selected-column
 {
-  border-left: 1px dashed #000;
-  border-right: 1px dashed #000;
+    border-left: 1px dashed #000;
+    border-right: 1px dashed #000;
 }
 
 .gradebook TABLE.data TD.selected-cell
 {
-  border: solid 1px #000;
+    border: solid 1px #000;
 }
 
 .gradebook TABLE.data TD.selected-row
 {
-  border-top: 1px dashed #000;
-  border-bottom: 1px dashed #000;
+    border-top: 1px dashed #000;
+    border-bottom: 1px dashed #000;
 }
 
 div.gradebook_content {
@@ -38,16 +43,54 @@ div.gradebook_legend {
     float: right;
 }
 
+table.month_tabs {
+    border-top: solid 1px #bbb;
+    border-right: solid 1px #bbb;
+    border-collapse: collapse;
+}
+
+td.inactive_tab {
+    border-left: solid 1px #bbb;
+    padding: .5ex;
+    background-color: #eee;
+    width: 90px;
+    text-align: center;
+}
+
+td.active_tab {
+    border-left: solid 1px #bbb;
+    padding: .5ex;
+    background-color: #ddd;
+    width: 90px;
+    text-align: center;
+}
+
+
 .gradebook_legend h3 {
     padding-left: .5ex;
 }
 
 .gradebook_legend table th {
     padding: .5ex;
-    background: #cccccc;
+    background: #ccc;
 }
 
 .gradebook_legend table td {
     padding: .5ex;
-    background: #eeeeee;
+    background: #eee;
+}
+
+.gradebook table th {
+    border-left: 1px solid #BBB;
+    background: #ddd;
+}
+
+
+/* overrides colors in schooltool.css to match other gradebooks */
+tr.odd {
+    background-color: #eee;
+}
+
+tr.even {
+    background-color: #ddd;
 }

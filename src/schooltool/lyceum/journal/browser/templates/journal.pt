@@ -73,18 +73,20 @@
            type="hidden"
            name="student"
            tal:attributes="value request/student" />
-
-    <div>
-      <span tal:repeat="month_id view/monthsInSelectedTerm">
-        <tal:if condition="python: month_id != view.active_month">
+           
+    <div class="month_tabs">
+      <tal:loop repeat="month_id view/monthsInSelectedTerm">
+        <span class="inactive_tab"
+             tal:condition="python: month_id != view.active_month">
           <a tal:attributes="href python: view.monthURL(month_id)"
              tal:content="python: view.monthTitle(month_id)" />
-        </tal:if>
-        <tal:if condition="python: month_id == view.active_month">
+        </span>
+        <span class="active_tab"
+             tal:condition="python: month_id == view.active_month">
           <tal:block tal:replace="python: view.monthTitle(month_id)" />
-        </tal:if>
-      </span>
-      <span>
+        </span>
+      </tal:loop>
+      <span class="inactive_tab term_tab">
         <a tal:attributes="href string:${context/@@absolute_url}/term_grades.html"
            i18n:translate="">Term Grading</a>
       </span>

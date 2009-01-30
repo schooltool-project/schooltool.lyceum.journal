@@ -13,6 +13,8 @@
 </metal:block>
 
 <metal:block metal:fill-slot="body">
+
+<div class="gradebook_content">
   <form action="." method="post" tal:attributes="action request/URL">
     <select name="TERM">
       <option tal:repeat="term view/scheduled_terms"
@@ -26,12 +28,12 @@
            name="student"
            tal:attributes="value request/student" />
 
-    <div>
-      <span tal:repeat="month_id view/monthsInSelectedTerm">
+    <div class="month_tabs">
+      <span class="inactive_tab" tal:repeat="month_id view/monthsInSelectedTerm">
         <a tal:attributes="href python: view.monthURL(month_id)"
            tal:content="python: view.monthTitle(month_id)" />
       </span>
-      <span>
+      <span class="active_tab term_tab">
         Term Grading
       </span>
     </div>
@@ -46,5 +48,6 @@
     </div>
 
   </form>
+</div>
 </metal:block>
 </html>

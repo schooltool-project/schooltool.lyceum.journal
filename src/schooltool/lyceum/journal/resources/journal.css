@@ -43,28 +43,34 @@ div.gradebook_legend {
     float: right;
 }
 
-table.month_tabs {
-    border-top: solid 1px #bbb;
-    border-right: solid 1px #bbb;
-    border-collapse: collapse;
+.gradebook_content div.month_tabs {
+    padding-top: 1ex;
+    padding-bottom: .5ex;
 }
 
-td.inactive_tab {
+.gradebook_content span.active_tab {
     border-left: solid 1px #bbb;
+    border-top: solid 1px #bbb;
+    border-bottom: solid 1px #bbb;
     padding: .5ex;
     background-color: #eee;
     width: 90px;
     text-align: center;
 }
 
-td.active_tab {
+.gradebook_content span.inactive_tab {
     border-left: solid 1px #bbb;
+    border-top: solid 1px #bbb;
+    border-bottom: solid 1px #bbb;
     padding: .5ex;
     background-color: #ddd;
     width: 90px;
     text-align: center;
 }
 
+.gradebook_content span.term_tab {
+    border-right: solid 1px #bbb;
+}
 
 .gradebook_legend h3 {
     padding-left: .5ex;
@@ -87,10 +93,10 @@ td.active_tab {
 
 
 /* overrides colors in schooltool.css to match other gradebooks */
-tr.odd {
+.gradebook_content tr.odd {
     background-color: #eee;
 }
 
-tr.even {
+.gradebook_content tr.even {
     background-color: #ddd;
 }

@@ -99,15 +99,6 @@ class JournalCalendarEventViewlet(object):
                 urllib.quote(event_for_display.context.unique_id.encode('utf-8')))
 
 
-class GradeClassColumn(LocaleAwareGetterColumn):
-
-    def getter(self, item, formatter):
-        groups = IGroupContainer(ISchoolToolApplication(None))
-        if item.gradeclass is not None:
-            return groups[item.gradeclass].title
-        return ""
-
-
 class StudentNumberColumn(GetterColumn):
 
     def getter(self, item, formatter):
@@ -339,13 +330,6 @@ class LyceumSectionJournalView(object):
                                            ITableFormatter)
 
         columns_before = [StudentNumberColumn(title=_('Nr'), name='nr')]
-
-        all_classes = set()
-        for member in self.members():
-            all_classes.add(member.gradeclass)
-
-        if len(all_classes) > 1:
-            columns_before.append(GradeClassColumn(title=_('Class'), name='class'))
 
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,

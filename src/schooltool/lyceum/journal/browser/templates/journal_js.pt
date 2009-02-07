@@ -50,11 +50,11 @@ function unselectCell() {
                   person_id: cell.person_id,
                   grade: grade},
            error: function() {
-             $(cell).css('background', '#FFAAAA');
+             changeBackgroundColor(cell, 'error_bg');
              cell.modified_failure = true;
            },
            success: function(xml){
-             $(cell).css('background', '#AAFFAA');
+             changeBackgroundColor(cell, 'changed_bg');
              cell.modified_success = true;
            }
         });
@@ -75,6 +75,13 @@ function selectCell(cell) {
   grade = value;
   $(cell).addClass('selected-cell');
   selected_cell = cell;
+}
+
+function changeBackgroundColor(obj, class)    {
+    $(obj).removeClass('default_bg');
+    $(obj).removeClass('changed_bg');
+    $(obj).removeClass('error_bg');
+    $(obj).addClass(class);
 }
 
 $(document).ready(function(){

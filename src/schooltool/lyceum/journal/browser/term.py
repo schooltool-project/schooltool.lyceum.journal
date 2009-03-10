@@ -29,7 +29,6 @@ from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.table.interfaces import ITableFormatter
 
 from schooltool.lyceum.journal import LyceumMessage as _
-from schooltool.lyceum.journal.browser.journal import GradeClassColumn
 from schooltool.lyceum.journal.browser.journal import StudentNumberColumn
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ITermGradingData
@@ -84,9 +83,7 @@ class TermView(LyceumSectionJournalView):
                                          ITableFormatter)
         self.gradebook.setUp(items=self.members(),
                              columns_before=[StudentNumberColumn(title=_('Nr'),
-                                                                 name='nr'),
-                                             GradeClassColumn(title=_('Class'),
-                                                              name='class')],
+                                                                 name='nr')],
                              columns_after=self.gradeColumns(),
                              batch_size=0)
         return self.template()

@@ -124,7 +124,6 @@ def doctest_TermView():
         ['members']
         >>> view.gradebook._columns
         [<schooltool.lyceum.journal.browser.journal.StudentNumberColumn object at ...>,
-         <schooltool.lyceum.journal.browser.journal.GradeClassColumn object at ...>,
          <zc.table.column.GetterColumn object at ...>,
          'Term Column']
 

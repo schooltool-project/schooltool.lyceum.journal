@@ -12,8 +12,8 @@ Set up a basic school year:
     >>> manager.getLink('School Years').click()
     >>> manager.getLink('New School Year').click()
     >>> manager.getControl('Title').value = '2005'
-    >>> manager.getControl('First day').value = '05/09/01'
-    >>> manager.getControl('Last day').value = '06/07/31'
+    >>> manager.getControl('First day').value = '2005-09-01'
+    >>> manager.getControl('Last day').value = '2006-07-31'
     >>> manager.getControl('Add').click()
 
 Add some teachers:
@@ -30,8 +30,8 @@ Add a term:
 
     >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 1'
-    >>> manager.getControl('Start date').value = '05/09/01'
-    >>> manager.getControl('End date').value = '05/10/31'
+    >>> manager.getControl('Start date').value = '2005-09-01'
+    >>> manager.getControl('End date').value = '2005-10-31'
     >>> manager.getControl('Next').click()
     >>> manager.getControl('Saturday').click()
     >>> manager.getControl('Sunday').click()
@@ -137,12 +137,12 @@ There is an ajax view that shows us both text fields as well:
       <tr>
         <td>
             Personal lesson description for
-            9/6/05 period
+            2005-09-06 period
             A
         </td>
         <td>
             Public lesson description for
-            9/6/05 period
+            2005-09-06 period
             A
         </td>
       </tr>

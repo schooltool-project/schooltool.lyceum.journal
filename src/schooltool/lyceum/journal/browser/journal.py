@@ -338,37 +338,7 @@ class LyceumSectionJournalView(object):
                              table_formatter=self.formatterFactory,
                              batch_size=0)
 
-        self.setUpLessonDescriptionWidgets()
-
         return self.template()
-
-    def setUpFckWidget(self, name, value):
-        field = HtmlFragment(__name__='%s_description' % name,
-                             title=_("Description"),
-                             required=False)
-        widget = getMultiAdapter((field, self.request),
-                                 IInputWidget)
-
-        # set up editor widget
-        widget.editorWidth = 400
-        widget.editorHeight = 150
-        widget.toolbarConfiguration = "schooltool"
-        url = zapi.absoluteURL(ISchoolToolApplication(None), self.request)
-        widget.configurationPath = (url + '/@@/editor_config.js')
-
-        widget.javascriptTemplate = '''
-<script type="text/javascript" language="JavaScript">
-var oFCKeditor_%(shortname)s = new FCKeditor(
-        "%(name)s", %(width)s, %(height)s, "%(toolbars)s");
-    oFCKeditor_%(shortname)s.BasePath = "/@@/fckeditor/";
-    oFCKeditor_%(shortname)s.Config["CustomConfigurationsPath"] = "%(config)s";
-    oFCKeditor_%(shortname)s.ReplaceTextarea();
-    document.getElementById('%(name)s').event_id = '$event_id';
-</script>
-'''.replace('$event_id', self.encodedSelectedEventId().replace("%", "%%"))
-
-        widget.setRenderedValue(value)
-        return widget
 
     def getLegendItems(self):
         for grade in journal_grades():
@@ -376,27 +346,10 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
                    'value': grade['value'],
                    'description': grade['legend']}
 
-    def setUpLessonDescriptionWidgets(self):
-        event = self.selectedEvent()
-        if event:
-            teacher_description = self.context.getDescription(event)
-            self.teacher_description_widget = self.setUpFckWidget(
-                                                      'teacher',
-                                                      teacher_description)
-            public_description = event.description
-            self.public_description_widget = self.setUpFckWidget(
-                                                      'public',
-                                                      public_description)
-
     def encodedSelectedEventId(self):
         event = self.selectedEvent()
         if event:
             return urllib.quote(base64.encodestring(event.unique_id.encode('utf-8')))
-
-    def selectedEventLessonDescription(self):
-        event = self.selectedEvent()
-        if event:
-            return self.context.getDescription(event)
 
     def formatterFactory(self, *args, **kwargs):
         students = []
@@ -435,17 +388,11 @@ var oFCKeditor_%(shortname)s = new FCKeditor(
         members = self.members()
         for meeting in self.meetings():
             for person in members:
-                meeting_id = meeting.unique_id
                 cell_id = "%s.%s" % (person.__name__, meeting.__name__)
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
                     cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
                     self.context.setGrade(person, meeting, cell_value)
-
-        meeting = self.selectedEvent()
-        if meeting:
-            self.context.setDescription(meeting, self.request['field.teacher_description']);
-            meeting.description = self.request['field.public_description']
 
     def gradeColumns(self):
         columns = []
@@ -579,80 +526,6 @@ class SectionJournalAjaxView(BrowserView):
         grade = self.request['grade']
         grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade, grade)
         self.context.setGrade(person, meeting, grade);
-        return ""
-
-
-class GetLessonDescriptionAjaxView(BrowserView):
-
-    template = ViewPageTemplateFile("templates/lesson_description.pt")
-
-    form_fields = form.fields()
-
-    def setUpEditorWidget(self, editor):
-        editor.editorWidth = 400
-        editor.editorHeight = 150
-        editor.toolbarConfiguration = "schooltool"
-        url = zapi.absoluteURL(ISchoolToolApplication(None), self.request)
-        editor.configurationPath = (url + '/@@/editor_config.js')
-        editor.javascriptTemplate = '''
-<script type="text/javascript" language="JavaScript">
-var oFCKeditor_%(shortname)s = new FCKeditor(
-        "%(name)s", %(width)s, %(height)s, "%(toolbars)s");
-    oFCKeditor_%(shortname)s.BasePath = "/@@/fckeditor/";
-    oFCKeditor_%(shortname)s.Config["CustomConfigurationsPath"] = "%(config)s";
-    oFCKeditor_%(shortname)s.ReplaceTextarea();
-    document.getElementById('%(name)s').event_id = '$HACK';
-</script>
-'''.replace('$HACK', self.request['event_id'].replace("%", "%%"))
-
-
-    def setUpWidgets(self, ignore_request=False):
-        public_field = HtmlFragment(__name__='public_description',
-                                    title=_("Public description"),
-                                    required=False)
-
-        teacher_field = HtmlFragment(__name__='teacher_description',
-                                     title=_("Teacher's description"),
-                                     required=False)
-
-        self.public_description_widget = getMultiAdapter((public_field, self.request),
-                                                         IInputWidget)
-        self.teacher_description_widget = getMultiAdapter((teacher_field, self.request),
-                                                          IInputWidget)
-        self.setUpEditorWidget(self.public_description_widget)
-        self.setUpEditorWidget(self.teacher_description_widget)
-        self.public_description_widget.setRenderedValue(self.public_description)
-        self.teacher_description_widget.setRenderedValue(self.description)
-
-    def __call__(self):
-        event_id = base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8")
-        self.meeting = self.context.findMeeting(event_id)
-        self.description = self.context.getDescription(self.meeting)
-        self.public_description = self.meeting.description
-        self.setUpWidgets()
-        self.date = self.meeting.dtstart.strftime("%Y-%m-%d")
-        return self.template()
-
-
-class MeetingAjaxView(BrowserView):
-
-    @property
-    def meeting(self):
-        meeting_id = base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8")
-        return self.context.findMeeting(meeting_id)
-
-
-class SetLessonDescriptionAjaxView(MeetingAjaxView):
-
-    def __call__(self):
-        self.context.setDescription(self.meeting, self.request['lesson_description'])
-        return ""
-
-
-class SetPublicDescriptionAjaxView(MeetingAjaxView):
-
-    def __call__(self):
-        self.meeting.description = self.request['lesson_description']
         return ""
 
 

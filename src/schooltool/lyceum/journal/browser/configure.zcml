@@ -69,27 +69,6 @@
       />
 
   <page
-      name="getLessonDescription.xml"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.GetLessonDescriptionAjaxView"
-      permission="schooltool.view"
-      />
-
-  <page
-      name="setLessonDescription.xml"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.SetLessonDescriptionAjaxView"
-      permission="schooltool.edit"
-      />
-
-  <page
-      name="setPublicDescription.xml"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.SetPublicDescriptionAjaxView"
-      permission="schooltool.edit"
-      />
-
-  <page
       name="term_grades.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".term.TermView"

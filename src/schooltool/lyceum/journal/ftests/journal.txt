@@ -123,6 +123,32 @@ might as well use it and schedule the section:
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()
+
+Let's forget to set periods for the timetable and navigate straigth to
+the journal.
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('Journal').click()
+    >>> print analyze.queryHTML('//div[@id="content-body"]', manager.contents)[0]
+    <div id="content-body">
+      <div>
+        No periods have been assigned in timetables of this section.
+      </div>
+      <div>
+        Timetables assigned for this section:
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/timetables/1">2005-fall-1.default</a>
+      </div>
+      <div>
+        You can manage timetables for this section here:
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/timetables/"> Timetables </a>
+      </div>
+    </div>
+
+Follow the link and select some periods.
+
     >>> manager.getLink('2005-fall-1.default').click()
     >>> manager.getControl(name='Tuesday.A').value = True
     >>> manager.getControl(name='Tuesday.B').value = True

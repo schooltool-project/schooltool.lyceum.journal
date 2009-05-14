@@ -311,6 +311,7 @@ class LyceumSectionJournalView(object):
 
     template = ViewPageTemplateFile("templates/journal.pt")
     no_timetable_template = ViewPageTemplateFile("templates/no_timetable_journal.pt")
+    no_periods_template = ViewPageTemplateFile("templates/no_periods_journal.pt")
 
     def __init__(self, context, request):
         self.context, self.request = context, request
@@ -318,6 +319,10 @@ class LyceumSectionJournalView(object):
     def __call__(self):
         if not ITimetables(self.context.section).terms:
             return self.no_timetable_template()
+
+        meetings = self.allMeetings()
+        if not meetings:
+            return self.no_periods_template()
 
         zc.resourcelibrary.need("fckeditor")
 
@@ -361,6 +366,10 @@ class LyceumSectionJournalView(object):
                 students = [student]
         kwargs['selected_items'] = students
         return SelectableRowTableFormatter(*args, **kwargs)
+
+    def timetables(self):
+        tt = ITimetables(self.context.section).timetables
+        return sorted(tt.values(), key=lambda tt: tt.term.last)
 
     def allMeetings(self):
         term = self.getSelectedTerm()

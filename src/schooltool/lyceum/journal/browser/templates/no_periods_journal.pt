@@ -18,8 +18,16 @@
 <metal:block metal:fill-slot="body">
 
   <div i18n:translate="">
-    This section is not scheduled for any term, to use the journal you
-    should add a timetable first.
+    No periods have been assigned in timetables of this section.
+  </div>
+
+  <div i18n:translate="">
+    Timetables assigned for this section:
+    <tal:block i18n:name="timetable_links" repeat="timetable view/timetables">
+      <a tal:attributes="href timetable/@@absolute_url"
+         tal:content="timetable/title">Timetable</a>
+    </tal:block>
+
   </div>
 
   <div i18n:translate="">

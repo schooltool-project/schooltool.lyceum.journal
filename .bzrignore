@@ -7,3 +7,4 @@ TAGS
 tags
 .installed.cfg
 python
+**/LC_MESSAGES/*.mo

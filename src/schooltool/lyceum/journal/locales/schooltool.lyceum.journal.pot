@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SchoolTool Version SVN\n"
-"POT-Creation-Date: Wed Apr  8 03:35:05 2009\n"
+"POT-Creation-Date: Tue May 19 16:03:56 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -26,149 +26,149 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18nextract.py\n"
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/attendance.py:168
+#: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/attendance.py:55
+#: /src/schooltool/lyceum/journal/browser/attendance.py:55
 msgid "Explained:"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:111
+#: /src/schooltool/lyceum/journal/browser/journal.py:111
 msgid "Nr."
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:230
+#: /src/schooltool/lyceum/journal/browser/journal.py:230
 msgid "Grades"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:255
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/student.py:108
+#: /src/schooltool/lyceum/journal/browser/journal.py:255
+#: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:285
+#: /src/schooltool/lyceum/journal/browser/journal.py:285
 msgid "Absent"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:288
+#: /src/schooltool/lyceum/journal/browser/journal.py:288
 msgid "Tardy"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:332
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/term.py:85
+#: /src/schooltool/lyceum/journal/browser/journal.py:337
+#: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:347
-msgid "Description"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:611
-msgid "Public description"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:615
-msgid "Teacher's description"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:71
+#: /src/schooltool/lyceum/journal/browser/journal.py:71
 #. Default: "a"
 msgid "Single letter that represents an absent mark for a student"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:73
 #. Default: "t"
 msgid "Single letter that represents an tardy mark for a student"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:107
-msgid "Legend"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:110
-msgid "Attendance / grade"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:43
-msgid "Personal lesson description for ${date} period ${period}"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:49
-msgid "Public lesson description for ${date} period ${period}"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:90
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
+msgid "Legend"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
+msgid "Attendance / grade"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
+msgid "No periods have been assigned in timetables of this section."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+msgid "Timetables assigned for this section: ${timetable_links}"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
+msgid "This section is not scheduled for any term, to use the journal you should add a timetable first."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+msgid "${section} journal"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 #. Default: "Shortcut: Alt-S"
 msgid "title-for-select-button"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 #. Default: "Select"
 msgid "select-button"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 #. Default: "S"
 msgid "schortcut-letter-for-select"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/configure.zcml:37
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 msgid "Journal"
 msgstr ""
 
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/term.pt:5
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/term.pt:8
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/term.pt:12
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/journal.pt:9
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-msgid "${section} journal"
-msgstr ""
-
-#: /build/schooltool.lyceum.journal/src/schooltool/lyceum/journal/browser/term.py:57
+#: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr ""
 

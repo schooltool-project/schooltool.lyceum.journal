@@ -1,116 +1,114 @@
-# Lithuanian translation for schooltool
-# Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
+# Italian translation for schooltool
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the schooltool package.
-# Ignas Mikalajūnas <ignas.mikalajunas@gmail.com>, 2007.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: schooltool.lyceum.journal\n"
-"Report-Msgid-Bugs-To: schooltool-developers@lists.launchpad.net\n"
+"Project-Id-Version: schooltool\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: Tue May 19 16:03:56 2009\n"
-"PO-Revision-Date: 2007-09-21 10:10+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
-"Language-Team: Lithuanian <lt@li.org>\n"
+"PO-Revision-Date: 2009-05-10 19:42+0000\n"
+"Last-Translator: Luigi Di Gaetano <Unknown>\n"
+"Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-09-21 10:18+0000\n"
+"X-Launchpad-Export-Date: 2009-05-18 17:10+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
-msgstr "Viso"
+msgstr "Totale"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:55
 msgid "Explained:"
-msgstr "Pateisinta:"
+msgstr "Spiegato:"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:111
 msgid "Nr."
-msgstr "Nr."
+msgstr "N°"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:230
 msgid "Grades"
-msgstr "Pažymiai"
+msgstr "Voti"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:255
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
-msgstr "Vidurkis"
+msgstr "Media"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
-msgstr "Praleistos pamokos"
+msgstr "Assenze"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:285
 msgid "Absent"
-msgstr "Praleido"
+msgstr "Assente"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:288
 msgid "Tardy"
-msgstr "Vėlavo"
+msgstr "Pigro"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:337
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
-msgstr "Nr"
+msgstr "N°"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:71
 msgid "Single letter that represents an absent mark for a student"
-msgstr "n"
+msgstr "Lettera che rappresenta l'assenza dello studente"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "p"
+msgstr "Lettera che rappresenta il ritardo dello studente"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group} lankomumas ${month} mėnesiui"
+msgstr "${group} presenza per ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Pasirinktame semestre nebuvo nei vieno susirinkimo.</div>"
+msgstr "<div>Non ci sono riunioni entro la data selezionata</div>"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} dienynas ${year} m. ${month} mėnesiui"
+msgstr "Diario ${section} per ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Semestro pažymiai"
+msgstr "Valutazione Quadrimestre"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
-msgstr "Paaiškinimai"
+msgstr "Legenda"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
-msgstr "Lankomumas / pažymys"
+msgstr "Presenza / voto"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Šiam kursui tvarkaraščiuose nepaskirta nei viena pamoka."
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Tvarkaraščiai, paskirti šiam kursui: ${timetable_links}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Šis kursas nesuplanuotas nei vienam semestrui; kad galėtumėte naudoti žurnalą, "
-"turite pridėti tvarkarašŧį."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Tvarkaraščius šiam kursui galite tvarkyti čia: ${timetable_link}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
@@ -123,47 +121,55 @@ msgstr "Tvarkaraščius šiam kursui galite tvarkyti čia: ${timetable_link}"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
 msgid "${section} journal"
-msgstr "${section} dienynas"
+msgstr "Registro della sezione ${section}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} pažymių knygelė ${month} mėnesiui"
+msgstr "Libro dei voti di ${student_name} per il mese di ${month}"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Spartusis klavišas: Alt-S"
+msgstr "titolo-per-il-bottone-di-selezione"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Pasirinkti"
+msgstr "seleziona-bottone"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "schortcut-letter-for-select"
-msgstr "S"
+msgstr "lettera-di-scorciatoia-per-il-bottone"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${person} pažymių knygelė ${month} mėnesiui"
+msgstr "Libro dei voti di ${person} per ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "${person} pažymių knygelė"
+msgstr "Libro dei voti di ${person}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Mano kursai"
+msgstr "Le mie sezioni"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 msgid "Journal"
-msgstr "Dienynas"
+msgstr "Registro"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Semestrinis pažymys"
+msgstr "Voto Quadrimestre"
 
+#~ msgid "Description"
+#~ msgstr "Descrizione"
+
+#~ msgid "Public description"
+#~ msgstr "Descrizione pubblica"
+
+#~ msgid "Teacher's description"
+#~ msgstr "Descrizione del docente"

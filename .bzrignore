@@ -1,4 +1,5 @@
 bin
+build
 develop-eggs
 parts
 src/schooltool.lyceum.journal.egg-info

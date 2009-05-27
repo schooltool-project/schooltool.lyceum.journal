@@ -29,6 +29,8 @@ if sys.version_info < (2, 4):
     print >> sys.stderr, 'Your python is %s' % sys.version
     sys.exit(1)
 
+import glob
+
 import site
 site.addsitedir('eggs')
 
@@ -37,6 +39,24 @@ pkg_resources.require("setuptools>=0.6a11")
 
 import os
 from setuptools import setup, find_packages
+from distutils import log
+from distutils.util import newer
+from distutils.spawn import find_executable
+
+def compile_translations(locales_dir):
+    "Compile *.po files to *.mo files in the same directory."
+    for po in glob.glob('%s/*/LC_MESSAGES/*.po' % locales_dir):
+        mo = po[:-3] + '.mo'
+        if newer(po, mo):
+            log.info('Compile: %s -> %s' % (po, mo))
+            os.system('msgfmt -o %s %s' % (mo, po))
+
+if sys.argv[1] in ('build', 'install'):
+    if not find_executable('msgfmt'):
+        log.warn("GNU gettext msgfmt utility not found!")
+        log.warn("Skip compiling po files.")
+    else:
+        compile_translations('src/schooltool/lyceum/journal/locales')
 
 if os.path.exists("version.txt"):
     version = open("version.txt").read().strip()

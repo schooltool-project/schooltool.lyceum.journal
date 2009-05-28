@@ -58,6 +58,11 @@ if sys.argv[1] in ('build', 'install'):
     else:
         compile_translations('src/schooltool/lyceum/journal/locales')
 
+if sys.argv[1] == 'clean':
+    locales_dir = 'src/schooltool/lyceum/journal/locales'
+    for mo in glob.glob('%s/*/LC_MESSAGES/*.mo' % locales_dir):
+        os.unlink(mo)
+
 if os.path.exists("version.txt"):
     version = open("version.txt").read().strip()
 else:

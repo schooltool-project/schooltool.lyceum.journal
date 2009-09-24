@@ -65,7 +65,7 @@ coverage-reports-html:
 
 .PHONY: extract-translations
 extract-translations: build
-	bin/i18nextract --egg schooltool.lyceum.journal --domain schooltool.lyceum.journal --zcml schooltool/lyceum/journal/translation.zcml --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
+	bin/i18nextract --egg schooltool.lyceum.journal --domain schooltool.lyceum.journal --zcml schooltool/lyceum/journal/translations.zcml --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
 
 
 .PHONY: compile-translations

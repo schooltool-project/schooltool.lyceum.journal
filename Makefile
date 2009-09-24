@@ -63,10 +63,18 @@ coverage-reports-html:
 	bin/coverage
 	ln -s schooltool.lyceum.journal.html coverage/reports/index.html
 
+.PHONY: clean
+clean:
+	rm -rf bin develop-eggs parts python
+	rm -rf build dist
+	rm -f .installed.cfg
+	rm -f ID TAGS tags
+	find . -name '*.py[co]' -exec rm -f {} \;
+	find . -name '*.mo' -exec rm -f {} \;
+
 .PHONY: extract-translations
 extract-translations: build
 	bin/i18nextract --egg schooltool.lyceum.journal --domain schooltool.lyceum.journal --zcml schooltool/lyceum/journal/translations.zcml --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
-
 
 .PHONY: compile-translations
 compile-translations:
@@ -84,7 +92,6 @@ update-translations: extract-translations
 	    msgmerge -qU $$f $${locales}/schooltool.lyceum.journal.pot ;\
 	done
 	$(MAKE) PYTHON=$(PYTHON) compile-translations
-
 
 .PHONY: ubuntu-environment
 ubuntu-environment:

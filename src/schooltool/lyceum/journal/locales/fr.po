@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: Tue May 19 16:03:56 2009\n"
-"PO-Revision-Date: 2009-05-04 01:14+0000\n"
-"Last-Translator: Nizar Kerkeni <nizar.kerkeni@gmail.com>\n"
+"POT-Creation-Date: Mon Oct 12 00:24:59 2009\n"
+"PO-Revision-Date: 2009-09-04 11:19+0000\n"
+"Last-Translator: Yves MATHIEU <ymathieu@moulins-vichy.cci.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-05-18 17:10+0000\n"
+"X-Launchpad-Export-Date: 2009-10-11 21:16+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
@@ -94,34 +94,46 @@ msgstr "Assiduité / note"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
 msgstr ""
+"Auncunes périodes ont été assignées dna l'emploi du temps de cette section."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr ""
+msgstr "Emplois du temps assignés pour cette section : ${timetable_links}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
+"Cette section n'est programmé dans aucun terme, pour utiliser le journal "
+"vous devez d'abord ajouter un emploi du temps."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr ""
+"Vous pouvez gérer les emplois du temps de cette section ici : "
+"${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
 msgstr "${section} journal"
+
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "Journal"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
@@ -154,28 +166,6 @@ msgstr "${person} bulletin"
 msgid "My Sections"
 msgstr "Mes sections"
 
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Journal"
-
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr "Rang trimestriel"
-
-#~ msgid "Description"
-#~ msgstr "Description"
-
-#~ msgid "Public description"
-#~ msgstr "Description publique"
-
-#~ msgid "Teacher's description"
-#~ msgstr "Description de l'enseignant"
-
-#~ msgid "Personal lesson description for ${date} period ${period}"
-#~ msgstr "Description personelle de la leçon de ${date} durée ${period}"
-
-#~ msgid "Public lesson description for ${date} period ${period}"
-#~ msgstr "Description publique de la leçon de ${date} durée ${period}"

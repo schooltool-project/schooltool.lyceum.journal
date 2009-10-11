@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: schooltool-developers@lists.launchpad.net\n"
-"POT-Creation-Date: Tue May 19 16:03:56 2009\n"
+"POT-Creation-Date: Mon Oct 12 00:24:59 2009\n"
 "PO-Revision-Date: 2007-09-21 10:10+0000\n"
 "Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
@@ -104,8 +104,8 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Šis kursas nesuplanuotas nei vienam semestrui; kad galėtumėte naudoti žurnalą, "
-"turite pridėti tvarkarašŧį."
+"Šis kursas nesuplanuotas nei vienam semestrui; kad galėtumėte naudoti "
+"žurnalą, turite pridėti tvarkarašŧį."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
@@ -115,15 +115,22 @@ msgstr "Tvarkaraščius šiam kursui galite tvarkyti čia: ${timetable_link}"
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
 msgstr "${section} dienynas"
+
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "Dienynas"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
@@ -156,14 +163,6 @@ msgstr "${person} pažymių knygelė"
 msgid "My Sections"
 msgstr "Mano kursai"
 
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Dienynas"
-
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr "Semestrinis pažymys"
-

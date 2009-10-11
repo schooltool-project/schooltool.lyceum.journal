@@ -9,3 +9,4 @@ tags
 .installed.cfg
 python
 **/LC_MESSAGES/*.mo
+./src/schooltool/lyceum/journal/locales/*

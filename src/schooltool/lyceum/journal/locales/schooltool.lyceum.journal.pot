@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SchoolTool Version SVN\n"
-"POT-Creation-Date: Tue May 19 16:03:56 2009\n"
+"POT-Creation-Date: Mon Oct 12 00:26:00 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -120,14 +120,21 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
@@ -159,13 +166,6 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57

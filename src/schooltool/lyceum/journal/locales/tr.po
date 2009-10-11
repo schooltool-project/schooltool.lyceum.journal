@@ -1,4 +1,4 @@
-# Brazilian Portuguese translation for schooltool
+# Turkish translation for schooltool
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the schooltool package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: Mon Oct 12 00:24:59 2009\n"
-"PO-Revision-Date: 2009-09-26 17:25+0000\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"PO-Revision-Date: 2009-06-07 01:32+0000\n"
+"Last-Translator: huseyinkozan <huseyinkozan@gmail.com>\n"
+"Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,36 +19,36 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
-msgstr "Total"
+msgstr "Toplam"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:55
 msgid "Explained:"
-msgstr "Explicado:"
+msgstr "Açıklanmış:"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:111
 msgid "Nr."
-msgstr "No."
+msgstr "No:"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:230
 msgid "Grades"
-msgstr "Notas"
+msgstr "Notlar"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:255
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
-msgstr "Média"
+msgstr "Ortalama"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
-msgstr "Faltas"
+msgstr "Devamsızlık"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:285
 msgid "Absent"
-msgstr "Faltou"
+msgstr "Devamsız"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:288
 msgid "Tardy"
-msgstr "Atrasado"
+msgstr "Gecikmiş"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:337
 #: /src/schooltool/lyceum/journal/browser/term.py:85
@@ -58,59 +58,61 @@ msgstr "No"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:71
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Padrão: \"a\""
+msgstr "d"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Padrão: \"t\""
+msgstr "g"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group} atendimento para ${month}"
+msgstr "${group}  grubu ${month} ayında katılacak"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Não houveram encontros no termo selecionado.</div>"
+msgstr "<div>Seçilen dönemde toplantı yok.</div>"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} diário para ${month} ${year}"
+msgstr "${month} ${year} için ${section} bülteni"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Prazo de qualificação"
+msgstr "Dönem Notu"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
-msgstr "Legenda"
+msgstr "Gösterge"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
-msgstr "Compromentimento / nota"
+msgstr "Devam / Not"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Nenhum período atribuído no calendário desta sessão"
+msgstr "Bu bölüm için zaman çizelgelerinde herhangi bir dönem atanmamış."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Atribuido um calendário para está sessão: ${timetable_links}"
+msgstr "Bu bölüm için atanan zaman çizelgesi : ${timetable_links}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Esta sessão não é agendada por nenhum termo, para usar o diário você deve "
-"primeiramente adicionar um horário."
+"Bu bölüm herhangi bir dönem için planlanmamış, bülteni kullanabilmek için "
+"ilk önce bir zaman çizelgesi eklemeniz gerekmekte."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Você pode gerenciar o calendário para está sessão: ${timetable_link}"
+msgstr ""
+"Bu bölüm için zaman çizelgelerini şuradan yönetebilirsiniz : "
+"${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
@@ -123,28 +125,28 @@ msgstr "Você pode gerenciar o calendário para está sessão: ${timetable_link}
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
-msgstr "${section} diário"
+msgstr "${section} bülteni"
 
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 msgid "Journal"
-msgstr "Diário"
+msgstr "Bülten"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "Livro de notas de ${student_name} para ${month}"
+msgstr "${student_name}, ${month} ayı notları"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Atalho: Alt-S"
+msgstr "Kısayol: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Selecionar"
+msgstr "Seç"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -153,16 +155,16 @@ msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "Livro de notas de ${person} para ${month}"
+msgstr "${student_name}, ${month} ayı notları"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "Livro de notas de ${person}"
+msgstr "${student_name} notları"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Minhas seções"
+msgstr "Benim Bölümüm"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Prazo de graduação"
+msgstr "Dönem Notu"

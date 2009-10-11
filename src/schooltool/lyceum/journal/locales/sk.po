@@ -1,4 +1,4 @@
-# Brazilian Portuguese translation for schooltool
+# Slovak translation for schooltool
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the schooltool package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: Mon Oct 12 00:24:59 2009\n"
-"PO-Revision-Date: 2009-09-26 17:25+0000\n"
-"Last-Translator: Enrico Nicoletto <liverig@gmail.com>\n"
-"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"PO-Revision-Date: 2009-07-14 10:52+0000\n"
+"Last-Translator: milboy <Unknown>\n"
+"Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,98 +19,98 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
-msgstr "Total"
+msgstr "Celkovo"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:55
 msgid "Explained:"
-msgstr "Explicado:"
+msgstr "Vysvetlené:"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:111
 msgid "Nr."
-msgstr "No."
+msgstr "číslo:"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:230
 msgid "Grades"
-msgstr "Notas"
+msgstr "Známky"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:255
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
-msgstr "Média"
+msgstr "Priemer"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
-msgstr "Faltas"
+msgstr "Neprítomnosť"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:285
 msgid "Absent"
-msgstr "Faltou"
+msgstr "Neprítomný"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:288
 msgid "Tardy"
-msgstr "Atrasado"
+msgstr "Oneskorený"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:337
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
-msgstr "No"
+msgstr "číslo"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:71
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Padrão: \"a\""
+msgstr "Jedno písmeno, ktoré predstavuje značku pre absenciu študenta"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Padrão: \"t\""
+msgstr "Jedno písmeno, ktoré predstavuje značku pre neskorý príchod študenta"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group} atendimento para ${month}"
+msgstr "${group} prezencia pre ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Não houveram encontros no termo selecionado.</div>"
+msgstr "<div>Ve vybranom termíne neboli žiadne schôdzky.</div>"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} diário para ${month} ${year}"
+msgstr "${section} denník pre ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Prazo de qualificação"
+msgstr "Hodnotenie termínu"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
-msgstr "Legenda"
+msgstr "Nápis"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
-msgstr "Compromentimento / nota"
+msgstr "Dochádzka / známka"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Nenhum período atribuído no calendário desta sessão"
+msgstr "Nebolo priradené obdobie v rozvrhoch tohto oddielu."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Atribuido um calendário para está sessão: ${timetable_links}"
+msgstr "Rozvrh priradený k tejto časti: ${timetable_links}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Esta sessão não é agendada por nenhum termo, para usar o diário você deve "
-"primeiramente adicionar um horário."
+"Tento oddiel nemá naplánované žiadne termíny, na použitie denníka by ste "
+"mali pridať najskôr rozvrh."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Você pode gerenciar o calendário para está sessão: ${timetable_link}"
+msgstr "Môžete upravovať rozvrhy pre tútu časť tu: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
@@ -123,46 +123,46 @@ msgstr "Você pode gerenciar o calendário para está sessão: ${timetable_link}
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
-msgstr "${section} diário"
+msgstr "${section} denník"
 
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 msgid "Journal"
-msgstr "Diário"
+msgstr "Denník"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "Livro de notas de ${student_name} para ${month}"
+msgstr "${student_name} hodnotenie za ${month}"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Atalho: Alt-S"
+msgstr "názov-pre-vybrané-tlačítko"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Selecionar"
+msgstr "vybrať-tlačítko"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "schortcut-letter-for-select"
-msgstr "S"
+msgstr "odkaz-znak-pre-výber"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "Livro de notas de ${person} para ${month}"
+msgstr "${person} hodnotenie za ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "Livro de notas de ${person}"
+msgstr "${person} hodnotenie"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Minhas seções"
+msgstr "Môj výber"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Prazo de graduação"
+msgstr "Hodnotenie termínu"

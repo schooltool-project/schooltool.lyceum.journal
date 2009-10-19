@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: Mon Oct 12 00:24:59 2009\n"
+"POT-Creation-Date: 2009-10-12 00:26+0000\n"
 "PO-Revision-Date: 2009-04-27 12:31+0000\n"
 "Last-Translator: Manuel R. Ciosici <manuelciosici@yahoo.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-11 21:16+0000\n"
+"X-Launchpad-Export-Date: 2009-10-13 07:03+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
@@ -63,7 +63,8 @@ msgstr "O singură literă care reprezintă un semn de absență pentru un elev"
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "O singură literă care reprezintă un semn de întârziere pentru un elev"
+msgstr ""
+"O singură literă care reprezintă un semn de întârziere pentru un elev"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20

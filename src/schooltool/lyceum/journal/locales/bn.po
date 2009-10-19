@@ -1,4 +1,4 @@
-# Dutch translation for schooltool
+# Bengali translation for schooltool
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the schooltool package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -7,163 +7,160 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-10-12 00:26+0000\n"
-"PO-Revision-Date: 2009-08-08 10:28+0000\n"
-"Last-Translator: Donkade <Unknown>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"POT-Creation-Date: 2009-05-19 16:03+0000\n"
+"PO-Revision-Date: 2009-10-14 10:38+0000\n"
+"Last-Translator: Mahay Alam Khan <Unknown>\n"
+"Language-Team: Bengali <bn@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-13 07:03+0000\n"
+"X-Launchpad-Export-Date: 2009-10-17 07:15+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
-msgstr "Totaal"
+msgstr "মোট"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:55
 msgid "Explained:"
-msgstr "Uitleg"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:111
 msgid "Nr."
-msgstr "Nr."
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:230
 msgid "Grades"
-msgstr "Cijfers"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:255
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
-msgstr "Gemiddelde"
+msgstr "গড়"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
-msgstr "Absenties"
+msgstr "অনুপস্থিতি"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:285
 msgid "Absent"
-msgstr "Afwezig"
+msgstr "অনুপস্থিত"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:288
 msgid "Tardy"
-msgstr "Laat"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:337
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
-msgstr "Nr"
+msgstr ""
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:71
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Enkele letter die de afwezigheid van een student aanduid."
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Enkele letter die aanduid dat een student te laat is."
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group} aanwezigheid voor ${month}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
 msgstr ""
-"<div>Er zijn geen ontmoetingen geweest in de geselecteerde periode</div>"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} logboek voor ${month} ${year}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Cijfer van een Periode"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
-msgstr "Legenda"
+msgstr "উপাখ্যান"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
-msgstr "Aanwezigheid / cijfer"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Er zijn geen periodes toegewezen aan roosters van deze sectie."
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Roosters toegewezen voor deze sectie: ${timetable_links}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Deze sectie is niet ingeroosterd voor enige periode, om het logboek te "
-"gebruiken moet u eerst een rooster toevoegen."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "U kunt roosters voor deze sectie hier beheren: ${timetable_link}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
-msgstr "${section} logboek"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Logboek"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} behaalde cijfers in ${month}"
+msgstr ""
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "titel-voor-selectie-knop"
+msgstr ""
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Selecteer"
+msgstr ""
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "schortcut-letter-for-select"
-msgstr "snelkoppeling-brief-voor-selectie"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${person} behaalde cijfers voor ${month}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "${person} behaalde cijfer"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Mijn Secties"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "সাময়িকি"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Gemiddelde van de Periode"
+msgstr ""

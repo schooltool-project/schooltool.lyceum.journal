@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-10-12 00:26+0000\n"
-"PO-Revision-Date: 2009-09-01 15:46+0000\n"
-"Last-Translator: moutarjim05 <Unknown>\n"
+"POT-Creation-Date: 2009-05-19 16:03+0000\n"
+"PO-Revision-Date: 2009-10-19 16:48+0000\n"
+"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-13 07:03+0000\n"
+"X-Launchpad-Export-Date: 2009-10-20 07:14+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
@@ -91,46 +91,18 @@ msgstr "الدليل"
 msgid "Attendance / grade"
 msgstr "الحضور / الرتبة"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
-msgid "No periods have been assigned in timetables of this section."
-msgstr "لم تخصّص أيّ فترات في جداول الوقت لهذا القسم."
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "جداول الوقت المخصّصة لهذا القسم: ${timetable_links}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
-msgid ""
-"This section is not scheduled for any term, to use the journal you should "
-"add a timetable first."
-msgstr ""
-"هذا القسم لم يحدّد لأيّ أجل ، لإستخدام المجلّة يمكنك إضافة جدول المواعيد "
-"أولا."
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هنا: ${timetable_link}"
-
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
 msgstr "سجل ${section} اليومي"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "السّجل اليومي"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
@@ -163,6 +135,34 @@ msgstr "${person} سجل الرتب"
 msgid "My Sections"
 msgstr "أقسامي"
 
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "السّجل اليومي"
+
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr "درجة الفصل"
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
+msgid "No periods have been assigned in timetables of this section."
+msgstr "لم تخصّص أيّ فترات في جداول الوقت لهذا القسم."
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+msgid "Timetables assigned for this section: ${timetable_links}"
+msgstr "جداول الوقت المخصّصة لهذا القسم: ${timetable_links}"
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
+msgid ""
+"This section is not scheduled for any term, to use the journal you should "
+"add a timetable first."
+msgstr ""
+"هذا القسم لم يحدّد لأيّ أجل ، لإستخدام المجلّة يمكنك إضافة جدول المواعيد "
+"أولا."
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هنا: ${timetable_link}"

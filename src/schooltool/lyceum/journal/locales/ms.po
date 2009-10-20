@@ -7,23 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-10-12 00:26+0000\n"
-"PO-Revision-Date: 2009-04-23 08:58+0000\n"
-"Last-Translator: abuyop <Unknown>\n"
+"POT-Creation-Date: 2009-05-19 16:03+0000\n"
+"PO-Revision-Date: 2009-10-19 17:11+0000\n"
+"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-13 07:03+0000\n"
+"X-Launchpad-Export-Date: 2009-10-20 07:14+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
 msgstr "Jumlah"
-
-#: /src/schooltool/lyceum/journal/browser/attendance.py:55
-msgid "Explained:"
-msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:111
 msgid "Nr."
@@ -74,11 +70,6 @@ msgstr "Kehadiran ${group} untuk bulan ${month}"
 msgid "<div>There have been no meetings in the selected term.</div>"
 msgstr "<div>Tiada mesyuarat  pada penggal yang dipilih.</div>"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
-msgid "${section} journal for ${month} ${year}"
-msgstr ""
-
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
 msgstr "Penggredan Penggal"
@@ -90,6 +81,57 @@ msgstr "Petunjuk"
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
 msgstr "Kehadiran"
+
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+msgid "${section} journal"
+msgstr "Jurnal ${section}"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
+msgid "${student_name} gradebook for ${month}"
+msgstr "Laporan markah ${student_name} bagi bulan ${month}"
+
+#. Default: "Select"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "select-button"
+msgstr "butang-pilihan"
+
+#. Default: "S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "schortcut-letter-for-select"
+msgstr "pilih-abjad-singkatan"
+
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
+msgid "My Sections"
+msgstr "Seksyen Saya"
+
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "Jurnal"
+
+#: /src/schooltool/lyceum/journal/browser/term.py:57
+msgid "Term Grade"
+msgstr "Gred Penggal"
+
+#: /src/schooltool/lyceum/journal/browser/attendance.py:55
+msgid "Explained:"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+msgid "${section} journal for ${month} ${year}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
@@ -110,44 +152,10 @@ msgstr ""
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
-msgid "${section} journal"
-msgstr "Jurnal ${section}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Jurnal"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
-msgid "${student_name} gradebook for ${month}"
-msgstr "Laporan markah ${student_name} bagi bulan ${month}"
-
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
 msgstr ""
-
-#. Default: "Select"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "select-button"
-msgstr "butang-pilihan"
-
-#. Default: "S"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "pilih-abjad-singkatan"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
@@ -156,11 +164,3 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
 msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
-msgid "My Sections"
-msgstr "Seksyen Saya"
-
-#: /src/schooltool/lyceum/journal/browser/term.py:57
-msgid "Term Grade"
-msgstr "Gred Penggal"

@@ -71,6 +71,10 @@
       factory=".term.TermGradingDataInit"
       name="lyceum.term_grades" />
 
+  <adapter
+      factory=".term.TermGradingAppStartup"
+      name="schooltool.lyceum.journal.term_grades" />
+
   <browser:viewlet
       name="journal_css"
       for="*"

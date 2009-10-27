@@ -45,6 +45,10 @@
            tal:attributes="value request/student" />
 
     <div class="month_tabs">
+      <span class="inactive_tab" tal:content="view/period" />
+    </div>
+
+    <div class="month_tabs">
       <tal:loop repeat="month_id view/monthsInSelectedTerm">
         <span class="inactive_tab"
              tal:condition="python: month_id != view.active_month">

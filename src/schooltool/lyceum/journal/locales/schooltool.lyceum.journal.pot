@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SchoolTool Version SVN\n"
-"POT-Creation-Date: Mon Oct 12 00:26:00 2009\n"
+"POT-Creation-Date: Tue Oct 27 21:39:22 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -34,42 +34,46 @@ msgstr ""
 msgid "Explained:"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:111
+#: /src/schooltool/lyceum/journal/browser/journal.py:112
 msgid "Nr."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:230
+#: /src/schooltool/lyceum/journal/browser/journal.py:231
 msgid "Grades"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:255
+#: /src/schooltool/lyceum/journal/browser/journal.py:256
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:279
 msgid "Absences"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:285
+#: /src/schooltool/lyceum/journal/browser/journal.py:286
 msgid "Absent"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:288
+#: /src/schooltool/lyceum/journal/browser/journal.py:289
 msgid "Tardy"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:337
+#: /src/schooltool/lyceum/journal/browser/journal.py:338
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:71
+#: /src/schooltool/lyceum/journal/browser/journal.py:385
+msgid "Period unknown"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:72
 #. Default: "a"
 msgid "Single letter that represents an absent mark for a student"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:74
 #. Default: "t"
 msgid "Single letter that represents an tardy mark for a student"
 msgstr ""
@@ -88,15 +92,15 @@ msgstr ""
 msgid "${section} journal for ${month} ${year}"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:64
 msgid "Term Grading"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:81
 msgid "Legend"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:84
 msgid "Attendance / grade"
 msgstr ""
 

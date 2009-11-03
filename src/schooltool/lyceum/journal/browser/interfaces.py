@@ -19,6 +19,7 @@
 """
 Lyceum journal interfaces.
 """
+from zc.table.interfaces import IColumn
 from zope.interface import Interface
 
 
@@ -26,7 +27,7 @@ class IIndependentColumn(Interface):
     """A marker interface for columns that render their own TD tags."""
 
 
-class ISelectableColumn(Interface):
+class ISelectableColumn(IColumn):
     """A column that renders in a special way when the row gets selected."""
 
     def renderSelectedCell(item, formatter):

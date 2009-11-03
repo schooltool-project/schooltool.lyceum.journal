@@ -22,9 +22,14 @@ Common code for journal view table display.
 import urllib
 
 from zope.app import zapi
-from zc.table import table
 from zope.app.form.browser.widget import quoteattr
+from zope.interface import implementer
+from zope.component import adapter
+from zc.table import table
 
+from schooltool.table.interfaces import IIndexedColumn
+from schooltool.table.catalog import makeIndexedColumn
+from schooltool.table.catalog import RenderUnindexingMixin, unindex
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
 
@@ -101,3 +106,17 @@ class SelectableRowTableFormatter(table.FormFullFormatter):
 def viewURL(context, request, name, parameters=[]):
     url = zapi.absoluteURL(context, request)
     return "%s/%s?%s" % (url, name, urllib.urlencode(parameters))
+
+
+class SelectableColumnUnindexingMixin(object):
+    def renderSelectedCell(self, indexed_item, formatter):
+        return super(SelectableColumnUnindexingMixin, self).renderSelectedCell(
+            unindex(indexed_item), formatter)
+
+
+@adapter(ISelectableColumn)
+@implementer(IIndexedColumn)
+def getIndexedSelectableColumn(column):
+    column = makeIndexedColumn(
+        [RenderUnindexingMixin, SelectableColumnUnindexingMixin], column)
+    return column

@@ -82,10 +82,10 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=["schooltool"],
     packages=find_packages('src'),
-    install_requires=['schooltool>=1.1',
+    install_requires=['schooltool>=1.1.1',
                       'setuptools'],
     tests_require=['zope.testing'],
-    dependency_links=['http://ftp.schooltool.org/schooltool/releases/nightly/'],
+    dependency_links=['http://ftp.schooltool.org/schooltool/1.2/'],
     include_package_data=True,
     zip_safe=False
     )

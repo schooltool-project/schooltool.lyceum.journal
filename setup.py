@@ -18,22 +18,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-SchoolTool Schooltool.Lyceum.Journal plugin setup script.
+SchoolTool Lyceum Journal setup script.
 """
-
-
-# Check python version
-import sys
-if sys.version_info < (2, 4):
-    print >> sys.stderr, '%s: need Python 2.4 or later.' % sys.argv[0]
-    print >> sys.stderr, 'Your python is %s' % sys.version
-    sys.exit(1)
-
-import site
-site.addsitedir('eggs')
-
-import pkg_resources
-pkg_resources.require("setuptools>=0.6a11")
 
 import os
 from setuptools import setup, find_packages

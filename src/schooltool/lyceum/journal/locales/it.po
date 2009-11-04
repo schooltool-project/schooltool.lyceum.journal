@@ -7,15 +7,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-10-12 00:26+0000\n"
-"PO-Revision-Date: 2009-10-03 20:46+0000\n"
-"Last-Translator: Alkatron <gino@alkatron.it>\n"
+"POT-Creation-Date: 2009-10-27 21:39+0000\n"
+"PO-Revision-Date: 2009-10-29 10:24+0000\n"
+"Last-Translator: Davide Notaristefano <davide@notaristefano.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-13 07:03+0000\n"
+"X-Launchpad-Export-Date: 2009-10-30 08:34+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:112
+msgid "Nr."
+msgstr "N°"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
 msgid "Total"
@@ -25,43 +29,43 @@ msgstr "Totale"
 msgid "Explained:"
 msgstr "Spiegato:"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:111
-msgid "Nr."
-msgstr "N°"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:230
+#: /src/schooltool/lyceum/journal/browser/journal.py:231
 msgid "Grades"
 msgstr "Voti"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:255
+#: /src/schooltool/lyceum/journal/browser/journal.py:256
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr "Media"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:279
 msgid "Absences"
 msgstr "Assenze"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:285
+#: /src/schooltool/lyceum/journal/browser/journal.py:286
 msgid "Absent"
 msgstr "Assente"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:288
+#: /src/schooltool/lyceum/journal/browser/journal.py:289
 msgid "Tardy"
 msgstr "Pigro"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:337
+#: /src/schooltool/lyceum/journal/browser/journal.py:338
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "N°"
 
+#: /src/schooltool/lyceum/journal/browser/journal.py:385
+msgid "Period unknown"
+msgstr "Periodo sconosciuto"
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:71
+#: /src/schooltool/lyceum/journal/browser/journal.py:72
 msgid "Single letter that represents an absent mark for a student"
 msgstr "Lettera che rappresenta l'assenza dello studente"
 
 #. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:74
 msgid "Single letter that represents an tardy mark for a student"
 msgstr "Lettera che rappresenta il ritardo dello studente"
 
@@ -79,15 +83,15 @@ msgstr "<div>Non ci sono riunioni entro la data selezionata</div>"
 msgid "${section} journal for ${month} ${year}"
 msgstr "Diario ${section} per ${month} ${year}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:64
 msgid "Term Grading"
 msgstr "Valutazione Quadrimestre"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:81
 msgid "Legend"
 msgstr "Legenda"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:84
 msgid "Attendance / grade"
 msgstr "Presenza / voto"
 
@@ -105,6 +109,8 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
+"Questa sezione non è prevista per alcun termine, per usare il diario, "
+"innanzitutto, devi aggiungere un orario"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35

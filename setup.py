@@ -21,7 +21,7 @@
 SchoolTool Lyceum Journal setup script.
 """
 
-import os
+import os, sys
 from setuptools import setup, find_packages
 from distutils import log
 from distutils.util import newer
@@ -59,11 +59,18 @@ if os.path.exists("version.txt"):
 else:
     version = open("version.txt.in").read().strip()
 
+def read(*rnames):
+    text = open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+    return text
+
 setup(
     name="schooltool.lyceum.journal",
-    description="Plugin for SchoolTool that adds Schooltool.Lyceum.Journal specific functionality.",
-    long_description="""A Lithuania specific gradebook, and some
-    timetabling/calendaring improvements are included.""",
+    description="An attendance and class participation journal",
+    long_description=(
+        read('README.txt')
+        + '\n\n' +
+        read('CHANGES.txt')
+        ),
     version=version,
     url='http://www.schooltool.org',
     license="GPL",
@@ -82,7 +89,7 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=["schooltool"],
     packages=find_packages('src'),
-    install_requires=['schooltool>=1.1.1',
+    install_requires=['schooltool>=1.1.1,<2',
                       'setuptools'],
     tests_require=['zope.testing'],
     dependency_links=['http://ftp.schooltool.org/schooltool/1.2/'],

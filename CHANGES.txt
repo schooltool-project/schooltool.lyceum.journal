@@ -1,0 +1,25 @@
+CHANGES
+~~~~~~~
+
+0.4.0 (2009-11-04)
+==================
+
+This release is compatible with and requires SchoolTool 1.2.0.
+
+* Show period in section journal view, https://launchpad.net/bugs/409959
+
+
+0.3.4 (2009-05-26)
+==================
+
+* Add a view with links to timetables if no periods in timetables of section
+  are selected, https://launchpad.net/bugs/375797
+
+
+0.3.2 (2009-04-20)
+==================
+
+This release goes with SchoolTool 1.0.0.
+
+* Removed lesson descriptions from the journal views.
+

@@ -27,6 +27,7 @@ from zope.i18n import translate
 from zope.interface import implements
 from zope.app.form.browser.widget import quoteattr
 from zope.cachedescriptors.property import Lazy
+from zc.table.interfaces import IColumn
 
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
@@ -42,6 +43,7 @@ from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.browser.table import viewURL
 from schooltool.lyceum.journal.browser.table import SelectableRowTableFormatter
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
+from schooltool.lyceum.journal.browser.journal import StudentSelectionMixin
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 
 from schooltool.lyceum.journal import LyceumMessage as _
@@ -84,7 +86,7 @@ class AttendanceSelectStudentCellFormatter(SelectStudentCellFormatter):
 
 class AttendanceColumn(object):
 
-    implements(IIndependentColumn, ISelectableColumn)
+    implements(ISelectableColumn, IIndependentColumn)
 
     def __init__(self, group, date, meetings):
         self.meetings = meetings
@@ -146,7 +148,7 @@ class AttendanceColumn(object):
 
 class AttendanceTotalColumn(object):
 
-    implements(IIndependentColumn)
+    implements(IColumn, IIndependentColumn)
 
     def __init__(self, days):
         self.days = days
@@ -170,7 +172,7 @@ class AttendanceTotalColumn(object):
 
 class PeriodAttendanceColumn(object):
 
-    implements(IIndependentColumn, ISelectableColumn)
+    implements(ISelectableColumn, IIndependentColumn)
 
     def __init__(self, period_id, meetings):
         self.meetings = meetings
@@ -215,7 +217,7 @@ class PeriodAttendanceColumn(object):
         return '<span>%s</span>' % self.name
 
 
-class GroupAttendanceView(LyceumSectionJournalView):
+class GroupAttendanceView(LyceumSectionJournalView, StudentSelectionMixin):
     """A view for a section journal."""
 
     template = ViewPageTemplateFile("templates/attendance.pt")
@@ -274,6 +276,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
         person_container = app['persons']
         self.attendance_table = queryMultiAdapter((person_container, self.request),
                                                   ITableFormatter)
+        self.selectStudents(self.attendance_table)
         self.attendance_table.setUp(items=self.context.members,
                                     formatters=[AttendanceSelectStudentCellFormatter(self.context)] * 2,
                                     columns_after=self.attendanceColumns(),
@@ -282,14 +285,7 @@ class GroupAttendanceView(LyceumSectionJournalView):
         return self.template()
 
     def createAttendanceTableFormatter(self, *args, **kwargs):
-        students = []
-        if 'student' in self.request:
-            student_id = self.request['student']
-            app = ISchoolToolApplication(None)
-            student = app['persons'].get(student_id)
-            if student:
-                students = [student]
-        kwargs['selected_items'] = students
+        kwargs['selected_items'] = self.selected_students
         return AttendanceTableFormatter(*args, **kwargs)
 
     @CachedProperty

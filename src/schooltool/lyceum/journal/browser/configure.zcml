@@ -104,4 +104,6 @@
       permission="schooltool.view"
       />
 
+  <zope:adapter factory=".table.getIndexedSelectableColumn " />
+
 </configure>

@@ -22,6 +22,7 @@ Lyceum journal views.
 import pytz
 import urllib
 import base64
+from datetime import datetime
 
 from zope.security.proxy import removeSecurityProxy
 from zope.viewlet.interfaces import IViewlet
@@ -53,7 +54,7 @@ from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
-from schooltool.table.interfaces import ITableFormatter
+from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
 from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.timetable.interfaces import ITimetables
@@ -122,8 +123,9 @@ class GradesColumn(object):
                     grades.append(grade)
         return grades
 
+
 class PersonGradesColumn(GradesColumn):
-    implements(IColumn, ISelectableColumn, IIndependentColumn)
+    implements(ISelectableColumn, IIndependentColumn)
 
     def __init__(self, meeting, journal, selected=False):
         self.meeting = meeting
@@ -307,7 +309,24 @@ class SectionJournalJSView(BrowserView):
                    'grade_value': "'%s'" % grade['value']}
 
 
-class LyceumSectionJournalView(object):
+class StudentSelectionMixin(object):
+
+    selected_students = None
+
+    def selectStudents(self, table_formatter):
+        self.selected_students = []
+        if 'student' in self.request:
+            student_id = self.request['student']
+            app = ISchoolToolApplication(None)
+            student = app['persons'].get(student_id)
+            self.selected_students = [student]
+
+        if IIndexedTableFormatter.providedBy(table_formatter):
+            self.selected_students = table_formatter.indexItems(
+                self.selected_students)
+
+
+class LyceumSectionJournalView(StudentSelectionMixin):
 
     template = ViewPageTemplateFile("templates/journal.pt")
     no_timetable_template = ViewPageTemplateFile("templates/no_timetable_journal.pt")
@@ -334,6 +353,8 @@ class LyceumSectionJournalView(object):
         self.gradebook = queryMultiAdapter((person_container, self.request),
                                            ITableFormatter)
 
+        self.selectStudents(self.gradebook)
+
         columns_before = [StudentNumberColumn(title=_('Nr'), name='nr')]
 
         self.gradebook.setUp(items=self.members(),
@@ -357,19 +378,24 @@ class LyceumSectionJournalView(object):
             return urllib.quote(base64.encodestring(event.unique_id.encode('utf-8')))
 
     def formatterFactory(self, *args, **kwargs):
-        students = []
-        if 'student' in self.request:
-            student_id = self.request['student']
-            app = ISchoolToolApplication(None)
-            student = app['persons'].get(student_id)
-            if student:
-                students = [student]
-        kwargs['selected_items'] = students
+        kwargs['selected_items'] = self.selected_students
         return SelectableRowTableFormatter(*args, **kwargs)
 
     def timetables(self):
         tt = ITimetables(self.context.section).timetables
         return sorted(tt.values(), key=lambda tt: tt.term.last)
+
+    def period(self):
+        today = datetime.now().strftime('%A')
+        for tt in ITimetables(self.context.section).timetables.values():
+            tt = removeSecurityProxy(tt)
+            for day in tt.days:
+                if day == today:
+                    for key in tt.days[day].activities:
+                        for activity in tt[day].activities[key]:
+                            if self.context.section == activity.owner:
+                                return key
+        return _('Period unknown')
 
     def allMeetings(self):
         term = self.getSelectedTerm()

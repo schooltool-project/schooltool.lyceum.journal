@@ -35,7 +35,7 @@ from zope.interface import implements
 from zope.location.interfaces import ILocation
 
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
-from schooltool.app.app import InitBase
+from schooltool.app.app import InitBase, StartUpBase
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ILearner
@@ -259,6 +259,12 @@ class JournalInit(InitBase):
 
     def __call__(self):
         self.app['schooltool.lyceum.journal'] = LyceumJournalContainer()
+
+
+class JournalAppStartup(StartUpBase):
+    def __call__(self):
+        if 'schooltool.lyceum.journal' not in self.app:
+            self.app['schooltool.lyceum.journal'] = LyceumJournalContainer()
 
 
 JournalCSSViewlet = CSSViewlet("journal.css")

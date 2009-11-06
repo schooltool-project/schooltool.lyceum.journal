@@ -401,6 +401,57 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
 
     """
 
+def doctest_StudentSelectionMixin():
+    """Tests for StudentSelectionMixin.
+
+        >>> from schooltool.lyceum.journal.browser.journal import StudentSelectionMixin
+
+        >>> from schooltool.app.interfaces import ISchoolToolApplication
+        >>> class STAppStub(dict):
+        ...     def __init__(self, context):
+        ...         self['persons'] = {'stud1': '<John>', 'stud2': '<Bill>'}
+        ...     def __conform__(self, iface):
+        ...         if iface == IApplicationPreferences:
+        ...             return PrefStub()
+
+        >>> provideAdapter(STAppStub, adapts=[None], provides=ISchoolToolApplication)
+
+    This mixin is intended for a view, so it has to have self.request.
+
+        >>> mixin = StudentSelectionMixin()
+        >>> mixin.request = {}
+
+    No students are selected by default.
+
+        >>> print mixin.selected_students
+        None
+
+        >>> mixin.selectStudents('table formatter')
+        >>> print mixin.selected_students
+        []
+
+    If 'student' is set in the request, it gets selected.
+
+        >>> mixin.request = {'student': 'stud2'}
+        >>> mixin.selectStudents('table formatter')
+        >>> print mixin.selected_students
+        ['<Bill>']
+
+    If an indexed table formatter is passed, selected students get indexed.
+
+        >>> from schooltool.table.interfaces import IIndexedTableFormatter
+        >>> class Formatter(object):
+        ...     implements(IIndexedTableFormatter)
+        ...     def indexItems(self, items):
+        ...         return ['indexed %s' % i for i in items]
+
+        >>> mixin.request = {'student': 'stud1'}
+        >>> mixin.selectStudents(Formatter())
+        >>> print mixin.selected_students
+        ['indexed <John>']
+
+    """
+
 
 def doctest_LyceumSectionJournalView_getLegendItems():
     """Test for LyceumSectionJournalView.getLegendItems.

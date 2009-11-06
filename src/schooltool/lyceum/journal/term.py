@@ -27,7 +27,7 @@ from zope.interface import implements
 from zope.location.interfaces import ILocation
 
 from schooltool.app.interfaces import ISchoolToolApplication
-from schooltool.app.app import InitBase
+from schooltool.app.app import InitBase, StartUpBase
 
 from schooltool.lyceum.journal.interfaces import ITermGradingData
 
@@ -76,3 +76,10 @@ class TermGradingDataInit(InitBase):
 
     def __call__(self):
         self.app['schooltool.lyceum.journal.term_grades'] = LyceumTermDataContainer()
+
+
+class TermGradingAppStartup(StartUpBase):
+    def __call__(self):
+        if 'schooltool.lyceum.journal.term_grades' not in self.app:
+            self.app['schooltool.lyceum.journal.term_grades'] = LyceumTermDataContainer()
+

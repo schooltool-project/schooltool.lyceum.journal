@@ -385,18 +385,6 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         tt = ITimetables(self.context.section).timetables
         return sorted(tt.values(), key=lambda tt: tt.term.last)
 
-    def period(self):
-        today = datetime.now().strftime('%A')
-        for tt in ITimetables(self.context.section).timetables.values():
-            tt = removeSecurityProxy(tt)
-            for day in tt.days:
-                if day == today:
-                    for key in tt.days[day].activities:
-                        for activity in tt[day].activities[key]:
-                            if self.context.section == activity.owner:
-                                return key
-        return _('Period unknown')
-
     def allMeetings(self):
         term = self.getSelectedTerm()
         events = []

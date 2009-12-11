@@ -168,7 +168,11 @@ class PersonGradesColumn(GradesColumn):
                 self.journalUrl(formatter.request),
                 urllib.urlencode([('event_id', self.meeting.unique_id.encode('utf-8'))] +
                                  self.extra_parameters(formatter.request)))
-            header = '<a href="%s">%s</a>' % (url, header)
+            try:
+                period = '<br />' + self.meeting.period_id.split()[-1]
+            except:
+                period = ''
+            header = '<a href="%s">%s%s</a>' % (url, header, period)
 
         span = '<span class="select-column%s" title="%s">%s</span>' % (
             today_class, meetingDate.strftime("%Y-%m-%d"), header)

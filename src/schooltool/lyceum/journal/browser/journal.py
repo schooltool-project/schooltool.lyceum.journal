@@ -281,7 +281,30 @@ class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
             return str(absences)
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Absences"),
+        return '<span>%s</span>' % translate(_("Abs"),
+                                             context=formatter.request)
+
+
+class SectionTermTardiesColumn(SectionTermAverageGradesColumn):
+
+    def __init__(self, journal, term):
+        self.term = term
+        self.name = term.__name__ + "tardies"
+        self.journal = journal
+
+    def renderCell(self, person, formatter):
+        tardies = 0
+        for grade in self.getGrades(person):
+            if (grade.strip().lower() == "p"):
+                tardies += 1
+
+        if tardies == 0:
+            return ""
+        else:
+            return str(tardies)
+
+    def renderHeader(self, formatter):
+        return '<span>%s</span>' % translate(_("Trds"),
                                              context=formatter.request)
 
 def journal_grades():
@@ -432,6 +455,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                                                       self.getSelectedTerm()))
         columns.append(SectionTermAttendanceColumn(self.context,
                                                    self.getSelectedTerm()))
+        columns.append(SectionTermTardiesColumn(self.context,
+                                                self.getSelectedTerm()))
         return columns
 
     def getSelectedTerm(self):

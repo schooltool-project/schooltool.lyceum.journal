@@ -4,11 +4,10 @@ CHANGES
 0.4.1dev
 ==================
 
-Dev features
-------------
-
+* Add period number to day of month headings, https://launchpad.net/bugs/485614
+* Add Tardies column to section journal, https://launchpad.net/bugs/409997
 * Automatic plugin inclusion
-* buildout.cfg, Makefile refactorings
+
 
 0.4.0 (2009-11-04)
 ==================

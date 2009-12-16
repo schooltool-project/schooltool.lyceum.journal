@@ -49,15 +49,13 @@ run: build
 	bin/start-schooltool-instance instance
 
 .PHONY: release
-release: compile-translations
-	echo -n `sed -e 's/\n//' version.txt.in` > version.txt
-	echo -n "_r" >> version.txt
-	bzr revno >> version.txt
+release: build
+	echo -n `cat version.txt.in`_r`bzr revno` > version.txt
 	bin/buildout setup setup.py sdist
 
 .PHONY: move-release
 move-release:
-	 mv dist/schooltool.lyceum.journal-*.tar.gz /home/ftp/pub/schooltool/releases/nightly
+	mv dist/schooltool.lyceum.journal-*.tar.gz /home/ftp/pub/schooltool/1.2/dev
 
 .PHONY: coverage
 coverage: build
@@ -85,7 +83,10 @@ clean:
 
 .PHONY: extract-translations
 extract-translations: build
-	bin/i18nextract --egg schooltool.lyceum.journal --domain schooltool.lyceum.journal --zcml schooltool/lyceum/journal/translations.zcml --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
+	bin/i18nextract --egg schooltool.lyceum.journal \
+	                --domain schooltool.lyceum.journal \
+	                --zcml schooltool/lyceum/journal/translations.zcml \
+	                --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
 
 .PHONY: compile-translations
 compile-translations:
@@ -103,7 +104,7 @@ update-translations: extract-translations
 	for f in $${locales}/*.po; do \
 	    msgmerge -qU $$f $${locales}/schooltool.lyceum.journal.pot ;\
 	done
-	$(MAKE) PYTHON=$(PYTHON) compile-translations
+	$(MAKE) compile-translations
 
 .PHONY: ubuntu-environment
 ubuntu-environment:
@@ -114,6 +115,5 @@ ubuntu-environment:
 	} else { \
 	 apt-get install bzr build-essential python-all python-all-dev libc6-dev libicu-dev; \
 	 apt-get build-dep python-imaging; \
-	 apt-get build-dep python-libxml2 libxml2; \
 	 echo "Installation Complete: Next... Run 'make'."; \
 	} fi

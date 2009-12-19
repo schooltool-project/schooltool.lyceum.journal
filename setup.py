@@ -89,7 +89,7 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),
-    install_requires=['schooltool>=1.1.1',
+    install_requires=['schooltool>1.2.0',
                       'setuptools'],
     tests_require=['zope.testing'],
     dependency_links=['http://ftp.schooltool.org/schooltool/1.2/'],

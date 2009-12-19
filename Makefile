@@ -1,7 +1,6 @@
 #!/usr/bin/make
-#
-# Makefile for schooltool.lyceum.journal Buildout
-#
+
+PACKAGE=schooltool.lyceum.journal
 
 BOOTSTRAP_PYTHON=python2.5
 INSTANCE_TYPE=schooltool
@@ -51,10 +50,11 @@ run: build instance
 release: bin/buildout
 	echo -n `cat version.txt.in`_r`bzr revno` > version.txt
 	bin/buildout setup setup.py sdist
+	rm version.txt
 
 .PHONY: move-release
 move-release:
-	mv -v dist/schooltool.lyceum.journal-*.tar.gz /home/ftp/pub/schooltool/1.2/dev
+	mv -v dist/$(PACKAGE)-*.tar.gz /home/ftp/pub/schooltool/1.2/dev
 
 .PHONY: coverage
 coverage: build
@@ -69,7 +69,7 @@ coverage-reports-html coverage/reports:
 	rm -rf coverage/reports
 	mkdir coverage/reports
 	bin/coverage coverage coverage/reports
-	ln -s schooltool.lyceum.journal.html coverage/reports/index.html
+	ln -s $(PACKAGE).html coverage/reports/index.html
 
 .PHONY: ftest-coverage
 ftest-coverage: build
@@ -84,11 +84,10 @@ ftest-coverage-reports-html ftest-coverage/reports:
 	rm -rf ftest-coverage/reports
 	mkdir ftest-coverage/reports
 	bin/coverage ftest-coverage ftest-coverage/reports
-	ln -s schooltool.lyceum.journal.html ftest-coverage/reports/index.html
+	ln -s $(PACKAGE).html ftest-coverage/reports/index.html
 
 .PHONY: clean
 clean:
-	rm -f version.txt
 	rm -rf bin develop-eggs parts python
 	rm -rf build dist
 	rm -f .installed.cfg
@@ -104,8 +103,8 @@ realclean: clean
 
 .PHONY: extract-translations
 extract-translations: build
-	bin/i18nextract --egg schooltool.lyceum.journal \
-	                --domain schooltool.lyceum.journal \
+	bin/i18nextract --egg $(PACKAGE) \
+	                --domain $(PACKAGE) \
 	                --zcml schooltool/lyceum/journal/translations.zcml \
 	                --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
 
@@ -115,7 +114,7 @@ compile-translations:
 	locales=src/schooltool/lyceum/journal/locales; \
 	for f in $${locales}/*.po; do \
 	    mkdir -p $${f%.po}/LC_MESSAGES; \
-	    msgfmt -o $${f%.po}/LC_MESSAGES/schooltool.lyceum.journal.mo $$f;\
+	    msgfmt -o $${f%.po}/LC_MESSAGES/$(PACKAGE).mo $$f;\
 	done
 
 .PHONY: update-translations
@@ -123,7 +122,7 @@ update-translations: extract-translations
 	set -e; \
 	locales=src/schooltool/lyceum/journal/locales; \
 	for f in $${locales}/*.po; do \
-	    msgmerge -qU $$f $${locales}/schooltool.lyceum.journal.pot ;\
+	    msgmerge -qU $$f $${locales}/$(PACKAGE).pot ;\
 	done
 	$(MAKE) compile-translations
 

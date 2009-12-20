@@ -22,7 +22,6 @@ Lyceum journal views.
 import pytz
 import urllib
 import base64
-from datetime import datetime
 
 from zope.security.proxy import removeSecurityProxy
 from zope.viewlet.interfaces import IViewlet
@@ -35,18 +34,13 @@ from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
 from zope.traversing.browser.absoluteurl import absoluteURL
-from zope.formlib import form
-from zope.html.field import HtmlFragment
-from zope.app.form.interfaces import IInputWidget
 from zope.component import getUtility
-from zope.component import getMultiAdapter
 
 import zc.resourcelibrary
 from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
-from schooltool.group.interfaces import IGroupContainer
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.person.interfaces import IPerson
 from schooltool.app.browser.cal import month_names
@@ -55,7 +49,6 @@ from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
-from schooltool.table.table import LocaleAwareGetterColumn
 from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.timetable.interfaces import ITimetables
 
@@ -168,7 +161,11 @@ class PersonGradesColumn(GradesColumn):
                 self.journalUrl(formatter.request),
                 urllib.urlencode([('event_id', self.meeting.unique_id.encode('utf-8'))] +
                                  self.extra_parameters(formatter.request)))
-            header = '<a href="%s">%s</a>' % (url, header)
+            try:
+                period = '<br />' + self.meeting.period_id.split()[-1]
+            except:
+                period = ''
+            header = '<a href="%s">%s%s</a>' % (url, header, period)
 
         span = '<span class="select-column%s" title="%s">%s</span>' % (
             today_class, meetingDate.strftime("%Y-%m-%d"), header)
@@ -258,7 +255,8 @@ class SectionTermAverageGradesColumn(GradesColumn):
                                              context=formatter.request)
 
 
-class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
+class SectionTermAttendanceColumn(GradesColumn):
+    implements(IColumn)
 
     def __init__(self, journal, term):
         self.term = term
@@ -277,7 +275,31 @@ class SectionTermAttendanceColumn(SectionTermAverageGradesColumn):
             return str(absences)
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Absences"),
+        return '<span>%s</span>' % translate(_("Abs"),
+                                             context=formatter.request)
+
+
+class SectionTermTardiesColumn(GradesColumn):
+    implements(IColumn)
+
+    def __init__(self, journal, term):
+        self.term = term
+        self.name = term.__name__ + "tardies"
+        self.journal = journal
+
+    def renderCell(self, person, formatter):
+        tardies = 0
+        for grade in self.getGrades(person):
+            if (grade.strip().lower() == "p"):
+                tardies += 1
+
+        if tardies == 0:
+            return ""
+        else:
+            return str(tardies)
+
+    def renderHeader(self, formatter):
+        return '<span>%s</span>' % translate(_("Trds"),
                                              context=formatter.request)
 
 def journal_grades():
@@ -385,18 +407,6 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         tt = ITimetables(self.context.section).timetables
         return sorted(tt.values(), key=lambda tt: tt.term.last)
 
-    def period(self):
-        today = datetime.now().strftime('%A')
-        for tt in ITimetables(self.context.section).timetables.values():
-            tt = removeSecurityProxy(tt)
-            for day in tt.days:
-                if day == today:
-                    for key in tt.days[day].activities:
-                        for activity in tt[day].activities[key]:
-                            if self.context.section == activity.owner:
-                                return key
-        return _('Period unknown')
-
     def allMeetings(self):
         term = self.getSelectedTerm()
         events = []
@@ -440,6 +450,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                                                       self.getSelectedTerm()))
         columns.append(SectionTermAttendanceColumn(self.context,
                                                    self.getSelectedTerm()))
+        columns.append(SectionTermTardiesColumn(self.context,
+                                                self.getSelectedTerm()))
         return columns
 
     def getSelectedTerm(self):

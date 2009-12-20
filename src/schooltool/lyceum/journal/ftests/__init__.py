@@ -83,6 +83,7 @@ def format_table(table, header_rows=0):
 def printGradebookTable(contents):
     table_rows = []
 
+    contents = contents.replace('<br />', ' ')
     headers = [header.strip()
                for header in queryHTML('//table[@class="data"]//th/span//text()',
                                        contents)]

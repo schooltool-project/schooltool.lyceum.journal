@@ -397,7 +397,7 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
         >>> class FormatterStub(object):
         ...     request = TestRequest()
         >>> column.renderHeader(FormatterStub())
-        u'<span>Absences</span>'
+        u'<span>Abs</span>'
 
     """
 

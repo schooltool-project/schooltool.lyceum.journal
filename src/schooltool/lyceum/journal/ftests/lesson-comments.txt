@@ -71,10 +71,7 @@ Let's schedule the section:
     >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
-    >>> manager.getLink('Timetables').click()
-    >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl('Add').click()
-    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Schedule').click()
     >>> manager.getControl(name='Tuesday.A').value = True
     >>> manager.getControl(name='Tuesday.B').value = True
     >>> manager.getControl(name='Wednesday.A').value = True

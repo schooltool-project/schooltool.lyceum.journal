@@ -116,10 +116,6 @@ first works:
 As we have the link to the list of timetables for this sections, we
 might as well use it and schedule the section:
 
-    >>> manager.getLink('2005').click()
-    >>> manager.getLink('2005 Fall 1').click()
-    >>> manager.getLink('Sections').click()
-    >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()
@@ -161,10 +157,7 @@ Now let's schedule the other sections:
     >>> manager.getLink('2005 Fall 2').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
-    >>> manager.getLink('Timetables').click()
-    >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl('Add').click()
-    >>> manager.getLink('2005-fall-2.default').click()
+    >>> manager.getLink('Schedule').click()
     >>> manager.getControl(name='Tuesday.A').value = True
     >>> manager.getControl(name='Tuesday.B').value = True
     >>> manager.getControl(name='Wednesday.A').value = True
@@ -175,10 +168,7 @@ Now let's schedule the other sections:
     >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/2').click()
-    >>> manager.getLink('Timetables').click()
-    >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl('Add').click()
-    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Schedule').click()
     >>> manager.getControl(name='Wednesday.B').value = True
     >>> manager.getControl(name='Thursday.A').value = True
     >>> manager.getControl(name='Thursday.B').value = True
@@ -188,10 +178,7 @@ Now let's schedule the other sections:
     >>> manager.getLink('2005 Fall 2').click()
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/2').click()
-    >>> manager.getLink('Timetables').click()
-    >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl('Add').click()
-    >>> manager.getLink('2005-fall-2.default').click()
+    >>> manager.getLink('Schedule').click()
     >>> manager.getControl(name='Wednesday.B').value = True
     >>> manager.getControl(name='Thursday.A').value = True
     >>> manager.getControl(name='Thursday.B').value = True

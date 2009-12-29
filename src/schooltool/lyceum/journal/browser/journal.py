@@ -275,7 +275,7 @@ class SectionTermAttendanceColumn(GradesColumn):
             return str(absences)
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Abs"),
+        return '<span>%s</span>' % translate(_("Absences"),
                                              context=formatter.request)
 
 
@@ -299,7 +299,7 @@ class SectionTermTardiesColumn(GradesColumn):
             return str(tardies)
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Trds"),
+        return '<span>%s</span>' % translate(_("Tardies"),
                                              context=formatter.request)
 
 def journal_grades():

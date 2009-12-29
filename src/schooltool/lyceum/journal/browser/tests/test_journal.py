@@ -21,7 +21,6 @@
 Unit tests for lyceum journal.
 """
 import unittest
-from pytz import timezone
 from pytz import utc
 from datetime import datetime, date
 
@@ -32,7 +31,6 @@ from zope.publisher.browser import TestRequest
 from zope.testing import doctest
 from zope.traversing.interfaces import IContainmentRoot
 from zope.interface import directlyProvides
-from zope.traversing.interfaces import IContainmentRoot
 
 
 def doctest_SectionJournalJSView():
@@ -397,7 +395,7 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
         >>> class FormatterStub(object):
         ...     request = TestRequest()
         >>> column.renderHeader(FormatterStub())
-        u'<span>Abs</span>'
+        u'<span>Absences</span>'
 
     """
 
@@ -406,7 +404,13 @@ def doctest_StudentSelectionMixin():
 
         >>> from schooltool.lyceum.journal.browser.journal import StudentSelectionMixin
 
+        >>> from schooltool.app.interfaces import IApplicationPreferences
         >>> from schooltool.app.interfaces import ISchoolToolApplication
+        >>> class PrefStub(object):
+        ...     @property
+        ...     def timezone(self):
+        ...         return "Europe/Vilnius"
+
         >>> class STAppStub(dict):
         ...     def __init__(self, context):
         ...         self['persons'] = {'stud1': '<John>', 'stud2': '<Bill>'}

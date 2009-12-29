@@ -1,12 +1,13 @@
 CHANGES
 ~~~~~~~
 
-0.4.1dev
+0.4.1 (2009-12-29)
 ==================
 
 * Add period number to day of month headings, https://launchpad.net/bugs/485614
 * Add Tardies column to section journal, https://launchpad.net/bugs/409997
-* Automatic plugin inclusion
+* Support for automatic plugin inclusion (using schooltool-1.2.1 or later)
+* Update and fix translations
 
 
 0.4.0 (2009-11-04)

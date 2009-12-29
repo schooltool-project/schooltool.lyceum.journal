@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: SchoolTool development\n"
-"POT-Creation-Date: Tue Dec 29 13:39:00 2009\n"
+"POT-Creation-Date: Tue Dec 29 14:50:35 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -48,11 +48,11 @@ msgid "Average"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:278
-msgid "Abs"
+msgid "Absences"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:302
-msgid "Trds"
+msgid "Tardies"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:309

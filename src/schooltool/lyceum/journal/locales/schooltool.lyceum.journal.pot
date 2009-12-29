@@ -16,8 +16,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 msgid ""
 msgstr ""
-"Project-Id-Version: SchoolTool Version SVN\n"
-"POT-Creation-Date: Tue Oct 27 21:39:22 2009\n"
+"Project-Id-Version: SchoolTool development\n"
+"POT-Creation-Date: Tue Dec 29 13:39:00 2009\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -26,54 +26,54 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: i18nextract.py\n"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:168
+#: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:55
+#: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:112
+#: /src/schooltool/lyceum/journal/browser/journal.py:105
 msgid "Nr."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:231
+#: /src/schooltool/lyceum/journal/browser/journal.py:229
 msgid "Grades"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:256
+#: /src/schooltool/lyceum/journal/browser/journal.py:254
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:279
-msgid "Absences"
+#: /src/schooltool/lyceum/journal/browser/journal.py:278
+msgid "Abs"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:286
+#: /src/schooltool/lyceum/journal/browser/journal.py:302
+msgid "Trds"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:309
 msgid "Absent"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:289
+#: /src/schooltool/lyceum/journal/browser/journal.py:312
 msgid "Tardy"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:338
+#: /src/schooltool/lyceum/journal/browser/journal.py:380
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:385
-msgid "Period unknown"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:72
+#: /src/schooltool/lyceum/journal/browser/journal.py:65
 #. Default: "a"
 msgid "Single letter that represents an absent mark for a student"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:74
+#: /src/schooltool/lyceum/journal/browser/journal.py:67
 #. Default: "t"
 msgid "Single letter that represents an tardy mark for a student"
 msgstr ""
@@ -92,15 +92,15 @@ msgstr ""
 msgid "${section} journal for ${month} ${year}"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:64
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:81
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:84
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
 msgstr ""
 

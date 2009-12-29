@@ -142,17 +142,17 @@ msgstr "${student_name} buku nilai untuk ${month}"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "judul-untuk-memilih-tombol"
+msgstr ""
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "memilih-tombol"
+msgstr "Pilih"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "schortcut-huruf-untuk-memilih"
+msgid "shortcut-letter-for-select"
+msgstr "P"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

@@ -144,17 +144,17 @@ msgstr "Libro dei voti di ${student_name} per il mese di ${month}"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "titolo-per-il-bottone-di-selezione"
+msgstr "Scorciatoia: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "seleziona-bottone"
+msgstr "Seleziona"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "lettera-di-scorciatoia-per-il-bottone"
+msgid "shortcut-letter-for-select"
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

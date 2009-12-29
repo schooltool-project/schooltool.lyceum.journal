@@ -102,12 +102,12 @@ msgstr "Laporan markah ${student_name} bagi bulan ${month}"
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "butang-pilihan"
+msgstr "Pilih"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "pilih-abjad-singkatan"
+msgid "shortcut-letter-for-select"
+msgstr "P"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"

@@ -133,7 +133,7 @@ msgstr "Libreta de notas de ${student_name} para ${month}"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Seleccionar"
+msgstr "Atajo: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -142,7 +142,7 @@ msgstr "Seleccionar"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
+msgid "shortcut-letter-for-select"
 msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-05-19 16:03+0000\n"
-"PO-Revision-Date: 2009-10-19 16:46+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"POT-Creation-Date: 2009-10-27 21:39+0000\n"
+"PO-Revision-Date: 2009-11-30 17:55+0000\n"
+"Last-Translator: Mila <Unknown>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-20 07:14+0000\n"
+"X-Launchpad-Export-Date: 2009-12-01 04:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
@@ -25,43 +25,47 @@ msgstr "Общо"
 msgid "Explained:"
 msgstr "Обяснено:"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:111
+#: /src/schooltool/lyceum/journal/browser/journal.py:112
 msgid "Nr."
 msgstr "Номер"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:230
+#: /src/schooltool/lyceum/journal/browser/journal.py:231
 msgid "Grades"
 msgstr "Оценки"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:255
+#: /src/schooltool/lyceum/journal/browser/journal.py:256
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr "Средно"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:279
 msgid "Absences"
 msgstr "Отсъствия"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:285
+#: /src/schooltool/lyceum/journal/browser/journal.py:286
 msgid "Absent"
 msgstr "Отсъстващ"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:288
+#: /src/schooltool/lyceum/journal/browser/journal.py:289
 msgid "Tardy"
 msgstr "Закъснение"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:337
+#: /src/schooltool/lyceum/journal/browser/journal.py:338
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "Номер"
 
+#: /src/schooltool/lyceum/journal/browser/journal.py:385
+msgid "Period unknown"
+msgstr "Неизвестен час"
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:71
+#: /src/schooltool/lyceum/journal/browser/journal.py:72
 msgid "Single letter that represents an absent mark for a student"
-msgstr ""
+msgstr "Единична буква, която представлява отсъствие на ученик"
 
 #. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:74
 msgid "Single letter that represents an tardy mark for a student"
 msgstr "Единична буква, която представлява закъснение на ученик"
 
@@ -72,38 +76,40 @@ msgstr "${group} присъствие за ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr ""
+msgstr "<div>Няма отбелязани срещи за избрания срок.</div>"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr ""
+msgstr "${section} дневник за ${month} ${year}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:64
 msgid "Term Grading"
 msgstr "Срочни оценки"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:81
 msgid "Legend"
 msgstr "Легенда"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:84
 msgid "Attendance / grade"
 msgstr "Присъствия / оценки"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr ""
+msgstr "Няма периоди, избрани във времевите таблици за тази секция."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr ""
+msgstr "Времеви таблици, избрани за тази секция: ${timetable_links}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
+"Тази секция не е включена в никой срок, за да използвате дневника, трябва "
+"първо да добавите времева таблица."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
@@ -114,15 +120,22 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
 msgstr "${section} дневник"
+
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "Дневник"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
@@ -130,22 +143,24 @@ msgstr "${student_name} бележник за ${month}"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+#, fuzzy
 msgid "title-for-select-button"
-msgstr ""
+msgstr "Бърз клавиш: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr ""
+msgstr "Избери"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr ""
+#, fuzzy
+msgid "shortcut-letter-for-select"
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr ""
+msgstr "${person} оценки за ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
@@ -154,13 +169,6 @@ msgstr "${person} бележник"
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
 msgstr "Моите секции"
-
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Дневник"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"

@@ -137,17 +137,17 @@ msgstr "${student_name} βαθμολόγιο για ${month}"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "τίτλος-για-το επιλεγμένο-πλήκτρο"
+msgstr "Συντόμευση: Alt-E"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "επιλεγμένο-πλήκτρο"
+msgstr "Επιλογή"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "συντόμευση-γράμμα-για-το επιλεγμένο"
+msgid "shortcut-letter-for-select"
+msgstr "E"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

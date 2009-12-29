@@ -26,7 +26,7 @@
       </select>
       <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Select"
              title="Shortcut: Alt-S" accesskey="S"
-             i18n:attributes="value select-button;accesskey schortcut-letter-for-select;title title-for-select-button" />
+             i18n:attributes="value select-button;accesskey shortcut-letter-for-select;title title-for-select-button" />
     </div>
 
     <input tal:condition="request/month|nothing"

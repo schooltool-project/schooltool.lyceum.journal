@@ -132,17 +132,17 @@ msgstr "${student_name} hodnotenie za ${month}"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "názov-pre-vybrané-tlačítko"
+msgstr "Skratka: Alt-V"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "vybrať-tlačítko"
+msgstr "Vybrať"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "odkaz-znak-pre-výber"
+msgid "shortcut-letter-for-select"
+msgstr "V"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

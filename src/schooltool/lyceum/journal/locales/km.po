@@ -52,13 +52,11 @@ msgstr "យឺត"
 msgid "Nr"
 msgstr "Nr"
 
-# Default: "a"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:71
 msgid "Single letter that represents an absent mark for a student"
 msgstr "តួ​អក្សរ​តែ​មួយ​ដែល​តំណាង​ឲ្យ​ការ​សម្គាល់​អវត្តមាន​សម្រាប់​សិស្ស"
 
-# Default: "t"
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an tardy mark for a student"
@@ -112,23 +110,21 @@ msgstr "${section} ទិនានុប្បវត្តិ"
 msgid "${student_name} gradebook for ${month}"
 msgstr "សៀវភៅ​ពិន្ទុ​របស់ ${student_name} សម្រាប់ ${month}"
 
-# Default: "Shortcut: Alt-S"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "ចំណង​ជើង​សម្រាប់​ប៊ូតុង​ជ្រើស"
+msgstr ""
 
-# Default: "Select"
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+#, fuzzy
 msgid "select-button"
-msgstr "ប៊ូតុង​ជ្រើស"
+msgstr "ប៊ូតុង"
 
-# Default: "S"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
-msgstr "តួ​អក្សរ​ផ្លូវ​កាត់​សម្រាប់​ជ្រើស"
+msgid "shortcut-letter-for-select"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

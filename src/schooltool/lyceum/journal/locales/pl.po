@@ -165,7 +165,7 @@ msgstr "Skrót: Alt-W"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "schortcut-letter-for-select"
+msgid "shortcut-letter-for-select"
 msgstr "W"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57

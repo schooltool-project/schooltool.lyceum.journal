@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-05-19 16:03+0000\n"
-"PO-Revision-Date: 2009-10-19 17:12+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"POT-Creation-Date: 2009-10-27 21:39+0000\n"
+"PO-Revision-Date: 2009-11-07 08:29+0000\n"
+"Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-10-20 07:14+0000\n"
+"X-Launchpad-Export-Date: 2009-11-08 04:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:168
@@ -23,51 +23,55 @@ msgstr "Totaal"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:55
 msgid "Explained:"
-msgstr "Uitleg"
+msgstr "Uitleg:"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:111
+#: /src/schooltool/lyceum/journal/browser/journal.py:112
 msgid "Nr."
 msgstr "Nr."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:255
+#: /src/schooltool/lyceum/journal/browser/journal.py:256
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr "Gemiddelde"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:285
+#: /src/schooltool/lyceum/journal/browser/journal.py:286
 msgid "Absent"
 msgstr "Afwezig"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:337
+#: /src/schooltool/lyceum/journal/browser/journal.py:338
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "Nr"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:81
 msgid "Legend"
 msgstr "Legenda"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:230
+#: /src/schooltool/lyceum/journal/browser/journal.py:231
 msgid "Grades"
 msgstr "Cijfers"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:279
 msgid "Absences"
 msgstr "Absenties"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:288
+#: /src/schooltool/lyceum/journal/browser/journal.py:289
 msgid "Tardy"
 msgstr "Laat"
 
+#: /src/schooltool/lyceum/journal/browser/journal.py:385
+msgid "Period unknown"
+msgstr "Onbekende periode"
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:71
+#: /src/schooltool/lyceum/journal/browser/journal.py:72
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Enkele letter die de afwezigheid van een student aanduid."
+msgstr "Enkele letter die de afwezigheid van een student aanduidt."
 
 #. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:74
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Enkele letter die aanduid dat een student te laat is."
+msgstr "Enkele letter die aanduidt dat een student te laat is."
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -84,11 +88,11 @@ msgstr ""
 msgid "${section} journal for ${month} ${year}"
 msgstr "${section} logboek voor ${month} ${year}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:64
 msgid "Term Grading"
-msgstr "Cijfer van een Periode"
+msgstr "Cijfer in periode"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:84
 msgid "Attendance / grade"
 msgstr "Aanwezigheid / cijfer"
 
@@ -111,29 +115,36 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "U kunt roosters voor deze sectie hier beheren: ${timetable_link}"
+msgstr "U kunt hier de roosters voor deze sectie beheren: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 msgid "${section} journal"
 msgstr "${section} logboek"
 
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+msgid "Journal"
+msgstr "Logboek"
+
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} behaalde cijfers in ${month}"
+msgstr "${student_name} cijferlijst voor ${month}"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "titel-voor-selectie-knop"
+msgstr "Sneltoets: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -143,27 +154,20 @@ msgstr "Selecteer"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "schortcut-letter-for-select"
-msgstr "snelkoppeling-brief-voor-selectie"
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${person} behaalde cijfers voor ${month}"
+msgstr "${person} cijferlijst voor ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "${person} behaalde cijfer"
+msgstr "${person} cijferlijst"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Mijn Secties"
-
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Logboek"
+msgstr "Mijn secties"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Gemiddelde van de Periode"
+msgstr "Cijfer in periode"

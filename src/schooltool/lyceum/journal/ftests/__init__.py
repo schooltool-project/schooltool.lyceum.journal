@@ -19,9 +19,6 @@
 """
 Helper function for tests.
 """
-from cStringIO import StringIO
-import os
-import pkg_resources
 
 from schooltool.testing.analyze import queryHTML
 

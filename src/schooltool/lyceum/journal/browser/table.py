@@ -21,10 +21,10 @@ Common code for journal view table display.
 """
 import urllib
 
-from zope.app import zapi
 from zope.app.form.browser.widget import quoteattr
 from zope.interface import implementer
 from zope.component import adapter
+from zope.traversing.browser.absoluteurl import absoluteURL
 from zc.table import table
 
 from schooltool.table.interfaces import IIndexedColumn
@@ -50,7 +50,7 @@ class SelectStudentCellFormatter(object):
 
     def __call__(self, value, item, formatter):
         request = formatter.request
-        url = zapi.absoluteURL(self.context, request)
+        url = absoluteURL(self.context, request)
         url = "%s/index.html?%s" % (
             url,
             urllib.urlencode([('student', item.__name__)] +
@@ -104,7 +104,7 @@ class SelectableRowTableFormatter(table.FormFullFormatter):
 
 
 def viewURL(context, request, name, parameters=[]):
-    url = zapi.absoluteURL(context, request)
+    url = absoluteURL(context, request)
     return "%s/%s?%s" % (url, name, urllib.urlencode(parameters))
 
 

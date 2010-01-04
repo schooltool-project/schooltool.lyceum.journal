@@ -99,7 +99,6 @@ setup(
                       'zope.app.form',
                       'zope.app.intid',
                       'zope.app.pagetemplate',
-                      'zope.app.zapi',
                       'zope.cachedescriptors',
                       'zope.component',
                       'zope.exceptions',

@@ -27,7 +27,6 @@ from zope.security.proxy import removeSecurityProxy
 from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
-from zope.app import zapi
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
@@ -89,7 +88,7 @@ class JournalCalendarEventViewlet(object):
         journal = ISectionJournal(calendar_event, None)
         if journal:
             return '%s/index.html?event_id=%s' % (
-                zapi.absoluteURL(journal, self.request),
+                absoluteURL(journal, self.request),
                 urllib.quote(event_for_display.context.unique_id.encode('utf-8')))
 
 

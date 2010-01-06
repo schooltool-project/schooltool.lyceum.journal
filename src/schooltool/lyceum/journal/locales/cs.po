@@ -7,65 +7,65 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-10-27 21:39+0000\n"
-"PO-Revision-Date: 2009-11-03 14:29+0000\n"
+"POT-Creation-Date: 2009-12-29 14:50+0000\n"
+"PO-Revision-Date: 2009-12-29 14:29+0000\n"
 "Last-Translator: Kuvaly <kuvaly@seznam.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-11-04 08:35+0000\n"
+"X-Launchpad-Export-Date: 2009-12-30 04:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:168
+#: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
 msgstr "Celkem"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:55
+#: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
 msgstr "Vysvětleno:"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:112
+#: /src/schooltool/lyceum/journal/browser/journal.py:105
 msgid "Nr."
 msgstr "č."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:231
+#: /src/schooltool/lyceum/journal/browser/journal.py:229
 msgid "Grades"
 msgstr "Známky"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:256
+#: /src/schooltool/lyceum/journal/browser/journal.py:254
 #: /src/schooltool/lyceum/journal/browser/student.py:108
 msgid "Average"
 msgstr "Průměr"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:279
+#: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
 msgstr "Absence"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:286
+#: /src/schooltool/lyceum/journal/browser/journal.py:302
+msgid "Tardies"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:309
 msgid "Absent"
 msgstr "Chybí"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:289
+#: /src/schooltool/lyceum/journal/browser/journal.py:312
 msgid "Tardy"
 msgstr "Opožděný"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:338
+#: /src/schooltool/lyceum/journal/browser/journal.py:380
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "Č"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:385
-msgid "Period unknown"
-msgstr "Neznámé období"
-
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:72
+#: /src/schooltool/lyceum/journal/browser/journal.py:65
 msgid "Single letter that represents an absent mark for a student"
 msgstr "Jedno písmeno, které představuje značku pro absenci studenta"
 
 #. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:74
+#: /src/schooltool/lyceum/journal/browser/journal.py:67
 msgid "Single letter that represents an tardy mark for a student"
 msgstr "Jedno písmeno, které představuje zančku pro pozdní příchod studenta"
 
@@ -83,15 +83,15 @@ msgstr "<div>Ve vybraném termínu nebyli žádné schůzky.</div>"
 msgid "${section} journal for ${month} ${year}"
 msgstr "${section} deník za ${month} ${year}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:64
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
 msgstr "Hodnocení termínu"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:81
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
 msgstr "Legenda"
 
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:84
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
 msgstr "Docházka / známka"
 
@@ -168,3 +168,6 @@ msgstr "Moje sekce"
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr "Hodnocení termínu"
+
+#~ msgid "Period unknown"
+#~ msgstr "Neznámé období"

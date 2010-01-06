@@ -21,6 +21,7 @@ Lyceum journal interfaces.
 """
 from zope.interface import Interface
 from zope.interface import Attribute
+from zope.location.interfaces import ILocation
 
 
 class ISectionJournalData(Interface):
@@ -50,7 +51,7 @@ class ISectionJournalData(Interface):
         """Returns a list of recorded grades/absences for a person."""
 
 
-class ISectionJournal(Interface):
+class ISectionJournal(ILocation):
 
     section = Attribute("Section this journal belongs to.")
     members = Attribute("List of students that belong to this section or any of the adjacent.")

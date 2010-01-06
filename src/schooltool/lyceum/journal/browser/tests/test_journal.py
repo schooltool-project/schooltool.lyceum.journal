@@ -84,9 +84,10 @@ def doctest_JournalCalendarEventViewlet():
     Though if it has a journal, you should get a URL for the journal
     with the event id passed as a parameter:
 
+        >>> from zope.location.location import Location
         >>> from schooltool.timetable.interfaces import ITimetableCalendarEvent
         >>> from schooltool.lyceum.journal.interfaces import ISectionJournal
-        >>> class JournalStub(object):
+        >>> class JournalStub(Location):
         ...     __name__ = 'journal'
 
         >>> class TTEventStub(object):

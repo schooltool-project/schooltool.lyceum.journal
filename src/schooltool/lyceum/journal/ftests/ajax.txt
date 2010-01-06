@@ -128,6 +128,6 @@ directly to set his grades:
     >>> grum.open(grade_url % (event_id, 'grum', 10))
     Traceback (most recent call last):
     ...
-    Unauthorized: (<zope.app.publisher.browser.viewmeta.SectionJournalAjaxView object at ...>,
+    Unauthorized: (<zope.browserpage.metaconfigure.SectionJournalAjaxView object at ...>,
                     'browserDefault', 'schooltool.edit')
 

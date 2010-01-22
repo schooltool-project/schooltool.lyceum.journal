@@ -161,7 +161,9 @@ class PersonGradesColumn(GradesColumn):
                 urllib.urlencode([('event_id', self.meeting.unique_id.encode('utf-8'))] +
                                  self.extra_parameters(formatter.request)))
             try:
-                period = '<br />' + self.meeting.period_id.split()[-1]
+                period = '<br />' + self.meeting.period_id[:3]
+                if period[-1] == ':':
+                    period = period[:-1]
             except:
                 period = ''
             header = '<a href="%s">%s%s</a>' % (url, header, period)

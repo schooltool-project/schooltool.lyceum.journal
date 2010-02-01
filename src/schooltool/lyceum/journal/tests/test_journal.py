@@ -107,7 +107,7 @@ def doctest_getSectionJournalData():
 
         >>> from schooltool.lyceum.journal.journal import getSectionJournalData
 
-        >>> from zope.app.container.btree import BTreeContainer
+        >>> from zope.container.btree import BTreeContainer
         >>> journal_container = BTreeContainer()
         >>> class STAppStub(dict):
         ...     def __init__(self, context):
@@ -116,7 +116,7 @@ def doctest_getSectionJournalData():
         >>> from schooltool.app.interfaces import ISchoolToolApplication
         >>> provideAdapter(STAppStub, adapts=[None], provides=ISchoolToolApplication)
 
-        >>> from zope.app.intid.interfaces import IIntIds
+        >>> from zope.intid.interfaces import IIntIds
         >>> from zope.component import provideUtility
         >>> class FakeIntID(object):
         ...     implements(IIntIds)

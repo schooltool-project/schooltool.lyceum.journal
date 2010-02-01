@@ -5,11 +5,11 @@
            i18n_domain="schooltool.lyceum.journal">
 
   <class class="schooltool.lyceum.journal.journal.LyceumJournalContainer">
-    <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
+    <allow interface="zope.container.interfaces.ISimpleReadContainer" />
     <require permission="schooltool.view"
              attributes="keys values items __iter__ __len__" />
     <require permission="schooltool.edit"
-             interface="zope.app.container.interfaces.IWriteContainer" />
+             interface="zope.container.interfaces.IWriteContainer" />
   </class>
 
   <class class="schooltool.lyceum.journal.journal.SectionJournalData">
@@ -49,11 +49,11 @@
   <!-- Term grades -->
 
   <class class="schooltool.lyceum.journal.term.LyceumTermDataContainer">
-    <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
+    <allow interface="zope.container.interfaces.ISimpleReadContainer" />
     <require permission="schooltool.view"
              attributes="keys values items __iter__ __len__" />
     <require permission="schooltool.edit"
-             interface="zope.app.container.interfaces.IWriteContainer" />
+             interface="zope.container.interfaces.IWriteContainer" />
   </class>
 
   <class class="schooltool.lyceum.journal.term.TermGradingData">

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-29 14:50+0000\n"
-"PO-Revision-Date: 2009-10-19 16:57+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"PO-Revision-Date: 2010-01-29 11:01+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-12-30 04:53+0000\n"
+"X-Launchpad-Export-Date: 2010-01-30 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
@@ -31,7 +31,7 @@ msgstr "Núm."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:229
 msgid "Grades"
-msgstr "Grados"
+msgstr "Cualificacións"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:254
 #: /src/schooltool/lyceum/journal/browser/student.py:108
@@ -44,15 +44,15 @@ msgstr "Ausencias"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:302
 msgid "Tardies"
-msgstr ""
+msgstr "Atrasos"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:309
 msgid "Absent"
-msgstr "Ausente"
+msgstr "Ausencias"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:312
 msgid "Tardy"
-msgstr "Serodio"
+msgstr "Atraso"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:380
 #: /src/schooltool/lyceum/journal/browser/term.py:85
@@ -62,13 +62,12 @@ msgstr "Núm."
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:65
 msgid "Single letter that represents an absent mark for a student"
-msgstr ""
-"Unha soa letra que representa unha marca de ausencia para un estudante"
+msgstr "A"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:67
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Unha soa letra que representa unha marca de atraso para un estudante"
+msgstr "R"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -86,7 +85,7 @@ msgstr "Diario de ${section} para ${month} de ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Prazo de cualificacións"
+msgstr "Cualificacións do período"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
@@ -110,12 +109,12 @@ msgid ""
 "add a timetable first."
 msgstr ""
 "Esta sección non está programada para ningún período, para empregar o diario "
-"debes engadir antes un horario."
+"debe engadir antes un horario."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Podes xestionar os horarios desta sección aquí: ${timetable_link}"
+msgstr "Pode xestionar os horarios desta sección aquí: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
@@ -144,17 +143,17 @@ msgstr "Caderno de cualificacións de ${student_name} de ${month}"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr ""
+msgstr "Atallo: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr ""
+msgstr "Seleccionar"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr ""
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
@@ -170,4 +169,4 @@ msgstr "As miñas seccións"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr ""
+msgstr "Prazo das cualificacións"

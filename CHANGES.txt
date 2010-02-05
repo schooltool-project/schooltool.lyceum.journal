@@ -1,6 +1,14 @@
 CHANGES
 ~~~~~~~
 
+0.5.1 (2010-02-05)
+==================
+
+* Reduce dependencies
+* Fix to work with zc.table >= 0.7.0
+* Update translations
+
+
 0.5.0 (2010-01-06)
 ==================
 

@@ -95,10 +95,13 @@ class JournalCalendarEventViewlet(object):
 class StudentNumberColumn(GetterColumn):
 
     def getter(self, item, formatter):
+        return formatter.row
+
+    def renderCell(self, item, formatter):
+        value = self.getter(item, formatter)
         person_name = '<input type="hidden" value="%s" class="person_id" />' % (
             urllib.quote(item.__name__))
-
-        return str(formatter.row) + person_name
+        return str(value) + person_name
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Nr."),

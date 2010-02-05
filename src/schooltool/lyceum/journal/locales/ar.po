@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-29 14:50+0000\n"
-"PO-Revision-Date: 2009-12-29 14:27+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"PO-Revision-Date: 2010-01-27 08:30+0000\n"
+"Last-Translator: Ameur Mohammed <mohammed_ameur@yahoo.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2009-12-30 04:53+0000\n"
+"X-Launchpad-Export-Date: 2010-01-28 04:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
@@ -133,7 +133,7 @@ msgstr "درجة الفصل"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:302
 msgid "Tardies"
-msgstr ""
+msgstr "التأخيرات"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
@@ -159,7 +159,7 @@ msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هن�
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr ""
+msgstr "عنوان-لزر-الإختيار"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -169,4 +169,4 @@ msgstr "اختيار"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr ""
+msgstr "الحرف-المختصر-للإختيار"

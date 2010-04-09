@@ -1,66 +1,75 @@
-# Polish translation for schooltool
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the schooltool package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Vietnamese translation for schooltool.lyceum.journal
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the schooltool.lyceum.journal package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: schooltool\n"
+"Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-18 20:29+0200\n"
-"PO-Revision-Date: 2010-03-28 09:25+0000\n"
-"Last-Translator: Kuba P. <Unknown>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2010-03-31 15:49+0000\n"
+"Last-Translator: missthom <thom43th.dhtl@gmail.com>\n"
+"Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-29 03:49+0000\n"
+"X-Launchpad-Export-Date: 2010-04-01 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
-msgstr "Wyjaśniono:"
+msgstr "Giải thích"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
-msgstr "Razem"
+msgstr "Tổng"
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 msgid "Journal"
-msgstr "Dziennik"
+msgstr "Nhật ký"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Litera pokazująca nieobecność ucznia"
+msgstr "Kí tự đơn thể hiện sự vắng mặt của học sinh"
+
+#. Default: "t"
+#: /src/schooltool/lyceum/journal/browser/journal.py:66
+msgid "Single letter that represents an tardy mark for a student"
+msgstr "Kí tự đơn thể hiện sự muộn học của học sinh"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
-msgstr "Nr."
+msgstr "Nr"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"
-msgstr "Oceny"
+msgstr "Bảng điểm"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:258
 #: /src/schooltool/lyceum/journal/browser/student.py:107
 msgid "Average"
-msgstr "Średnia"
+msgstr "Trung bình"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:282
 msgid "Absences"
-msgstr "Nieobecności"
+msgstr "Vắng mặt"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:306
+msgid "Tardies"
+msgstr "Muộn học"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:313
 msgid "Absent"
-msgstr "Nieobecny/a"
+msgstr "Vắng mặt"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:316
 msgid "Tardy"
-msgstr "Spóźnienia"
+msgstr "Muộn"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:384
 #: /src/schooltool/lyceum/journal/browser/term.py:85
@@ -70,16 +79,16 @@ msgstr "Nr"
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group} obecności na ${month}"
+msgstr "${group} Điểm danh cho tháng ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>W wybranym semestrze nie odbywają się żadne spotkania.</div>"
+msgstr "<div>Không có buổi meeting nào trong học kỳ đã chọn</div>"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} dziennik na ${month} ${year}"
+msgstr "Nhật ký lớp ${section}  trong thangs ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -92,85 +101,74 @@ msgstr "${section} dziennik na ${month} ${year}"
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 msgid "${section} journal"
-msgstr "${section} dziennik"
+msgstr "Nhật ký lớp ${section}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Semestr"
+msgstr "Điểm học kỳ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
-msgstr "Objaśnienia"
+msgstr "Chú thích"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
-msgstr "Obecność / Klasa"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
-msgid "${person} gradebook for ${month}"
-msgstr "${person} zeszyt ocen z  ${month}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
-msgid "${person} gradebook"
-msgstr "${person} zeszyt ocen"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
-msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} zeszyt ocen z  ${month}"
-
-#. Default: "Select"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "select-button"
-msgstr "Wybierz"
-
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
-msgid "My Sections"
-msgstr "Moje Działy"
-
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:66
-msgid "Single letter that represents an tardy mark for a student"
-msgstr "Pojedyńcza litera, która symbolizuje spóźnienie"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:306
-msgid "Tardies"
-msgstr "Spóźnienia"
+msgstr "Có mặt / xếp loại"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
 msgstr ""
+"Không có khoảng thời gian nào  được chỉ định trong thời khoá biểu của lớp "
+"học này."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Plany lekcji przydzielone dla tej sekcji:  ${timetable_links}"
+msgstr "Thời khóa biểu được chỉ định cho lớp học này"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
-"Możesz zarządzać planami lekcji dla tych sekcji tutaj: ${timetable_link}"
+msgstr "Bạn có thể quản lý thời khóa biểu cho lớp học này tại đây"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Ta część nie ma ustawionych żadnych semestrów, do korzystania z dziennika "
-"należy dodać najpierw plan lekcji."
+"Lớp học này không nằm trong kế hoạch của các hojc kỳ, để sử dụng nhật ký "
+"trước tiên bạn nên thêm thời khóa biểu"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
+msgid "${person} gradebook for ${month}"
+msgstr "bảng điểm của ${person} trong tháng ${month}"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
+msgid "${person} gradebook"
+msgstr "Bảng điểm của ${person}"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
+msgid "${student_name} gradebook for ${month}"
+msgstr "Bảng điểm của học sinh ${student_name} trong tháng ${month}"
+
+#. Default: "Select"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "select-button"
+msgstr "Chọn"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "W"
+msgstr "Phím tắt cho nút chọn"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Skrót: Alt-W"
+msgstr "Tiêu đề của nút chọn (phím tắt là:  Alt - S)"
+
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
+msgid "My Sections"
+msgstr "Lớp học của tôi"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Data otrzymania stopnia"
-
-#~ msgid "Period unknown"
-#~ msgstr "Termin nie znany"
+msgstr "Điểm học kỳ"

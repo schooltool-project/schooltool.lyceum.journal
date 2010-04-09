@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-29 14:50+0000\n"
-"PO-Revision-Date: 2009-12-29 14:29+0000\n"
-"Last-Translator: Kuvaly <kuvaly@seznam.cz>\n"
+"PO-Revision-Date: 2010-02-06 13:48+0000\n"
+"Last-Translator: Jakub Kozisek <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-07 04:51+0000\n"
+"X-Launchpad-Export-Date: 2010-02-07 04:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
@@ -44,7 +44,7 @@ msgstr "Absence"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:302
 msgid "Tardies"
-msgstr ""
+msgstr "Pozdní příchody"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:309
 msgid "Absent"
@@ -52,7 +52,7 @@ msgstr "Chybí"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:312
 msgid "Tardy"
-msgstr "Opožděný"
+msgstr "Pozdní příchod"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:380
 #: /src/schooltool/lyceum/journal/browser/term.py:85

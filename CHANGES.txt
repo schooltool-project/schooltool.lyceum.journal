@@ -4,6 +4,7 @@ CHANGES
 0.5.2 (unreleased)
 ------------------
 
+- Add security descriptions (https://launchpad.net/bugs/513476)
 
 
 0.5.1 (2010-02-05)

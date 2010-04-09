@@ -87,6 +87,12 @@ def getSectionForSectionJournalData(jd):
     return int_ids.getObject(int(jd.__name__))
 
 
+@adapter(ISectionJournal)
+@implementer(ISection)
+def getSectionForSectionJournal(sj):
+    return sj.section
+
+
 class SectionJournalData(Persistent):
     """A journal for a section."""
     implements(ISectionJournalData, ILocation)

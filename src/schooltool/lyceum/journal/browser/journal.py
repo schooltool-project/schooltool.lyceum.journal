@@ -95,10 +95,13 @@ class JournalCalendarEventViewlet(object):
 class StudentNumberColumn(GetterColumn):
 
     def getter(self, item, formatter):
+        return formatter.row
+
+    def renderCell(self, item, formatter):
+        value = self.getter(item, formatter)
         person_name = '<input type="hidden" value="%s" class="person_id" />' % (
             urllib.quote(item.__name__))
-
-        return str(formatter.row) + person_name
+        return str(value) + person_name
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Nr."),
@@ -161,7 +164,9 @@ class PersonGradesColumn(GradesColumn):
                 urllib.urlencode([('event_id', self.meeting.unique_id.encode('utf-8'))] +
                                  self.extra_parameters(formatter.request)))
             try:
-                period = '<br />' + self.meeting.period_id.split()[-1]
+                period = '<br />' + self.meeting.period_id[:3]
+                if period[-1] == ':':
+                    period = period[:-1]
             except:
                 period = ''
             header = '<a href="%s">%s%s</a>' % (url, header, period)

@@ -22,7 +22,7 @@ Lyceum term grade content classes.
 from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
-from zope.app.container.btree import BTreeContainer
+from zope.container.btree import BTreeContainer
 from zope.interface import implements
 from zope.location.interfaces import ILocation
 

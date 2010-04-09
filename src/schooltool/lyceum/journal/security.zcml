@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<configure xmlns="http://schooltool.org/securitypolicy"
+           i18n_domain="schooltool">
+
+  <!-- Security descriptions -->
+  <describe_group
+     name="schooltool.lyceum.journal"
+     title="Journal" />
+  <describe_action
+     group="schooltool.lyceum.journal" name="edit" title="Edit Journal"
+     description="Create and edit journal data for a section."
+     order="10"
+     interface=".interfaces.ISectionJournal"
+     permission="schooltool.edit"
+  />
+
+  <!-- security settings -->
+  <allow
+      interface=".interfaces.ISectionJournal"
+      permission="schooltool.edit"
+      crowds="section_instructors" />
+
+</configure>

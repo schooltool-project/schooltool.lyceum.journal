@@ -4,12 +4,14 @@
            xmlns="http://namespaces.zope.org/zope"
            i18n_domain="schooltool.lyceum.journal">
 
+  <include file="security.zcml" />
+
   <class class="schooltool.lyceum.journal.journal.LyceumJournalContainer">
-    <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
+    <allow interface="zope.container.interfaces.ISimpleReadContainer" />
     <require permission="schooltool.view"
              attributes="keys values items __iter__ __len__" />
     <require permission="schooltool.edit"
-             interface="zope.app.container.interfaces.IWriteContainer" />
+             interface="zope.container.interfaces.IWriteContainer" />
   </class>
 
   <class class="schooltool.lyceum.journal.journal.SectionJournalData">
@@ -22,6 +24,8 @@
 
   <adapter
       factory="schooltool.lyceum.journal.journal.getSectionForSectionJournalData" />
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getSectionForSectionJournal" />
 
   <adapter
       for="schooltool.course.interfaces.ISection"
@@ -49,11 +53,11 @@
   <!-- Term grades -->
 
   <class class="schooltool.lyceum.journal.term.LyceumTermDataContainer">
-    <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
+    <allow interface="zope.container.interfaces.ISimpleReadContainer" />
     <require permission="schooltool.view"
              attributes="keys values items __iter__ __len__" />
     <require permission="schooltool.edit"
-             interface="zope.app.container.interfaces.IWriteContainer" />
+             interface="zope.container.interfaces.IWriteContainer" />
   </class>
 
   <class class="schooltool.lyceum.journal.term.TermGradingData">

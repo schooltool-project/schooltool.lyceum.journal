@@ -21,18 +21,12 @@
 Unit tests for lyceum journal.
 """
 import unittest
-from pytz import timezone
-from pytz import utc
-from datetime import datetime
 
 from zope.app.testing import setup
 from zope.component import provideAdapter
-from zope.interface import directlyProvides
-from zope.interface import implements
 from zope.publisher.browser import TestRequest
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.testing import doctest
-from zope.traversing.interfaces import IContainmentRoot
 
 
 def doctest_SectionTermGradingColumn():

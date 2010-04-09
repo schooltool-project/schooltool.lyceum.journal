@@ -95,7 +95,7 @@ def doctest_getPersonTermGradingData():
 
         >>> from schooltool.lyceum.journal.term import getPersonTermGradingData
 
-        >>> from zope.app.container.btree import BTreeContainer
+        >>> from zope.container.btree import BTreeContainer
         >>> term_grade_container = BTreeContainer()
         >>> class STAppStub(dict):
         ...     def __init__(self, context):

@@ -33,7 +33,6 @@ from schooltool.term.interfaces import ITermContainer
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.course.interfaces import ICourseContainer
 from schooltool.course.interfaces import ILearner
-from schooltool.app.interfaces import ISchoolToolApplication
 
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ISectionJournalData

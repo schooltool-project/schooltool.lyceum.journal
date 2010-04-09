@@ -24,8 +24,8 @@ from persistent import Persistent
 
 from zope.viewlet.viewlet import CSSViewlet
 from zope.security.proxy import removeSecurityProxy
-from zope.app.intid.interfaces import IIntIds
-from zope.app.container.btree import BTreeContainer
+from zope.intid.interfaces import IIntIds
+from zope.container.btree import BTreeContainer
 from zope.cachedescriptors.property import Lazy
 from zope.component import getUtility
 from zope.component import adapter
@@ -85,6 +85,12 @@ class LyceumJournalContainer(BTreeContainer):
 def getSectionForSectionJournalData(jd):
     int_ids = getUtility(IIntIds)
     return int_ids.getObject(int(jd.__name__))
+
+
+@adapter(ISectionJournal)
+@implementer(ISection)
+def getSectionForSectionJournal(sj):
+    return sj.section
 
 
 class SectionJournalData(Persistent):

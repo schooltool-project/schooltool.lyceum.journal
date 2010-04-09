@@ -2,6 +2,7 @@
 
 PACKAGE=schooltool.lyceum.journal
 
+DIST=/home/ftp/pub/schooltool/1.4
 BOOTSTRAP_PYTHON=python2.5
 INSTANCE_TYPE=schooltool
 BUILDOUT_FLAGS=
@@ -22,7 +23,7 @@ buildout bin/test: bin/buildout setup.py base.cfg buildout.cfg
 	@touch --no-create bin/test
 
 .PHONY: update
-update: bin/buildout
+update:
 	bzr up
 	$(MAKE) buildout BUILDOUT_FLAGS=-n
 
@@ -47,14 +48,14 @@ run: build instance
 	bin/start-schooltool-instance instance
 
 .PHONY: release
-release: bin/buildout
+release: bin/buildout compile-translations
 	echo -n `cat version.txt.in`_r`bzr revno` > version.txt
 	bin/buildout setup setup.py sdist
 	rm version.txt
 
 .PHONY: move-release
 move-release:
-	mv -v dist/$(PACKAGE)-*.tar.gz /home/ftp/pub/schooltool/1.4/dev
+	mv -v dist/$(PACKAGE)-*.tar.gz $(DIST)/dev
 
 .PHONY: coverage
 coverage: build
@@ -122,7 +123,7 @@ update-translations: extract-translations
 	set -e; \
 	locales=src/schooltool/lyceum/journal/locales; \
 	for f in $${locales}/*.po; do \
-	    msgmerge -qU $$f $${locales}/$(PACKAGE).pot ;\
+	    msgmerge -qUF $$f $${locales}/$(PACKAGE).pot ;\
 	done
 	$(MAKE) compile-translations
 
@@ -133,7 +134,7 @@ ubuntu-environment:
 	 echo "I am running as $(shell whoami)"; \
 	 exit 3; \
 	} else { \
-	 apt-get install bzr build-essential python-all python-all-dev libc6-dev libicu-dev; \
-	 apt-get build-dep python-imaging; \
+	 apt-get install bzr build-essential python-all-dev libc6-dev libicu-dev libxslt1-dev; \
+	 apt-get install libfreetype6-dev libjpeg62-dev; \
 	 echo "Installation Complete: Next... Run 'make'."; \
 	} fi

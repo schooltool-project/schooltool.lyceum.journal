@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2009-12-29 14:50+0000\n"
-"PO-Revision-Date: 2009-12-29 14:37+0000\n"
+"PO-Revision-Date: 2010-02-14 19:59+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-07 04:51+0000\n"
+"X-Launchpad-Export-Date: 2010-02-15 04:55+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
@@ -57,7 +57,7 @@ msgstr "Absenties"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:302
 msgid "Tardies"
-msgstr ""
+msgstr "Laatkomers"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:312
 msgid "Tardy"

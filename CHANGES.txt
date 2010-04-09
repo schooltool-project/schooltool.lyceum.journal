@@ -5,6 +5,7 @@ CHANGES
 ------------------
 
 - Add security descriptions (https://launchpad.net/bugs/513476)
+- Update translations
 
 
 0.5.1 (2010-02-05)

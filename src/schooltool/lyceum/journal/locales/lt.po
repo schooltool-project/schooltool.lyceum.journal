@@ -40,11 +40,11 @@ msgstr "Vidurkis"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:278
 msgid "Absences"
-msgstr "Praleistos pamokos"
+msgstr "Praleista"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:302
 msgid "Tardies"
-msgstr ""
+msgstr "Vėluota"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:309
 msgid "Absent"

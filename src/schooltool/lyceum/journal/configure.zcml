@@ -4,6 +4,8 @@
            xmlns="http://namespaces.zope.org/zope"
            i18n_domain="schooltool.lyceum.journal">
 
+  <include file="security.zcml" />
+
   <class class="schooltool.lyceum.journal.journal.LyceumJournalContainer">
     <allow interface="zope.app.container.interfaces.ISimpleReadContainer" />
     <require permission="schooltool.view"
@@ -22,6 +24,8 @@
 
   <adapter
       factory="schooltool.lyceum.journal.journal.getSectionForSectionJournalData" />
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getSectionForSectionJournal" />
 
   <adapter
       for="schooltool.course.interfaces.ISection"

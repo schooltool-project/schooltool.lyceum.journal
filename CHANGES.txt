@@ -1,6 +1,12 @@
 CHANGES
 ~~~~~~~
 
+0.3.0 (unreleased)
+==================
+
+* Add security descriptions (https://launchpad.net/bugs/513476)
+
+
 0.5.0 (2010-01-06)
 ==================
 

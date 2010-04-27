@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-0.5.3 (unreleased)
+0.5.3 (2010-04-27)
 ------------------
 
 - Fix crash with non-ascii usernames (https://launchpad.net/bugs/495872)

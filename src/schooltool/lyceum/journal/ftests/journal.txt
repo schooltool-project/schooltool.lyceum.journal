@@ -239,7 +239,7 @@ There is a legend explaining valid grade input:
 You can also access the journal through the section:
 
     >>> teacher.open('http://localhost/persons/frum')
-    >>> teacher.getLink('History -- History (1a)', index=1).click()
+    >>> teacher.getLink('History (1a)', index=1).click()
     >>> teacher.getLink('Journal', index=1).click()
     >>> teacher.getLink('December').click()
     >>> teacher.getLink('7').click()
@@ -348,7 +348,7 @@ If we select a different term, the first month in the term should get
 activated:
 
     >>> teacher.open('http://localhost/persons/frum')
-    >>> teacher.getLink('History -- History (1a)').click()
+    >>> teacher.getLink('History (1a)').click()
     >>> teacher.getLink('Journal', index=1).click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]

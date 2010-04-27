@@ -6,6 +6,7 @@ CHANGES
 ------------------
 
 - Fix crash with non-ascii usernames (https://launchpad.net/bugs/495872)
+- Rename journal tab to "Attendance" for students (https://launchpad.net/bugs/557450)
 - Update translations (mn, fi, bg), fix or delete wrong translations.
 
 

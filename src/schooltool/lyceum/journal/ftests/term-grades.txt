@@ -262,7 +262,7 @@ calendar:
 And he should be capable of accessing his own gradebook:
 
     >>> student.getLink('Student, Frum').click()
-    >>> student.getLink('Gradebook').click()
+    >>> student.getLink('Attendance').click()
     >>> student.getControl(name='TERM').value = ['2005-fall-1']
     >>> student.getControl('Select').click()
     >>> printGradebookTable(student.contents)

@@ -7,77 +7,97 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-12-29 14:50+0000\n"
-"PO-Revision-Date: 2010-01-27 08:30+0000\n"
-"Last-Translator: Ameur Mohammed <mohammed_ameur@yahoo.com>\n"
+"POT-Creation-Date: 2010-03-18 20:29+0200\n"
+"PO-Revision-Date: 2010-02-05 22:18+0000\n"
+"Last-Translator: Ameur Mohammed <Unknown>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-28 04:39+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: /src/schooltool/lyceum/journal/browser/attendance.py:170
-msgid "Total"
-msgstr "المجموع"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
 msgstr "توضيح:"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:105
+#: /src/schooltool/lyceum/journal/browser/attendance.py:170
+msgid "Total"
+msgstr "المجموع"
+
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+msgid "Journal"
+msgstr "السّجل اليومي"
+
+#. Default: "a"
+#: /src/schooltool/lyceum/journal/browser/journal.py:64
+msgid "Single letter that represents an absent mark for a student"
+msgstr ""
+
+#. Default: "t"
+#: /src/schooltool/lyceum/journal/browser/journal.py:66
+msgid "Single letter that represents an tardy mark for a student"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
 msgstr "Nr."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:229
+#: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"
 msgstr "الرتب"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:254
-#: /src/schooltool/lyceum/journal/browser/student.py:108
+#: /src/schooltool/lyceum/journal/browser/journal.py:258
+#: /src/schooltool/lyceum/journal/browser/student.py:107
 msgid "Average"
 msgstr "معدَّل"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:282
 msgid "Absences"
 msgstr "الغيابات"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:309
+#: /src/schooltool/lyceum/journal/browser/journal.py:313
 msgid "Absent"
 msgstr "غائب"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:312
+#: /src/schooltool/lyceum/journal/browser/journal.py:316
 msgid "Tardy"
 msgstr "متأخر"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:380
+#: /src/schooltool/lyceum/journal/browser/journal.py:384
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
-msgstr "Nr"
-
-#. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:65
-msgid "Single letter that represents an absent mark for a student"
-msgstr "الحرف الوحيد الذي يمثّل علامة غياب للطالب"
-
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:67
-msgid "Single letter that represents an tardy mark for a student"
-msgstr "الحرف الوحيد الذي يمثّل علامة تأخر للطالب"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
 msgstr "${group} الحضور ل${month}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>لم تكن هناك اجتماعات في الفترة المختارة.</div>"
+#: src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
+msgid "There have been no meetings in the selected term."
+msgstr "لم تكن هناك اجتماعات في الفترة المختارة."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
 msgstr "${section} يومية ل ${month} ${year}"
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+msgid "${section} journal"
+msgstr "سجل ${section} اليومي"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
@@ -91,30 +111,6 @@ msgstr "الدليل"
 msgid "Attendance / grade"
 msgstr "الحضور / الرتبة"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
-msgid "${section} journal"
-msgstr "سجل ${section} اليومي"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "السّجل اليومي"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
-msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} سجل الرتب ل ${month}"
-
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
 msgstr "${person} سجل الرتب ل ${month}"
@@ -122,6 +118,10 @@ msgstr "${person} سجل الرتب ل ${month}"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
 msgstr "${person} سجل الرتب"
+
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
+msgid "${student_name} gradebook for ${month}"
+msgstr "${student_name} سجل الرتب ل ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
@@ -131,7 +131,7 @@ msgstr "أقسامي"
 msgid "Term Grade"
 msgstr "درجة الفصل"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:302
+#: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
 msgstr "التأخيرات"
 
@@ -143,6 +143,11 @@ msgstr "لم تخصّص أيّ فترات في جداول الوقت لهذا ا
 msgid "Timetables assigned for this section: ${timetable_links}"
 msgstr "جداول الوقت المخصّصة لهذا القسم: ${timetable_links}"
 
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هنا: ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
@@ -150,16 +155,6 @@ msgid ""
 msgstr ""
 "هذا القسم لم يحدّد لأيّ أجل ، لإستخدام المجلّة يمكنك إضافة جدول المواعيد "
 "أولا."
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هنا: ${timetable_link}"
-
-#. Default: "Shortcut: Alt-S"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "title-for-select-button"
-msgstr "عنوان-لزر-الإختيار"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -169,4 +164,9 @@ msgstr "اختيار"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "الحرف-المختصر-للإختيار"
+msgstr ""
+
+#. Default: "Shortcut: Alt-S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "title-for-select-button"
+msgstr ""

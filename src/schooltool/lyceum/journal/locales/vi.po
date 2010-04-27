@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-18 20:29+0200\n"
-"PO-Revision-Date: 2010-03-31 15:49+0000\n"
+"PO-Revision-Date: 2010-04-09 18:15+0000\n"
 "Last-Translator: missthom <thom43th.dhtl@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-01 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -35,12 +35,12 @@ msgstr "Nhật ký"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Kí tự đơn thể hiện sự vắng mặt của học sinh"
+msgstr "V"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Kí tự đơn thể hiện sự muộn học của học sinh"
+msgstr "M"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -82,13 +82,13 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} Điểm danh cho tháng ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Không có buổi meeting nào trong học kỳ đã chọn</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "Không có buổi meeting nào trong học kỳ đã chọn"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "Nhật ký lớp ${section}  trong thangs ${month} ${year}"
+msgstr "Nhật ký lớp ${section} trong thangs ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -158,12 +158,12 @@ msgstr "Chọn"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "Phím tắt cho nút chọn"
+msgstr "C"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Tiêu đề của nút chọn (phím tắt là:  Alt - S)"
+msgstr "Phím tắt: Alt-C"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"

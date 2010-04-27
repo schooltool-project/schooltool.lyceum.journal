@@ -74,9 +74,8 @@
         <tal:block replace="structure view/attendance_table/render" />
       </div>
     </tal:if>
-    <tal:if condition="not:view/active_month"
-            i18n:translate="">
-      <div>There have been no meetings in the selected term.</div>
+    <tal:if condition="not:view/active_month">
+      <div i18n:translate="">There have been no meetings in the selected term.</div>
     </tal:if>
 
     <div class="controls">

@@ -7,34 +7,34 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-12-29 14:50+0000\n"
+"POT-Creation-Date: 2010-03-18 20:29+0200\n"
 "PO-Revision-Date: 2009-12-29 14:40+0000\n"
 "Last-Translator: Careone <zzbusagain@yahoo.com.cn>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-07 04:51+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
 msgstr "总计"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:105
+#: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
 msgstr "Nr."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:229
+#: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"
 msgstr "分数"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:254
-#: /src/schooltool/lyceum/journal/browser/student.py:108
+#: /src/schooltool/lyceum/journal/browser/journal.py:258
+#: /src/schooltool/lyceum/journal/browser/student.py:107
 msgid "Average"
 msgstr "平均值"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:380
+#: /src/schooltool/lyceum/journal/browser/journal.py:384
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "Nr"
@@ -43,31 +43,38 @@ msgstr "Nr"
 msgid "Explained:"
 msgstr "解释："
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+msgid "Journal"
+msgstr "记录"
+
+#. Default: "a"
+#: /src/schooltool/lyceum/journal/browser/journal.py:64
+msgid "Single letter that represents an absent mark for a student"
+msgstr ""
+
+#. Default: "t"
+#: /src/schooltool/lyceum/journal/browser/journal.py:66
+msgid "Single letter that represents an tardy mark for a student"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:282
 msgid "Absences"
 msgstr "缺席："
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:302
+#: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:309
+#: /src/schooltool/lyceum/journal/browser/journal.py:313
 msgid "Absent"
 msgstr "缺席："
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:312
+#: /src/schooltool/lyceum/journal/browser/journal.py:316
 msgid "Tardy"
 msgstr "迟到"
-
-#. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:65
-msgid "Single letter that represents an absent mark for a student"
-msgstr "单个字母表示学生缺席"
-
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:67
-msgid "Single letter that represents an tardy mark for a student"
-msgstr "单个字母表示学生迟到"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -75,13 +82,26 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} ${month} 出勤"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>选中项没有交点。</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "选中项没有交点。"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
 msgstr "${year} ${month}  的 ${section} 记录"
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+msgid "${section} journal"
+msgstr "${section} 记录"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
@@ -103,45 +123,28 @@ msgstr ""
 msgid "Timetables assigned for this section: ${timetable_links}"
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr "你可以管理以下项目的时间表： ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "你可以管理以下项目的时间表： ${timetable_link}"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
+msgid "${person} gradebook for ${month}"
+msgstr "${person} ${month} 的评分表"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
-msgid "${section} journal"
-msgstr "${section} 记录"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "记录"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
+msgid "${person} gradebook"
+msgstr "${person} 评分表"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
 msgstr "${student_name} ${month} 的评分表"
-
-#. Default: "Shortcut: Alt-S"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "title-for-select-button"
-msgstr "快捷方式: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -153,13 +156,10 @@ msgstr "选择"
 msgid "shortcut-letter-for-select"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
-msgid "${person} gradebook for ${month}"
-msgstr "${person} ${month} 的评分表"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
-msgid "${person} gradebook"
-msgstr "${person} 评分表"
+#. Default: "Shortcut: Alt-S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "title-for-select-button"
+msgstr "快捷方式: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"

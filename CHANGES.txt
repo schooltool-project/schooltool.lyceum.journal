@@ -5,6 +5,7 @@ CHANGES
 0.5.3 (unreleased)
 ------------------
 
+- Update translations (mn, fi, bg), fix or delete wrong translations.
 
 
 0.5.2 (2010-04-09)

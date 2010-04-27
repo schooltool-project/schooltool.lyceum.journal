@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-18 20:29+0200\n"
-"PO-Revision-Date: 2010-03-28 09:25+0000\n"
-"Last-Translator: Kuba P. <Unknown>\n"
+"PO-Revision-Date: 2010-04-09 18:18+0000\n"
+"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-03-29 03:49+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -35,7 +35,7 @@ msgstr "Dziennik"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Litera pokazująca nieobecność ucznia"
+msgstr "n"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -73,8 +73,8 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} obecności na ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>W wybranym semestrze nie odbywają się żadne spotkania.</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "W wybranym semestrze nie odbywają się żadne spotkania."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
@@ -130,7 +130,7 @@ msgstr "Moje Działy"
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Pojedyńcza litera, która symbolizuje spóźnienie"
+msgstr "s"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
@@ -142,7 +142,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Plany lekcji przydzielone dla tej sekcji:  ${timetable_links}"
+msgstr "Plany lekcji przydzielone dla tej sekcji: ${timetable_links}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27

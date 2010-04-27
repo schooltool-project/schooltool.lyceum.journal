@@ -7,60 +7,66 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2009-12-29 14:50+0000\n"
+"POT-Creation-Date: 2010-03-18 20:29+0200\n"
 "PO-Revision-Date: 2010-01-08 18:28+0000\n"
 "Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-09 07:54+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: /src/schooltool/lyceum/journal/browser/attendance.py:170
-msgid "Total"
-msgstr "Total"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
 msgstr "Explicat:"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:105
+#: /src/schooltool/lyceum/journal/browser/attendance.py:170
+msgid "Total"
+msgstr "Total"
+
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+msgid "Journal"
+msgstr "Jurnal"
+
+#. Default: "a"
+#: /src/schooltool/lyceum/journal/browser/journal.py:64
+msgid "Single letter that represents an absent mark for a student"
+msgstr "a"
+
+#. Default: "t"
+#: /src/schooltool/lyceum/journal/browser/journal.py:66
+msgid "Single letter that represents an tardy mark for a student"
+msgstr "î"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
 msgstr "Nr."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:229
+#: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"
 msgstr "Note"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:254
-#: /src/schooltool/lyceum/journal/browser/student.py:108
+#: /src/schooltool/lyceum/journal/browser/journal.py:258
+#: /src/schooltool/lyceum/journal/browser/student.py:107
 msgid "Average"
 msgstr "Medie"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
+#: /src/schooltool/lyceum/journal/browser/journal.py:282
 msgid "Absences"
 msgstr "Absențe"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:309
+#: /src/schooltool/lyceum/journal/browser/journal.py:313
 msgid "Absent"
 msgstr "Absent"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:380
+#: /src/schooltool/lyceum/journal/browser/journal.py:384
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "Nr"
-
-#. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:65
-msgid "Single letter that represents an absent mark for a student"
-msgstr "O singură literă care reprezintă un semn de absență pentru un elev"
-
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:67
-msgid "Single letter that represents an tardy mark for a student"
-msgstr ""
-"O singură literă care reprezintă un semn de întârziere pentru un elev"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -68,8 +74,21 @@ msgid "${group} attendance for ${month}"
 msgstr "Prezența ${group} pentru ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Nu a avut loc nicio întâlnire în semestrul selectat.</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "Nu a avut loc nicio întâlnire în semestrul selectat."
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+msgid "${section} journal"
+msgstr "Jurnal pentru ${section}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
@@ -78,26 +97,6 @@ msgstr "Legendă"
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
 msgstr "Prezență / notă"
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
-msgid "${section} journal"
-msgstr "Jurnal pentru ${section}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "Jurnal"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
@@ -115,11 +114,11 @@ msgstr "Secțiunile mele"
 msgid "Term Grade"
 msgstr "Medie pe semestru"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:302
+#: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
 msgstr "Întârzieri"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:312
+#: /src/schooltool/lyceum/journal/browser/journal.py:316
 msgid "Tardy"
 msgstr "Întârziere"
 
@@ -140,6 +139,12 @@ msgstr "În orarul acestei secțiuni nu a fost alocată nicio oră de curs."
 msgid "Timetables assigned for this section: ${timetable_links}"
 msgstr "Orarele alocate pentru această secțiune: ${timetable_links}"
 
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr ""
+"Puteți gestiona orarele pentru această secțiune aici: ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
@@ -148,20 +153,9 @@ msgstr ""
 "Această secțiune nu este programată pentru niciun semestru; pentru a utiliza "
 "jurnalul, mai întâi trebuie să adăugați un orar."
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
-"Puteți gestiona orarele pentru această secțiune aici: ${timetable_link}"
-
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
 msgstr "Carnetul de note al elevului ${student_name} pentru luna ${month}"
-
-#. Default: "Shortcut: Alt-S"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "title-for-select-button"
-msgstr "Scurtătură: Alt-S"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -172,3 +166,8 @@ msgstr "Selectați"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
 msgstr "S"
+
+#. Default: "Shortcut: Alt-S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "title-for-select-button"
+msgstr "Scurtătură: Alt-S"

@@ -1,4 +1,4 @@
-# Swedish translation for schooltool
+# Finnish translation for schooltool
 # Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
 # This file is distributed under the same license as the schooltool package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
@@ -8,29 +8,46 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-03-18 20:29+0200\n"
-"PO-Revision-Date: 2009-12-29 14:39+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"PO-Revision-Date: 2010-01-22 23:51+0000\n"
+"Last-Translator: Jussi Aalto <jta_l10n@dnainternet.net>\n"
+"Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-10 03:54+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#: /src/schooltool/lyceum/journal/browser/attendance.py:57
-msgid "Explained:"
-msgstr "Förklaring:"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
-msgstr "Totalt"
+msgstr "Yhteensä"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:233
+msgid "Grades"
+msgstr "Arvosanat"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:258
+#: /src/schooltool/lyceum/journal/browser/student.py:107
+msgid "Average"
+msgstr "Keskiarvo"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:282
+msgid "Absences"
+msgstr "Poissaolot"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:313
+msgid "Absent"
+msgstr "Poissaolo"
+
+#: /src/schooltool/lyceum/journal/browser/attendance.py:57
+msgid "Explained:"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 msgid "Journal"
-msgstr "Journal"
+msgstr "Päiväkirja"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
@@ -44,51 +61,34 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
-msgstr "Nr."
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:233
-msgid "Grades"
-msgstr "Betyg"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:258
-#: /src/schooltool/lyceum/journal/browser/student.py:107
-msgid "Average"
-msgstr "Medel"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:282
-msgid "Absences"
-msgstr "Frånvaro"
+msgstr "No."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:313
-msgid "Absent"
-msgstr "Frånvarande"
+msgstr "Myöhästymiset"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:316
 msgid "Tardy"
-msgstr "Sen ankomst"
+msgstr "Myöhästynyt"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:384
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
-msgstr "Nr"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group} närvaro för ${month}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
 msgid "There have been no meetings in the selected term."
-msgstr "Det har inte varit några möten under den valda terminen."
+msgstr "Valitulla lukukaudella ei ole ollut tapaamisia."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} journal for ${month} ${year}"
+msgstr "Osion ${section} päiväkirja, ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -101,72 +101,72 @@ msgstr "${section} journal for ${month} ${year}"
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
 #: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
 msgid "${section} journal"
-msgstr "Journal för ${section}"
+msgstr "Osion ${section} päiväkirja"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
-msgstr "Terminsbetyg"
+msgstr "Lukukauden arvosanat"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"
-msgstr "Förklaring"
+msgstr "Selite"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:80
 msgid "Attendance / grade"
-msgstr "Närvaro / betyg"
+msgstr "Läsnäolo/arvosana"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Inga lektioner har tilldelats i scheman i denna sektion."
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Scheman tilldelade för denna sektion: ${timetable_links}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Du kan hantera scheman för denna sektion här: ${timetable_link}"
+msgstr "Tämän osion aikatauluja voit hallita täältä: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Denna sektion är inte planerad för någon termin. För att använda journalen, "
-"lägg först till ett schema."
+"Tätä osiota ei ole aikataulutettu mihinkään lukukauteen, käyttääksesi "
+"päiväkirjaa lisää ensin aikataulu."
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "Betygsbok för ${person} under ${month}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "Betygsbok för ${person}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} betyg för ${month}"
+msgstr ""
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Välj"
+msgstr "Valitse"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "V"
+msgstr ""
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Genväg: Alt-V"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Mina sektioner"
+msgstr "Omat osiot"
 
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
-msgstr "Terminsbetyg"
+msgstr "Lukukauden arvosana"

@@ -2,41 +2,6 @@ var selected_cell = null;
 var old_grade = null;
 var grade = null;
 
-function saveLessonDescription(value, event_id) {
-    $.ajax({
-       url: here + 'setLessonDescription.xml',
-       type: 'POST',
-       timeout: 5000,
-       data: {event_id: event_id,
-              lesson_description: value},
-       error: function() {},
-       success: function(xml){}
-    });
-}
-
-function savePublicDescription(value, event_id) {
-    $.ajax({
-       url: here + 'setPublicDescription.xml',
-       type: 'POST',
-       timeout: 5000,
-       data: {event_id: event_id,
-              lesson_description: value},
-       error: function() {},
-       success: function(xml){}
-    });
-}
-
-function FCKeditor_OnComplete(editorInstance)
-{
-  editorInstance.Events.AttachEvent("OnBlur", function () {
-    var elem = document.getElementById(editorInstance.Name);
-    if (editorInstance.Name == 'field.teacher_description')
-        saveLessonDescription(editorInstance.GetXHTML(), elem.event_id);
-    if (editorInstance.Name == 'field.public_description')
-        savePublicDescription(editorInstance.GetXHTML(), elem.event_id);
-  });
-}
-
 function unselectCell() {
     if (selected_cell) {
       var cell = selected_cell;
@@ -116,17 +81,6 @@ $(document).ready(function(){
     if (inputs.length > 0) {
        event_id = inputs[0].value;
     }
-
-    $.ajax({
-       url: here + 'getLessonDescription.xml',
-       type: 'POST',
-       timeout: 5000,
-       data: {event_id: event_id},
-       error: function() {},
-       success: function(xml){
-           $('.lesson-description').html(xml);
-       }
-    });
 
     return false;
   });

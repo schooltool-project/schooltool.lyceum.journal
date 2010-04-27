@@ -1,4 +1,4 @@
-#
+# -*- coding: utf-8 -*-
 #
 # SchoolTool - common information systems platform for school administration
 # Copyright (c) 2007 Shuttleworth Foundation
@@ -105,6 +105,37 @@ def doctest_JournalCalendarEventViewlet():
         >>> directlyProvides(manager.event.context, IContainmentRoot)
         >>> viewlet.attendanceLink()
         'http://127.0.0.1/journal/index.html?event_id=unique%26id'
+
+    """
+
+
+def doctest_StudentNumberColumn_renderCell():
+    """Tests for StudentNumberColumn
+
+        >>> class FormatterStub(object):
+        ...     request = TestRequest()
+        ...     _row = 0
+        ...     @property
+        ...     def row(self):
+        ...         self._row += 1
+        ...         return self._row
+        >>> formatter = FormatterStub()
+
+        >>> class PersonStub(object):
+        ...     def __init__(self, name):
+        ...         self.__name__ = name
+
+        >>> from schooltool.lyceum.journal.browser.journal import StudentNumberColumn
+        >>> column = StudentNumberColumn("journal", None)
+        >>> print column.renderCell(PersonStub("john"), formatter)
+        1<input type="hidden" value="john" class="person_id" />
+        >>> print column.renderCell(PersonStub("bob"), formatter)
+        2<input type="hidden" value="bob" class="person_id" />
+
+    Does not crash with unicode usernames
+
+        >>> print column.renderCell(PersonStub(u"\u017eivil\u0117"), formatter)
+        3<input type="hidden" value="živilė" class="person_id" />
 
     """
 

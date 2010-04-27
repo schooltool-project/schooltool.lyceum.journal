@@ -28,6 +28,7 @@ from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.app.form.browser.widget import quoteattr
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
@@ -35,7 +36,6 @@ from zope.interface import implements
 from zope.traversing.browser.absoluteurl import absoluteURL
 from zope.component import getUtility
 
-import zc.resourcelibrary
 from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
@@ -99,9 +99,9 @@ class StudentNumberColumn(GetterColumn):
 
     def renderCell(self, item, formatter):
         value = self.getter(item, formatter)
-        person_name = '<input type="hidden" value="%s" class="person_id" />' % (
-            urllib.quote(item.__name__))
-        return str(value) + person_name
+        cell = u'%d<input type="hidden" value=%s class="person_id" />' % (
+            value, quoteattr(item.__name__))
+        return cell
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Nr."),
@@ -368,8 +368,6 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         meetings = self.allMeetings()
         if not meetings:
             return self.no_periods_template()
-
-        zc.resourcelibrary.need("fckeditor")
 
         if 'UPDATE_SUBMIT' in self.request:
             self.updateGradebook()

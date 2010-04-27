@@ -53,7 +53,7 @@ class SelectStudentCellFormatter(object):
         url = absoluteURL(self.context, request)
         url = "%s/index.html?%s" % (
             url,
-            urllib.urlencode([('student', item.__name__)] +
+            urllib.urlencode([('student', item.__name__.encode('utf-8'))] +
                              self.extra_parameters(request)))
         return '<a class="select-row" href="%s">%s</a>' % (url, value)
 

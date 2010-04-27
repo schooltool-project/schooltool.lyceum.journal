@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://schooltool.org/securitypolicy"
-           i18n_domain="schooltool">
+           i18n_domain="schooltool.lyceum.journal">
 
   <!-- Security descriptions -->
   <describe_group

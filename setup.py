@@ -92,7 +92,6 @@ setup(
     install_requires=['schooltool>=1.2.0',
                       'pytz',
                       'setuptools',
-                      'zc.resourcelibrary',
                       'zc.table',
                       'ZODB3',
                       'zope.app.form',

@@ -60,5 +60,5 @@ This release is compatible with and requires SchoolTool 1.2.0.
 
 This release goes with SchoolTool 1.0.0.
 
-- Removed lesson descriptions from the journal views.
+- Removed lesson descriptions from the journal views (https://launchpad.net/bugs/356653)
 

@@ -36,7 +36,6 @@ from zope.interface import implements
 from zope.traversing.browser.absoluteurl import absoluteURL
 from zope.component import getUtility
 
-import zc.resourcelibrary
 from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
@@ -369,8 +368,6 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         meetings = self.allMeetings()
         if not meetings:
             return self.no_periods_template()
-
-        zc.resourcelibrary.need("fckeditor")
 
         if 'UPDATE_SUBMIT' in self.request:
             self.updateGradebook()

@@ -4,68 +4,75 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-29 14:50+0000\n"
+"POT-Creation-Date: 2010-03-18 20:29+0200\n"
 "PO-Revision-Date: 2009-12-29 14:34+0000\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-01-07 04:51+0000\n"
+"X-Launchpad-Export-Date: 2010-04-10 03:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: i18nextract.py\n"
-
-#: /src/schooltool/lyceum/journal/browser/attendance.py:170
-msgid "Total"
-msgstr "សរុប"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
 msgstr "ពន្យល់ ៖"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:105
-msgid "Nr."
-msgstr "Nr."
+#: /src/schooltool/lyceum/journal/browser/attendance.py:170
+msgid "Total"
+msgstr "សរុប"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:229
-msgid "Grades"
-msgstr "ថ្នាក់"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:254
-#: /src/schooltool/lyceum/journal/browser/student.py:108
-msgid "Average"
-msgstr "មធ្យម"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:278
-msgid "Absences"
-msgstr "អវត្តមាន"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:302
-msgid "Tardies"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:309
-msgid "Absent"
-msgstr "អវត្តមាន"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:312
-msgid "Tardy"
-msgstr "យឺត"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:380
-#: /src/schooltool/lyceum/journal/browser/term.py:85
-msgid "Nr"
-msgstr "Nr"
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
+#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+msgid "Journal"
+msgstr "ទិនានុប្បវត្តិ"
 
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:65
+#: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
 msgstr "តួ​អក្សរ​តែ​មួយ​ដែល​តំណាង​ឲ្យ​ការ​សម្គាល់​អវត្តមាន​សម្រាប់​សិស្ស"
 
 #. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:67
+#: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
 msgstr "តួ​អក្សរ​តែ​មួយ​ដែល​តំណាង​ឲ្យ​ការ​សម្គាល់​យឺត​សម្រាប់​សិស្ស"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:107
+msgid "Nr."
+msgstr "Nr."
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:233
+msgid "Grades"
+msgstr "ថ្នាក់"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:258
+#: /src/schooltool/lyceum/journal/browser/student.py:107
+msgid "Average"
+msgstr "មធ្យម"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:282
+msgid "Absences"
+msgstr "អវត្តមាន"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:306
+msgid "Tardies"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:313
+msgid "Absent"
+msgstr "អវត្តមាន"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:316
+msgid "Tardy"
+msgstr "យឺត"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:384
+#: /src/schooltool/lyceum/journal/browser/term.py:85
+msgid "Nr"
+msgstr "Nr"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -80,6 +87,19 @@ msgstr "<div>មិន​មាន​ការ​ប្រជុំ​នៅ​�
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
 msgstr "${section} ទិនានុប្បវត្តិ ${month} ${year}"
+
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
+msgid "${section} journal"
+msgstr "${section} ទិនានុប្បវត្តិ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:60
 msgid "Term Grading"
@@ -101,6 +121,12 @@ msgstr "មិន​បាន​កំណត់​រយៈ​ពេល​ក្
 msgid "Timetables assigned for this section: ${timetable_links}"
 msgstr "កាល​វិភាគ​ដែល​កំណត់​សម្រាប់​ផផ្នែក​នេះ ៖ ${timetable_links}"
 
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr ""
+"អ្នក​អាច​គ្រប់គ្រង​កាល​វិភាគ​សម្រាប់​ផ្នែក​នេះ​នៅ​ទីនេះ ៖ ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
@@ -109,40 +135,17 @@ msgstr ""
 "មិន​បាន​កំណត់​ផ្នែក​នេះ​សម្រាប់​វគ្គ​ណា​មួយ​ទេ ដើម្បី​ប្រើ​ទិនានុប្បវត្តិ "
 "អ្នក​គួរ​បន្ថែម​កាល​វិភាគ​ជាមុន​សិន ។"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
-"អ្នក​អាច​គ្រប់គ្រង​កាល​វិភាគ​សម្រាប់​ផ្នែក​នេះ​នៅ​ទីនេះ ៖ ${timetable_link}"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
+msgid "${person} gradebook for ${month}"
+msgstr "សៀវភៅ​ពិន្ទុ​របស់ ${person} សម្រាប់ ${month}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:8
-#: /src/schooltool/lyceum/journal/browser/templates/term.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:9
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:14
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
-msgid "${section} journal"
-msgstr "${section} ទិនានុប្បវត្តិ"
-
-#: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
-#: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:37
-msgid "Journal"
-msgstr "ទិនានុប្បវត្តិ"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
+msgid "${person} gradebook"
+msgstr "សៀវភៅ​ពិន្ទុ​សម្រាប់ ${person}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
 msgstr "សៀវភៅ​ពិន្ទុ​របស់ ${student_name} សម្រាប់ ${month}"
-
-#. Default: "Shortcut: Alt-S"
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
-msgid "title-for-select-button"
-msgstr ""
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -154,13 +157,10 @@ msgstr ""
 msgid "shortcut-letter-for-select"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
-msgid "${person} gradebook for ${month}"
-msgstr "សៀវភៅ​ពិន្ទុ​របស់ ${person} សម្រាប់ ${month}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
-msgid "${person} gradebook"
-msgstr "សៀវភៅ​ពិន្ទុ​សម្រាប់ ${person}"
+#. Default: "Shortcut: Alt-S"
+#: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
+msgid "title-for-select-button"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"

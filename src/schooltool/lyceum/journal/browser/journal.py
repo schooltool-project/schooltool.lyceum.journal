@@ -100,7 +100,7 @@ class StudentNumberColumn(GetterColumn):
     def renderCell(self, item, formatter):
         value = self.getter(item, formatter)
         cell = u'%d<input type="hidden" value=%s class="person_id" />' % (
-            value, quoteattr(item.__name__.encode('utf-8')))
+            value, quoteattr(item.__name__))
         return cell
 
     def renderHeader(self, formatter):

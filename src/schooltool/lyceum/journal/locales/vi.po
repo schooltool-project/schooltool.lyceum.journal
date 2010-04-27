@@ -35,12 +35,12 @@ msgstr "Nhật ký"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Kí tự đơn thể hiện sự vắng mặt của học sinh"
+msgstr "V"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Kí tự đơn thể hiện sự muộn học của học sinh"
+msgstr "M"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -158,12 +158,12 @@ msgstr "Chọn"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "Phím tắt cho nút chọn"
+msgstr "C"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Tiêu đề của nút chọn (phím tắt là:  Alt - S)"
+msgstr "Phím tắt: Alt-C"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"

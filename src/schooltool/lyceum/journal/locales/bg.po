@@ -171,6 +171,3 @@ msgstr "Моите секции"
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr "Срочни оценки"
-
-#~ msgid "Period unknown"
-#~ msgstr "Неизвестен час"

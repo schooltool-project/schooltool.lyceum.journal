@@ -53,12 +53,12 @@ msgstr "记录"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "单个字母表示学生缺席"
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "单个字母表示学生迟到"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:282
 msgid "Absences"

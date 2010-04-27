@@ -33,12 +33,12 @@ msgstr "ទិនានុប្បវត្តិ"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "តួ​អក្សរ​តែ​មួយ​ដែល​តំណាង​ឲ្យ​ការ​សម្គាល់​អវត្តមាន​សម្រាប់​សិស្ស"
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "តួ​អក្សរ​តែ​មួយ​ដែល​តំណាង​ឲ្យ​ការ​សម្គាល់​យឺត​សម្រាប់​សិស្ស"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."

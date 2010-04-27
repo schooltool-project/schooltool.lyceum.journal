@@ -57,12 +57,12 @@ msgstr "Logboek"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Enkele letter die de afwezigheid van een student aanduidt."
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Enkele letter die aanduidt dat een student te laat is."
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"

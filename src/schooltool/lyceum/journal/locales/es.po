@@ -35,12 +35,12 @@ msgstr "Diario:"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Una letra que representa una marca de Ausencia de un estudiante"
+msgstr "a"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Una letra que representa un Retraso de un estudiante"
+msgstr "r"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."

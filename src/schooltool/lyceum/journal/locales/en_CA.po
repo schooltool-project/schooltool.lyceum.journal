@@ -35,12 +35,12 @@ msgstr "Journal"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Single letter that represents an absent mark for a student"
+msgstr "a"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Single letter that represents an tardy mark for a student"
+msgstr "t"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -170,6 +170,3 @@ msgstr "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
 msgstr "Shortcut: Alt-S"
-
-#~ msgid "Period unknown"
-#~ msgstr "Nezināms periods"

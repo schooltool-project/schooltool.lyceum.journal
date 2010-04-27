@@ -28,13 +28,12 @@ msgstr "Insgesamt"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr ""
-"Einzelner Buchstabe, der eine Abwesenheit eines Schülers symbolisiert"
+msgstr "a"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Einzelner Buchstabe, der eine Verspätung eines Schülers symbolisiert"
+msgstr "v"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."

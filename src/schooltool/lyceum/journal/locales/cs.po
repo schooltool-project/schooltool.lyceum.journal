@@ -168,6 +168,3 @@ msgstr "Moje sekce"
 #: /src/schooltool/lyceum/journal/browser/term.py:57
 msgid "Term Grade"
 msgstr "Hodnocení termínu"
-
-#~ msgid "Period unknown"
-#~ msgstr "Neznámé období"

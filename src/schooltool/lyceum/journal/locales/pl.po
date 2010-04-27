@@ -35,7 +35,7 @@ msgstr "Dziennik"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Litera pokazująca nieobecność ucznia"
+msgstr "n"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -130,7 +130,7 @@ msgstr "Moje Działy"
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Pojedyńcza litera, która symbolizuje spóźnienie"
+msgstr "s"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
@@ -142,7 +142,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Plany lekcji przydzielone dla tej sekcji:  ${timetable_links}"
+msgstr "Plany lekcji przydzielone dla tej sekcji: ${timetable_links}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27

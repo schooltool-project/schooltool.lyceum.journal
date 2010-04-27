@@ -35,12 +35,12 @@ msgstr "יומן"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "tאות בודדת המסמלת העדרות של תלמיד"
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "אות בודדת המציגה ציון איחור עבור תלמיד"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."

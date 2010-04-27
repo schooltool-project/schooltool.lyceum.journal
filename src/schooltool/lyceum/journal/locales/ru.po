@@ -43,12 +43,12 @@ msgstr "Журнал"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Буква, которой обозначается пропуск учеником занятий"
+msgstr "п"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Буква, которой обозначается пропуск учеником занятий"
+msgstr "о"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -69,7 +69,7 @@ msgstr "Пропуски"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
-msgstr ""
+msgstr "Опозданий"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:313
 msgid "Absent"

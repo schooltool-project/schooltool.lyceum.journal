@@ -39,12 +39,12 @@ msgstr "Registro"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Lettera che rappresenta l'assenza dello studente"
+msgstr "a"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Lettera che rappresenta il ritardo dello studente"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"

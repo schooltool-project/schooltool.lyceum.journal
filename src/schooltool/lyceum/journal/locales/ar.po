@@ -35,12 +35,12 @@ msgstr "السّجل اليومي"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "الحرف الوحيد الذي يمثّل علامة غياب للطالب"
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "الحرف الوحيد الذي يمثّل علامة تأخر للطالب"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -70,7 +70,7 @@ msgstr "متأخر"
 #: /src/schooltool/lyceum/journal/browser/journal.py:384
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
-msgstr "Nr"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -164,9 +164,9 @@ msgstr "اختيار"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "الحرف-المختصر-للإختيار"
+msgstr ""
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "عنوان-لزر-الإختيار"
+msgstr ""

@@ -35,12 +35,12 @@ msgstr "Journal"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Une lettre, qui marque une absence pour un étudiant"
+msgstr "a"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Une lettre, qui marque un retard pour un étudiant"
+msgstr "r"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."

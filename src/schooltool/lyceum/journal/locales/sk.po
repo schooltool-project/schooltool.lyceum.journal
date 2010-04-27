@@ -35,12 +35,12 @@ msgstr "Denník"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Jedno písmeno, ktoré predstavuje značku pre absenciu študenta"
+msgstr "n"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Jedno písmeno, ktoré predstavuje značku pre neskorý príchod študenta"
+msgstr "o"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."

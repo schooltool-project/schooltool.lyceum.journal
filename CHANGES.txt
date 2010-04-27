@@ -5,6 +5,7 @@ CHANGES
 0.5.3 (unreleased)
 ------------------
 
+- Fix crash with non-ascii usernames (https://launchpad.net/bugs/495872)
 - Update translations (mn, fi, bg), fix or delete wrong translations.
 
 

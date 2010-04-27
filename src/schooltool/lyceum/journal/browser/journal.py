@@ -28,6 +28,7 @@ from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.app.form.browser.widget import quoteattr
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
@@ -99,9 +100,9 @@ class StudentNumberColumn(GetterColumn):
 
     def renderCell(self, item, formatter):
         value = self.getter(item, formatter)
-        person_name = '<input type="hidden" value="%s" class="person_id" />' % (
-            urllib.quote(item.__name__))
-        return str(value) + person_name
+        cell = u'%d<input type="hidden" value=%s class="person_id" />' % (
+            value, quoteattr(item.__name__.encode('utf-8')))
+        return cell
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Nr."),

@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2010-03-18 20:29+0200\n"
+"POT-Creation-Date: 2010-04-27 16:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -90,8 +90,8 @@ msgstr ""
 msgid "${group} attendance for ${month}"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:78
+msgid "There have been no meetings in the selected term."
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6

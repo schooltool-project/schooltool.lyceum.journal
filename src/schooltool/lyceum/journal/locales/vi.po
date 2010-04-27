@@ -82,13 +82,13 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} Điểm danh cho tháng ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Không có buổi meeting nào trong học kỳ đã chọn</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "Không có buổi meeting nào trong học kỳ đã chọn"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "Nhật ký lớp ${section}  trong thangs ${month} ${year}"
+msgstr "Nhật ký lớp ${section} trong thangs ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5

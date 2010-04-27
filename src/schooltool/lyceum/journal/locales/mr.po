@@ -82,8 +82,8 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} ची ${month}  महिन्यातील उपस्थिती"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>या सत्रात कोणत्याही सभा नव्हत्या.</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "या सत्रात कोणत्याही सभा नव्हत्या."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26

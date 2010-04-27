@@ -82,8 +82,8 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} docházka ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Ve vybraném termínu nebyli žádné schůzky.</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "Ve vybraném termínu nebyli žádné schůzky."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26

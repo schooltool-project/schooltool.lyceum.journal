@@ -75,8 +75,8 @@ msgid "${group} attendance for ${month}"
 msgstr "Prezența ${group} pentru ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Nu a avut loc nicio întâlnire în semestrul selectat.</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "Nu a avut loc nicio întâlnire în semestrul selectat."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5

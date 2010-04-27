@@ -80,8 +80,8 @@ msgid "${group} attendance for ${month}"
 msgstr "វត្តមាន ${group} សម្រាប់ ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>មិន​មាន​ការ​ប្រជុំ​នៅ​ក្នុង​វគ្គ​ដែល​ជ្រើស ។</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "មិន​មាន​ការ​ប្រជុំ​នៅ​ក្នុង​វគ្គ​ដែល​ជ្រើស ។"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26

@@ -64,8 +64,8 @@ msgid "${group} attendance for ${month}"
 msgstr "${group} Anwesenheit für ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "<div>There have been no meetings in the selected term.</div>"
-msgstr "<div>Es gab keine Treffen in dem ausgewählten Zeitraum.</div>"
+msgid "There have been no meetings in the selected term."
+msgstr "Es gab keine Treffen in dem ausgewählten Zeitraum."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:77
 msgid "Legend"

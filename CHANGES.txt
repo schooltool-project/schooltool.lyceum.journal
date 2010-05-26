@@ -2,10 +2,20 @@
 CHANGES
 =======
 
-0.6.0 (unreleased)
+0.6.1 (unreleased)
+------------------
+
+None yet.
+
+
+0.6.0 (2010-05-26)
 ------------------
 
 This release goes with SchoolTool 1.4.0
+
+- Link to Schedule instead of Timetables when there are no periods.
+  (https://launchpad.net/bugs/389563)
+- Update translations
 
 
 0.5.3 (2010-04-27)

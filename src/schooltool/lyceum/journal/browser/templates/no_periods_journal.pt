@@ -22,18 +22,9 @@
   </div>
 
   <div i18n:translate="">
-    Timetables assigned for this section:
-    <tal:block i18n:name="timetable_links" repeat="timetable view/timetables">
-      <a tal:attributes="href timetable/@@absolute_url"
-         tal:content="timetable/title">Timetable</a>
-    </tal:block>
-
-  </div>
-
-  <div i18n:translate="">
     You can manage timetables for this section here:
     <a i18n:name="timetable_link"
-       tal:attributes="href string:${view/context/section/@@absolute_url}/timetables/">
+       tal:attributes="href string:${view/context/section/@@absolute_url}/schedule.html">
       Timetables
     </a>
   </div>

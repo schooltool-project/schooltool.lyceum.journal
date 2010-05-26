@@ -107,7 +107,7 @@ first works:
       </div>
       <div>
         You can manage timetables for this section here:
-        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/timetables/">
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/schedule.html">
           Timetables
         </a>
       </div>
@@ -117,8 +117,7 @@ As we have the link to the list of timetables for this sections, we
 might as well use it and schedule the section:
 
     >>> manager.getLink('Timetables').click()
-    >>> manager.getLink('Add Timetable').click()
-    >>> manager.getControl('Add').click()
+    >>> manager.getControl('Save').click()
 
 Let's forget to set periods for the timetable and navigate straigth to
 the journal.
@@ -134,18 +133,14 @@ the journal.
         No periods have been assigned in timetables of this section.
       </div>
       <div>
-        Timetables assigned for this section:
-        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/timetables/1">2005-fall-1.default</a>
-      </div>
-      <div>
         You can manage timetables for this section here:
-        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/timetables/"> Timetables </a>
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/schedule.html"> Timetables </a>
       </div>
     </div>
 
 Follow the link and select some periods.
 
-    >>> manager.getLink('2005-fall-1.default').click()
+    >>> manager.getLink('Timetables').click()
     >>> manager.getControl(name='Tuesday.A').value = True
     >>> manager.getControl(name='Tuesday.B').value = True
     >>> manager.getControl(name='Wednesday.A').value = True

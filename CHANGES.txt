@@ -8,6 +8,7 @@ CHANGES
 This release goes with SchoolTool 1.4.0
 
 - Link to Schedule instead of Timetables when there are no periods.
+  (https://launchpad.net/bugs/389563)
 - Update translations
 
 

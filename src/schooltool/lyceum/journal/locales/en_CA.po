@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-03-18 20:29+0200\n"
-"PO-Revision-Date: 2010-04-09 18:03+0000\n"
+"POT-Creation-Date: 2010-04-27 21:16+0300\n"
+"PO-Revision-Date: 2010-04-27 14:53+0000\n"
 "Last-Translator: Itai Molenaar <imolenaar28@gmail.com>\n"
 "Language-Team: English (Canada) <en_CA@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-10 03:54+0000\n"
+"X-Launchpad-Export-Date: 2010-04-28 03:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -26,21 +26,13 @@ msgid "Total"
 msgstr "Total"
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
+#: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
+#: /src/schooltool/lyceum/journal/security.zcml:6
 msgid "Journal"
 msgstr "Journal"
-
-#. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:64
-msgid "Single letter that represents an absent mark for a student"
-msgstr "a"
-
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:66
-msgid "Single letter that represents an tardy mark for a student"
-msgstr "t"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:107
 msgid "Nr."
@@ -67,7 +59,7 @@ msgstr "Absent"
 msgid "Tardy"
 msgstr "Tardy"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:384
+#: /src/schooltool/lyceum/journal/browser/journal.py:382
 #: /src/schooltool/lyceum/journal/browser/term.py:85
 msgid "Nr"
 msgstr "Nr"
@@ -76,10 +68,6 @@ msgstr "Nr"
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
 msgstr "${group} attendance for ${month}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:77
-msgid "There have been no meetings in the selected term."
-msgstr "There have been no meetings in the selected term."
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
@@ -131,9 +119,27 @@ msgstr "My Sections"
 msgid "Term Grade"
 msgstr "Term Grade"
 
+#. Default: "a"
+#: /src/schooltool/lyceum/journal/browser/journal.py:64
+msgid "Single letter that represents an absent mark for a student"
+msgstr "a"
+
+#. Default: "t"
+#: /src/schooltool/lyceum/journal/browser/journal.py:66
+msgid "Single letter that represents an tardy mark for a student"
+msgstr "t"
+
 #: /src/schooltool/lyceum/journal/browser/journal.py:306
 msgid "Tardies"
 msgstr "Tardies"
+
+#: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:78
+msgid "There have been no meetings in the selected term."
+msgstr "There have been no meetings in the selected term."
+
+#: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
+msgid "Attendance"
+msgstr "Attendance"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
@@ -170,3 +176,11 @@ msgstr "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
 msgstr "Shortcut: Alt-S"
+
+#: /src/schooltool/lyceum/journal/security.zcml:9
+msgid "Create and edit journal data for a section."
+msgstr "Create and edit journal data for a section."
+
+#: /src/schooltool/lyceum/journal/security.zcml:9
+msgid "Edit Journal"
+msgstr "Edit Journal"

@@ -27,7 +27,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.app.form.browser.widget import quoteattr
 from zope.component import queryMultiAdapter
 from zope.i18n import translate

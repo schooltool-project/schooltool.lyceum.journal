@@ -21,7 +21,7 @@ Lyceum student journal views.
 """
 import urllib
 
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements

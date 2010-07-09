@@ -19,7 +19,7 @@
 """
 Lyceum journal views.
 """
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 

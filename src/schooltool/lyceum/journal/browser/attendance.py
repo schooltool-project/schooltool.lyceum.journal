@@ -19,7 +19,7 @@
 """
 Lyceum attendance views.
 """
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.cachedescriptors.property import CachedProperty
 from zope.component import getUtility
 from zope.component import queryMultiAdapter

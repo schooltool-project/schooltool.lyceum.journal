@@ -65,7 +65,7 @@ setup(
                       'zc.table',
                       'ZODB3',
                       'zope.app.form',
-                      'zope.app.pagetemplate',
+                      'zope.browserpage>=3.10.1',
                       'zope.cachedescriptors',
                       'zope.component',
                       'zope.container',

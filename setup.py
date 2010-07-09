@@ -21,38 +21,8 @@
 SchoolTool Lyceum Journal setup script.
 """
 
-import os, sys
+import os
 from setuptools import setup, find_packages
-from distutils import log
-from distutils.util import newer
-from distutils.spawn import find_executable
-
-from glob import glob
-
-def compile_translations(domain):
-    "Compile *.po files to *.mo files"
-    locales_dir = 'src/%s/locales' % (domain.replace('.', '/'))
-    for po in glob('%s/*.po' % locales_dir):
-        lang = os.path.basename(po)[:-3]
-        mo = "%s/%s/LC_MESSAGES/%s.mo" % (locales_dir, lang, domain)
-        if newer(po, mo):
-            log.info('Compile: %s -> %s' % (po, mo))
-            messages_dir = os.path.dirname(mo)
-            if not os.path.isdir(messages_dir):
-                os.makedirs(messages_dir)
-            os.system('msgfmt -o %s %s' % (mo, po))
-
-if len(sys.argv) > 1 and sys.argv[1] in ('build', 'install'):
-    if not find_executable('msgfmt'):
-        log.warn("GNU gettext msgfmt utility not found!")
-        log.warn("Skip compiling po files.")
-    else:
-        compile_translations('schooltool.lyceum.journal')
-
-if len(sys.argv) > 1 and sys.argv[1] == 'clean':
-    for mo in glob('src/schooltool/lyceum/journal/locales/*/LC_MESSAGES/*.mo'):
-        os.unlink(mo)
-        os.removedirs(os.path.dirname(mo))
 
 if os.path.exists("version.txt"):
     version = open("version.txt").read().strip()
@@ -112,7 +82,6 @@ setup(
     extras_require={'test': ['zope.app.testing',
                              'zope.testing',
                              'zope.ucol']},
-    dependency_links=['http://ftp.schooltool.org/schooltool/1.4/'],
     include_package_data=True,
     zip_safe=False,
     entry_points="""

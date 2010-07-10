@@ -59,7 +59,7 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),
-    install_requires=['schooltool>=1.2.0',
+    install_requires=['schooltool>=1.5.0dev',
                       'pytz',
                       'setuptools',
                       'zc.table',

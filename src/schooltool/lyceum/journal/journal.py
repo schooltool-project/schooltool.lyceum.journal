@@ -204,15 +204,47 @@ class SectionJournal(object):
 
     @Lazy
     def meetings(self):
-        """Ordered list of all meetings for this and adjacent sections."""
+        """Ordered list of all meetings for this and adjacent sections with
+           consecutive periods removed if the timetable is so configured."""
+        events = []
+        mdict = self.buildMeetingsDict()
+        for tt in mdict:
+            if tt.consecutive_periods_as_one:
+                events.extend(self.reducedEvents(mdict, tt))
+            else:
+                events.extend(mdict[tt])
+        return sorted(events)
+
+    def buildMeetingsDict(self):
+        """Returns a dictionary, by timetable, of all meetings for this and
+           adjacent sections."""
+        mdict = {}
         calendars = [ISchoolToolCalendar(section)
                      for section in self.adjacent_sections]
-        events = []
         for calendar in calendars:
             for event in calendar:
                 if ITimetableCalendarEvent.providedBy(event):
-                    events.append(event)
-        return sorted(events)
+                    tt = removeSecurityProxy(event.activity.timetable)
+                    mdict.setdefault(tt, []).append(event)
+        return mdict
+
+    def reducedEvents(self, mdict, tt):
+        """Returns the list of events found at the given dictionary entry
+           with consecutive period events removed.."""
+        events = []
+        for event in mdict[tt]:
+            datestr = event.dtstart.strftime('%Y%m%d')
+            for prev_event in mdict[tt]:
+                if datestr != prev_event.dtstart.strftime('%Y%m%d'):
+                    continue
+                day = tt.days[event.day_id]
+                index = day.periods.index(event.period_id)
+                prev_index = day.periods.index(prev_event.period_id)
+                if prev_index + 1 == index:
+                    break
+            else:
+                events.append(event)
+        return events
 
     def recordedMeetings(self, person):
         """Ordered list of all recorded meetings for this person.

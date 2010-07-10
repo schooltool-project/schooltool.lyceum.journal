@@ -1,0 +1,153 @@
+Functional doctest for Section Journal with Consecutive Periods as One
+======================================================================
+
+Let's log in with the manager account:
+
+    >>> from schooltool.lyceum.journal.ftests import printGradebookTable
+    >>> manager = Browser('manager', 'schooltool')
+
+Set up a basic school year:
+
+    >>> manager.getLink('Manage').click()
+    >>> manager.getLink('School Years').click()
+    >>> manager.getLink('New School Year').click()
+    >>> manager.getControl('Title').value = '2005'
+    >>> manager.getControl('First day').value = '2005-09-01'
+    >>> manager.getControl('Last day').value = '2006-07-31'
+    >>> manager.getControl('Add').click()
+
+Add some teachers:
+
+    >>> from schooltool.basicperson.browser.ftests.setup import addPerson
+    >>> addPerson('Pete', 'Teacher', username='pete', password='pwd', groups=['teachers'])
+
+A class:
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('Groups').click()
+    >>> manager.getLink('New Group').click()
+    >>> manager.getControl('Title').value = "2a"
+    >>> manager.getControl('Add').click()
+
+And some students:
+
+    >>> addPerson('Frum', 'Student', username='frum', password='pwd', groups=['students', '2a'])
+    >>> addPerson('Grum', 'Student', username='grum', password='pwd', groups=['students', '2a'])
+
+Add a term:
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('Add a new term').click()
+    >>> manager.getControl('Title').value = '2005 Fall 1'
+    >>> manager.getControl('Start date').value = '2005-09-01'
+    >>> manager.getControl('End date').value = '2005-10-31'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Saturday').click()
+    >>> manager.getControl('Sunday').click()
+    >>> manager.getControl('Add term').click()
+
+Timetable schema:
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('School Timetables').click()
+    >>> manager.getLink('New Timetable').click()
+    >>> manager.getLink('simple weekly timetable schema').click()
+
+    >>> manager.getControl(name='field.period_name_1').value = 'A'
+    >>> manager.getControl(name='field.period_start_1').value = '9:00'
+    >>> manager.getControl(name='field.period_finish_1').value = '10:00'
+
+    >>> manager.getControl(name='field.period_name_2').value = 'B'
+    >>> manager.getControl(name='field.period_start_2').value = '10:30'
+    >>> manager.getControl(name='field.period_finish_2').value = '11:30'
+
+    >>> manager.getControl('Create').click()
+
+A couple of sections:
+
+    >>> from schooltool.app.browser.ftests.setup import addSection
+    >>> from schooltool.app.browser.ftests.setup import addCourse
+    >>> addCourse("History", "2005")
+
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1a)",
+    ...            instructors=['Pete'],
+    ...            members=['Grum', 'Frum'])
+
+    >>> addSection("History", "2005", "2005 Fall 1",
+    ...            title="History (1a)",
+    ...            instructors=['Pete'],
+    ...            members=['Grum', 'Frum'])
+
+Let's schedule the sections:
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('Schedule').click()
+    >>> manager.getLink('Add Timetable').click()
+    >>> manager.getControl('Add').click()
+    >>> manager.getControl(name='Tuesday.A').value = True
+    >>> manager.getControl(name='Tuesday.B').value = True
+    >>> manager.getControl(name='Wednesday.A').value = True
+    >>> manager.getControl('Save').click()
+
+Let's log in with the teacher account:
+
+    >>> teacher = Browser('pete', 'pwd')
+
+Since we haven't marked the timetable for treating consecutive periods as one
+period, we will note that all periods will show up in the section journal,
+including Tuesday B which comes right after Tuesday A.  This is the default
+behavior:
+
+    >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
+    >>> teacher.getLink('Journal', index=1).click()
+    >>> teacher.getLink('Frum').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+    | Nr. | First Name | Last Name | 06      | 06 B    | 07 A    | 13 A    | 13 B    | 14 A    | 20 A    | 20 B    | 21 A    | 27 A    | 27 B    | 28 A    | Average | Absences | Tardies |
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+    | 1   | Frum       | Student   | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] |         |          |         |
+    | 2   | Grum       | Student   | [_____] |         |         |         |         |         |         |         |         |         |         |         |         |          |         |
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+
+Let's change the section schedule to have that flag set to True:
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 1').click()
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('Schedule').click()
+    >>> manager.getControl(name='consecutive').value = 'checked'
+    >>> manager.getControl('Save').click()
+
+Now when we look at the section journal, we note that Tuesday B is gone:
+
+    >>> teacher.open('http://localhost/persons/frum/calendar/2005-09-06')
+    >>> teacher.getLink('Journal', index=1).click()
+    >>> teacher.getLink('Frum').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+    | Nr. | First Name | Last Name | 06      | 07 A    | 13 A    | 14 A    | 20 A    | 21 A    | 27 A    | 28 A    | Average | Absences | Tardies |
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+    | 1   | Frum       | Student   | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] | [_____] |         |          |         |
+    | 2   | Grum       | Student   | [_____] |         |         |         |         |         |         |         |         |          |         |
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+
+When we mark Frum as if he has skipped some lessons, we see that the view
+accepts the data and returns it to us:
+
+    >>> cells = analyze.queryHTML('//table[@class="data"]//input[@type="text"]/@name', teacher.contents)
+    >>> for i in range(8):
+    ...     teacher.getControl(name=cells[i]).value = 'n'
+    >>> teacher.getControl('Update').click()
+    >>> printGradebookTable(teacher.contents)
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+    | Nr. | First Name | Last Name | 06      | 07 A    | 13 A    | 14 A    | 20 A    | 21 A    | 27 A    | 28 A    | Average | Absences | Tardies |
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+    | 1   | Frum       | Student   | [a____] | [a____] | [a____] | [a____] | [a____] | [a____] | [a____] | [a____] |         | 8        |         |
+    | 2   | Grum       | Student   | [_____] |         |         |         |         |         |         |         |         |          |         |
+    +-----+------------+-----------+---------+---------+---------+---------+---------+---------+---------+---------+---------+----------+---------+
+

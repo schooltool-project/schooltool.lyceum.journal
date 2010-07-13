@@ -120,7 +120,10 @@ Let's change the section schedule to have that flag set to True:
     >>> manager.getLink('Sections').click()
     >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Schedule').click()
-    >>> manager.getControl(name='consecutive').value = 'checked'
+    >>> manager.getLink('edit periods').click()
+    >>> collapse_periods = manager.getControl(
+    ...     name='form.widgets.consecutive_periods_as_one:list')
+    >>> collapse_periods.value = ['true']
     >>> manager.getControl('Save').click()
 
 Now when we look at the section journal, we note that Tuesday B is gone:

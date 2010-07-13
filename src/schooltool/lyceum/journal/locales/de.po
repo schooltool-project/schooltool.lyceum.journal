@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-04-27 21:16+0300\n"
-"PO-Revision-Date: 2010-04-27 14:44+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"POT-Creation-Date: 2010-05-26 19:34+0300\n"
+"PO-Revision-Date: 2010-06-01 21:58+0000\n"
+"Last-Translator: Achim Behrens <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-04-28 03:49+0000\n"
+"X-Launchpad-Export-Date: 2010-06-03 03:39+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -101,7 +101,7 @@ msgstr "Es gab keine Treffen in dem ausgewählten Zeitraum."
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
-msgstr ""
+msgstr "Teilnahme"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
@@ -136,11 +136,6 @@ msgstr ""
 "zugeordnet."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr ""
-"Stundenpläne, die diesem Unterricht zugeordnet sind: ${timetable_links}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr ""
@@ -184,8 +179,8 @@ msgstr "Tastenkombination: Alt-S"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr ""
+msgstr "Erstelle und bearbeite Protokolle für diese Sektion."
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
-msgstr ""
+msgstr "Bearbeite Protokoll"

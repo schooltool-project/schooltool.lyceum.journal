@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-04-27 21:16+0300\n"
-"PO-Revision-Date: 2010-05-16 16:54+0000\n"
+"POT-Creation-Date: 2010-05-26 19:34+0300\n"
+"PO-Revision-Date: 2010-05-26 17:19+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-05-20 05:37+0000\n"
+"X-Launchpad-Export-Date: 2010-05-27 03:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -126,10 +126,6 @@ msgid "No periods have been assigned in timetables of this section."
 msgstr "Non hai períodos asignados nos horarios desta sección."
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-msgid "Timetables assigned for this section: ${timetable_links}"
-msgstr "Horarios asignados para esta sección: ${timetable_links}"
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:35
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr "Pode xestionar os horarios desta sección aquí: ${timetable_link}"

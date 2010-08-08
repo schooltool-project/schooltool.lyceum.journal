@@ -20,14 +20,13 @@
 """
 Unit tests for lyceum journal.
 """
-import unittest
+import unittest, doctest
 
 from schooltool.course.interfaces import ISection
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from zope.component import adapter
 from zope.component import provideAdapter
 from zope.app.testing import setup
-from zope.testing import doctest
 from zope.interface import implementer
 from zope.interface import implements
 

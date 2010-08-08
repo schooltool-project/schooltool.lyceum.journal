@@ -20,11 +20,10 @@
 """
 Unit tests for lyceum journal.
 """
-import unittest
+import unittest, doctest
 
 from zope.component import provideAdapter
 from zope.app.testing import setup
-from zope.testing import doctest
 
 
 def doctest_TermGradingData():

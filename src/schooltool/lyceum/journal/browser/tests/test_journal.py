@@ -20,7 +20,7 @@
 """
 Unit tests for lyceum journal.
 """
-import unittest
+import unittest, doctest
 from pytz import utc
 from datetime import datetime, date
 
@@ -28,7 +28,6 @@ from zope.app.testing import setup
 from zope.component import provideAdapter
 from zope.interface import implements
 from zope.publisher.browser import TestRequest
-from zope.testing import doctest
 from zope.traversing.interfaces import IContainmentRoot
 from zope.interface import directlyProvides
 
@@ -112,6 +111,12 @@ def doctest_JournalCalendarEventViewlet():
 def doctest_StudentNumberColumn_renderCell():
     """Tests for StudentNumberColumn
 
+        >>> def print_u(str):
+        ...    '''If we want unicode output, we have to convert ALL
+        ...       unicode ouput strings to UTF-8, even if they only
+        ...       have ASCII characters in them.  Stupid doctest.'''
+        ...    print unicode(str).encode('UTF-8')
+
         >>> class FormatterStub(object):
         ...     request = TestRequest()
         ...     _row = 0
@@ -127,14 +132,15 @@ def doctest_StudentNumberColumn_renderCell():
 
         >>> from schooltool.lyceum.journal.browser.journal import StudentNumberColumn
         >>> column = StudentNumberColumn("journal", None)
-        >>> print column.renderCell(PersonStub("john"), formatter)
+
+        >>> print_u(column.renderCell(PersonStub("john"), formatter))
         1<input type="hidden" value="john" class="person_id" />
-        >>> print column.renderCell(PersonStub("bob"), formatter)
+        >>> print_u(column.renderCell(PersonStub("bob"), formatter))
         2<input type="hidden" value="bob" class="person_id" />
 
     Does not crash with unicode usernames
 
-        >>> print column.renderCell(PersonStub(u"\u017eivil\u0117"), formatter)
+        >>> print_u(column.renderCell(PersonStub(u"\u017eivil\u0117"), formatter))
         3<input type="hidden" value="živilė" class="person_id" />
 
     """
@@ -391,19 +397,25 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
 def doctest_SectionTermAverageGradesColumn_renderCell_renderHeader():
     """Tests for SectionTermAverageGradesColumn renderCell and renderHeader
 
+        >>> def print_u(str):
+        ...    '''If we want unicode output, we have to convert ALL
+        ...       unicode ouput strings to UTF-8, even if they only
+        ...       have ASCII characters in them.  Stupid doctest.'''
+        ...    print unicode(str).encode('UTF-8')
+
         >>> from schooltool.lyceum.journal.browser.journal import SectionTermAverageGradesColumn
         >>> class TermStub(object):
         ...     __name__ = "2006-Spring"
         >>> column = SectionTermAverageGradesColumn("journal", TermStub())
 
         >>> column.getGrades = lambda person: ["1", "2", "n"]
-        >>> column.renderCell("john", "formatter")
-        '1.500'
+        >>> print_u(column.renderCell("john", "formatter"))
+        1.500
 
         >>> class FormatterStub(object):
         ...     request = TestRequest()
-        >>> column.renderHeader(FormatterStub())
-        u'<span>Average</span>'
+        >>> print_u(column.renderHeader(FormatterStub()))
+        <span>Average</span>
 
     """
 

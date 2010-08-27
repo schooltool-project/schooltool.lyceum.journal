@@ -20,12 +20,11 @@
 """
 Unit tests for lyceum journal.
 """
-import unittest
+import unittest, doctest
 
 from zope.app.testing import setup
 from zope.interface import implements
 from zope.publisher.browser import TestRequest
-from zope.testing import doctest
 
 
 def doctest_SelectStudentCellFormatter():

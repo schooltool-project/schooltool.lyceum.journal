@@ -1,2 +1,1 @@
-A Lithuania specific gradebook, and some timetabling/calendaring improvements
-are included.
+SchoolTool Lyceum Journal is part of the standard distribution of SchoolTool.

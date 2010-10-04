@@ -35,7 +35,7 @@ def read(*rnames):
 
 setup(
     name="schooltool.lyceum.journal",
-    description="An attendance and class participation journal",
+    description="An attendance and class participation component for SchoolTool",
     long_description=(
         read('README.txt')
         + '\n\n' +

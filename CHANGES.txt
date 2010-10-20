@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-0.7.1 (unreleased)
+0.7.1 (2010-10-20)
 ------------------
 
 - Update translations

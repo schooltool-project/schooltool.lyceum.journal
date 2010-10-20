@@ -5,7 +5,7 @@ CHANGES
 0.6.1 (unreleased)
 ------------------
 
-None yet.
+- Update translations
 
 
 0.6.0 (2010-05-26)

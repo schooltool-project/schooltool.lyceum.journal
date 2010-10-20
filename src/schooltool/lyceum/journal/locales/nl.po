@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-05-26 19:34+0300\n"
-"PO-Revision-Date: 2010-06-05 13:53+0000\n"
-"Last-Translator: Jaap-Willem Dooge <Jaap-Willem.Dooge@jdsoft.eu>\n"
+"PO-Revision-Date: 2010-09-12 09:24+0000\n"
+"Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-06-06 03:39+0000\n"
+"X-Launchpad-Export-Date: 2010-09-13 05:18+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -59,12 +59,12 @@ msgstr "Logboek"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:64
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Enkele letter die de afwezigheid van een student aanduidt."
+msgstr "Enkele letter die de afwezigheid van een leerling aanduidt."
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:66
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Enkele letter die aanduidt dat een student te laat is."
+msgstr "Enkele letter die aanduidt dat een leerling te laat is."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"

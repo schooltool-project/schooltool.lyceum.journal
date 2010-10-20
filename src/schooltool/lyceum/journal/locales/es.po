@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-05-27 03:46+0000\n"
+"X-Launchpad-Export-Date: 2010-07-14 03:42+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -128,7 +128,8 @@ msgstr "No se han asignado períodos en el horario de esta sección."
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Puede gestionar los horarios para esta sección aquí: ${timetable_link}"
+msgstr ""
+"Puede gestionar los horarios para esta sección aquí: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""

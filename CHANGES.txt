@@ -5,7 +5,8 @@ CHANGES
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Developers: schooltool.lyceum.journal gained meta.zcml, apps that include
+  schooltool.lyceum.journal manually in their configure.zcml need to update.
 
 
 0.7.1 (2010-10-20)

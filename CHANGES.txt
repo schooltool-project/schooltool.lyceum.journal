@@ -5,7 +5,7 @@ CHANGES
 0.7.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add meta.zcml to support making this plugin optional.
 
 
 0.7.1 (2010-10-20)

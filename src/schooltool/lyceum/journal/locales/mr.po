@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-05-26 19:34+0300\n"
-"PO-Revision-Date: 2010-04-27 14:52+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"PO-Revision-Date: 2011-01-31 04:46+0000\n"
+"Last-Translator: kolhapuri <Unknown>\n"
 "Language-Team: Marathi <mr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-07-14 03:42+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-02-01 04:49+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
-msgstr ""
+msgstr "स्पष्ट केले"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
-msgstr ""
+msgstr "एकूण"
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:37
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
@@ -50,7 +50,7 @@ msgstr "क्र."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:233
 msgid "Grades"
-msgstr ""
+msgstr "गुण"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:258
 #: /src/schooltool/lyceum/journal/browser/student.py:107

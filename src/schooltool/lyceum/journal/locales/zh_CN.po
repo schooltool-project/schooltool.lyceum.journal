@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-05-26 19:34+0300\n"
-"PO-Revision-Date: 2010-06-27 22:37+0000\n"
-"Last-Translator: Fan.Khiyon <Unknown>\n"
+"PO-Revision-Date: 2011-03-26 03:34+0000\n"
+"Last-Translator: Lele Long <schemacs@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-06-29 03:46+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-03-27 05:02+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:170
 msgid "Total"
@@ -123,7 +123,7 @@ msgstr "出勤 / 等级"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr ""
+msgstr "本课程的课程表未被分配任何学时。"
 
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
@@ -134,7 +134,7 @@ msgstr "你可以管理以下项目的时间表： ${timetable_link}"
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
-msgstr ""
+msgstr "本课程未被安排到任何学期，请首先使用日志添加课程表。"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
@@ -173,7 +173,7 @@ msgstr "项目等级"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr ""
+msgstr "为章节创建和编辑日志数据"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"

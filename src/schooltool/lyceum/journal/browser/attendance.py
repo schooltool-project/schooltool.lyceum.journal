@@ -134,7 +134,9 @@ class AttendanceColumn(object):
         name = student.__name__ + "." + self.date.strftime("%Y-%m-%d")
         value = True
         for meeting in self.meetings:
-            if student in meeting.activity.owner.members:
+            calendar = meeting.__parent__
+            owner = calendar.__parent__
+            if student in owner.members:
                 value = value and ISectionJournal(meeting).getAbsence(student, meeting)
 
         if absences == 0:
@@ -174,9 +176,9 @@ class PeriodAttendanceColumn(object):
 
     implements(ISelectableColumn, IIndependentColumn)
 
-    def __init__(self, period_id, meetings):
+    def __init__(self, meeting_id, meetings):
         self.meetings = meetings
-        self.name = period_id
+        self.name = meeting_id
 
     def renderCell(self, student, formatter):
         absences = []
@@ -187,7 +189,9 @@ class PeriodAttendanceColumn(object):
         if absences == []:
             return '<td></td>'
         else:
-            absence_titles = [translate(meeting.activity.owner.label, context=formatter.request)
+            calendar = meeting.__parent__
+            owner = calendar.__parent__
+            absence_titles = [translate(owner.label, context=formatter.request)
                               for meeting in absences]
             return '<td style="background-color: #FFDDDD;">n</td>'
 
@@ -202,11 +206,12 @@ class PeriodAttendanceColumn(object):
         else:
             name = student.__name__ + "." + self.name
             value = False
+            calendar = meeting.__parent__
+            owner = calendar.__parent__
             for meeting in self.meetings:
-                if student in meeting.activity.owner.members:
+                if student in owner.members:
                     value = value or ISectionJournal(meeting).getAbsence(student, meeting)
-            absence_titles = [translate(meeting.activity.owner.label,
-                                        context=formatter.request)
+            absence_titles = [translate(owner.label, context=formatter.request)
                               for meeting in absences]
             cell_content = '<input type="checkbox" name="%s" %s />' % (name, value and 'checked="checked"' or '')
             if value:
@@ -236,19 +241,21 @@ class GroupAttendanceView(LyceumSectionJournalView, StudentSelectionMixin):
                 month = date.month
 
     def _setAbsence(self, student, meeting, id):
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
         marker = id + ".marker"
         if id in self.request:
-            if student in meeting.activity.owner.members:
+            if student in owner.members:
                 ISectionJournal(meeting).setAbsence(student, meeting,
                                                     explained=True)
         elif marker in self.request:
-            if student in meeting.activity.owner.members:
+            if student in owner.members:
                 ISectionJournal(meeting).setAbsence(student, meeting,
                                                     explained=False)
 
     def updateDayAttendance(self, student):
         for meeting in self.allDays[self.selectedDate()]:
-            id = student.__name__ + "." + meeting.period_id
+            id = student.__name__ + "." + meeting.meeting_id
             self._setAbsence(student, meeting, id)
 
     def updateMonthAttendance(self, student):
@@ -318,18 +325,18 @@ class GroupAttendanceView(LyceumSectionJournalView, StudentSelectionMixin):
                     meetings = sorted(meetings)
                     periods = []
                     period = []
-                    period_id = meetings[0].period_id
+                    meeting_id = meetings[0].meeting_id
                     for meeting in meetings:
-                        if period_id == meeting.period_id:
+                        if meeting_id == meeting.meeting_id:
                             period.append(meeting)
                         else:
-                            periods.append((period_id, period))
-                            period_id = meeting.period_id
+                            periods.append((meeting_id, period))
+                            meeting_id = meeting.meeting_id
                             period = [meeting]
                     if period:
-                        periods.append((period_id, period))
-                    for period_id, meetings in periods:
-                        columns.append(PeriodAttendanceColumn(period_id, meetings))
+                        periods.append((meeting_id, period))
+                    for meeting_id, meetings in periods:
+                        columns.append(PeriodAttendanceColumn(meeting_id, meetings))
         else:
             for date, meetings in self.days():
                 columns.append(AttendanceColumn(self.context, date, meetings))

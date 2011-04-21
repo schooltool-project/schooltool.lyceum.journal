@@ -34,7 +34,6 @@ from zope.interface import implementer
 from zope.interface import implements
 from zope.location.interfaces import ILocation
 
-from schooltool.timetable.interfaces import ITimetableCalendarEvent
 from schooltool.app.app import InitBase, StartUpBase
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
@@ -108,48 +107,67 @@ class SectionJournalData(Persistent):
     def section(self):
         return ISection(self)
 
+    def getKeys(self, person, meeting):
+        key = (person.__name__, meeting.dtstart.date())
+        entry_id = meeting.meeting_id
+        if entry_id is None:
+            entry_id = meeting.unique_id
+        return (key, entry_id)
+
     def setGrade(self, person, meeting, grade):
-        key = (person.__name__, meeting.unique_id)
-        grades = self.__grade_data__.get(key, ())
-        self.__grade_data__[key] = (grade,) + grades
+        key, eid = self.getKeys(person, meeting)
+        entries = dict(self.__grade_data__.get(key, ()))
+        entries[eid] = (grade, ) + entries.get(eid, ())
+        self.__grade_data__[key] = tuple(sorted(entries.items()))
 
     def getGrade(self, person, meeting, default=None):
-        key = (person.__name__, meeting.unique_id)
-        grades = self.__grade_data__.get(key, ())
-        if not grades:
+        key, eid = self.getKeys(person, meeting)
+        entries = dict(self.__grade_data__.get(key, ()))
+        if not entries or not entries.get(eid):
             return default
-        return grades[0]
+        return entries.get(eid)[0]
 
     def setAbsence(self, person, meeting, explained=True):
-        key = (person.__name__, meeting.unique_id)
-        attendance = self.__attendance_data__.get(key, ())
-        self.__attendance_data__[key] = (explained,) + attendance
+        key, eid = self.getKeys(person, meeting)
+        entries = dict(self.__attendance_data__.get(key, ()))
+        entries[eid] = (explained, ) + entries.get(eid, ())
+        self.__attendance_data__[key] = tuple(sorted(entries.items()))
 
     def getAbsence(self, person, meeting, default=False):
-        key = (person.__name__, meeting.unique_id)
-        attendance = self.__attendance_data__.get(key, ())
-        if not attendance:
+        key, eid = self.getKeys(person, meeting)
+        entries = dict(self.__attendance_data__.get(key, ()))
+        if not entries or not entries.get(eid):
             return default
-        return attendance[0]
+        return entries.get(eid)[0]
+
+    def descriptionKey(self, meeting):
+        date = meeting.dtstart.date()
+        entry_id = meeting.meeting_id
+        if entry_id is None:
+            entry_id = meeting.unique_id
+        return (date, entry_id)
 
     def getDescription(self, meeting):
-        return self.__description_data__.get(meeting.unique_id)
+        key = self.descriptionKey(meeting)
+        return self.__description_data__.get(key)
 
     def setDescription(self, meeting, description):
-        self.__description_data__[meeting.unique_id] = description
+        key = self.descriptionKey(meeting)
+        self.__description_data__[key] = description
 
     def recordedMeetingIds(self, person):
-        for person_name, meeting_id in self.__grade_data__.keys():
+        for key in self.__grade_data__.keys():
+            person_name, date = key
             if person_name == person.__name__:
-                yield meeting_id
+                for meeting_id, grades in self.__grade_data__[key]:
+                    yield meeting_id
 
     def recordedMeetings(self, person):
+        recorded_ids = set(self.recordedMeetingIds(person))
         calendar = ISchoolToolCalendar(self.section)
-        for meeting_id in self.recordedMeetingIds(person):
-            try:
-                yield calendar.find(meeting_id)
-            except KeyError:
-                pass
+        for event in calendar:
+            if event.meeting_id in recorded_ids:
+                yield event
 
 
 class SectionJournal(object):
@@ -168,27 +186,39 @@ class SectionJournal(object):
         self.__name__ = "journal"
 
     def setGrade(self, person, meeting, grade):
-        section_journal_data = ISectionJournalData(meeting.owner)
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
         section_journal_data.setGrade(person, meeting, grade)
 
     def getGrade(self, person, meeting, default=None):
-        section_journal_data = ISectionJournalData(meeting.owner)
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getGrade(person, meeting, default)
 
     def setAbsence(self, person, meeting, explained=True):
-        section_journal_data = ISectionJournalData(meeting.owner)
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
         section_journal_data.setAbsence(person, meeting, explained)
 
     def getAbsence(self, person, meeting, default=False):
-        section_journal_data = ISectionJournalData(meeting.owner)
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getAbsence(person, meeting, default)
 
     def setDescription(self, meeting, description):
-        section_journal_data = ISectionJournalData(meeting.owner)
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
         return section_journal_data.setDescription(meeting, description)
 
     def getDescription(self, meeting):
-        section_journal_data = ISectionJournalData(meeting.owner)
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getDescription(meeting)
 
     @Lazy
@@ -207,44 +237,16 @@ class SectionJournal(object):
         """Ordered list of all meetings for this and adjacent sections with
            consecutive periods removed if the timetable is so configured."""
         events = []
-        mdict = self.buildMeetingsDict()
-        for tt in mdict:
-            if tt.consecutive_periods_as_one:
-                events.extend(self.reducedEvents(mdict, tt))
-            else:
-                events.extend(mdict[tt])
-        return sorted(events)
-
-    def buildMeetingsDict(self):
-        """Returns a dictionary, by timetable, of all meetings for this and
-           adjacent sections."""
-        mdict = {}
+        unique_meetings = set()
         calendars = [ISchoolToolCalendar(section)
                      for section in self.adjacent_sections]
         for calendar in calendars:
-            for event in calendar:
-                if ITimetableCalendarEvent.providedBy(event):
-                    tt = removeSecurityProxy(event.activity.timetable)
-                    mdict.setdefault(tt, []).append(event)
-        return mdict
-
-    def reducedEvents(self, mdict, tt):
-        """Returns the list of events found at the given dictionary entry
-           with consecutive period events removed.."""
-        events = []
-        for event in mdict[tt]:
-            datestr = event.dtstart.strftime('%Y%m%d')
-            for prev_event in mdict[tt]:
-                if datestr != prev_event.dtstart.strftime('%Y%m%d'):
-                    continue
-                day = tt.days[event.day_id]
-                index = day.periods.index(event.period_id)
-                prev_index = day.periods.index(prev_event.period_id)
-                if prev_index + 1 == index:
-                    break
-            else:
-                events.append(event)
-        return events
+            sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+            for event in sorted_events:
+                if event.meeting_id not in unique_meetings:
+                    events.append(event)
+                    unique_meetings.add(event.meeting_id)
+        return sorted(events)
 
     def recordedMeetings(self, person):
         """Ordered list of all recorded meetings for this person.
@@ -258,8 +260,9 @@ class SectionJournal(object):
         return sorted(meetings)
 
     def hasMeeting(self, person, meeting):
-        return meeting.activity.owner in ILearner(person).sections()
-        return person in meeting.activity.owner.members
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        return owner in ILearner(person).sections()
 
     def findMeeting(self, meeting_id):
         calendars = [ISchoolToolCalendar(section)
@@ -288,8 +291,9 @@ def getSectionJournalData(section):
 
 
 def getEventSectionJournal(event):
-    """Get the section journal for a TimetableCalendarEvent."""
-    section = event.activity.owner
+    """Get the section journal for a ScheduleCalendarEvent."""
+    calendar = event.__parent__
+    section = calendar.__parent__
     return ISectionJournal(section)
 
 

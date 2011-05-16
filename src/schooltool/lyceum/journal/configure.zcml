@@ -49,6 +49,20 @@
   <adapter
       factory=".journal.JournalAppStartup"
       name="schooltool.lyceum.journal" />
+ 
+  <!-- Term grades -->
+
+  <class class="schooltool.lyceum.journal.term.LyceumTermDataContainer">
+    <allow interface="zope.container.interfaces.ISimpleReadContainer" />
+    <require permission="schooltool.view"
+             attributes="keys values items __iter__ __len__" />
+    <require permission="schooltool.edit"
+             interface="zope.container.interfaces.IWriteContainer" />
+  </class>
+
+  <class class="schooltool.lyceum.journal.term.TermGradingData">
+    <allow interface="schooltool.lyceum.journal.interfaces.ITermGradingData" />
+  </class>
 
   <browser:viewlet
       name="journal_css"

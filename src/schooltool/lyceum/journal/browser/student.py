@@ -93,10 +93,6 @@ class CourseTermAverageGradesColumn(object):
         return int_grades
 
     def renderCell(self, course, formatter):
-        tgd = ITermGradingData(self.student)
-        if tgd.getGrade(course, self.term, None) is not None:
-            return "<strong>%s</strong>" % tgd.getGrade(course, self.term)
-
         grades = self.courseGrades(course)
         if grades:
             return "%.3f" % (sum(grades) / float(len(grades)))

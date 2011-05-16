@@ -17,7 +17,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-Lyceum term grade content classes.
+This module is obsolete.  Tt is here for evolution script evolve1.py that
+actually removes these objects.
 """
 from persistent import Persistent
 

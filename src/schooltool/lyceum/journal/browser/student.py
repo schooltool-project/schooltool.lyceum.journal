@@ -36,7 +36,6 @@ from schooltool.course.interfaces import ILearner
 
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
-from schooltool.lyceum.journal.interfaces import ITermGradingData
 from schooltool.lyceum.journal import LyceumMessage as _
 
 

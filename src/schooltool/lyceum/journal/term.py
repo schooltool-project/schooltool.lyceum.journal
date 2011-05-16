@@ -19,17 +19,9 @@
 """
 Lyceum term grade content classes.
 """
-from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
 from zope.container.btree import BTreeContainer
-from zope.interface import implements
-from zope.location.interfaces import ILocation
-
-from schooltool.app.interfaces import ISchoolToolApplication
-from schooltool.app.app import InitBase, StartUpBase
-
-from schooltool.lyceum.journal.interfaces import ITermGradingData
 
 
 class LyceumTermDataContainer(BTreeContainer):
@@ -37,25 +29,7 @@ class LyceumTermDataContainer(BTreeContainer):
 
 
 class TermGradingData(Persistent):
-
-    implements(ITermGradingData, ILocation)
-
-    def __init__(self):
-        self.__parent__ = None
-        self.__name__ = None
-        self.__data__ = OOBTree()
-
-    @property
-    def person(self):
-        app = ISchoolToolApplication(None)
-        persons = app['persons']
-        return persons[self.__name__]
-
-    def setGrade(self, course, term, grade):
-        key = (course.__name__, term.__name__)
-        self.__data__[key] = grade
-
-    def getGrade(self, course, term, default=None):
-        key = (course.__name__, term.__name__)
-        return self.__data__.get(key, default)
+    __parent__ = None
+    __name__ = None
+    __data__ = None
 

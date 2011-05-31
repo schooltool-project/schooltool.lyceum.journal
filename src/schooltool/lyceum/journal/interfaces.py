@@ -90,12 +90,3 @@ class ISectionJournal(ILocation):
         goes through all their calendars to find the meeting.
         """
 
-
-class ITermGradingData(Interface):
-    """Term Grades for a person."""
-
-    def setGrade(course, term, grade):
-        """Set term grade for this course."""
-
-    def getGrade(course, term, default=None):
-        """Retrieve the term grade for this course."""

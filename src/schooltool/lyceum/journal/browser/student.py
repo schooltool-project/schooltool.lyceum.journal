@@ -36,7 +36,6 @@ from schooltool.course.interfaces import ILearner
 
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
-from schooltool.lyceum.journal.interfaces import ITermGradingData
 from schooltool.lyceum.journal import LyceumMessage as _
 
 
@@ -93,10 +92,6 @@ class CourseTermAverageGradesColumn(object):
         return int_grades
 
     def renderCell(self, course, formatter):
-        tgd = ITermGradingData(self.student)
-        if tgd.getGrade(course, self.term, None) is not None:
-            return "<strong>%s</strong>" % tgd.getGrade(course, self.term)
-
         grades = self.courseGrades(course)
         if grades:
             return "%.3f" % (sum(grades) / float(len(grades)))

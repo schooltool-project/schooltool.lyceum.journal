@@ -1,6 +1,6 @@
 #
 # SchoolTool - common information systems platform for school administration
-# Copyright (c) 2007 Shuttleworth Foundation
+# Copyright (c) 2011 Shuttleworth Foundation
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,20 +17,30 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-This module is obsolete.  It is here for evolution script evolve1.py that
-actually removes these objects.
+Evolve database to generation 1.
+
+Remove LyceumTermDataContainer from app root.
 """
-from persistent import Persistent
 
-from zope.container.btree import BTreeContainer
+from zope.app.generations.utility import findObjectsProviding
+from zope.app.publication.zopepublication import ZopePublication
+from zope.component.hooks import getSite, setSite
+
+from schooltool.app.interfaces import ISchoolToolApplication
 
 
-class LyceumTermDataContainer(BTreeContainer):
-    """Container for person term grading data."""
+TERM_GRADES_KEY = 'schooltool.lyceum.journal.term_grades'
 
 
-class TermGradingData(Persistent):
-    __parent__ = None
-    __name__ = None
-    __data__ = None
+def evolve(context):
+    root = context.connection.root().get(ZopePublication.root_name, None)
+
+    old_site = getSite()
+    apps = findObjectsProviding(root, ISchoolToolApplication)
+    for app in apps:
+        setSite(app)
+        if TERM_GRADES_KEY in app:
+            del app[TERM_GRADES_KEY]
+
+    setSite(old_site)
 

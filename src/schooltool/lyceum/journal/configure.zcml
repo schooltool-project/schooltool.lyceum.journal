@@ -50,35 +50,6 @@
       factory=".journal.JournalAppStartup"
       name="schooltool.lyceum.journal" />
 
-  <!-- Term grades -->
-
-  <class class="schooltool.lyceum.journal.term.LyceumTermDataContainer">
-    <allow interface="zope.container.interfaces.ISimpleReadContainer" />
-    <require permission="schooltool.view"
-             attributes="keys values items __iter__ __len__" />
-    <require permission="schooltool.edit"
-             interface="zope.container.interfaces.IWriteContainer" />
-  </class>
-
-  <class class="schooltool.lyceum.journal.term.TermGradingData">
-    <allow interface="schooltool.lyceum.journal.interfaces.ITermGradingData" />
-  </class>
-
-  <adapter
-      for="schooltool.person.interfaces.IPerson"
-      provides="schooltool.lyceum.journal.interfaces.ITermGradingData"
-      factory="schooltool.lyceum.journal.term.getPersonTermGradingData"
-      />
-
-  <adapter
-      for="schooltool.app.interfaces.ISchoolToolApplication"
-      factory=".term.TermGradingDataInit"
-      name="lyceum.term_grades" />
-
-  <adapter
-      factory=".term.TermGradingAppStartup"
-      name="schooltool.lyceum.journal.term_grades" />
-
   <browser:viewlet
       name="journal_css"
       for="*"
@@ -98,6 +69,13 @@
       layer="schooltool.skin.ISchoolToolLayer" />
 
   <include package="schooltool.lyceum.journal.browser" />
+
+  <!-- generations -->
+  <utility
+      name="schooltool.lyceum.journal"
+      provides="zope.app.generations.interfaces.ISchemaManager"
+      component=".generations.schemaManager"
+      />
 
   <!-- Translations -->
 

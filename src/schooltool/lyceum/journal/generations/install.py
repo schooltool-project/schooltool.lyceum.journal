@@ -1,6 +1,6 @@
 #
 # SchoolTool - common information systems platform for school administration
-# Copyright (c) 2007 Shuttleworth Foundation
+# Copyright (c) 2011 Shuttleworth Foundation
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,20 +17,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 """
-This module is obsolete.  It is here for evolution script evolve1.py that
-actually removes these objects.
+Initial deployment of generations to schooltool.lyceum.journal.
+
+Manually evolves to generation 1.
 """
-from persistent import Persistent
 
-from zope.container.btree import BTreeContainer
-
-
-class LyceumTermDataContainer(BTreeContainer):
-    """Container for person term grading data."""
+import evolve1
 
 
-class TermGradingData(Persistent):
-    __parent__ = None
-    __name__ = None
-    __data__ = None
+def evolve(context):
+    evolve1.evolve(context)
 

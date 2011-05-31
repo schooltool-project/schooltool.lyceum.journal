@@ -68,13 +68,6 @@
       permission="schooltool.edit"
       />
 
-  <page
-      name="term_grades.html"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".term.TermView"
-      permission="schooltool.edit"
-      />
-
   <zope:adapterTraverserPlugin
       for="schooltool.course.interfaces.ISection"
       layer="zope.publisher.interfaces.browser.IBrowserRequest"

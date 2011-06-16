@@ -40,11 +40,13 @@ from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
+import schooltool.skin.flourish.page
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.person.interfaces import IPerson
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
+from schooltool.skin import flourish
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
@@ -614,6 +616,31 @@ class TeacherJournalTabViewlet(SectionListView):
         if not person:
             return False
         return bool(list(self.getSectionsForPerson(person)))
+
+
+class JournalNavViewlet(flourish.page.LinkViewlet, SectionListView):
+
+    @property
+    def person(self):
+        return IPerson(self.request.principal, None)
+
+    @property
+    def title(self):
+        person = self.person
+        if person is None:
+            return ''
+        taught_sections = list(self.getSectionsForPerson(person))
+        learner_sections = list(ILearner(person).sections())
+        if not (taught_sections or learner_sections):
+            return ''
+        return _('Journal')
+
+    @property
+    def url(self):
+        if self.person is None:
+            return ''
+        base_url = absoluteURL(self.person, self.request)
+        return '%s/gradebook.html' % base_url
 
 
 class StudentGradebookTabViewlet(object):

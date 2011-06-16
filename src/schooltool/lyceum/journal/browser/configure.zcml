@@ -99,4 +99,6 @@
 
   <zope:adapter factory=".table.getIndexedSelectableColumn " />
 
+  <include file="flourish.zcml" />
+
 </configure>

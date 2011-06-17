@@ -28,7 +28,7 @@ from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-from zope.app.form.browser.widget import quoteattr
+from zope.formlib.widget import quoteattr
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator

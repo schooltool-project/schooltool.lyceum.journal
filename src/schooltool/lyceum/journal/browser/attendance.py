@@ -25,7 +25,7 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.interface import implements
-from zope.app.form.browser.widget import quoteattr
+from zope.formlib.widget import quoteattr
 from zope.cachedescriptors.property import Lazy
 from zc.table.interfaces import IColumn
 

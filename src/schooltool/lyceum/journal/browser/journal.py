@@ -113,8 +113,8 @@ class GradesColumn(object):
         grades = []
         for meeting in self.journal.recordedMeetings(person):
             if meeting.dtstart.date() in self.term:
-                grade = self.journal.getGrade(person, meeting, default=None)
-                if (grade is not None) and (grade.strip() != ""):
+                grade = self.journal.getGrade(person, meeting)
+                if grade:
                     grades.append(grade)
         return grades
 
@@ -270,7 +270,7 @@ class SectionTermAttendanceColumn(GradesColumn):
     def renderCell(self, person, formatter):
         absences = 0
         for grade in self.getGrades(person):
-            if (grade.strip().lower() == "n"):
+            if grade == ABSENT:
                 absences += 1
 
         if absences == 0:
@@ -294,7 +294,7 @@ class SectionTermTardiesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         tardies = 0
         for grade in self.getGrades(person):
-            if (grade.strip().lower() == "p"):
+            if grade == TARDY:
                 tardies += 1
 
         if tardies == 0:

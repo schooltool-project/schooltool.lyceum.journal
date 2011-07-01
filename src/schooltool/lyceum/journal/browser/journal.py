@@ -114,7 +114,7 @@ class GradesColumn(object):
         for meeting in self.journal.recordedMeetings(person):
             if meeting.dtstart.date() in self.term:
                 grade = self.journal.getGrade(person, meeting)
-                if grade:
+                if grade and grade.strip():
                     grades.append(grade)
         return grades
 

@@ -432,9 +432,9 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
         >>> column.renderCell("john", "formatter")
         '1'
 
-        >>> column.getGrades = lambda person: ["1", "n", "n", "N"]
+        >>> column.getGrades = lambda person: ["1", "n", "n", "p"]
         >>> column.renderCell("john", "formatter")
-        '3'
+        '2'
 
         >>> class FormatterStub(object):
         ...     request = TestRequest()

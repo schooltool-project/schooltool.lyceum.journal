@@ -24,6 +24,7 @@ import urllib
 import base64
 
 from zope.security.proxy import removeSecurityProxy
+from zope.proxy import sameProxiedObjects
 from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
@@ -47,11 +48,12 @@ from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.skin import flourish
+from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
-from schooltool.timetable.interfaces import ITimetableCalendarEvent
-from schooltool.timetable.interfaces import ITimetables
+from schooltool.timetable.interfaces import IScheduleCalendarEvent
+from schooltool.timetable.interfaces import IScheduleContainer
 
 from schooltool.lyceum.journal.journal import ABSENT, TARDY
 from schooltool.lyceum.journal.interfaces import ISectionJournal
@@ -166,7 +168,11 @@ class PersonGradesColumn(GradesColumn):
                 urllib.urlencode([('event_id', self.meeting.unique_id.encode('utf-8'))] +
                                  self.extra_parameters(formatter.request)))
             try:
-                period = '<br />' + self.meeting.period_id[:3]
+                if self.meeting.period is not None:
+                    short_title = self.meeting.period.title[:3]
+                else:
+                    short_title = ''
+                period = '<br />' + short_title
                 if period[-1] == ':':
                     period = period[:-1]
             except:
@@ -364,7 +370,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         self.context, self.request = context, request
 
     def __call__(self):
-        if not ITimetables(self.context.section).terms:
+        schedules = IScheduleContainer(self.context.section)
+        if not schedules:
             return self.no_timetable_template()
 
         meetings = self.allMeetings()
@@ -407,18 +414,12 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         kwargs['selected_items'] = self.selected_students
         return SelectableRowTableFormatter(*args, **kwargs)
 
-    def timetables(self):
-        tt = ITimetables(self.context.section).timetables
-        return sorted(tt.values(), key=lambda tt: tt.term.last)
-
     def allMeetings(self):
         term = self.getSelectedTerm()
         events = []
         # maybe expand would be better in here
-        for event in self.context.meetings:
-            if (ITimetableCalendarEvent.providedBy(event) and
-                event.dtstart.date() in term):
-                events.append(event)
+        events = [event for event in self.context.meetings
+                  if event.dtstart.date() in term]
         return sorted(events)
 
     def meetings(self):
@@ -489,18 +490,19 @@ class LyceumSectionJournalView(StudentSelectionMixin):
     def getCurrentTerm(self):
         event = self.selectedEvent()
         if event:
-            return event.activity.timetable.term
+            calendar = event.__parent__
+            owner = calendar.__parent__
+            term = ITerm(owner)
+            return term
         return self.scheduled_terms[-1]
 
     @property
     def scheduled_terms(self):
-        scheduled_terms = []
-        terms = ITermContainer(self.context)
-        tt = ITimetables(self.context.section).timetables
-        for tt in tt.values():
-            scheduled_terms.append(tt.term)
-        scheduled_terms.sort(key=lambda term: term.last)
-        return scheduled_terms
+        linked_sections = self.context.section.linked_sections
+        linked_sections = [section for section in linked_sections
+                           if IScheduleContainer(section)]
+        terms = [ITerm(section) for section in linked_sections]
+        return sorted(terms, key=lambda term: term.last)
 
     def monthsInSelectedTerm(self):
         month = -1
@@ -587,7 +589,8 @@ class SectionListView(BrowserView):
         sections = IInstructor(person).sections()
         results = []
         for section in sections:
-            if current_term in ITimetables(section).terms:
+            term = ITerm(section)
+            if sameProxiedObjects(current_term, term):
                 url = "%s/journal/" % absoluteURL(section, self.request)
                 results.append({'title': removeSecurityProxy(section).title,
                                 'url': url})

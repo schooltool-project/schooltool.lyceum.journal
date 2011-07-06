@@ -36,7 +36,7 @@
   <adapter factory="schooltool.lyceum.journal.journal.SectionJournal" />
 
   <adapter
-      for="schooltool.timetable.interfaces.ITimetableCalendarEvent"
+      for="schooltool.timetable.interfaces.IScheduleCalendarEvent"
       provides="schooltool.lyceum.journal.journal.ISectionJournal"
       factory="schooltool.lyceum.journal.journal.getEventSectionJournal"
       />
@@ -70,7 +70,8 @@
 
   <include package="schooltool.lyceum.journal.browser" />
 
-  <!-- generations -->
+  <!-- Generations -->
+
   <utility
       name="schooltool.lyceum.journal"
       provides="zope.app.generations.interfaces.ISchemaManager"

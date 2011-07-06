@@ -23,8 +23,10 @@ Manually evolves to generation 1.
 """
 
 import evolve1
+import evolve2
 
 
 def evolve(context):
     evolve1.evolve(context)
+    evolve2.evolve(context)
 

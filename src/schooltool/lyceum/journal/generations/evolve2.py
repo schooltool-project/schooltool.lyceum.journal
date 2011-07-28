@@ -167,6 +167,7 @@ def evolve(context):
     apps = findObjectsProviding(root, ISchoolToolApplication)
     for app in apps:
         setSite(app)
-        evolveJournals(app)
+        if 'schooltool.lyceum.journal' in app:
+            evolveJournals(app)
 
     setSite(old_site)

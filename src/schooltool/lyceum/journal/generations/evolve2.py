@@ -156,8 +156,12 @@ def evolveJournals(app):
     int_ids = getUtility(IIntIds)
 
     for section_id, journal in container.items():
-        section = int_ids.getObject(int(section_id))
-        evolveSectionJournal(section, journal)
+        section = int_ids.queryObject(int(section_id))
+        if section:
+            evolveSectionJournal(section, journal)
+        else:
+            # Section was deleted, delete journal data for it
+            del container[section_id]
 
 
 def evolve(context):

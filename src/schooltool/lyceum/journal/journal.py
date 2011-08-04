@@ -281,11 +281,11 @@ def getSectionJournalData(section):
     jc = app['schooltool.lyceum.journal']
 
     int_ids = getUtility(IIntIds)
-    journal_id = str(int_ids.getId(section))
+    section_id = str(int_ids.getId(section))
 
-    journal = jc.get(journal_id, None)
+    journal = jc.get(section_id, None)
     if journal is None:
-        jc[journal_id] = journal = SectionJournalData()
+        jc[section_id] = journal = SectionJournalData()
 
     return journal
 

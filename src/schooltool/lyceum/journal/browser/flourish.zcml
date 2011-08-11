@@ -13,4 +13,71 @@
       permission="schooltool.view"
       />
 
+  <flourish:viewlet
+      name="journal_section_navigation"
+      before="journal_term_navigation"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishJournalSectionNavigation"
+      title="Section"
+      permission="schooltool.edit"
+      view=".journal.FlourishLyceumSectionJournalView"
+      />
+
+  <flourish:viewlet
+      name="journal_term_navigation"
+      before="journal_year_navigation"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishJournalTermNavigation"
+      title="Term"
+      permission="schooltool.edit"
+      view=".journal.FlourishLyceumSectionJournalView"
+      />
+
+  <flourish:viewlet
+      name="journal_year_navigation"
+      before="journal_overview"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishJournalYearNavigation"
+      title="Year"
+      permission="schooltool.edit"
+      view=".journal.FlourishLyceumSectionJournalView"
+      />
+
+  <flourish:viewlet
+      name="select_year"
+      class=".journal.FlourishJournalYearNavigationViewlet"
+      manager=".journal.FlourishJournalYearNavigation"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewlet
+      name="select_term"
+      class=".journal.FlourishJournalTermNavigationViewlet"
+      manager=".journal.FlourishJournalTermNavigation"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewlet
+      name="select_section"
+      class=".journal.FlourishJournalSectionNavigationViewlet"
+      manager=".journal.FlourishJournalSectionNavigation"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewletManager
+      name="tertiary_navigation"
+      provides="schooltool.skin.flourish.page.ITertiaryNavigationManager"
+      class=".journal.JournalTertiaryNavigationManager"
+      view=".journal.FlourishLyceumSectionJournalView"
+      permission="zope.Public"
+      />
+
+  <flourish:page
+      name="index.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishLyceumSectionJournalView"
+      content_template="templates/f_journal.pt"
+      permission="schooltool.view"
+      />
+
 </configure>

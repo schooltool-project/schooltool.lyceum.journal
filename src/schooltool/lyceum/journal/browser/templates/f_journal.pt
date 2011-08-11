@@ -1,0 +1,131 @@
+<div i18n:domain="schooltool.lyceum.journal">
+  <tal:block replace="resource_library:schooltool.gradebook.flourish" />
+  <div tal:condition="not:view/render_journal">
+    <h3 tal:condition="view/no_timetable" i18n:translate="">
+      This section is not scheduled for any term, to use the journal
+      you should add a timetable first.
+    </h3>
+    <h3 tal:condition="view/no_periods" i18n:translate="">
+      No periods have been assigned in timetables of this section.
+    </h3>
+    <h3>
+      You can manage timetables for this section here:
+      <a tal:attributes="href string:${context/section/@@absolute_url}/schedule"
+         i18n:translate="">Timetables</a>
+    </h3>
+  </div>
+  <form method="post" class="grid-form"
+        tal:condition="view/render_journal"
+        tal:attributes="action request/URL">
+    <div class="gradebook">
+      <div class="students gradebook-part">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <ul class="popup_menu">
+                  <li>
+                    <span i18n:translate="">Name</span>
+                  </li>
+                  <li>
+                    <a href="?sort_by=student" i18n:translate="">Sort by</a>
+                  </li>
+                </ul>
+                <div>
+                  <a class="popup_link" href="" i18n:translate="">Name</a>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="row view/table">
+              <td>
+                <div>
+                  <a href=""
+                     tal:attributes="title row/student/title"
+                     tal:content="row/student/title" />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="grades gradebook-part" tal:define="activities view/activities">
+        <table>
+          <thead>
+            <tr tal:condition="activities">
+              <th tal:repeat="activity activities">
+                <ul class="popup_menu">
+                  <li>
+                    <span>XXX PUT ACTIVITY TITLE TOOLTIP HERE</span>
+                  </li>
+                  <li>
+                    <a tal:attributes="href string:#?sort_by=${activity/__name__}"
+                       i18n:translate="">Sort by</a>
+                  </li>
+                </ul>
+                <div tal:content="structure python:view.renderActivityHeader(activity)" />
+              </th>
+            </tr>
+            <tr tal:condition="not:activities">
+              <th class="placeholder">&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <metal:block tal:repeat="row view/table">
+              <tr tal:condition="activities">
+                <td tal:repeat="grade row/grades"
+                    tal:attributes="id string:${grade/id}_cell">
+                  <span tal:condition="not: grade/editable"
+                        tal:content="grade/value" />
+                  <input type="text" name="" value="" size="4"
+                         tal:condition="grade/editable"
+                         onkeydown="return spreadsheetBehaviour(event)"
+                         tal:attributes="name string:${grade/id};
+                                         id string:${grade/id};
+                                         value grade/value;
+                                         onkeyup string:checkValid(event,'${grade/id}');
+                                         onfocus string:handleCellFocus(this, '${grade/id}')"/>
+                </td>
+              </tr>
+              <tr tal:condition="not:activities">
+                <td class="placeholder">&nbsp;</td>
+              </tr>
+            </metal:block>
+          </tbody>
+        </table>
+      </div>
+      <div class="totals gradebook-part">
+        <table>
+          <thead>
+            <tr>
+              <th i18n:translate="" title="Absences" i18n:attributes="title">Abs.</th>
+              <th i18n:translate="" title="Tardies" i18n:attributes="title">Tar.</th>
+              <th i18n:translate="" title="Average" i18n:attributes="title">Ave.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="row view/table">
+              <td tal:content="row/absences" />
+              <td tal:content="row/tardies" />
+              <td tal:content="row/average" />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="gradebook-controls">
+      <div class="buttons">
+        <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save" 
+               onclick="setNotEdited()"
+               title="Shortcut: Alt-S" accesskey="S"
+               i18n:attributes="value; title; accesskey" />
+      </div>
+      <div class="buttons zoom-buttons">
+        <input type="button" class="button-neutral zoom-button" id="zoom-out" value="-" />
+        <input type="button" class="button-neutral zoom-button" id="zoom-normal" value="0" />
+        <input type="button" class="button-neutral zoom-button" id="zoom-in" value="+" />
+      </div>
+    </div>
+  </form>
+</div>

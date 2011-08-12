@@ -14,6 +14,24 @@
          i18n:translate="">Timetables</a>
     </h3>
   </div>
+  <metal:block tal:replace="structure string:&lt;script type=&quot;text/javascript&quot;&gt;" />
+      var numstudents = <tal:block replace="python: len(view.members())"/>;
+      var students = new Array(numstudents);
+      <tal:loop repeat="row view/table">
+      students[<tal:block replace="repeat/row/index"/>] = '<tal:block replace="python: view.breakJSString(row['student']['id'])"/>';
+      </tal:loop>
+      var numactivities = <tal:block replace="python: len(view.scorableActivities())"/>;
+      var activities = new Array(numactivities);
+      <tal:loop repeat="activity view/activities">
+      activities[<tal:block replace="repeat/activity/index"/>] = '<tal:block replace="activity/__name__"/>';
+      </tal:loop>
+      var edited = false;
+      var currentCell;
+      var currentDesc = '';
+      window.onload = onLoadHandler;
+      window.onunload = checkChanges;
+      warningText = '<tal:block replace="view/warningText" />';
+  <metal:block tal:replace="structure string:&lt;/script&gt;" />
   <form method="post" class="grid-form"
         tal:condition="view/render_journal"
         tal:attributes="action request/URL">

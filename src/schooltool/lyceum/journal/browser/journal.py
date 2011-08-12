@@ -668,6 +668,16 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
     no_periods = False
     render_journal = True
 
+    def updateGradebook(self):
+        members = self.members()
+        for meeting in self.meetings():
+            for person in members:
+                cell_id = "%s_%s" % (meeting.__name__, person.__name__)
+                cell_value = self.request.get(cell_id, None)
+                if cell_value is not None:
+                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
+                    self.context.setGrade(person, meeting, cell_value)
+
     def update(self):
         schedules = IScheduleContainer(self.context.section)
         if not schedules:
@@ -720,7 +730,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
                 grade = self.context.getGrade(person, meeting, default='')
                 value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
                 grade_data = {
-                    'id': '%s.%s' % (person.__name__, meeting.__name__),
+                    'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'value': value,
                     'editable': True,
                     }
@@ -790,8 +800,24 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         else:
             return str(tardies)
 
+    def breakJSString(self, origstr):
+        newstr = unicode(origstr)
+        newstr = newstr.replace('\n', '')
+        newstr = newstr.replace('\r', '')
+        newstr = "\\'".join(newstr.split("'"))
+        newstr = '\\"'.join(newstr.split('"'))
+        return newstr
 
-class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager):
+    def scorableActivities(self):
+        return self.activities()
+
+    @property
+    def warningText(self):
+        return _('You have some changes that have not been saved.  Click OK to save now or CANCEL to continue without saving.')
+
+
+class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager,
+                                       FlourishLyceumSectionJournalView):
 
     template = InlineViewPageTemplate("""
         <ul tal:attributes="class view/list_class">
@@ -806,7 +832,7 @@ class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager):
 
     def items(self):
         result = []
-        for month_id in self.monthsInSelectedTerm():
+        for month_id in sorted(self.monthsInSelectedTerm()):
             url = self.view.monthURL(month_id)
             title = self.view.monthTitle(month_id)
             result.append({
@@ -815,21 +841,6 @@ class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager):
                 })
         return result
 
-    def monthsInSelectedTerm(self):
-        month = -1
-        for meeting in self.allMeetings():
-            if meeting.dtstart.date().month != month:
-                yield meeting.dtstart.date().month
-                month = meeting.dtstart.date().month
-
-    def allMeetings(self):
-        term = self.getSelectedTerm()
-        events = []
-        # maybe expand would be better in here
-        events = [event for event in self.context.meetings
-                  if event.dtstart.date() in term]
-        return sorted(events)
-
     def getSelectedTerm(self):
         term_id = ITerm(self.context.section).__name__
         terms = ITermContainer(self.context)
@@ -837,20 +848,25 @@ class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager):
         if term in self.scheduled_terms:
             return term
 
+
+class FlourishJournalNavigationViewletBase(flourish.viewlet.Viewlet):
+
     @property
-    def scheduled_terms(self):
-        linked_sections = self.context.section.linked_sections
-        linked_sections = [section for section in linked_sections
-                           if IScheduleContainer(section)]
-        terms = [ITerm(section) for section in linked_sections]
-        return sorted(terms, key=lambda term: term.last)
+    def person(self):
+        return IPerson(self.request.principal)
+
+    def render(self, *args, **kw):
+        return self.template(*args, **kw)
+
+    def getUserSections(self):
+        return list(IInstructor(self.person).sections())
 
 
 class FlourishJournalYearNavigation(flourish.page.RefineLinksViewlet):
     """Journal year navigation viewlet."""
 
 
-class FlourishJournalYearNavigationViewlet(flourish.viewlet.Viewlet):
+class FlourishJournalYearNavigationViewlet(FlourishJournalNavigationViewletBase):
     template = InlineViewPageTemplate('''
     <form method="post"
           tal:attributes="action string:${context/@@absolute_url}">
@@ -866,10 +882,6 @@ class FlourishJournalYearNavigationViewlet(flourish.viewlet.Viewlet):
     </form>
     ''')
 
-    @property
-    def person(self):
-        return IPerson(self.request.principal)
-
     def getYears(self):
         currentSection = self.context.section
         currentYear = ISchoolYear(ITerm(currentSection))
@@ -882,12 +894,6 @@ class FlourishJournalYearNavigationViewlet(flourish.viewlet.Viewlet):
                  'form_id': year.__name__,
                  'selected': year is currentYear and 'selected' or None}
                 for year in years]
-
-    def render(self, *args, **kw):
-        return self.template(*args, **kw)
-
-    def getUserSections(self):
-        return list(IInstructor(self.person).sections())
 
     def update(self):
         super(FlourishJournalYearNavigationViewlet, self).update()
@@ -911,7 +917,7 @@ class FlourishJournalTermNavigation(flourish.page.RefineLinksViewlet):
     """Journal term navigation viewlet."""
 
 
-class FlourishJournalTermNavigationViewlet(flourish.viewlet.Viewlet):
+class FlourishJournalTermNavigationViewlet(FlourishJournalNavigationViewletBase):
     template = InlineViewPageTemplate('''
     <form method="post"
           tal:attributes="action string:${context/@@absolute_url}">
@@ -927,10 +933,6 @@ class FlourishJournalTermNavigationViewlet(flourish.viewlet.Viewlet):
     </form>
     ''')
 
-    @property
-    def person(self):
-        return IPerson(self.request.principal)
-
     def getTerms(self):
         currentSection = self.context.section
         currentTerm = ITerm(currentSection)
@@ -944,12 +946,6 @@ class FlourishJournalTermNavigationViewlet(flourish.viewlet.Viewlet):
                  'form_id': self.getTermId(term),
                  'selected': term is currentTerm and 'selected' or None}
                 for term in terms]
-
-    def render(self, *args, **kw):
-        return self.template(*args, **kw)
-
-    def getUserSections(self):
-        return list(IInstructor(self.person).sections())
 
     def update(self):
         super(FlourishJournalTermNavigationViewlet, self).update()
@@ -987,7 +983,7 @@ class FlourishJournalSectionNavigation(flourish.page.RefineLinksViewlet):
     """Journal section navigation viewlet."""
 
 
-class FlourishJournalSectionNavigationViewlet(flourish.viewlet.Viewlet):
+class FlourishJournalSectionNavigationViewlet(FlourishJournalNavigationViewletBase):
     template = InlineViewPageTemplate('''
     <form method="post"
           tal:attributes="action string:${context/@@absolute_url}">
@@ -1003,10 +999,6 @@ class FlourishJournalSectionNavigationViewlet(flourish.viewlet.Viewlet):
     </form>
     ''')
 
-    @property
-    def person(self):
-        return IPerson(self.request.principal)
-
     def getSections(self):
         currentSection = self.context.section
         currentTerm = ITerm(currentSection)
@@ -1019,12 +1011,6 @@ class FlourishJournalSectionNavigationViewlet(flourish.viewlet.Viewlet):
                 'form_id': self.getSectionId(section),
                 'selected': section == currentSection and 'selected' or None,
                 }
-
-    def render(self, *args, **kw):
-        return self.template(*args, **kw)
-
-    def getUserSections(self):
-        return list(IInstructor(self.person).sections())
 
     def getSectionId(self, section):
         term = ITerm(section)

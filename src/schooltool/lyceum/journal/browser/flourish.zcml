@@ -5,12 +5,33 @@
            xmlns:flourish="http://schooltool.org/flourish"
            i18n_domain="schooltool.lyceum.journal">
 
+  <zope:resourceLibrary
+      name="schooltool.lyceum.journal.flourish"
+      require="schooltool.gradebook.flourish"
+      layer="schooltool.skin.flourish.IFlourishLayer">
+    <directory
+          source=""
+          include="f_journal.css"
+          />
+  </zope:resourceLibrary>
+
+  <flourish:breadcrumb
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      title="Journal"
+      />
+
   <flourish:viewlet
       name="journal"
       after="manage_school"
       manager="schooltool.skin.flourish.page.IHeaderNavigationManager"
       class="schooltool.lyceum.journal.browser.journal.JournalNavViewlet"
       permission="schooltool.view"
+      />
+
+  <flourish:activeViewlet
+      name="journal"
+      manager="schooltool.skin.flourish.page.IHeaderNavigationManager"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       />
 
   <flourish:viewlet
@@ -76,7 +97,34 @@
       name="index.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.FlourishLyceumSectionJournalView"
+      title="Enter Grades"
       content_template="templates/f_journal.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="journal.html"
+      for="schooltool.person.interfaces.IPerson"
+      class=".journal.FlourishJournalRedirectView"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="journal-actions"
+      after="select_year"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishJournalActionsLinks"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      title="Actions"
+      permission="schooltool.view"
+      view=".journal.FlourishLyceumSectionJournalView"
+      />
+
+  <flourish:viewlet
+      name="help.html"
+      title="Help"
+      class="schooltool.skin.flourish.page.LinkViewlet"
+      manager=".journal.FlourishJournalActionsLinks"
       permission="schooltool.view"
       />
 

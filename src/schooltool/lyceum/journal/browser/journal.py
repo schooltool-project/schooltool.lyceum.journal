@@ -49,6 +49,7 @@ from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.skin import flourish
+from schooltool.skin.flourish.form import Dialog
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
@@ -646,7 +647,10 @@ class JournalNavViewlet(flourish.page.LinkViewlet, SectionListView):
         if self.person is None:
             return ''
         base_url = absoluteURL(self.person, self.request)
-        return '%s/gradebook.html' % base_url
+        return '%s/journal.html' % base_url
+
+    def getSectionsForPerson(self, person):
+        return list(IInstructor(person).sections())
 
 
 class StudentGradebookTabViewlet(object):
@@ -697,31 +701,6 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         app = ISchoolToolApplication(None)
         self.tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
 
-    def renderActivityHeader(self, meeting):
-        meetingDate = meeting.dtstart.astimezone(self.tzinfo).date()
-        header = meetingDate.strftime("%d")
-        url = "%s/index.html?%s" % (
-            absoluteURL(self.context, self.request),
-            urllib.urlencode([('event_id', meeting.unique_id.encode('utf-8'))] +
-                             self.extra_parameters(self.request)))
-        try:
-            if meeting.period is not None:
-                short_title = meeting.period.title[:3]
-            else:
-                short_title = ''
-            period = '<br />' + short_title
-            if period[-1] == ':':
-                period = period[:-1]
-        except:
-            period = ''
-        header = '<a href="%s">%s%s</a>' % (url, header, period)
-
-        span = '<span title="%s">%s</span>' % (
-            meetingDate.strftime("%Y-%m-%d"), header)
-        event_id = '<input type="hidden" value="%s" class="event_id" />' % (
-            urllib.quote(base64.encodestring(meeting.unique_id.encode('utf-8'))))
-        return span + event_id
-
     def table(self):
         result = []
         for person in self.members():
@@ -747,7 +726,25 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         return result
 
     def activities(self):
-        return list(self.meetings())
+        result = []
+        for meeting in self.meetings():
+            info = {'hash': meeting.__name__}
+            meetingDate = meeting.dtstart.astimezone(self.tzinfo).date()
+            info['shortTitle'] = meetingDate.strftime("%d")
+            info['longTitle'] = meetingDate.strftime("%Y-%m-%d")
+            try:
+                if meeting.period is not None:
+                    short_title = meeting.period.title[:3]
+                else:
+                    short_title = ''
+                period = short_title
+                if period[-1] == ':':
+                    period = period[:-1]
+            except:
+                period = ''
+            info['period'] = period
+            result.append(info)
+        return result
 
     def getSelectedTerm(self):
         term_id = ITerm(self.context.section).__name__
@@ -775,7 +772,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
                 continue
             grades.append(grade)
         if not grades:
-            return ""
+            return _('N/A')
         else:
             return "%.1f" % (sum(grades) / float(len(grades)))
 
@@ -785,7 +782,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             if (grade.strip().lower() == "n"):
                 absences += 1
         if absences == 0:
-            return ""
+            return "0"
         else:
             return str(absences)
 
@@ -796,7 +793,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
                 tardies += 1
 
         if tardies == 0:
-            return ""
+            return "0"
         else:
             return str(tardies)
 
@@ -1028,3 +1025,28 @@ class FlourishJournalSectionNavigationViewlet(FlourishJournalNavigationViewletBa
                     url = absoluteURL(section, self.request) + '/journal'
                     self.request.response.redirect(url)
                     return
+
+
+class FlourishJournalRedirectView(flourish.page.Page):
+
+    def render(self):
+        url = absoluteURL(self.context, self.request)
+        person = IPerson(self.request.principal, None)
+        if person is not None:
+            sections = list(IInstructor(person).sections())
+            if sections:
+                section = sections[0]
+                url = absoluteURL(section, self.request) + '/journal'
+        self.request.response.redirect(url)
+
+
+class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
+    """Journal action links viewlet."""
+
+
+class FlourishJournalHelp(Dialog):
+
+    def updateDialog(self):
+        # XXX: fix the width of dialog content in css
+        if self.ajax_settings['dialog'] != 'close':
+            self.ajax_settings['dialog']['width'] = 544 + 16

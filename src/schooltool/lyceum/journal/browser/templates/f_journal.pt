@@ -1,5 +1,5 @@
 <div i18n:domain="schooltool.lyceum.journal">
-  <tal:block replace="resource_library:schooltool.gradebook.flourish" />
+  <tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
   <div tal:condition="not:view/render_journal">
     <h3 tal:condition="view/no_timetable" i18n:translate="">
       This section is not scheduled for any term, to use the journal
@@ -23,7 +23,7 @@
       var numactivities = <tal:block replace="python: len(view.scorableActivities())"/>;
       var activities = new Array(numactivities);
       <tal:loop repeat="activity view/activities">
-      activities[<tal:block replace="repeat/activity/index"/>] = '<tal:block replace="activity/__name__"/>';
+      activities[<tal:block replace="repeat/activity/index"/>] = '<tal:block replace="activity/hash"/>';
       </tal:loop>
       var edited = false;
       var currentCell;
@@ -40,7 +40,7 @@
         <table>
           <thead>
             <tr>
-              <th>
+              <th rowspan="2" class="name">
                 <ul class="popup_menu">
                   <li>
                     <span i18n:translate="">Name</span>
@@ -53,11 +53,15 @@
                   <a class="popup_link" href="" i18n:translate="">Name</a>
                 </div>
               </th>
+              <th i18n:translate="" class="activity-title">Day</th>
+            </tr>
+            <tr>
+              <th i18n:translate="">Period</th>
             </tr>
           </thead>
           <tbody>
             <tr tal:repeat="row view/table">
-              <td>
+              <td colspan="2">
                 <div>
                   <a href=""
                      tal:attributes="title row/student/title"
@@ -71,22 +75,35 @@
       <div class="grades gradebook-part" tal:define="activities view/activities">
         <table>
           <thead>
-            <tr tal:condition="activities">
-              <th tal:repeat="activity activities">
-                <ul class="popup_menu">
-                  <li>
-                    <span>XXX PUT ACTIVITY TITLE TOOLTIP HERE</span>
-                  </li>
-                  <li>
-                    <a tal:attributes="href string:#?sort_by=${activity/__name__}"
-                       i18n:translate="">Sort by</a>
-                  </li>
-                </ul>
-                <div tal:content="structure python:view.renderActivityHeader(activity)" />
-              </th>
-            </tr>
+            <metal:block tal:condition="activities">
+              <tr>
+                <th tal:repeat="activity activities" class="activity-title">
+                  <ul class="popup_menu">
+                    <li>
+                      <span tal:content="activity/longTitle" />
+                    </li>
+                    <li>
+                      <a tal:attributes="href string:${request/URL}?sort_by=${activity/hash}"
+                         i18n:translate="">Sort by</a>
+                    </li>
+                  </ul>
+                  <div>
+                    <a class="popup_link"
+                       href=""
+                       tal:attributes="title activity/longTitle;
+                                       href request/URL;"
+                       tal:content="activity/shortTitle" />
+                  </div>
+                </th>
+              </tr>
+              <tr>
+                <th tal:repeat="activity activities">
+                  <div tal:content="activity/period" />
+                </th>
+              </tr>
+            </metal:block>
             <tr tal:condition="not:activities">
-              <th class="placeholder">&nbsp;</th>
+              <th class="placeholder" rowspan="2">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -117,9 +134,14 @@
         <table>
           <thead>
             <tr>
-              <th i18n:translate="" title="Absences" i18n:attributes="title">Abs.</th>
-              <th i18n:translate="" title="Tardies" i18n:attributes="title">Tar.</th>
-              <th i18n:translate="" title="Average" i18n:attributes="title">Ave.</th>
+              <th i18n:translate="" title="Absences"
+                  rowspan="2" i18n:attributes="title">Abs.</th>
+              <th i18n:translate="" title="Tardies"
+                  rowspan="2" i18n:attributes="title">Tar.</th>
+              <th i18n:translate="" title="Average"
+                  rowspan="2" i18n:attributes="title">Ave.</th>
+            </tr>
+            <tr>
             </tr>
           </thead>
           <tbody>

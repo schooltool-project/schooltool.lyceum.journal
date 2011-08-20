@@ -50,6 +50,7 @@ from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.skin import flourish
 from schooltool.skin.flourish.form import Dialog
+from schooltool.skin.flourish.page import ModalFormLinkViewlet
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
@@ -1044,9 +1045,33 @@ class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
     """Journal action links viewlet."""
 
 
-class FlourishJournalHelp(Dialog):
+class FlourishJournalHelpViewlet(ModalFormLinkViewlet):
+
+    @property
+    def dialog_title(self):
+        title = _(u'Journal Help')
+        return translate(title, context=self.request)
+
+
+class FlourishJournalHelpView(Dialog):
 
     def updateDialog(self):
         # XXX: fix the width of dialog content in css
         if self.ajax_settings['dialog'] != 'close':
-            self.ajax_settings['dialog']['width'] = 544 + 16
+            self.ajax_settings['dialog']['width'] = 144 + 16
+
+    def initDialog(self):
+        self.ajax_settings['dialog'] = {
+            'autoOpen': True,
+            'modal': False,
+            'resizable': True,
+            'draggable': True,
+            'position': ['center','middle'],
+            'width': 'auto',
+            }
+
+    def getLegendItems(self):
+        for grade in journal_grades():
+            yield {'keys': u', '.join(grade['keys']),
+                   'value': grade['value'],
+                   'description': grade['legend']}

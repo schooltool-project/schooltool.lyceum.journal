@@ -123,8 +123,16 @@
   <flourish:viewlet
       name="help.html"
       title="Help"
-      class="schooltool.skin.flourish.page.LinkViewlet"
+      class=".journal.FlourishJournalHelpViewlet"
       manager=".journal.FlourishJournalActionsLinks"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="help.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishJournalHelpView"
+      template="templates/f_journal_help.pt"
       permission="schooltool.view"
       />
 

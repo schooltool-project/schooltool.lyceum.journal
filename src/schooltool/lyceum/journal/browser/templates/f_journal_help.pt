@@ -1,0 +1,16 @@
+<div i18n:domain="schooltool.lyceum.journal">
+  <h3 i18n:translate="">Legend</h3>
+  <table>
+    <thead>
+      <tr>
+        <th i18n:translate="" colspan="2">Attendance / grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="item view/getLegendItems">
+        <td tal:content="item/value" />
+        <td tal:content="item/description" />
+      </tr>
+    </tbody>
+  </table>
+</div>

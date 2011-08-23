@@ -1,4 +1,6 @@
-<div i18n:domain="schooltool.lyceum.journal">
+<div i18n:domain="schooltool.lyceum.journal"
+     tal:define="table view/table;
+                 activities view/activities">
   <tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
   <div tal:condition="not:view/render_journal">
     <h3 tal:condition="view/no_timetable" i18n:translate="">
@@ -17,12 +19,12 @@
   <metal:block tal:replace="structure string:&lt;script type=&quot;text/javascript&quot;&gt;" />
       var numstudents = <tal:block replace="python: len(view.members())"/>;
       var students = new Array(numstudents);
-      <tal:loop repeat="row view/table">
+      <tal:loop repeat="row table">
       students[<tal:block replace="repeat/row/index"/>] = '<tal:block replace="python: view.breakJSString(row['student']['id'])"/>';
       </tal:loop>
       var numactivities = <tal:block replace="python: len(view.scorableActivities())"/>;
       var activities = new Array(numactivities);
-      <tal:loop repeat="activity view/activities">
+      <tal:loop repeat="activity activities">
       activities[<tal:block replace="repeat/activity/index"/>] = '<tal:block replace="activity/hash"/>';
       </tal:loop>
       var edited = false;
@@ -60,7 +62,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr tal:repeat="row view/table">
+            <tr tal:repeat="row table">
               <td colspan="2">
                 <div>
                   <a href=""
@@ -72,7 +74,7 @@
           </tbody>
         </table>
       </div>
-      <div class="grades gradebook-part" tal:define="activities view/activities">
+      <div class="grades gradebook-part">
         <table>
           <thead>
             <metal:block tal:condition="activities">
@@ -102,12 +104,17 @@
                 </th>
               </tr>
             </metal:block>
-            <tr tal:condition="not:activities">
-              <th class="placeholder" rowspan="2">&nbsp;</th>
-            </tr>
+            <metal:block tal:condition="not:activities">
+              <tr>
+                <th class="placeholder">&nbsp;</th>
+              </tr>
+              <tr>
+                <th class="placeholder">&nbsp;</th>
+              </tr>
+            </metal:block>
           </thead>
           <tbody>
-            <metal:block tal:repeat="row view/table">
+            <metal:block tal:repeat="row table">
               <tr tal:condition="activities">
                 <td tal:repeat="grade row/grades"
                     tal:attributes="id string:${grade/id}_cell">
@@ -145,7 +152,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr tal:repeat="row view/table">
+            <tr tal:repeat="row table">
               <td tal:content="row/absences" />
               <td tal:content="row/tardies" />
               <td tal:content="row/average" />

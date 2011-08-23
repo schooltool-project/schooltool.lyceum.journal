@@ -97,7 +97,7 @@
       name="index.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.FlourishLyceumSectionJournalView"
-      title="Enter Grades"
+      title="Enter Attendance"
       content_template="templates/f_journal.pt"
       permission="schooltool.view"
       />

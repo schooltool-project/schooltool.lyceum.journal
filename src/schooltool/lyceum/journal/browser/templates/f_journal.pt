@@ -77,45 +77,37 @@
       <div class="grades gradebook-part">
         <table>
           <thead>
-            <metal:block tal:condition="activities">
-              <tr>
-                <th tal:repeat="activity activities" class="activity-title">
-                  <ul class="popup_menu">
-                    <li>
-                      <span tal:content="activity/longTitle" />
-                    </li>
-                    <li>
-                      <a tal:attributes="href string:${request/URL}?sort_by=${activity/hash}"
-                         i18n:translate="">Sort by</a>
-                    </li>
-                  </ul>
-                  <div>
-                    <a class="popup_link"
-                       href=""
-                       tal:attributes="title activity/longTitle;
-                                       href request/URL;"
-                       tal:content="activity/shortTitle" />
-                  </div>
-                </th>
-              </tr>
-              <tr>
-                <th tal:repeat="activity activities">
-                  <div tal:content="activity/period" />
-                </th>
-              </tr>
-            </metal:block>
-            <metal:block tal:condition="not:activities">
-              <tr>
-                <th class="placeholder">&nbsp;</th>
-              </tr>
-              <tr>
-                <th class="placeholder">&nbsp;</th>
-              </tr>
-            </metal:block>
+            <tr>
+              <th tal:repeat="activity activities" class="activity-title">
+                <ul class="popup_menu">
+                  <li>
+                    <span tal:content="activity/longTitle" />
+                  </li>
+                  <li>
+                    <a tal:attributes="href string:${request/URL}?sort_by=${activity/hash}"
+                       i18n:translate="">Sort by</a>
+                  </li>
+                </ul>
+                <div>
+                  <a class="popup_link"
+                     href=""
+                     tal:attributes="title activity/longTitle;
+                                     href request/URL;"
+                     tal:content="activity/shortTitle" />
+                </div>
+              </th>
+              <th class="placeholder">&nbsp;</th>
+            </tr>
+            <tr>
+              <th tal:repeat="activity activities">
+                <div tal:content="activity/period" />
+              </th>
+              <th class="placeholder">&nbsp;</th>
+            </tr>
           </thead>
           <tbody>
             <metal:block tal:repeat="row table">
-              <tr tal:condition="activities">
+              <tr>
                 <td tal:repeat="grade row/grades"
                     tal:attributes="id string:${grade/id}_cell">
                   <span tal:condition="not: grade/editable"
@@ -129,8 +121,6 @@
                                          onkeyup string:checkValid(event,'${grade/id}');
                                          onfocus string:handleCellFocus(this, '${grade/id}')"/>
                 </td>
-              </tr>
-              <tr tal:condition="not:activities">
                 <td class="placeholder">&nbsp;</td>
               </tr>
             </metal:block>

@@ -814,7 +814,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         return _('You have some changes that have not been saved.  Click OK to save now or CANCEL to continue without saving.')
 
 
-class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager,
+class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager,
                                        FlourishLyceumSectionJournalView):
 
     template = InlineViewPageTemplate("""
@@ -825,8 +825,6 @@ class JournalTertiaryNavigationManager(flourish.viewlet.ViewletManager,
           </li>
         </ul>
     """)
-
-    list_class = 'third-nav'
 
     def items(self):
         result = []

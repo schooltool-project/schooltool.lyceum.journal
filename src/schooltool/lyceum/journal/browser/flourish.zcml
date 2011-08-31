@@ -7,7 +7,7 @@
 
   <zope:resourceLibrary
       name="schooltool.lyceum.journal.flourish"
-      require="schooltool.gradebook.flourish"
+      require="schooltool.skin.flourish-gradebook"
       layer="schooltool.skin.flourish.IFlourishLayer">
     <directory
           source=""

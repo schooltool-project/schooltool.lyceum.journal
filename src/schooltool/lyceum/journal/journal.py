@@ -163,11 +163,17 @@ class SectionJournalData(Persistent):
                     yield meeting_id
 
     def recordedMeetings(self, person):
+        result = []
+        unique_meetings = set()
         recorded_ids = set(self.recordedMeetingIds(person))
         calendar = ISchoolToolCalendar(self.section)
-        for event in calendar:
-            if event.meeting_id in recorded_ids:
-                yield event
+        sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+        for event in sorted_events:
+            if event.meeting_id in recorded_ids and \
+               event.meeting_id not in unique_meetings:
+                result.append(event)
+                unique_meetings.add(event.meeting_id)
+        return result
 
 
 class SectionJournal(object):

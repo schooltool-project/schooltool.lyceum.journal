@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/browser"
            xmlns:zope="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
            i18n_domain="schooltool.lyceum.journal">
 
   <viewlet
@@ -99,6 +100,8 @@
 
   <zope:adapter factory=".table.getIndexedSelectableColumn " />
 
-  <include file="flourish.zcml" />
+  <configure zcml:condition="have schooltool.skin.flourish">
+    <include file="flourish.zcml" />
+  </configure>
 
 </configure>

@@ -29,7 +29,7 @@ from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-from zope.app.form.browser.widget import quoteattr
+from zope.formlib.widget import quoteattr
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
@@ -122,8 +122,8 @@ class GradesColumn(object):
         grades = []
         for meeting in self.journal.recordedMeetings(person):
             if meeting.dtstart.date() in self.term:
-                grade = self.journal.getGrade(person, meeting, default=None)
-                if (grade is not None) and (grade.strip() != ""):
+                grade = self.journal.getGrade(person, meeting)
+                if grade and grade.strip():
                     grades.append(grade)
         return grades
 
@@ -283,7 +283,7 @@ class SectionTermAttendanceColumn(GradesColumn):
     def renderCell(self, person, formatter):
         absences = 0
         for grade in self.getGrades(person):
-            if (grade.strip().lower() == "n"):
+            if grade == ABSENT:
                 absences += 1
 
         if absences == 0:
@@ -307,7 +307,7 @@ class SectionTermTardiesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         tardies = 0
         for grade in self.getGrades(person):
-            if (grade.strip().lower() == "p"):
+            if grade == TARDY:
                 tardies += 1
 
         if tardies == 0:

@@ -42,11 +42,11 @@ function selectCell(cell) {
   selected_cell = cell;
 }
 
-function changeBackgroundColor(obj, class)    {
+function changeBackgroundColor(obj, klass)    {
     $(obj).removeClass('default_bg');
     $(obj).removeClass('changed_bg');
     $(obj).removeClass('error_bg');
-    $(obj).addClass(class);
+    $(obj).addClass(klass);
 }
 
 $(document).ready(function(){

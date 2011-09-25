@@ -270,7 +270,7 @@ class SectionTermAttendanceColumn(GradesColumn):
     def renderCell(self, person, formatter):
         absences = 0
         for grade in self.getGrades(person):
-            if grade == ABSENT:
+            if (grade.strip().lower() == ABSENT):
                 absences += 1
 
         if absences == 0:
@@ -294,7 +294,7 @@ class SectionTermTardiesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         tardies = 0
         for grade in self.getGrades(person):
-            if grade == TARDY:
+            if (grade.strip().lower() == TARDY):
                 tardies += 1
 
         if tardies == 0:

@@ -8,6 +8,12 @@ CHANGES
 New skin for SchoolTool 1.9 (flourish) and many other changes.
 
 
+0.8.1 (2011-09-25)
+------------------
+
+- Fixed syntax error in journal.js
+
+
 0.8.0 (2011-09-23)
 ------------------
 

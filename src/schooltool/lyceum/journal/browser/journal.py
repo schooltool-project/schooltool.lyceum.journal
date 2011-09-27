@@ -379,7 +379,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         self.selectStudents(self.gradebook)
 
-        columns_before = [StudentNumberColumn(title=_('Nr'), name='nr')]
+        columns_before = [StudentNumberColumn(title=_('Nr.'), name='nr')]
 
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,

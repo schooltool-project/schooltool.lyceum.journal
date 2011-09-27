@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2011-09-23 20:09+0300\n"
+"POT-Creation-Date: 2011-09-26 23:25+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -44,6 +44,10 @@ msgstr ""
 msgid "Journal"
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
+msgid "Enter Attendance"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 #. Default: "a"
 msgid "Single letter that represents an absent mark for a student"
@@ -55,6 +59,7 @@ msgid "Single letter that represents an tardy mark for a student"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:116
+#: /src/schooltool/lyceum/journal/browser/journal.py:396
 msgid "Nr."
 msgstr ""
 
@@ -81,10 +86,6 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:329
 msgid "Tardy"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:396
-msgid "Nr"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:811

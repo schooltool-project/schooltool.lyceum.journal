@@ -517,7 +517,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 month = meeting.dtstart.date().month
 
     def monthTitle(self, number):
-        return month_names[number]
+        return translate(month_names[number], context=self.request)
 
     def monthURL(self, month_id):
         url = absoluteURL(self.context, self.request)

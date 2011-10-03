@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2011-09-26 23:25+0300\n"
+"POT-Creation-Date: 2011-10-03 15:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -35,6 +35,7 @@ msgid "Total"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:38
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
 #: /src/schooltool/lyceum/journal/browser/journal.py:644
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
@@ -44,8 +45,28 @@ msgstr ""
 msgid "Journal"
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
+msgid "Section"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
+msgid "Term"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
+msgid "Year"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
+msgid "Actions"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
+msgid "Help"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:73

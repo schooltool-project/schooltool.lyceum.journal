@@ -5,7 +5,7 @@ CHANGES
 1.9.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update translations
 
 
 1.9.0 (2011-09-25)

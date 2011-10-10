@@ -29,7 +29,7 @@ from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
-from zope.app.form.browser.widget import quoteattr
+from zope.formlib.widget import quoteattr
 from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
@@ -122,8 +122,8 @@ class GradesColumn(object):
         grades = []
         for meeting in self.journal.recordedMeetings(person):
             if meeting.dtstart.date() in self.term:
-                grade = self.journal.getGrade(person, meeting, default=None)
-                if (grade is not None) and (grade.strip() != ""):
+                grade = self.journal.getGrade(person, meeting)
+                if grade and grade.strip():
                     grades.append(grade)
         return grades
 
@@ -283,7 +283,7 @@ class SectionTermAttendanceColumn(GradesColumn):
     def renderCell(self, person, formatter):
         absences = 0
         for grade in self.getGrades(person):
-            if (grade.strip().lower() == "n"):
+            if (grade.strip().lower() == ABSENT):
                 absences += 1
 
         if absences == 0:
@@ -307,7 +307,7 @@ class SectionTermTardiesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         tardies = 0
         for grade in self.getGrades(person):
-            if (grade.strip().lower() == "p"):
+            if (grade.strip().lower() == TARDY):
                 tardies += 1
 
         if tardies == 0:
@@ -393,7 +393,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         self.selectStudents(self.gradebook)
 
-        columns_before = [StudentNumberColumn(title=_('Nr'), name='nr')]
+        columns_before = [StudentNumberColumn(title=_('Nr.'), name='nr')]
 
         self.gradebook.setUp(items=self.members(),
                              formatters=[SelectStudentCellFormatter(self.context)] * 2,
@@ -517,7 +517,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 month = meeting.dtstart.date().month
 
     def monthTitle(self, number):
-        return month_names[number]
+        return translate(month_names[number], context=self.request)
 
     def monthURL(self, month_id):
         url = absoluteURL(self.context, self.request)
@@ -675,7 +675,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
 
     def updateGradebook(self):
         members = self.members()
-        for meeting in self.meetings():
+        for meeting in self.meetings:
             for person in members:
                 cell_id = "%s_%s" % (meeting.__name__, person.__name__)
                 cell_value = self.request.get(cell_id, None)
@@ -704,13 +704,15 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
 
     def table(self):
         result = []
+        collator = ICollator(self.request.locale)
         for person in self.members():
             grades = []
-            for meeting in self.meetings():
+            for meeting in self.meetings:
                 grade = self.context.getGrade(person, meeting, default='')
                 value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
+                    'sortKey': meeting.__name__,
                     'value': value,
                     'editable': True,
                     }
@@ -718,17 +720,50 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             result.append(
                 {'student': {'title': person.title,
                              'id': person.username,
+                             'sortKey': collator.key(person.title),
                              'url': absoluteURL(person, self.request)},
                  'grades': grades,
                  'average': self.average(person),
                  'absences': self.absences(person),
                  'tardies': self.tardies(person),
                 })
-        return result
+        self.sortBy = self.request.get('sort_by')
+        return sorted(result, key=self.sortKey)
+
+    def sortKey(self, row):
+        if self.sortBy == 'student':
+            return row['student']['sortKey']
+        elif self.sortBy == 'average':
+            try:
+                return (float(row['average']), row['student']['sortKey'])
+            except (ValueError,):
+                return ('', row['student']['sortKey'])
+        elif self.sortBy == 'absences':
+            return (int(row['absences']), row['student']['sortKey'])
+        elif self.sortBy == 'tardies':
+            return (int(row['tardies']), row['student']['sortKey'])
+        else:
+            grades = dict([(grade['sortKey'], grade['value'])
+                          for grade in row['grades']])
+            if self.sortBy in grades:
+                grade = grades.get(self.sortBy)
+                try:
+                    grade = int(grade)
+                except (ValueError,):
+                    grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade)
+                    if grade == ABSENT:
+                        return (1, row['student']['sortKey'])
+                    elif grade == TARDY:
+                        return (2, row['student']['sortKey'])
+                    else:
+                        return (3, row['student']['sortKey'])
+                return (0, grade, row['student']['sortKey'])
+            else:
+                return (1, row['student']['sortKey'])
 
     def activities(self):
         result = []
-        for meeting in self.meetings():
+        for meeting in self.meetings:
             info = {'hash': meeting.__name__}
             meetingDate = meeting.dtstart.astimezone(self.tzinfo).date()
             info['shortTitle'] = meetingDate.strftime("%d")
@@ -813,6 +848,14 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
     def warningText(self):
         return _('You have some changes that have not been saved.  Click OK to save now or CANCEL to continue without saving.')
 
+    @Lazy
+    def meetings(self):
+        result = []
+        for event in self.allMeetings():
+            if event.dtstart.date().month == self.active_month:
+                result.append(event)
+        return result
+
 
 class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager,
                                        FlourishLyceumSectionJournalView):
@@ -828,7 +871,7 @@ class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager,
 
     def items(self):
         result = []
-        for month_id in sorted(self.monthsInSelectedTerm()):
+        for month_id in self.monthsInSelectedTerm():
             url = self.view.monthURL(month_id)
             title = self.view.monthTitle(month_id)
             result.append({

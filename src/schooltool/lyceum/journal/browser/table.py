@@ -21,7 +21,7 @@ Common code for journal view table display.
 """
 import urllib
 
-from zope.app.form.browser.widget import quoteattr
+from zope.formlib.widget import quoteattr
 from zope.interface import implementer
 from zope.component import adapter
 from zope.traversing.browser.absoluteurl import absoluteURL

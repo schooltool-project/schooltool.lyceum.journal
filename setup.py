@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # SchoolTool - common information systems platform for school administration
-# Copyright (c) 2005    Shuttleworth Foundation,
+# Copyright (c) 2005-2011 Shuttleworth Foundation,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,9 +13,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 """
 SchoolTool Lyceum Journal setup script.
@@ -59,17 +59,17 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),
-    install_requires=['schooltool>=1.5.0',
+    install_requires=['schooltool>=1.9',
                       'pytz',
                       'setuptools',
                       'zc.table',
                       'ZODB3',
-                      'zope.app.form',
                       'zope.browserpage>=3.10.1',
                       'zope.cachedescriptors',
                       'zope.component',
                       'zope.container',
                       'zope.exceptions',
+                      'zope.formlib>=4',
                       'zope.i18n',
                       'zope.i18nmessageid',
                       'zope.interface',

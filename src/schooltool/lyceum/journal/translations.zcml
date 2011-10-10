@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser">
-
-  <include package="schooltool.help" file="meta.zcml" />
+           xmlns:meta="http://namespaces.zope.org/meta">
 
   <include package="schooltool.common" />
+
+  <!-- Extract flourish strings -->
+  <include package="schooltool.skin.flourish" file="meta.zcml" />
+  <meta:provides feature="schooltool.skin.flourish" />
+
   <include package="schooltool.lyceum.journal" />
 
 </configure>

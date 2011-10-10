@@ -131,12 +131,51 @@
         <table>
           <thead>
             <tr>
-              <th i18n:translate="" title="Absences"
-                  rowspan="2" i18n:attributes="title">Abs.</th>
-              <th i18n:translate="" title="Tardies"
-                  rowspan="2" i18n:attributes="title">Tar.</th>
-              <th i18n:translate="" title="Average"
-                  rowspan="2" i18n:attributes="title">Ave.</th>
+              <th rowspan="2">
+                <ul class="popup_menu">
+                  <li>
+                    <span i18n:translate="">Name</span>
+                  </li>
+                  <li>
+                    <a href="?sort_by=absences" i18n:translate="">Sort by</a>
+                  </li>
+                </ul>
+                <div>
+                  <a class="popup_link" href="" i18n:translate="">
+                    Abs.
+                  </a>
+                </div>
+              </th>
+              <th rowspan="2">
+                <ul class="popup_menu">
+                  <li>
+                    <span i18n:translate="">Name</span>
+                  </li>
+                  <li>
+                    <a href="?sort_by=tardies" i18n:translate="">Sort by</a>
+                  </li>
+                </ul>
+                <div>
+                  <a class="popup_link" href="" i18n:translate="">
+                    Tar.
+                  </a>
+                </div>
+              </th>
+              <th rowspan="2">
+                <ul class="popup_menu">
+                  <li>
+                    <span i18n:translate="">Name</span>
+                  </li>
+                  <li>
+                    <a href="?sort_by=average" i18n:translate="">Sort by</a>
+                  </li>
+                </ul>
+                <div>
+                  <a class="popup_link" href="" i18n:translate="">
+                    Ave.
+                  </a>
+                </div>
+              </th>
             </tr>
             <tr>
             </tr>

@@ -1,9 +1,11 @@
 #!/usr/bin/make
 
 PACKAGE=schooltool.lyceum.journal
+LOCALES=src/schooltool/lyceum/journal/locales
+TRANSLATIONS_ZCML=schooltool/lyceum/journal/translations.zcml
 
 DIST=/home/ftp/pub/schooltool/trunk
-BOOTSTRAP_PYTHON=python2.6
+PYTHON=python
 
 INSTANCE_TYPE=schooltool
 BUILDOUT_FLAGS=
@@ -14,9 +16,13 @@ all: build
 .PHONY: build
 build: .installed.cfg
 
+python:
+	rm -rf python
+	virtualenv --no-site-packages -p $(PYTHON) python
+
 .PHONY: bootstrap
-bootstrap bin/buildout python:
-	$(BOOTSTRAP_PYTHON) bootstrap.py
+bootstrap bin/buildout: python
+	python/bin/python bootstrap.py
 
 .PHONY: buildout
 buildout .installed.cfg: python bin/buildout buildout.cfg base.cfg setup.py
@@ -27,7 +33,7 @@ update:
 	bzr up
 	$(MAKE) buildout BUILDOUT_FLAGS=-n
 
-instance: build
+instance: | build
 	bin/make-schooltool-instance instance instance_type=$(INSTANCE_TYPE)
 
 .PHONY: run
@@ -108,43 +114,54 @@ ftest-coverage-reports-html ftest-coverage/reports: ftest-coverage
 extract-translations: build
 	bin/i18nextract --egg $(PACKAGE) \
 	                --domain $(PACKAGE) \
-	                --zcml schooltool/lyceum/journal/translations.zcml \
-	                --output-file src/schooltool/lyceum/journal/locales/schooltool.lyceum.journal.pot
+	                --zcml $(TRANSLATIONS_ZCML) \
+	                --output-file $(LOCALES)/$(PACKAGE).pot
 
 .PHONY: compile-translations
 compile-translations:
-	set -e; \
-	locales=src/schooltool/lyceum/journal/locales; \
-	for f in $${locales}/*.po; do \
+	for f in $(LOCALES)/*.po; do \
 	    mkdir -p $${f%.po}/LC_MESSAGES; \
 	    msgfmt -o $${f%.po}/LC_MESSAGES/$(PACKAGE).mo $$f;\
 	done
 
 .PHONY: update-translations
 update-translations:
-	set -e; \
-	locales=src/schooltool/lyceum/journal/locales; \
-	for f in $${locales}/*.po; do \
-	    msgmerge -qUN $$f $${locales}/$(PACKAGE).pot ;\
+	for f in $(LOCALES)/*.po; do \
+	    msgmerge -qUN $$f $(LOCALES)/$(PACKAGE).pot ;\
 	done
 	$(MAKE) compile-translations
 
 # Release
 
 .PHONY: release
-release: bin/buildout compile-translations
+release: compile-translations
 	grep -qv 'dev' version.txt.in || echo -n `cat version.txt.in`-r`bzr revno` > version.txt
-	bin/buildout setup setup.py sdist
+	$(PYTHON) setup.py sdist
 	rm -f version.txt
 
 .PHONY: move-release
-move-release:
-	mv -v dist/$(PACKAGE)-*.tar.gz $(DIST)/dev
+move-release: upload
+	rm -v dist/$(PACKAGE)-*dev-r*.tar.gz
+
+.PHONY: upload
+upload:
+	@VERSION=`cat version.txt.in` ;\
+	DIST=$(DIST) ;\
+	grep -qv 'dev' version.txt.in || VERSION=`cat version.txt.in`-r`bzr revno` ;\
+	grep -qv 'dev' version.txt.in || DIST=$(DIST)/dev ;\
+	if [ -w $${DIST} ] ; then \
+	    echo cp dist/$(PACKAGE)-$${VERSION}.tar.gz $${DIST} ;\
+	    cp dist/$(PACKAGE)-$${VERSION}.tar.gz $${DIST} ;\
+	else \
+	    echo scp dist/$(PACKAGE)-$${VERSION}.tar.gz* schooltool.org:$${DIST} ;\
+	    scp dist/$(PACKAGE)-$${VERSION}.tar.gz* schooltool.org:$${DIST} ;\
+	fi
 
 # Helpers
 
 .PHONY: ubuntu-environment
 ubuntu-environment:
 	sudo apt-get install bzr build-essential gettext enscript ttf-liberation \
-	    python-all-dev libc6-dev libicu-dev libxslt1-dev libfreetype6-dev libjpeg62-dev 
+	    python-all-dev python-virtualenv \
+	    libicu-dev libxslt1-dev libfreetype6-dev libjpeg62-dev
 

@@ -60,7 +60,8 @@ from schooltool.timetable.interfaces import IScheduleCalendarEvent
 from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
-from schooltool.lyceum.journal.journal import ABSENT, TARDY
+from schooltool.lyceum.journal.journal import (ABSENT, TARDY,
+    getCurrentSectionTaught, setCurrentSectionTaught)
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
@@ -696,6 +697,10 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             self.render_journal = False
             return
 
+        person = IPerson(self.request.principal, None)
+        if person is not None:
+            setCurrentSectionTaught(person, self.context.section)
+
         if 'UPDATE_SUBMIT' in self.request:
             self.updateGradebook()
 
@@ -1075,9 +1080,12 @@ class FlourishJournalRedirectView(flourish.page.Page):
         url = absoluteURL(self.context, self.request)
         person = IPerson(self.request.principal, None)
         if person is not None:
-            sections = list(IInstructor(person).sections())
-            if sections:
-                section = sections[0]
+            section = getCurrentSectionTaught(person)
+            if section is None:
+                sections = list(IInstructor(person).sections())
+                if sections:
+                    section = sections[0]
+            if section is not None:
                 url = absoluteURL(section, self.request) + '/journal'
         self.request.response.redirect(url)
 

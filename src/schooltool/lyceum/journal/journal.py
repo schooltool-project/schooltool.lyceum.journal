@@ -257,7 +257,7 @@ class SectionJournal(object):
     def adjacent_sections(self):
         """Sections in the same course that share members and at least one
         teacher with this section."""
-        return adjacent_sections(self.section)
+        return adjacent_sections(removeSecurityProxy(self.section))
 
     @Lazy
     def meetings(self):

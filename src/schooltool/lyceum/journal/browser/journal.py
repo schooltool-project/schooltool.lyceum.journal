@@ -41,16 +41,13 @@ from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
-import schooltool.skin.flourish.page
+from schooltool.skin import flourish
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
 from schooltool.person.interfaces import IPerson
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
-from schooltool.skin import flourish
-from schooltool.skin.flourish.form import Dialog
-from schooltool.skin.flourish.page import ModalFormLinkViewlet
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
@@ -380,7 +377,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         if not schedules:
             return self.no_timetable_template()
 
-        meetings = self.allMeetings()
+        meetings = self.all_meetings
         if not meetings:
             return self.no_periods_template()
 
@@ -421,23 +418,36 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         return SelectableRowTableFormatter(*args, **kwargs)
 
     def allMeetings(self):
-        term = self.getSelectedTerm()
-        events = []
+        term = removeSecurityProxy(self.selected_term)
+
         # maybe expand would be better in here
-        events = [event for event in self.context.meetings
-                  if event.dtstart.date() in term]
-        return sorted(events)
+        by_uid = dict([(removeSecurityProxy(e).unique_id, e)
+                       for e in self.context.meetings])
+
+        insecure_events = [removeSecurityProxy(e)
+                           for e in by_uid.values()]
+        insecure_events[:] = filter(lambda e: e.dtstart.date() in term,
+                                    insecure_events)
+        meetings = [by_uid[e.unique_id] for e in sorted(insecure_events)]
+        return meetings
+
+    @Lazy
+    def all_meetings(self):
+        return self.allMeetings()
 
     def meetings(self):
-        for event in self.allMeetings():
-            if event.dtstart.date().month == self.active_month:
+        for event in self.all_meetings:
+            insecure_event = removeSecurityProxy(event)
+            if insecure_event.dtstart.date().month == self.active_month:
                 yield event
 
     def members(self):
         members = list(self.context.members)
         collator = ICollator(self.request.locale)
-        members.sort(key=lambda a: collator.key(a.first_name))
-        members.sort(key=lambda a: collator.key(a.last_name))
+        members.sort(key=lambda a: collator.key(
+                removeSecurityProxy(a).first_name))
+        members.sort(key=lambda a: collator.key(
+                removeSecurityProxy(a).last_name))
         return members
 
     def updateGradebook(self):
@@ -458,11 +468,11 @@ class LyceumSectionJournalView(StudentSelectionMixin):
             columns.append(PersonGradesColumn(meeting, self.context,
                                               selected=selected))
         columns.append(SectionTermAverageGradesColumn(self.context,
-                                                      self.getSelectedTerm()))
+                                                      self.selected_term))
         columns.append(SectionTermAttendanceColumn(self.context,
-                                                   self.getSelectedTerm()))
+                                                   self.selected_term))
         columns.append(SectionTermTardiesColumn(self.context,
-                                                self.getSelectedTerm()))
+                                                self.selected_term))
         return columns
 
     def getSelectedTerm(self):
@@ -474,6 +484,10 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 return term
 
         return self.getCurrentTerm()
+
+    @Lazy
+    def selected_term(self):
+        return self.getSelectedTerm()
 
     def selectedEvent(self):
         event_id = self.request.get('event_id', None)
@@ -512,10 +526,16 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
     def monthsInSelectedTerm(self):
         month = -1
-        for meeting in self.allMeetings():
-            if meeting.dtstart.date().month != month:
-                yield meeting.dtstart.date().month
-                month = meeting.dtstart.date().month
+        for meeting in self.all_meetings:
+            insecure_meeting = removeSecurityProxy(meeting)
+            # XXX: what about time zones?
+            if insecure_meeting.dtstart.date().month != month:
+                yield insecure_meeting.dtstart.date().month
+                month = insecure_meeting.dtstart.date().month
+
+    @Lazy
+    def selected_months(self):
+        return list(self.monthsInSelectedTerm())
 
     def monthTitle(self, number):
         return translate(month_names[number], context=self.request)
@@ -534,7 +554,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         if event:
             return event.dtstart.year
 
-        available_months = list(self.monthsInSelectedTerm())
+        available_months = list(self.selected_months)
         selected_month = None
         if 'month' in self.request:
             month = int(self.request['month'])
@@ -544,19 +564,20 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         if not selected_month:
             selected_month = available_months[0]
 
-        for meeting in self.allMeetings():
-            if meeting.dtstart.date().month == selected_month:
-                return meeting.dtstart.year
+        for meeting in self.all_meetings:
+            insecure_meeting = removeSecurityProxy(meeting)
+            if insecure_meeting.dtstart.date().month == selected_month:
+                return insecure_meeting.dtstart.year
 
     @Lazy
     def active_month(self):
-        available_months = list(self.monthsInSelectedTerm())
+        available_months = list(self.selected_months)
         if 'month' in self.request:
             month = int(self.request['month'])
             if month in available_months:
                 return month
 
-        term = self.getSelectedTerm()
+        term = self.selected_term
         date = self.selectedDate()
         if term.first <= date <= term.last:
             month = date.month
@@ -691,7 +712,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             self.render_journal = False
             return
 
-        meetings = self.allMeetings()
+        meetings = self.all_meetings
         if not meetings:
             self.no_periods = True
             self.render_journal = False
@@ -713,7 +734,8 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         for person in self.members():
             grades = []
             for meeting in self.meetings:
-                grade = self.context.getGrade(person, meeting, default='')
+                insecure_meeting = removeSecurityProxy(meeting)
+                grade = self.context.getGrade(person, insecure_meeting, default='')
                 value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
@@ -722,6 +744,8 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
                     'editable': True,
                     }
                 grades.append(grade_data)
+            if flourish.canView(person):
+                person = removeSecurityProxy(person)
             result.append(
                 {'student': {'title': person.title,
                              'id': person.username,
@@ -770,7 +794,8 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         result = []
         for meeting in self.meetings:
             info = {'hash': meeting.__name__}
-            meetingDate = meeting.dtstart.astimezone(self.tzinfo).date()
+            insecure_meeting = removeSecurityProxy(meeting)
+            meetingDate = insecure_meeting.dtstart.astimezone(self.tzinfo).date()
             info['shortTitle'] = meetingDate.strftime("%d")
             info['longTitle'] = meetingDate.strftime("%Y-%m-%d")
             try:
@@ -796,10 +821,12 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
 
     def getGrades(self, person):
         grades = []
-        term = self.getSelectedTerm()
+        term = self.selected_term
         for meeting in self.context.recordedMeetings(person):
-            if meeting.dtstart.date() in term:
-                grade = self.context.getGrade(person, meeting, default=None)
+            insecure_meeting = removeSecurityProxy(meeting)
+            if insecure_meeting.dtstart.date() in term:
+                grade = self.context.getGrade(
+                    person, insecure_meeting, default=None)
                 if (grade is not None) and (grade.strip() != ""):
                     grades.append(grade)
         return grades
@@ -856,14 +883,14 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
     @Lazy
     def meetings(self):
         result = []
-        for event in self.allMeetings():
-            if event.dtstart.date().month == self.active_month:
+        for event in self.all_meetings:
+            insecure_event = removeSecurityProxy(event)
+            if insecure_event.dtstart.date().month == self.active_month:
                 result.append(event)
         return result
 
 
-class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager,
-                                       FlourishLyceumSectionJournalView):
+class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager):
 
     template = InlineViewPageTemplate("""
         <ul tal:attributes="class view/list_class">
@@ -874,9 +901,10 @@ class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager,
         </ul>
     """)
 
+    @Lazy
     def items(self):
         result = []
-        for month_id in self.monthsInSelectedTerm():
+        for month_id in self.view.selected_months:
             url = self.view.monthURL(month_id)
             title = self.view.monthTitle(month_id)
             result.append({
@@ -884,13 +912,6 @@ class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager,
                 'viewlet': u'<a href="%s" title="%s">%s</a>' % (url, title, title),
                 })
         return result
-
-    def getSelectedTerm(self):
-        term_id = ITerm(self.context.section).__name__
-        terms = ITermContainer(self.context)
-        term = terms[term_id]
-        if term in self.scheduled_terms:
-            return term
 
 
 class FlourishJournalNavigationViewletBase(flourish.viewlet.Viewlet):
@@ -1094,7 +1115,7 @@ class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
     """Journal action links viewlet."""
 
 
-class FlourishJournalHelpViewlet(ModalFormLinkViewlet):
+class FlourishJournalHelpViewlet(flourish.page.ModalFormLinkViewlet):
 
     @property
     def dialog_title(self):
@@ -1102,7 +1123,7 @@ class FlourishJournalHelpViewlet(ModalFormLinkViewlet):
         return translate(title, context=self.request)
 
 
-class FlourishJournalHelpView(Dialog):
+class FlourishJournalHelpView(flourish.form.Dialog):
 
     def updateDialog(self):
         # XXX: fix the width of dialog content in css

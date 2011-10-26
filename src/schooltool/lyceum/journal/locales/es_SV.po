@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-10-03 15:03+0300\n"
-"PO-Revision-Date: 2011-10-03 15:51+0000\n"
+"PO-Revision-Date: 2011-10-10 13:38+0000\n"
 "Last-Translator: Douglas Cerna <douglascerna@yahoo.com>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-06 05:06+0000\n"
-"X-Generator: Launchpad (build 14085)\n"
+"X-Launchpad-Export-Date: 2011-10-14 06:07+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -38,15 +38,15 @@ msgstr "Diario"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr ""
+msgstr "Sección"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr ""
+msgstr "Período"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
-msgstr ""
+msgstr "Año"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
@@ -54,11 +54,11 @@ msgstr "Introduzca Asistencia"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73

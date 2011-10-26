@@ -21,14 +21,16 @@
 Unit tests for lyceum journal.
 """
 import unittest, doctest
+import datetime
 
-from schooltool.course.interfaces import ISection
-from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from zope.component import adapter
 from zope.component import provideAdapter
 from zope.app.testing import setup
 from zope.interface import implementer
 from zope.interface import implements
+
+from schooltool.course.interfaces import ISection
+from schooltool.lyceum.journal.interfaces import ISectionJournalData
 
 
 def doctest_SectionJournalData():
@@ -54,8 +56,12 @@ def doctest_SectionJournalData():
         ...         self.__name__ = name
 
         >>> class MeetingStub(object):
-        ...     def __init__(self, uid):
+        ...     def __init__(self, uid, meeting_id=None,
+        ...                  date=datetime.date(2011, 05, 05)):
+        ...         self.dtstart = datetime.datetime(
+        ...             date.year, date.month, date.day)
         ...         self.unique_id = uid
+        ...         self.meeting_id = meeting_id
 
         >>> person1 = PersonStub('john')
         >>> person2 = PersonStub('pete')
@@ -97,6 +103,28 @@ def doctest_SectionJournalData():
 
         >>> journal.getAbsence(person2, meeting, default=True)
         True
+
+    Meetings can be shared:
+
+        >>> meeting2 = MeetingStub('double-1', meeting_id='double-meeting')
+        >>> meeting3 = MeetingStub('double-2', meeting_id='double-meeting')
+
+        >>> print journal.getGrade(person1, meeting)
+        5
+
+        >>> print journal.getGrade(person1, meeting2)
+        None
+
+        >>> print journal.getGrade(person1, meeting3)
+        None
+
+        >>> journal.setGrade(person1, meeting2, "7")
+
+        >>> print journal.getGrade(person1, meeting3)
+        7
+
+        >>> print journal.getGrade(person1, meeting)
+        5
 
     """
 
@@ -180,8 +208,12 @@ def doctest_SectionJournal():
         ...     def __conform__(self, iface):
         ...         return section_data
 
+        >>> class CalendarStub(object):
+        ...     def __init__(self, section):
+        ...         self.__parent__ = section
+
         >>> class MeetingStub(object):
-        ...     owner = SectionStub()
+        ...     __parent__ = CalendarStub(SectionStub())
         >>> meeting = MeetingStub()
 
     The grades are stored in the section journal data of the section

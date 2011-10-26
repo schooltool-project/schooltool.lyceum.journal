@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2011-10-03 16:43+0000\n"
 "Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,15 +39,15 @@ msgstr "Журнал"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr ""
+msgstr "Розділ"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr ""
+msgstr "Семестр"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
-msgstr ""
+msgstr "Рік"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
@@ -54,7 +55,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
-msgstr ""
+msgstr "Дії"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
@@ -139,7 +140,7 @@ msgstr "Жодного періоду не пов’язано з розклад
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 msgid "Timetables"
-msgstr ""
+msgstr "Розклади"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
@@ -147,7 +148,7 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
-msgstr ""
+msgstr "Ім’я"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:51
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:87
@@ -159,7 +160,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
-msgstr ""
+msgstr "День"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
@@ -183,7 +184,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"
@@ -233,8 +234,7 @@ msgstr "${section} журнал"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
-"Ви можете керувати розкладами для цього розділу тут: ${timetable_link}"
+msgstr "Ви можете керувати розкладами для цього розділу тут: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

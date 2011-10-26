@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-10-03 15:03+0300\n"
-"PO-Revision-Date: 2011-10-03 15:52+0000\n"
+"PO-Revision-Date: 2011-10-14 10:16+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-06 05:05+0000\n"
-"X-Generator: Launchpad (build 14085)\n"
+"X-Launchpad-Export-Date: 2011-10-15 05:41+0000\n"
+"X-Generator: Launchpad (build 14124)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -38,15 +38,15 @@ msgstr "Logboek"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr ""
+msgstr "Sectie"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr ""
+msgstr "Termijn"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
-msgstr ""
+msgstr "Jaar"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
@@ -54,16 +54,16 @@ msgstr "Voer aanwezigheid in"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
-msgstr ""
+msgstr "Acties"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
 msgid "Single letter that represents an absent mark for a student"
-msgstr "Enkele letter die de afwezigheid van een leerling aanduidt."
+msgstr "Enkele letter die de absentie van een leerling aanduidt."
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:75
@@ -94,11 +94,11 @@ msgstr "Laatkomers"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:326
 msgid "Absent"
-msgstr "Afwezig"
+msgstr "Absent"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:329
 msgid "Tardy"
-msgstr "Laat"
+msgstr "Te laat"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:811
 msgid "N/A"
@@ -173,7 +173,7 @@ msgstr "Absent"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
 msgid "Tar."
-msgstr ""
+msgstr "Te laat"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
 msgid "Ave."
@@ -252,7 +252,7 @@ msgstr "${student_name} cijferlijst voor ${month}"
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Selecteer"
+msgstr "Selecteren"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27

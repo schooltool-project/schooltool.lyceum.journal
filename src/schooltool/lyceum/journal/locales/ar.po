@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2011-10-03 16:51+0000\n"
 "Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Arabic <ar@li.org>\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,15 +39,15 @@ msgstr "السّجل اليومي"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr ""
+msgstr "قسم"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr ""
+msgstr "فصل"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
-msgstr ""
+msgstr "سنة"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
@@ -54,7 +55,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
-msgstr ""
+msgstr "الإجراءات"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
@@ -129,8 +130,7 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"هذا القسم لم يحدّد لأيّ أجل ، لإستخدام المجلّة يمكنك إضافة جدول المواعيد "
-"أولا."
+"هذا القسم لم يحدّد لأيّ أجل ، لإستخدام المجلّة يمكنك إضافة جدول المواعيد أولا."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:10
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
@@ -139,7 +139,7 @@ msgstr "لم تخصّص أيّ فترات في جداول الوقت لهذا ا
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 msgid "Timetables"
-msgstr ""
+msgstr "جداول المواعيد"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
@@ -147,7 +147,7 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
-msgstr ""
+msgstr "الاسم"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:51
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:87
@@ -159,7 +159,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
-msgstr ""
+msgstr "يوم"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
@@ -183,7 +183,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Save"
-msgstr ""
+msgstr "حفظ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"

@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2011-10-03 16:44+0000\n"
 "Last-Translator: Tor Syversen <sol-moe@online.no>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -38,15 +39,15 @@ msgstr "Dagbok"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr ""
+msgstr "Seksjon"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr ""
+msgstr "Termin"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
-msgstr ""
+msgstr "År"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
@@ -54,7 +55,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
-msgstr ""
+msgstr "Handlinger"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
@@ -139,7 +140,7 @@ msgstr "Ingen perioder har blitt tildelt i timeplanen for denne seksjonen."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 msgid "Timetables"
-msgstr ""
+msgstr "Tidstabeller"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
@@ -147,7 +148,7 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:51
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:87
@@ -159,7 +160,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
-msgstr ""
+msgstr "Dag"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
@@ -183,7 +184,7 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Save"
-msgstr ""
+msgstr "Lagre"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"
@@ -233,8 +234,7 @@ msgstr "${section} dagbok"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
-"Du kan behandle timeplanene for denne seksjonen her: ${timetable_link}"
+msgstr "Du kan behandle timeplanene for denne seksjonen her: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

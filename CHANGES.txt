@@ -7,6 +7,7 @@ CHANGES
 
 - Section stays the same when switching between Gradebook and Journal.
   (https://launchpad.net/bugs/661240)
+- Update translations
 
 
 1.9.1 (2011-10-06)

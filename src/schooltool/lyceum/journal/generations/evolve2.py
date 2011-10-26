@@ -21,7 +21,9 @@ Evolve recorded meeting keys to a new format.
 
 Evolution caused by timetable remake.
 """
+import pytz
 import re
+from datetime import datetime
 
 from zope.app.generations.utility import findObjectsProviding
 from zope.app.publication.zopepublication import ZopePublication
@@ -38,10 +40,8 @@ meeting_pattern = re.compile(
     '(?P<hashed_id>-?\d+)-(?P<timetable_path>.+)@(?P<socket_getfqdn>.+)')
 
 
-
 def makeEventMap(section):
     event_map = {}
-
     activity_title = ''.join(
         [course.title for course in section.courses])
     calendar = ISchoolToolCalendar(section)
@@ -67,7 +67,6 @@ def extractMeetingEventKey(section, meeting_key):
     assert section_id == section.__name__, '%s != %s' % (
         section_id, section.__name__)
     assert timetables == 'timetables', timetables
-    # assert tt_id in IScheduleContainer(section)
 
     return unicode(parts['hashed_id'])
 
@@ -93,6 +92,8 @@ def evolveRecords(section, records, default_date, event_map):
         old_key = extractMeetingEventKey(section, meeting_key)
         event = event_map.get(old_key)
         if event is None:
+            event = event_map.get(meeting_key)
+        if event is None:
             event = MisplacedMeeting(default_date, record_key)
         if event in records_by_event:
             # An edge case when two events for the section have
@@ -105,7 +106,6 @@ def evolveRecords(section, records, default_date, event_map):
         records_by_event[event] = username, record
 
     records.clear()
-
     for event, (username, record) in records_by_event.items():
         key = (username, event.dtstart.date())
         entries = dict(records.get(key, ()))
@@ -138,8 +138,10 @@ def evolveDescriptions(section, descriptions, event_map):
 
 
 def evolveSectionJournal(section, journal):
-    default_date = ITerm(section).first
     event_map = makeEventMap(section)
+
+    first = ITerm(section).first
+    default_date = datetime(first.year, first.month, first.day)
 
     evolveRecords(section, journal.__grade_data__,
                   default_date, event_map)

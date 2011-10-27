@@ -99,7 +99,7 @@
       class=".journal.FlourishLyceumSectionJournalView"
       title="Enter Attendance"
       content_template="templates/f_journal.pt"
-      permission="schooltool.view"
+      permission="schooltool.edit"
       />
 
   <flourish:page

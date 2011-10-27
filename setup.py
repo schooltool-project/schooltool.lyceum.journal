@@ -81,7 +81,9 @@ setup(
                       'zope.viewlet'],
     extras_require={'test': ['zope.app.testing',
                              'zope.testing',
-                             'zope.ucol']},
+                             'zope.ucol',
+                             'schooltool.devtools>=0.6',
+                             'selenium']},
     include_package_data=True,
     zip_safe=False,
     entry_points="""

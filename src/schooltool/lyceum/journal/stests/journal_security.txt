@@ -1,0 +1,149 @@
+Students should not be able to change journal scores
+====================================================
+
+Helper:
+
+    >>> def addPerson(first_name, last_name, username, password, browser):
+    ...     browser.query.link('School').click()
+    ...     browser.query.link('People').click()
+    ...     browser.query.link('Person').click()
+    ...     browser.query.name('form.widgets.first_name').type(first_name)
+    ...     browser.query.name('form.widgets.last_name').type(last_name)
+    ...     browser.query.name('form.widgets.username').type(username)
+    ...     browser.query.name('form.widgets.password').type(password)
+    ...     browser.query.name('form.widgets.confirm').type(password)
+    ...     browser.query.button('Submit').click()
+
+Log in as manager:
+
+    >>> manager = browsers.manager
+    >>> manager.open('http://localhost')
+    >>> manager.query.link('Log in').click()
+    >>> manager.query.name('username').type('manager')
+    >>> manager.query.name('password').type('schooltool')
+    >>> manager.query.button('Log in').click()
+
+Set today's date:
+
+    >>> manager.open('http://localhost/time?value=2011-09-23')
+
+Add a school year:
+
+    >>> manager.open('http://localhost')
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('School Year').click()
+    >>> manager.query.name('form.widgets.first').type('2011-01-01',
+    ...                                               manager.keys.ENTER)
+    >>> manager.query.name('form.widgets.last').type('2011-12-31',
+    ...                                              manager.keys.ENTER)
+    >>> manager.query.name('form.widgets.title').type('2011')
+    >>> manager.query.button('Submit').click()
+
+Add a term:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Terms').click()
+    >>> manager.query.xpath('//a[@title="Add a new term to 2011"]').click()
+    >>> manager.query.name('form.widgets.first').type('2011-01-01',
+    ...                                               manager.keys.ENTER)
+    >>> manager.query.name('form.widgets.last').type('2011-12-31',
+    ...                                              manager.keys.ENTER)
+    >>> manager.query.name('form.widgets.title').type('2011')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Saturday').click()
+    >>> manager.query.button('Sunday').click()
+    >>> manager.query.button('Submit').click()
+
+Add a timetable:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Timetables').click()
+    >>> manager.query.link('Timetable').click()
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Days of the week').click()
+    >>> manager.query.button('Same time each day').click()
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Designated by time').click()
+    >>> manager.query.button('No').click()
+
+Add a course and a section:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Courses').click()
+    >>> manager.query.link('Course').click()
+    >>> manager.query.name('form.widgets.title').type('Math')
+    >>> manager.query.button('Add').click()
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Sections').click()
+    >>> manager.query.link('Section').click()
+    >>> manager.query.xpath('//option[text()="Math"]').click()
+    >>> manager.query.button('Add').click()
+
+Set a schedule for the section:
+
+    >>> manager.query.link('Schedule').click()
+    >>> manager.query.link('School Timetable').click()
+    >>> manager.query.button('Add').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-"]').click()
+    >>> manager.query.button('Save').click()
+
+Set up people:
+
+    >>> addPerson('Tom', 'Hoffman', 'tom', 'tom', manager)
+    >>> addPerson('Camila', 'Cerna', 'camila', 'camila', manager)
+
+Set Tom as instructor of the section and Camila as a student:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Sections').click()
+    >>> manager.query.link('Math (1)').click()
+    >>> manager.query.xpath('//a[@title="Edit instructors '
+    ...                     'for this section"]').click()
+    >>> manager.query.xpath('//button[@name="add_item.tom"]').click()
+    >>> manager.query.link('Done').click()
+    >>> manager.query.xpath('//a[@title="Edit students '
+    ...                     'for this section"]').click()
+    >>> manager.query.xpath('//button[@name="add_item.camila"]').click()
+    >>> manager.query.link('Done').click()
+
+Log in as tom:
+
+    >>> tom = browsers.tom
+    >>> tom.open('http://localhost')
+    >>> tom.query.link('Log in').click()
+    >>> tom.query.name('username').type('tom')
+    >>> tom.query.name('password').type('tom')
+    >>> tom.query.button('Log in').click()
+
+And access the journal through the section's calendar:
+
+    >>> tom.query_all.link('Journal')[1].click()
+    >>> print tom.url
+    http://localhost/schoolyears/2011/2011/sections/1/journal/index.html...
+
+Log in as camila:
+
+    >>> camila = browsers.camila
+    >>> camila.open('http://localhost')
+    >>> camila.query.link('Log in').click()
+    >>> camila.query.name('username').type('camila')
+    >>> camila.query.name('password').type('camila')
+    >>> camila.query.button('Log in').click()
+
+And she can't access the journal through the section's calendar:
+
+    >>> camila.query_all.link('Journal')[1].click()
+    >>> print camila.query.css('div.summary')
+    <div class="summary ui-state-error ui-corner-all">
+      <span class="ui-icon ui-icon-alert">
+        icon
+      </span>
+      You are not allowed to access this page. You can click on the
+      back button in your browser to go back, or ask a more privileged
+      user to log in.
+    </div>

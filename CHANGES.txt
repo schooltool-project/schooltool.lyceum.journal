@@ -2,11 +2,14 @@
 CHANGES
 =======
 
-1.9.2 (unreleased)
+1.9.2 (2011-10-28)
 ------------------
 
-- Section stays the same when switching between Gradebook and Journal.
-  (https://launchpad.net/bugs/661240)
+- Fix saving attendance/grades for months other than first (https://launchpad.net/bugs/879425)
+- Fix upgrading from versions earlier than 1.9 (https://launchpad.net/bugs/859708)
+- Minimize amount of permission checks for performance reasons (https://launchpad.net/bugs/879402)
+- Section stays the same when switching between Gradebook and Journal (https://launchpad.net/bugs/661240)
+- Selenium testing support
 - Update translations
 
 

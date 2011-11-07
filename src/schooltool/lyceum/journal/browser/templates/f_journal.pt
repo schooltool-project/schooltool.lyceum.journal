@@ -37,6 +37,20 @@
   <form method="post" class="grid-form"
         tal:condition="view/render_journal"
         tal:attributes="action request/URL">
+
+    <input tal:condition="request/month|nothing"
+           type="hidden"
+           name="month"
+           tal:attributes="value request/month" />
+    <input tal:condition="request/event_id|nothing"
+           type="hidden"
+           name="event_id"
+           tal:attributes="value request/event_id" />
+    <input tal:condition="request/student|nothing"
+           type="hidden"
+           name="student"
+           tal:attributes="value request/student" />
+
     <div class="gradebook">
       <div class="students gradebook-part">
         <table>

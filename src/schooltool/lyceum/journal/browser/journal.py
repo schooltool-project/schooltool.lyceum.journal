@@ -464,8 +464,11 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         columns = []
         selected_meeting = self.selectedEvent()
         for meeting in self.meetings():
-            selected = selected_meeting and selected_meeting == meeting
-            columns.append(PersonGradesColumn(meeting, self.context,
+            # Arguably anyone who can look at this journal
+            # should be able to look at meeting grades
+            insecure_meeting = removeSecurityProxy(meeting)
+            selected = selected_meeting and selected_meeting == insecure_meeting
+            columns.append(PersonGradesColumn(insecure_meeting, self.context,
                                               selected=selected))
         columns.append(SectionTermAverageGradesColumn(self.context,
                                                       self.selected_term))

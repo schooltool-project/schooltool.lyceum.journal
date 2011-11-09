@@ -42,17 +42,18 @@ Timetable schema:
     >>> manager.getLink('2005').click()
     >>> manager.getLink('School Timetables').click()
     >>> manager.getLink('New Timetable').click()
-    >>> manager.getLink('simple weekly timetable schema').click()
 
-    >>> manager.getControl(name='field.period_name_1').value = 'A'
-    >>> manager.getControl(name='field.period_start_1').value = '9:00'
-    >>> manager.getControl(name='field.period_finish_1').value = '10:00'
-
-    >>> manager.getControl(name='field.period_name_2').value = 'B'
-    >>> manager.getControl(name='field.period_start_2').value = '10:30'
-    >>> manager.getControl(name='field.period_finish_2').value = '11:30'
-
-    >>> manager.getControl('Create').click()
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Days of the week').click()
+    >>> manager.getControl('Same time each day').click()
+    >>> manager.getControl(name='field.times').value = '9:00-10:00\n10:30-11:30'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Have names').click()
+    >>> manager.getControl(name='field.periods').value = 'A\nB'
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('Same').click()
+    >>> manager.getControl('Next').click()
+    >>> manager.getControl('No').click()
 
 A section:
 
@@ -74,9 +75,9 @@ Let's schedule the section:
     >>> manager.getLink('Schedule').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()
-    >>> manager.getControl(name='Tuesday.A').value = True
-    >>> manager.getControl(name='Tuesday.B').value = True
-    >>> manager.getControl(name='Wednesday.A').value = True
+    >>> manager.getControl(name='period.1-.Period-').value = True
+    >>> manager.getControl(name='period.1-.Period-2-').value = True
+    >>> manager.getControl(name='period.2-.Period-').value = True
     >>> manager.getControl('Save').click()
 
 Let's log in with the teacher account:

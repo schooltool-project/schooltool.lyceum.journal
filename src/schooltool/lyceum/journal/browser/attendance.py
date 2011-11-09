@@ -219,7 +219,20 @@ class PeriodAttendanceColumn(object):
             return '<td style="background-color: #FFDDDD;">%s</td>' % cell_content
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % self.name
+        title = None
+        for meeting in self.meetings:
+            period = getattr(meeting, 'period', None)
+            if period is not None:
+                title = period.title
+                break
+        if title is None:
+            for meeting in self.meetings:
+                m_title = getattr(meeting, 'title', None)
+                if m_title is not None:
+                    title = m_title
+                    break
+        title = title or self.name
+        return '<span>%s</span>' % title
 
 
 class GroupAttendanceView(LyceumSectionJournalView, StudentSelectionMixin):

@@ -481,7 +481,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
     def getSelectedTerm(self):
         terms = ITermContainer(self.context)
         term_id = self.request.get('TERM', None)
-        if term_id:
+        if term_id and term_id in terms:
             term = terms[term_id]
             if term in self.scheduled_terms:
                 return term
@@ -816,9 +816,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         return result
 
     def getSelectedTerm(self):
-        term_id = ITerm(self.context.section).__name__
-        terms = ITermContainer(self.context)
-        term = terms[term_id]
+        term = ITerm(self.context.section)
         if term in self.scheduled_terms:
             return term
 

@@ -1148,3 +1148,28 @@ class FlourishJournalHelpView(flourish.form.Dialog):
             yield {'keys': u', '.join(grade['keys']),
                    'value': grade['value'],
                    'description': grade['legend']}
+
+
+class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
+
+    @Lazy
+    def journal(self):
+        journal = ISectionJournal(self.context, None)
+        return journal
+
+    @property
+    def url(self):
+        journal = self.journal
+        if journal is None:
+            return None
+        return absoluteURL(journal, self.request)
+
+    @property
+    def enabled(self):
+        if not super(SectionJournalLinkViewlet, self).enabled:
+            return False
+        journal = self.journal
+        if journal is None:
+            return None
+        can_view = flourish.canView(journal)
+        return can_view

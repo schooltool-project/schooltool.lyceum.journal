@@ -136,4 +136,14 @@
       permission="schooltool.view"
       />
 
+  <flourish:viewlet
+      name="journal"
+      after="calendar schedule gradebook"
+      title="Journal"
+      for="schooltool.course.interfaces.ISection"
+      manager="schooltool.course.browser.section.SectionLinks"
+      class=".journal.SectionJournalLinkViewlet"
+      permission="schooltool.view"
+      />
+
 </configure>

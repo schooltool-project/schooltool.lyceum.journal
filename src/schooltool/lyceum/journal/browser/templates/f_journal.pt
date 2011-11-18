@@ -10,9 +10,10 @@
     <h3 tal:condition="view/no_periods" i18n:translate="">
       No periods have been assigned in timetables of this section.
     </h3>
-    <h3>
+    <h3 i18n:translate="">
       You can manage timetables for this section here:
-      <a tal:attributes="href string:${context/section/@@absolute_url}/schedule"
+      <a i18n:name="timetable_link"
+         tal:attributes="href string:${view/context/section/@@absolute_url}/schedule"
          i18n:translate="">Timetables</a>
     </h3>
   </div>

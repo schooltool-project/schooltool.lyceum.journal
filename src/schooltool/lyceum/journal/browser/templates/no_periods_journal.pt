@@ -22,11 +22,10 @@
   </div>
 
   <div i18n:translate="">
-    You can manage schedule for this section here:
+    You can manage timetables for this section here:
     <a i18n:name="timetable_link"
-       tal:attributes="href string:${view/context/section/@@absolute_url}/schedule">
-      Schedule
-    </a>
+       tal:attributes="href string:${view/context/section/@@absolute_url}/schedule"
+       i18n:translate="">Timetables</a>
   </div>
 </metal:block>
 </html>

@@ -107,17 +107,15 @@ first works:
         should add a timetable first.
       </div>
       <div>
-        You can manage schedule for this section here:
-        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/schedule">
-          Schedule
-        </a>
+        You can manage timetables for this section here:
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/schedule">Timetables</a>
       </div>
     </div>
 
 As we have the link to the list of timetables for this sections, we
 might as well use it and schedule the section:
 
-    >>> manager.getLink('Schedule').click()
+    >>> manager.getLink('Timetables').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()
 
@@ -135,14 +133,14 @@ the journal.
         No periods have been assigned in timetables of this section.
       </div>
       <div>
-        You can manage schedule for this section here:
-        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/schedule"> Schedule </a>
+        You can manage timetables for this section here:
+        <a href="http://localhost/schoolyears/2005/2005-fall-1/sections/1/schedule">Timetables</a>
       </div>
     </div>
 
 Follow the link and select some periods.
 
-    >>> manager.getLink('Schedule').click()
+    >>> manager.getLink('Timetables').click()
     >>> manager.getLink('edit periods').click()
     >>> manager.getControl(name='period.1-.Period-').value = True
     >>> manager.getControl(name='period.1-.Period-2-').value = True

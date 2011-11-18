@@ -22,6 +22,7 @@ Lyceum journal content classes.
 from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
+from zope.annotation.interfaces import IAnnotations
 from zope.viewlet.viewlet import CSSViewlet
 from zope.security.proxy import removeSecurityProxy
 from zope.intid.interfaces import IIntIds
@@ -46,6 +47,26 @@ from schooltool.lyceum.journal.interfaces import ISectionJournalData
 
 ABSENT = 'n' #n means absent in lithuanian
 TARDY = 'p' #p means tardy in lithuanian
+
+CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
+
+
+def getCurrentSectionTaught(person):
+    ann = IAnnotations(removeSecurityProxy(person))
+    if CURRENT_SECTION_TAUGHT_KEY not in ann:
+        ann[CURRENT_SECTION_TAUGHT_KEY] = None
+    else:
+        section = ann[CURRENT_SECTION_TAUGHT_KEY]
+        try:
+            getSectionJournalData(section)
+        except:
+            ann[CURRENT_SECTION_TAUGHT_KEY] = None
+    return ann[CURRENT_SECTION_TAUGHT_KEY]
+
+
+def setCurrentSectionTaught(person, section):
+    ann = IAnnotations(removeSecurityProxy(person))
+    ann[CURRENT_SECTION_TAUGHT_KEY] = removeSecurityProxy(section)
 
 
 def student_sections(students):
@@ -236,7 +257,7 @@ class SectionJournal(object):
     def adjacent_sections(self):
         """Sections in the same course that share members and at least one
         teacher with this section."""
-        return adjacent_sections(self.section)
+        return adjacent_sections(removeSecurityProxy(self.section))
 
     @Lazy
     def meetings(self):

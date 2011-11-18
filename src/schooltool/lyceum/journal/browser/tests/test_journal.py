@@ -84,13 +84,13 @@ def doctest_JournalCalendarEventViewlet():
     with the event id passed as a parameter:
 
         >>> from zope.location.location import Location
-        >>> from schooltool.timetable.interfaces import ITimetableCalendarEvent
+        >>> from schooltool.timetable.interfaces import IScheduleCalendarEvent
         >>> from schooltool.lyceum.journal.interfaces import ISectionJournal
         >>> class JournalStub(Location):
         ...     __name__ = 'journal'
 
         >>> class TTEventStub(object):
-        ...     implements(ITimetableCalendarEvent)
+        ...     implements(IScheduleCalendarEvent)
         ...     def __init__(self):
         ...         self.unique_id = "unique&id"
         ...     def __conform__(self, iface):
@@ -575,16 +575,17 @@ def doctest_SectionListView():
         ...         self.terms = terms
 
         >>> from zope.traversing.interfaces import IContainmentRoot
+        >>> from schooltool.term.interfaces import ITerm
+
         >>> class SectionStub(object):
         ...     implements(IContainmentRoot)
-        ...     def __init__(self, name, terms):
-        ...         self.terms = terms
+        ...     def __init__(self, name, term):
+        ...         self.term = term
         ...         self.__name__ = self.title = name
         ...     def __conform__(self, interface):
-        ...         if interface == ITimetables:
-        ...             return TimetablesStub(self.terms)
+        ...         if interface == ITerm:
+        ...             return self.term
 
-        >>> from schooltool.timetable.interfaces import ITimetables
         >>> from schooltool.course.interfaces import IInstructor
         >>> class TeacherStub(object):
         ...     def __conform__(self, interface):
@@ -598,9 +599,10 @@ def doctest_SectionListView():
         >>> view.getSectionsForPerson(teacher)
         []
 
-        >>> section_list = [SectionStub("section1", [term1]),
-        ...                 SectionStub("section2", [term1, term2]),
-        ...                 SectionStub("section3", [term2])]
+        >>> section_list = [SectionStub("section1", term1),
+        ...                 SectionStub("section2", term1),
+        ...                 SectionStub("section2", term2),
+        ...                 SectionStub("section3", term2)]
 
     If there are sections associated with the teacher, only the
     sections in the current term will get returned:

@@ -181,7 +181,7 @@ msgstr "Gem."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Save"

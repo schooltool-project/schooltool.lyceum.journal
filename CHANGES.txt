@@ -2,16 +2,17 @@
 CHANGES
 =======
 
-1.9.3 (unreleased)
+1.9.3 (2011-11-18)
 ------------------
 
-- Nothing changed yet.
+- Fix saving attendance/grades for months other than first (https://launchpad.net/bugs/879425)
+- Fix displaying journal for sections that are not scheduled (https://launchpad.net/bugs/868421)
+- Link to journal from section views
 
 
 1.9.2 (2011-10-28)
 ------------------
 
-- Fix saving attendance/grades for months other than first (https://launchpad.net/bugs/879425)
 - Fix upgrading from versions earlier than 1.9 (https://launchpad.net/bugs/859708)
 - Minimize amount of permission checks for performance reasons (https://launchpad.net/bugs/879402)
 - Section stays the same when switching between Gradebook and Journal (https://launchpad.net/bugs/661240)

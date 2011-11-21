@@ -24,6 +24,7 @@ import urllib
 import base64
 
 from zope.security.proxy import removeSecurityProxy
+from zope.security import checkPermission
 from zope.proxy import sameProxiedObjects
 from zope.viewlet.interfaces import IViewlet
 from zope.exceptions.interfaces import UserError
@@ -94,6 +95,22 @@ class JournalCalendarEventViewlet(object):
         calendar_event = event_for_display.context
         journal = ISectionJournal(calendar_event, None)
         if journal:
+            return '%s/index.html?event_id=%s' % (
+                absoluteURL(journal, self.request),
+                urllib.quote(event_for_display.context.unique_id.encode('utf-8')))
+
+
+class FlourishJournalCalendarEventViewlet(JournalCalendarEventViewlet):
+
+    def attendanceLink(self):
+        """Construct the URL for the attendance form for a section meeting.
+
+        Returns None if the calendar event is not a section meeting event.
+        """
+        event_for_display = self.manager.event
+        calendar_event = event_for_display.context
+        journal = ISectionJournal(calendar_event, None)
+        if journal and checkPermission('schooltool.edit', journal):
             return '%s/index.html?event_id=%s' % (
                 absoluteURL(journal, self.request),
                 urllib.quote(event_for_display.context.unique_id.encode('utf-8')))

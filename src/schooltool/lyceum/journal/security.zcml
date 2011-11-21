@@ -13,11 +13,30 @@
      interface=".interfaces.ISectionJournal"
      permission="schooltool.edit"
   />
+  <describe_action
+     group="schooltool.lyceum.journal" name="view" title="View Journal"
+     description="View journal data for a section."
+     order="20"
+     interface=".interfaces.ISectionJournal"
+     permission="schooltool.view"
+  />
 
   <!-- security settings -->
+  <setting
+      key="administration_can_grade_journal"
+      text="The instructor of a section and school administration can edit a section's journal."
+      alt_text="Only the instructor of a section can edit its journal."
+      default="False" />
+  <crowd
+      name="journal_editors"
+      factory=".journal.JournalEditorsCrowd" />
   <allow
       interface=".interfaces.ISectionJournal"
       permission="schooltool.edit"
-      crowds="section_instructors" />
+      crowds="section_instructors journal_editors" />
+  <allow
+      interface=".interfaces.ISectionJournal"
+      permission="schooltool.view"
+      crowds="administration section_instructors" />
 
 </configure>

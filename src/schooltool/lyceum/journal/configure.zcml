@@ -19,7 +19,14 @@
   </class>
 
   <class class="schooltool.lyceum.journal.journal.SectionJournal">
-    <allow interface="schooltool.lyceum.journal.interfaces.ISectionJournal" />
+    <require
+        permission="schooltool.view"
+        attributes="getGrade getAbsence getDescription members
+                    adjacent_sections meetings recordedMeetings
+                    hasMeeting findMeeting section __parent__ __name__" />
+    <require
+        permission="schooltool.edit"
+        attributes="setGrade setAbsence setDescription" />
   </class>
 
   <adapter

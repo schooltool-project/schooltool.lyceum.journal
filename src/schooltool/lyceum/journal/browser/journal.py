@@ -110,7 +110,7 @@ class FlourishJournalCalendarEventViewlet(JournalCalendarEventViewlet):
         event_for_display = self.manager.event
         calendar_event = event_for_display.context
         journal = ISectionJournal(calendar_event, None)
-        if journal and checkPermission('schooltool.edit', journal):
+        if journal and checkPermission('schooltool.view', journal):
             return '%s/index.html?event_id=%s' % (
                 absoluteURL(journal, self.request),
                 urllib.quote(event_for_display.context.unique_id.encode('utf-8')))

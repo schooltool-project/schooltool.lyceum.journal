@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-10-03 15:03+0300\n"
-"PO-Revision-Date: 2011-10-03 16:49+0000\n"
+"POT-Creation-Date: 2011-11-18 02:09+0200\n"
+"PO-Revision-Date: 2011-10-26 15:43+0000\n"
 "Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-06 05:05+0000\n"
-"X-Generator: Launchpad (build 14085)\n"
+"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
+"X-Generator: Launchpad (build 14299)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -139,12 +139,18 @@ msgid "No periods have been assigned in timetables of this section."
 msgstr "No se han assignat períodes en el horari de aquesta secció."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
-msgid "Timetables"
-msgstr ""
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "Schedule"
+msgstr "Planifica l'horari"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:137
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr ""
+"Pot gestionar els horaris per a aquesta secció d'aquí: ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
@@ -230,12 +236,6 @@ msgstr "${section} diari per a ${month} ${year}"
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
 msgid "${section} journal"
 msgstr "${section} Diari"
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
-"Pot gestionar els horaris per a aquesta secció d'aquí: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"

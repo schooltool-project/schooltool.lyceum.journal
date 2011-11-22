@@ -14,7 +14,7 @@
       You can manage timetables for this section here:
       <a i18n:name="timetable_link"
          tal:attributes="href string:${view/context/section/@@absolute_url}/schedule"
-         i18n:translate="">Timetables</a>
+         i18n:translate="">Schedule</a>
     </h3>
   </div>
   <metal:block tal:replace="structure string:&lt;script type=&quot;text/javascript&quot;&gt;" />

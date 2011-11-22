@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2011-10-03 15:03+0300\n"
+"POT-Creation-Date: 2011-11-18 02:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -146,12 +146,17 @@ msgid "No periods have been assigned in timetables of this section."
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
-msgid "Timetables"
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "Schedule"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:137
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
@@ -236,11 +241,6 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
 msgid "${section} journal"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6

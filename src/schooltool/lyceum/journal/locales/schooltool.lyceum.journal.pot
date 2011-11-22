@@ -143,7 +143,7 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-msgid "Timetables"
+msgid "Schedule"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15

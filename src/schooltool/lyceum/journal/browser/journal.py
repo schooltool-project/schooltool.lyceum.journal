@@ -810,6 +810,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             else:
                 return (1, row['student']['sortKey'])
 
+    @Lazy
     def activities(self):
         result = []
         for meeting in self.meetings:
@@ -831,6 +832,21 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             info['period'] = period
             result.append(info)
         return result
+
+    @property
+    def scores(self):
+        results = {}
+        scores = set()
+        for grade in journal_grades():
+            value = grade['value']
+            scores.add(value.lower())
+            scores.add(value.upper())
+        scores = list(scores)
+        scores.insert(0, 'd') # score system type (discrete)
+        resultStr = ', '.join(["'%s'" % unicode(value) for value in scores])
+        for activity in self.activities:
+            results[activity['hash']] = resultStr
+        return results
 
     def getSelectedTerm(self):
         term = ITerm(self.context.section)
@@ -892,7 +908,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
         return newstr
 
     def scorableActivities(self):
-        return self.activities()
+        return self.activities
 
     @property
     def warningText(self):

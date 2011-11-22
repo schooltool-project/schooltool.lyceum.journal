@@ -28,6 +28,11 @@
       <tal:loop repeat="activity activities">
       activities[<tal:block replace="repeat/activity/index"/>] = '<tal:block replace="activity/hash"/>';
       </tal:loop>
+      var numscores = <tal:block replace="python: len(view.scores)"/>;
+      var scores = new Object();
+      <tal:loop repeat="activity view/scores">
+      scores['<tal:block replace="activity" />'] = new Array(<tal:block replace="python: view.scores[activity]" />);
+      </tal:loop>
       var edited = false;
       var currentCell;
       var currentDesc = '';

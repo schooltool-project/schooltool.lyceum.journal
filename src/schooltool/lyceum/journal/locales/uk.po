@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-10-03 15:03+0300\n"
-"PO-Revision-Date: 2011-10-03 16:43+0000\n"
+"POT-Creation-Date: 2011-11-18 02:09+0200\n"
+"PO-Revision-Date: 2011-10-26 15:43+0000\n"
 "Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-06 05:06+0000\n"
-"X-Generator: Launchpad (build 14085)\n"
+"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
+"X-Generator: Launchpad (build 14299)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -139,12 +139,17 @@ msgid "No periods have been assigned in timetables of this section."
 msgstr "Жодного періоду не пов’язано з розкладом у цьому розділі"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
-msgid "Timetables"
-msgstr "Розклади"
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "Schedule"
+msgstr "Розклад"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:137
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr "Ви можете керувати розкладами для цього розділу тут: ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
@@ -231,11 +236,6 @@ msgstr "${section} журнал за ${month} ${year}"
 msgid "${section} journal"
 msgstr "${section} журнал"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Ви можете керувати розкладами для цього розділу тут: ${timetable_link}"
-
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
 msgstr "${person} оцінки за ${month}"
@@ -274,3 +274,6 @@ msgstr "Створити та редагувати журнал даних дл�
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
 msgstr "Редагувати журнал"
+
+#~ msgid "Timetables"
+#~ msgstr "Розклади"

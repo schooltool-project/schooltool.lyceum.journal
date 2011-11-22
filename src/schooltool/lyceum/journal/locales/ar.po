@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-10-03 15:03+0300\n"
-"PO-Revision-Date: 2011-10-03 16:51+0000\n"
+"POT-Creation-Date: 2011-11-18 02:09+0200\n"
+"PO-Revision-Date: 2011-10-26 15:42+0000\n"
 "Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-06 05:05+0000\n"
-"X-Generator: Launchpad (build 14085)\n"
+"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
+"X-Generator: Launchpad (build 14299)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -138,12 +138,17 @@ msgid "No periods have been assigned in timetables of this section."
 msgstr "لم تخصّص أيّ فترات في جداول الوقت لهذا القسم."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
-msgid "Timetables"
-msgstr "جداول المواعيد"
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "Schedule"
+msgstr "مجدول"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:137
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هنا: ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
@@ -230,11 +235,6 @@ msgstr "${section} يومية ل ${month} ${year}"
 msgid "${section} journal"
 msgstr "سجل ${section} اليومي"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "يمكنك أن تدير جداول الوقت لهذا القسم هنا: ${timetable_link}"
-
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
 msgstr "${person} سجل الرتب ل ${month}"
@@ -273,3 +273,6 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
 msgstr "عدِّل الدفتر"
+
+#~ msgid "Timetables"
+#~ msgstr "جداول المواعيد"

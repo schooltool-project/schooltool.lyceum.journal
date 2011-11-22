@@ -2,9 +2,11 @@
 CHANGES
 =======
 
-2.0.0 (unreleased)
-----------------
+2.0.0 (2011-11-22)
+------------------
 
+- Allow administrators see the journal, add a setting to allow them enter attendance
+  (https://launchpad.net/bugs/892362)
 
 
 1.9.3 (2011-11-18)

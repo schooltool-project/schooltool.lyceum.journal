@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2011-11-18 02:09+0200\n"
+"POT-Creation-Date: 2011-11-22 20:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -275,5 +275,21 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "The instructor of a section and school administration can edit a section's journal."
 msgstr ""
 

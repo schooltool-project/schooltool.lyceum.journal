@@ -99,7 +99,7 @@
       class=".journal.FlourishLyceumSectionJournalView"
       title="Enter Attendance"
       content_template="templates/f_journal.pt"
-      permission="schooltool.edit"
+      permission="schooltool.view"
       />
 
   <flourish:page
@@ -144,6 +144,17 @@
       manager="schooltool.course.browser.section.SectionLinks"
       class=".journal.SectionJournalLinkViewlet"
       permission="schooltool.view"
+      />
+
+  <viewlet
+      name="journal-link"
+      for="*"
+      manager="schooltool.app.browser.skin.ICalendarEventViewletManager"
+      template="templates/section_journal_viewlet.pt"
+      class=".journal.FlourishJournalCalendarEventViewlet"
+      layer="schooltool.skin.flourish.interfaces.IFlourishLayer"
+      permission="zope.Public"
+      order="15"
       />
 
 </configure>

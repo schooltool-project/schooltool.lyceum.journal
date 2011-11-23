@@ -41,6 +41,8 @@ from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ILearner
 from schooltool.course.interfaces import ISection
 from schooltool.person.interfaces import IPerson
+from schooltool.securitypolicy.crowds import ConfigurableCrowd
+from schooltool.securitypolicy.crowds import AdministrationCrowd
 
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
@@ -337,3 +339,13 @@ class JournalAppStartup(StartUpBase):
 
 
 JournalCSSViewlet = CSSViewlet("journal.css")
+
+
+class JournalEditorsCrowd(ConfigurableCrowd):
+
+    setting_key = 'administration_can_grade_journal'
+
+    def contains(self, principal):
+        """Return the value of the related setting (True or False)."""
+        return (AdministrationCrowd(self.context).contains(principal) and
+                super(JournalEditorsCrowd, self).contains(principal))

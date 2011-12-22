@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-18 02:09+0200\n"
-"PO-Revision-Date: 2011-10-10 13:38+0000\n"
+"POT-Creation-Date: 2011-11-22 20:32+0200\n"
+"PO-Revision-Date: 2011-11-26 17:54+0000\n"
 "Last-Translator: Douglas Cerna <douglascerna@yahoo.com>\n"
 "Language-Team: Spanish\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
-"X-Generator: Launchpad (build 14299)\n"
+"X-Launchpad-Export-Date: 2011-11-27 05:49+0000\n"
+"X-Generator: Launchpad (build 14381)\n"
+"Language: \n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -150,7 +150,8 @@ msgstr "Horario"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Puede gestionar los horarios para esta sección aquí: ${timetable_link}"
+msgstr ""
+"Puede gestionar los horarios para esta sección aquí: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
@@ -277,5 +278,22 @@ msgstr "Crear y editar datos del diario para una sección."
 msgid "Edit Journal"
 msgstr "Editar Diario"
 
-#~ msgid "Timetables"
-#~ msgstr "Horarios"
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr "Ver Diario"
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr "Ver datos de diario de una sección."
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr "Sólo el instructor de una sección puede editar su diario."
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid ""
+"The instructor of a section and school administration can edit a section's "
+"journal."
+msgstr ""
+"El instructor y la administración de la escuela puede editar el diario de "
+"una sección."

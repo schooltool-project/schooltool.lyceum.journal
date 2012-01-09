@@ -2,10 +2,17 @@
 CHANGES
 =======
 
-2.0.1 (unreleased)
+2.0.2 (unreleased)
 ------------------
 
 - Nothing changed yet.
+
+
+2.0.1 (2011-12-22)
+------------------
+
+- Fixed css for cells in section journal
+- Update translations
 
 
 2.0.0 (2011-11-22)

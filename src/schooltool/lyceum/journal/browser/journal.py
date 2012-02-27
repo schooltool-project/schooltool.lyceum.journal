@@ -675,15 +675,13 @@ class JournalNavViewlet(flourish.page.LinkViewlet, SectionListView):
         return IPerson(self.request.principal, None)
 
     @property
-    def title(self):
+    def enabled(self):
         person = self.person
         if person is None:
-            return ''
+            return False
         taught_sections = list(self.getSectionsForPerson(person))
         learner_sections = list(ILearner(person).sections())
-        if not (taught_sections or learner_sections):
-            return ''
-        return _('Journal')
+        return taught_sections or learner_sections
 
     @property
     def url(self):

@@ -23,6 +23,7 @@
   <flourish:viewlet
       name="journal"
       after="manage_school"
+      title="Journal"
       manager="schooltool.skin.flourish.page.IHeaderNavigationManager"
       class="schooltool.lyceum.journal.browser.journal.JournalNavViewlet"
       permission="schooltool.view"

@@ -28,8 +28,8 @@ from zope.traversing.browser.absoluteurl import absoluteURL
 from zc.table import table
 
 from schooltool.table.interfaces import IIndexedColumn
-from schooltool.table.catalog import makeIndexedColumn
-from schooltool.table.catalog import RenderUnindexingMixin, unindex
+from schooltool.table.column import makeIndexedColumn
+from schooltool.table.column import RenderUnindexingMixin, unindex
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
 

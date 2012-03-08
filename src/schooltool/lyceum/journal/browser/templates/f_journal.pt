@@ -154,7 +154,7 @@
               <th rowspan="2">
                 <ul class="popup_menu">
                   <li>
-                    <span i18n:translate="">Name</span>
+                    <span i18n:translate="">Abs.</span>
                   </li>
                   <li>
                     <a href="?sort_by=absences" i18n:translate="">Sort by</a>
@@ -169,7 +169,7 @@
               <th rowspan="2">
                 <ul class="popup_menu">
                   <li>
-                    <span i18n:translate="">Name</span>
+                    <span i18n:translate="">Trd.</span>
                   </li>
                   <li>
                     <a href="?sort_by=tardies" i18n:translate="">Sort by</a>
@@ -177,14 +177,14 @@
                 </ul>
                 <div>
                   <a class="popup_link" href="" i18n:translate="">
-                    Tar.
+                    Trd.
                   </a>
                 </div>
               </th>
               <th rowspan="2">
                 <ul class="popup_menu">
                   <li>
-                    <span i18n:translate="">Name</span>
+                    <span i18n:translate="">Ave.</span>
                   </li>
                   <li>
                     <a href="?sort_by=average" i18n:translate="">Sort by</a>

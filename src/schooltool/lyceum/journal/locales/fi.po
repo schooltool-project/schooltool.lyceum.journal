@@ -177,7 +177,7 @@ msgid "Abs."
 msgstr "Pssolot"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+msgid "Trd."
 msgstr "Myöh."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174

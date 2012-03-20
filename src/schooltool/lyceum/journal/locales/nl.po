@@ -178,7 +178,7 @@ msgid "Abs."
 msgstr "Absent"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+msgid "Trd."
 msgstr "Te laat"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174

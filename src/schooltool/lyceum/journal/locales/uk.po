@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-18 02:09+0200\n"
-"PO-Revision-Date: 2011-10-26 15:43+0000\n"
-"Last-Translator: Sergiy Gavrylov <sergiovana@bigmir.net>\n"
+"POT-Creation-Date: 2011-11-22 20:32+0200\n"
+"PO-Revision-Date: 2012-01-22 19:21+0000\n"
+"Last-Translator: Maxim <kontact.cat@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
-"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
-"X-Generator: Launchpad (build 14299)\n"
+"X-Launchpad-Export-Date: 2012-01-23 05:38+0000\n"
+"X-Generator: Launchpad (build 14700)\n"
+"Language: uk\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -59,7 +59,7 @@ msgstr "Дії"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr ""
+msgstr "Допомога"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
@@ -103,13 +103,15 @@ msgstr "Відстаючий"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:811
 msgid "N/A"
-msgstr ""
+msgstr "Н/Д"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:849
 msgid ""
 "You have some changes that have not been saved.  Click OK to save now or "
 "CANCEL to continue without saving."
 msgstr ""
+"Ви зробили зміни, які ще не збережені. Натисніть \"ОК\", щоб зберегти зміни "
+"або \"Відміна\", щоб продовжити без збереження."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
@@ -148,7 +150,8 @@ msgstr "Розклад"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Ви можете керувати розкладами для цього розділу тут: ${timetable_link}"
+msgstr ""
+"Ви можете керувати розкладами для цього розділу тут: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
@@ -161,7 +164,7 @@ msgstr "Ім’я"
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:155
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:170
 msgid "Sort by"
-msgstr ""
+msgstr "Сортувати за"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
@@ -169,7 +172,7 @@ msgstr "День"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
-msgstr ""
+msgstr "Період"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:144
 msgid "Abs."
@@ -193,19 +196,19 @@ msgstr "Зберегти"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"
-msgstr ""
+msgstr "Скорочення:Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:201
 msgid "Zoom Out"
-msgstr ""
+msgstr "Віддалити"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:205
 msgid "Zoom Normal"
-msgstr ""
+msgstr "Звичайний масштаб"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:209
 msgid "Zoom In"
-msgstr ""
+msgstr "Збільшити"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
@@ -275,5 +278,20 @@ msgstr "Створити та редагувати журнал даних дл�
 msgid "Edit Journal"
 msgstr "Редагувати журнал"
 
-#~ msgid "Timetables"
-#~ msgstr "Розклади"
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr "Переглянути журнал"
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid ""
+"The instructor of a section and school administration can edit a section's "
+"journal."
+msgstr ""

@@ -178,7 +178,8 @@ msgid "Abs."
 msgstr "Abs."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+#, fuzzy
+msgid "Trd."
 msgstr "Tar."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174

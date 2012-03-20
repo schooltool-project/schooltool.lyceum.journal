@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2011-11-22 20:32+0200\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -177,11 +177,13 @@ msgstr ""
 msgid "Abs."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
+msgid "Trd."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
 msgstr ""
 

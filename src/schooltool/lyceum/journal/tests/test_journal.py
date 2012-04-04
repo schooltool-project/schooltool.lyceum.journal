@@ -28,9 +28,11 @@ from zope.component import provideAdapter
 from zope.app.testing import setup
 from zope.interface import implementer
 from zope.interface import implements
+from zope.interface.verify import verifyObject
 
 from schooltool.course.interfaces import ISection
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
+from schooltool.lyceum.journal.interfaces import ISectionJournal
 
 
 def doctest_SectionJournalData():
@@ -48,6 +50,9 @@ def doctest_SectionJournalData():
         ... def getSection(jd):
         ...     return section
 
+        >>> provideAdapter(getSection)
+        >>> verifyObject(ISectionJournalData, journal)
+        True
 
     Grades can be added for every person/meeting pair:
 

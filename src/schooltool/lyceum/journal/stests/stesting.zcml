@@ -4,8 +4,9 @@
            i18n_domain="schooltool.lyceum.journal">
 
   <include package="schooltool.skin.flourish.instance" />
-  <browser:defaultSkin name="SchoolToolFlourish" />
+  <include package="schooltool.testing" file="selenium.zcml" />
   <include package="schooltool.lyceum.journal" />
+  <browser:defaultSkin name="SchoolToolFlourish" />
 
   <include package="schooltool.term" file="time_machine.zcml" />
   <flourish:page

@@ -85,3 +85,4 @@ Print the journal sidebar groups:
     Term
     Year
     Actions
+    Reports

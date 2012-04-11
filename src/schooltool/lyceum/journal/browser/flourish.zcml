@@ -112,7 +112,7 @@
 
   <flourish:viewlet
       name="journal-actions"
-      after="select_year"
+      after="journal_year_navigation"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.FlourishJournalActionsLinks"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"

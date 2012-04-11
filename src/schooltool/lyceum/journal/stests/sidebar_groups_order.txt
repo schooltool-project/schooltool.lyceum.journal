@@ -1,0 +1,87 @@
+Test for the order of the sidebar groups in the journal
+=======================================================
+
+Log in as manager:
+
+    >>> manager = browsers.manager
+    >>> manager.ui.login('manager', 'schooltool')
+
+Set today's date:
+
+    >>> manager.open('http://localhost/time?value=2011-09-23')
+
+Add a school year:
+
+    >>> manager.ui.schoolyear.add('2011', '2011-01-01', '2011-12-31')
+
+Add a term:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Terms').click()
+    >>> manager.query.link('Term').click()
+    >>> manager.query.name('form.widgets.title').ui.set_value('2011')
+    >>> manager.query.name('form.widgets.first').ui.set_value('2011-01-01')
+    >>> manager.query.name('form.widgets.last').ui.set_value('2011-12-31')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Saturday').click()
+    >>> manager.query.button('Sunday').click()
+    >>> manager.query.button('Submit').click()
+
+Add a timetable:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Timetables').click()
+    >>> manager.query.link('Timetable').click()
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Days of the week').click()
+    >>> manager.query.button('Same time each day').click()
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Designated by time').click()
+    >>> manager.query.button('No').click()
+
+Add a course and a section:
+
+    >>> manager.ui.course.add('2011', 'Math')
+    >>> manager.ui.section.add('2011', '2011', 'Math')
+
+Set a schedule for the section:
+
+    >>> manager.ui.section.go('2011', '2011', 'Math (1)')
+    >>> manager.query.link('Schedule').click()
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.query.button('Submit').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-"]').click()
+    >>> manager.query.button('Save').click()
+
+Set up people:
+
+    >>> manager.ui.person.add('Tom', 'Hoffman', 'tom', 'pwd')
+    >>> manager.ui.person.add('Camila', 'Cerna', 'camila', 'pwd')
+
+Set Tom as instructor of the section and Camila as a student:
+
+    >>> manager.ui.section.instructors.add('2011', '2011', 'Math (1)', ['tom'])
+    >>> manager.ui.section.students.add('2011', '2011', 'Math (1)', ['camila'])
+
+Log in as tom and go to the journal of the section:
+
+    >>> tom = browsers.tom
+    >>> tom.ui.login('tom', 'pwd')
+    >>> sel = '//div[@class="event-body"]//a[text()="Journal"]'
+    >>> tom.query.xpath(sel).click()
+    >>> print tom.url
+    http://localhost/schoolyears/2011/2011/sections/1/journal/index.html...
+
+Print the journal sidebar groups:
+
+    >>> for el in tom.query_all.css('.sidebar .content .header'):
+    ...     print el.text
+    Section
+    Term
+    Year
+    Actions

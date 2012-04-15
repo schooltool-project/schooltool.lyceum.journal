@@ -2,10 +2,16 @@
 CHANGES
 =======
 
-2.0.2 (unreleased)
+2.0.4 (unreleased)
 ------------------
 
-- tab hiding (https://launchpad.net/bugs/938810)
+
+
+2.0.3 (2012-03-20)
+------------------
+
+- Tab hiding (https://launchpad.net/bugs/938810)
+- Update translations
 
 
 2.0.1 (2011-12-22)

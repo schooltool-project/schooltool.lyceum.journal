@@ -1,5 +1,5 @@
-Students should not be able to change journal scores
-====================================================
+Test for the order of the sidebar groups in the journal
+=======================================================
 
 Log in as manager:
 
@@ -68,25 +68,21 @@ Set Tom as instructor of the section and Camila as a student:
     >>> manager.ui.section.instructors.add('2011', '2011', 'Math (1)', ['tom'])
     >>> manager.ui.section.students.add('2011', '2011', 'Math (1)', ['camila'])
 
-Log in as tom:
+Log in as tom and go to the journal of the section:
 
     >>> tom = browsers.tom
     >>> tom.ui.login('tom', 'pwd')
-
-And access the journal through the section's calendar:
-
     >>> sel = '//div[@class="event-body"]//a[text()="Journal"]'
     >>> tom.query.xpath(sel).click()
     >>> print tom.url
     http://localhost/schoolyears/2011/2011/sections/1/journal/index.html...
 
-Log in as camila:
+Print the journal sidebar groups:
 
-    >>> camila = browsers.camila
-    >>> camila.ui.login('camila', 'pwd')
-
-And she can't access the journal through the section's calendar:
-
-    >>> sel = '//div[@class="event-body"]//a[text()="Journal"]'
-    >>> camila.query_all.xpath(sel)
-    []
+    >>> for el in tom.query_all.css('.sidebar .content .header'):
+    ...     print el.text
+    Section
+    Term
+    Year
+    Actions
+    Reports

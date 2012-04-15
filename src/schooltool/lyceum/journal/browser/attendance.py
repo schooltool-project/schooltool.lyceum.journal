@@ -45,6 +45,7 @@ from schooltool.lyceum.journal.browser.table import SelectableRowTableFormatter
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
 from schooltool.lyceum.journal.browser.journal import StudentSelectionMixin
 from schooltool.lyceum.journal.interfaces import ISectionJournal
+from schooltool.lyceum.journal.interfaces import ISectionJournalData
 
 from schooltool.lyceum.journal import LyceumMessage as _
 
@@ -137,7 +138,7 @@ class AttendanceColumn(object):
             calendar = meeting.__parent__
             owner = calendar.__parent__
             if student in owner.members:
-                value = value and ISectionJournal(meeting).getAbsence(student, meeting)
+                value = value and ISectionJournalData(owner).getAbsence(student, meeting)
 
         if absences == 0:
             return '<td></td>'
@@ -206,11 +207,11 @@ class PeriodAttendanceColumn(object):
         else:
             name = student.__name__ + "." + self.name
             value = False
-            calendar = meeting.__parent__
-            owner = calendar.__parent__
             for meeting in self.meetings:
+                calendar = meeting.__parent__
+                owner = calendar.__parent__
                 if student in owner.members:
-                    value = value or ISectionJournal(meeting).getAbsence(student, meeting)
+                    value = value or ISectionJournalData(owner).getAbsence(student, meeting)
             absence_titles = [translate(owner.label, context=formatter.request)
                               for meeting in absences]
             cell_content = '<input type="checkbox" name="%s" %s />' % (name, value and 'checked="checked"' or '')

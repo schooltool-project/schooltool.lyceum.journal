@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"POT-Creation-Date: 2012-04-17 21:00+0300\n"
 "PO-Revision-Date: 2012-01-01 00:22+0000\n"
 "Last-Translator: Daniel Winzen <d@winzen4.de>\n"
 "Language-Team: German <de@li.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2012-03-21 05:57+0000\n"
 "X-Generator: Launchpad (build 14981)\n"
-"Language: de\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -61,8 +61,22 @@ msgstr "Aktionen"
 msgid "Help"
 msgstr "Hilfe"
 
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
+msgid "Reports"
+msgstr "Berichte"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid ""
+"A single Excel-formatted spreadsheet containing all the worksheets for this "
+"journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid "Journal Export"
+msgstr ""
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:76
 msgid "Single letter that represents an absent mark for a student"
 msgstr "a"
 

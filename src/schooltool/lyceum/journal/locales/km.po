@@ -4,16 +4,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"POT-Creation-Date: 2012-04-17 21:00+0300\n"
 "PO-Revision-Date: 2011-11-22 21:32+0000\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2012-03-21 05:57+0000\n"
 "X-Generator: Launchpad (build 14981)\n"
-"Language: \n"
 "Generated-By: i18nextract.py\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -59,8 +59,22 @@ msgstr "អំពើ"
 msgid "Help"
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
+msgid "Reports"
+msgstr "របារការណ៍"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid ""
+"A single Excel-formatted spreadsheet containing all the worksheets for this "
+"journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid "Journal Export"
+msgstr ""
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:76
 msgid "Single letter that represents an absent mark for a student"
 msgstr ""
 

@@ -119,7 +119,7 @@ might as well use it and schedule the section:
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()
 
-Let's forget to set periods for the timetable and navigate straigth to
+Let's forget to set periods for the timetable and navigate straight to
 the journal.
 
     >>> manager.getLink('2005').click()
@@ -147,12 +147,12 @@ Follow the link and select some periods.
     >>> manager.getControl(name='period.2-.Period-').value = True
     >>> manager.getControl('Save').click()
 
-Now let's schedule the other sections:
+Schedule the other section:
 
     >>> manager.getLink('2005').click()
-    >>> manager.getLink('2005 Fall 2').click()
+    >>> manager.getLink('2005 Fall 1').click()
     >>> manager.getLink('Sections').click()
-    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink(url='sections/2').click()
     >>> manager.getLink('Schedule').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()
@@ -161,11 +161,31 @@ Now let's schedule the other sections:
     >>> manager.getControl(name='period.2-.Period-').value = True
     >>> manager.getControl('Save').click()
 
+Let's look at the other term that has not been scheduled yet:
 
     >>> manager.getLink('2005').click()
-    >>> manager.getLink('2005 Fall 1').click()
+    >>> manager.getLink('2005 Fall 2').click()
     >>> manager.getLink('Sections').click()
-    >>> manager.getLink(url='sections/2').click()
+    >>> manager.getLink(url='sections/1').click()
+    >>> manager.getLink('Journal').click()
+    >>> print analyze.queryHTML('//div[@id="content-body"]', manager.contents)[0]
+    <div id="content-body">
+      <div>
+        This section is not scheduled for any term, to use the journal you
+        should add a timetable first.
+      </div>
+      <div>
+        You can manage timetables for this section here:
+        <a href="http://localhost/schoolyears/2005/2005-fall-2/sections/1/schedule">Schedule</a>
+      </div>
+    </div>
+
+Let's schedule the section for the second term:
+
+    >>> manager.getLink('2005').click()
+    >>> manager.getLink('2005 Fall 2').click()
+    >>> manager.getLink('Sections').click()
+    >>> manager.getLink(url='sections/1').click()
     >>> manager.getLink('Schedule').click()
     >>> manager.getLink('Add Timetable').click()
     >>> manager.getControl('Add').click()

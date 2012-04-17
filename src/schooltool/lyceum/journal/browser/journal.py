@@ -59,7 +59,6 @@ from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
 from schooltool.table.table import simple_form_key
-from schooltool.timetable.interfaces import IScheduleCalendarEvent
 from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
@@ -441,6 +440,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
     def allMeetings(self):
         term = removeSecurityProxy(self.selected_term)
+        if not term:
+            return ()
 
         # maybe expand would be better in here
         by_uid = dict([(removeSecurityProxy(e).unique_id, e)

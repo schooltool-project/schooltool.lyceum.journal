@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-18 02:09+0200\n"
-"PO-Revision-Date: 2011-10-26 15:43+0000\n"
-"Last-Translator: Hüseyin Kozan <posta@huseyinkozan.com.tr>\n"
+"POT-Creation-Date: 2012-04-17 21:00+0300\n"
+"PO-Revision-Date: 2012-03-24 18:09+0000\n"
+"Last-Translator: Kaya Zeren <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
-"X-Generator: Launchpad (build 14299)\n"
+"X-Launchpad-Export-Date: 2012-03-25 05:57+0000\n"
+"X-Generator: Launchpad (build 14981)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -35,7 +35,7 @@ msgstr "Toplam"
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 #: /src/schooltool/lyceum/journal/security.zcml:6
 msgid "Journal"
-msgstr "Bülten"
+msgstr "Yoklama"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
@@ -51,7 +51,7 @@ msgstr "Yıl"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
-msgstr ""
+msgstr "Katılımı Yazın"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
@@ -59,22 +59,36 @@ msgstr "Eylemler"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
+msgstr "Yardım"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
+msgid "Reports"
+msgstr "Raporlar"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid ""
+"A single Excel-formatted spreadsheet containing all the worksheets for this "
+"journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid "Journal Export"
 msgstr ""
 
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:76
 msgid "Single letter that represents an absent mark for a student"
-msgstr "d"
+msgstr "Bir öğrencinin yokluğunu gösteren harf"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:75
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "g"
+msgstr "Bir öğrencinin geciktiğini gösteren harf"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:116
 #: /src/schooltool/lyceum/journal/browser/journal.py:396
 msgid "Nr."
-msgstr "No:"
+msgstr "No"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:246
 msgid "Grades"
@@ -91,7 +105,7 @@ msgstr "Devamsızlık"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:319
 msgid "Tardies"
-msgstr ""
+msgstr "Geç kalma"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:326
 msgid "Absent"
@@ -99,26 +113,28 @@ msgstr "Devamsız"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:329
 msgid "Tardy"
-msgstr "Gecikmiş"
+msgstr "Gecikme"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:811
 msgid "N/A"
-msgstr ""
+msgstr "Yok"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:849
 msgid ""
 "You have some changes that have not been saved.  Click OK to save now or "
 "CANCEL to continue without saving."
 msgstr ""
+"Kaydetmediğiniz bazı değişiklikler var.  Şimdi kaydetmek için Tamam, "
+"kaydetmeden geçmek için İptal düğmesine tıklayın."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
-msgstr ""
+msgstr "Yoklama Yardımı"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "${group}  grubu ${month} ayında katılacak"
+msgstr "${group}  grubunun ${month} ayındaki devamlılığı"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:78
 msgid "There have been no meetings in the selected term."
@@ -130,19 +146,20 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Bu bölüm herhangi bir dönem için planlanmamış, bülteni kullanabilmek için "
-"ilk önce bir zaman çizelgesi eklemeniz gerekmekte."
+"Bu bölüm herhangi bir dönemde zamanlanmamış, yoklamayı kullanabilmek için "
+"önce bir zaman çizelgesi eklemeniz gerekiyor."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:10
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Bu bölüm için zaman çizelgelerinde herhangi bir dönem atanmamış."
+msgstr ""
+"Bu bölüm için zaman çizelgelerinde herhangi bir zaman aralığı atanmamış."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "Schedule"
-msgstr "Program"
+msgstr "Zamanlama"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
@@ -163,7 +180,7 @@ msgstr "Ad"
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:155
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:170
 msgid "Sort by"
-msgstr ""
+msgstr "Sıralama"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
@@ -171,23 +188,25 @@ msgstr "Gün"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
-msgstr ""
+msgstr "Aralık"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:144
 msgid "Abs."
-msgstr ""
+msgstr "Yok"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
-msgstr ""
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
+msgid "Trd."
+msgstr "Geç"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
-msgstr ""
+msgstr "Ort"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "S"
-msgstr ""
+msgstr "K"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Save"
@@ -195,19 +214,19 @@ msgstr "Kaydet"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"
-msgstr ""
+msgstr "Kısayol: Alt-K"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:201
 msgid "Zoom Out"
-msgstr ""
+msgstr "Uzaklaştır"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:205
 msgid "Zoom Normal"
-msgstr ""
+msgstr "Normal"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:209
 msgid "Zoom In"
-msgstr ""
+msgstr "Yakınlaştır"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
@@ -221,12 +240,12 @@ msgstr "Devam / Not"
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
-msgstr ""
+msgstr "Devamlılık"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${month} ${year} için ${section} bülteni"
+msgstr "${section} bölümünün ${month} ${year} yoklaması"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -236,19 +255,19 @@ msgstr "${month} ${year} için ${section} bülteni"
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
 msgid "${section} journal"
-msgstr "${section} bülteni"
+msgstr "${section} yoklaması"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${student_name}, ${month} ayı notları"
+msgstr "${person} ${month} ayı not defteri"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "${student_name} notları"
+msgstr "${person} not defteri"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name}, ${month} ayı notları"
+msgstr "${student_name}, ${month} ayı not defteri"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -267,15 +286,31 @@ msgstr "Kısayol: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Benim Bölümüm"
+msgstr "Bölümlerim"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr ""
+msgstr "Bir bölüm için yoklama verisini oluşturur ve düzenler."
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
-msgstr ""
+msgstr "Yoklamayı Düzenle"
 
-#~ msgid "Timetables"
-#~ msgstr "Zaman Çizelgeleri"
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr "Yoklamayı Göster"
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr "Bir bölüm için yoklama verisini gösterir."
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr "Yalnız bir bölümün öğretmeni yoklamayı düzenleyebilir."
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid ""
+"The instructor of a section and school administration can edit a section's "
+"journal."
+msgstr ""
+"Bölümün öğretmeni ve okul yönetimi bir bölümün yoklamasını düzenleyebilir."

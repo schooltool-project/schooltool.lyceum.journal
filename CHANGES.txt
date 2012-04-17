@@ -8,6 +8,7 @@ CHANGES
 - Clicking on a student in the Journal does not go to the student (https://launchpad.net/bugs/661243)
 - Fix displaying journal if section is scheduled for some other term, but not the
   viewed one (https://launchpad.net/bugs/976712)
+- Update translations
 
 
 2.0.3 (2012-03-20)

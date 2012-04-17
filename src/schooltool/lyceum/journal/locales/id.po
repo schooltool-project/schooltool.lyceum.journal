@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-22 20:32+0200\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
 "PO-Revision-Date: 2012-02-17 13:48+0000\n"
 "Last-Translator: Fakhrul Rijal <frijal@gmail.com>\n"
 "Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-02-18 05:47+0000\n"
-"X-Generator: Launchpad (build 14814)\n"
+"X-Launchpad-Export-Date: 2012-03-21 05:57+0000\n"
+"X-Generator: Launchpad (build 14981)\n"
 "Language: id\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -177,12 +177,13 @@ msgstr "Periode"
 msgid "Abs."
 msgstr "Abs."
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-#, fuzzy
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
 msgid "Trd."
-msgstr "Tar."
+msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
 msgstr "Ave."
 

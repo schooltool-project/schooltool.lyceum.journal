@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-18 02:09+0200\n"
-"PO-Revision-Date: 2011-10-26 15:42+0000\n"
-"Last-Translator: Christian Funder Sommerlund <zero3@zero3.dk>\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"PO-Revision-Date: 2012-03-27 06:09+0000\n"
+"Last-Translator: Ole Guldberg <olegb@omgwtf.dk>\n"
 "Language-Team: Danish <da@li.org>\n"
-"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
-"X-Generator: Launchpad (build 14299)\n"
+"X-Launchpad-Export-Date: 2012-03-28 05:37+0000\n"
+"X-Generator: Launchpad (build 15027)\n"
+"Language: da\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -24,7 +24,7 @@ msgstr "Forklaret:"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:172
 msgid "Total"
-msgstr "Total"
+msgstr "Ialt"
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:38
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
@@ -51,7 +51,7 @@ msgstr "År"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
 msgid "Enter Attendance"
-msgstr ""
+msgstr "Indtast fravær"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
 msgid "Actions"
@@ -59,7 +59,7 @@ msgstr "Handlinger"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr ""
+msgstr "Hjælp"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
@@ -70,7 +70,8 @@ msgstr ""
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:75
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "Enkelt bogstav, der repræsenterer et træg mærke for en studerende"
+msgstr ""
+"Enkelt bogstav, der repræsenterer et for sent mærke for en studerende"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:116
 #: /src/schooltool/lyceum/journal/browser/journal.py:396
@@ -92,7 +93,7 @@ msgstr "Fravær"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:319
 msgid "Tardies"
-msgstr ""
+msgstr "For sent"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:326
 msgid "Absent"
@@ -100,21 +101,23 @@ msgstr "Fraværende"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:329
 msgid "Tardy"
-msgstr "Træg"
+msgstr "For sent"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:811
 msgid "N/A"
-msgstr ""
+msgstr "Utilg."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:849
 msgid ""
 "You have some changes that have not been saved.  Click OK to save now or "
 "CANCEL to continue without saving."
 msgstr ""
+"Du har ændringer der ikke er gemte. Klik OK for at gemme nu eller Fortryd "
+"for at forsætte uden at gemme."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
-msgstr ""
+msgstr "Journal help"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -162,7 +165,7 @@ msgstr "Navn"
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:155
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:170
 msgid "Sort by"
-msgstr ""
+msgstr "Sorter efter"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
@@ -170,23 +173,25 @@ msgstr "Dag"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
-msgstr ""
+msgstr "Periode"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:144
 msgid "Abs."
-msgstr ""
+msgstr "Fravær"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
-msgstr ""
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
+msgid "Trd."
+msgstr "For sent"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
-msgstr ""
+msgstr "Gennemsnit"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Save"
@@ -194,19 +199,19 @@ msgstr "Gem"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"
-msgstr ""
+msgstr "Genvej: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:201
 msgid "Zoom Out"
-msgstr ""
+msgstr "Zoom Ud"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:205
 msgid "Zoom Normal"
-msgstr ""
+msgstr "Zoom til normal niveau"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:209
 msgid "Zoom In"
-msgstr ""
+msgstr "Zoom Ind"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
@@ -220,7 +225,7 @@ msgstr "Deltagerliste / stilling"
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
-msgstr ""
+msgstr "Tilstedeværelse"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
@@ -257,12 +262,12 @@ msgstr "Vælg"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr ""
+msgstr "$"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr ""
+msgstr "ß"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
@@ -270,11 +275,28 @@ msgstr "Min afdeling"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr ""
+msgstr "Opret og rediger journal-data for en sektion."
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
-msgstr ""
+msgstr "Rediger journal"
 
-#~ msgid "Timetables"
-#~ msgstr "Timeplaner"
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr "Vis journal"
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr "Vis journal-data for en sektion."
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr "Kun instrutøren for en sektion kan redigere sektionens journal."
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid ""
+"The instructor of a section and school administration can edit a section's "
+"journal."
+msgstr ""
+"Instruktøren for en sektion og skolens administrator kan redigere en "
+"sektions journal."

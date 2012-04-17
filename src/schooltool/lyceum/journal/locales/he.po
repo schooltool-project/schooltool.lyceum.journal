@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-18 02:09+0200\n"
-"PO-Revision-Date: 2011-10-27 10:34+0000\n"
-"Last-Translator: Ariel Municipality <Unknown>\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"PO-Revision-Date: 2011-11-22 21:41+0000\n"
+"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Hebrew <he@li.org>\n"
-"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-19 05:56+0000\n"
-"X-Generator: Launchpad (build 14299)\n"
+"X-Launchpad-Export-Date: 2012-03-21 05:57+0000\n"
+"X-Generator: Launchpad (build 14981)\n"
+"Language: he\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -175,11 +175,13 @@ msgstr ""
 msgid "Abs."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
+msgid "Trd."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
 msgstr ""
 
@@ -274,3 +276,21 @@ msgstr "יצירה ועריכת יומן עבור מתחם."
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
 msgstr "עריכת היומן"
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid ""
+"The instructor of a section and school administration can edit a section's "
+"journal."
+msgstr ""

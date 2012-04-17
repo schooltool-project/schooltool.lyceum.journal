@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-10-03 15:03+0300\n"
-"PO-Revision-Date: 2011-10-03 16:48+0000\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"PO-Revision-Date: 2011-10-26 15:42+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
-"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-10-06 05:05+0000\n"
-"X-Generator: Launchpad (build 14085)\n"
+"X-Launchpad-Export-Date: 2012-03-21 05:57+0000\n"
+"X-Generator: Launchpad (build 14981)\n"
+"Language: gl\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -139,12 +139,17 @@ msgid "No periods have been assigned in timetables of this section."
 msgstr "Non hai períodos asignados nos horarios desta sección."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
-msgid "Timetables"
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "Schedule"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:48
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:55
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:137
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
+msgid "You can manage timetables for this section here: ${timetable_link}"
+msgstr "Pode xestionar os horarios desta sección aquí: ${timetable_link}"
+
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
 msgid "Name"
@@ -170,11 +175,13 @@ msgstr ""
 msgid "Abs."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
+msgid "Trd."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
 msgstr ""
 
@@ -231,11 +238,6 @@ msgstr "Diario de ${section} para ${month} de ${year}"
 msgid "${section} journal"
 msgstr "Diario de ${section}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
-#: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
-msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "Pode xestionar os horarios desta sección aquí: ${timetable_link}"
-
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
 msgstr "Caderno de cualificacións de ${person} de ${month}"
@@ -274,3 +276,21 @@ msgstr "Crear e editar datos do diario para unha sección"
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
 msgstr "Editar diario"
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View Journal"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:16
+msgid "View journal data for a section."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid "Only the instructor of a section can edit its journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/security.zcml:25
+msgid ""
+"The instructor of a section and school administration can edit a section's "
+"journal."
+msgstr ""

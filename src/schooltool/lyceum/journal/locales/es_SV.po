@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-22 20:32+0200\n"
-"PO-Revision-Date: 2011-11-26 17:54+0000\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"PO-Revision-Date: 2012-03-25 17:00+0000\n"
 "Last-Translator: Douglas Cerna <douglascerna@yahoo.com>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-27 05:49+0000\n"
-"X-Generator: Launchpad (build 14381)\n"
+"X-Launchpad-Export-Date: 2012-03-26 05:12+0000\n"
+"X-Generator: Launchpad (build 15008)\n"
 "Language: \n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -178,8 +178,8 @@ msgstr "Período"
 msgid "Abs."
 msgstr "Aus."
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-#, fuzzy
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
 msgid "Trd."
 msgstr "Tar."
 

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-22 20:32+0200\n"
-"PO-Revision-Date: 2011-11-22 23:54+0000\n"
-"Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
+"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"PO-Revision-Date: 2012-04-12 14:09+0000\n"
+"Last-Translator: Guybrush88 <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-12-23 08:09+0000\n"
-"X-Generator: Launchpad (build 14560)\n"
+"X-Launchpad-Export-Date: 2012-04-13 06:14+0000\n"
+"X-Generator: Launchpad (build 15070)\n"
 "Language: it\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -59,7 +59,7 @@ msgstr "Azioni"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr ""
+msgstr "Aiuto"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:73
@@ -103,13 +103,15 @@ msgstr "Ritardatario"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:811
 msgid "N/A"
-msgstr ""
+msgstr "N/D"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:849
 msgid ""
 "You have some changes that have not been saved.  Click OK to save now or "
 "CANCEL to continue without saving."
 msgstr ""
+"Ci sono delle modifiche che non sono state salvate. Premere OK per salvare "
+"adesso o ANNULLA per continuare senza salvare."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
@@ -162,7 +164,7 @@ msgstr "Nome"
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:155
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:170
 msgid "Sort by"
-msgstr ""
+msgstr "Ordina per"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
 msgid "Day"
@@ -170,17 +172,19 @@ msgstr "Giorno"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
 msgid "Period"
-msgstr ""
+msgstr "Periodo"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:144
 msgid "Abs."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-msgid "Tar."
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
+msgid "Trd."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
 msgstr ""
 
@@ -194,19 +198,19 @@ msgstr "Salva"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
 msgid "Shortcut: Alt-S"
-msgstr ""
+msgstr "Scorciatoia: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:201
 msgid "Zoom Out"
-msgstr ""
+msgstr "Rimpicciolisci"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:205
 msgid "Zoom Normal"
-msgstr ""
+msgstr "Zoom normale"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:209
 msgid "Zoom In"
-msgstr ""
+msgstr "Ingrandisci"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73

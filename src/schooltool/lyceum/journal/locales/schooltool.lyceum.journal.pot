@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2012-03-20 15:37+0200\n"
+"POT-Creation-Date: 2012-04-17 21:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -69,7 +69,19 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
+msgid "Reports"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid "A single Excel-formatted spreadsheet containing all the worksheets for this journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid "Journal Export"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:76
 #. Default: "a"
 msgid "Single letter that represents an absent mark for a student"
 msgstr ""

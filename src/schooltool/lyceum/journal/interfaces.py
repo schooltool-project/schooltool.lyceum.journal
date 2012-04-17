@@ -32,10 +32,10 @@ class ISectionJournalData(Interface):
     def setGrade(person, meeting, grade):
         """Set a grade for a person participating in this meeting."""
 
-    def getGrade(person, meetgig, default=None):
+    def getGrade(person, meeting, default=None):
         """Retrieve a grade for a person and a meeting."""
 
-    def setAsbence(person, meeting, explained=True):
+    def setAbsence(person, meeting, explained=True):
         """Mark an absence as an explained or unexplained one."""
 
     def getAbsence(person, meeting, default=False):
@@ -59,10 +59,10 @@ class ISectionJournal(ILocation):
     def setGrade(person, meeting, grade):
         """Set a grade for a person participating in this meeting."""
 
-    def getGrade(person, meetgig, default=None):
+    def getGrade(person, meeting, default=None):
         """Retrieve a grade for a person and a meeting."""
 
-    def setAsbence(person, meeting, explained=True):
+    def setAbsence(person, meeting, explained=True):
         """Mark an absence as an explained or unexplained one."""
 
     def getAbsence(person, meeting, default=False):
@@ -77,7 +77,7 @@ class ISectionJournal(ILocation):
     def meetings():
         """List all possible meetings for this section."""
 
-    def recordedMeetings(student):
+    def recordedMeetings(person):
         """Returns a list of recorded grades/absences for a person."""
 
     def hasMeeting(person, meeting):

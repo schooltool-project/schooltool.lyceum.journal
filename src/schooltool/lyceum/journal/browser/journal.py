@@ -22,6 +22,8 @@ Lyceum journal views.
 import pytz
 import urllib
 import base64
+import xlwt
+from StringIO import StringIO
 
 from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
@@ -43,18 +45,20 @@ from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
 from schooltool.skin import flourish
+from schooltool.basicperson.interfaces import IDemographics
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
+from schooltool.export import export
 from schooltool.person.interfaces import IPerson
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
+from schooltool.report.browser.report import RequestReportDownloadDialog
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
 from schooltool.table.table import simple_form_key
-from schooltool.timetable.interfaces import IScheduleCalendarEvent
 from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
@@ -436,6 +440,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
     def allMeetings(self):
         term = removeSecurityProxy(self.selected_term)
+        if not term:
+            return ()
 
         # maybe expand would be better in here
         by_uid = dict([(removeSecurityProxy(e).unique_id, e)
@@ -1202,3 +1208,107 @@ class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
             return None
         can_view = flourish.canView(journal)
         return can_view
+
+
+class FlourishRequestJournalExportView(RequestReportDownloadDialog):
+
+    def nextURL(self):
+        return absoluteURL(self.context, self.request) + '/export.xls'
+
+
+class DateHeader(export.Header):
+
+    @property
+    def style(self):
+        result = super(DateHeader, self).style.copy()
+        result['format_str'] = 'YYYY-MM-DD'
+        return result
+
+
+class FlourishJournalExportView(export.ExcelExportView,
+                                FlourishLyceumSectionJournalView):
+
+    def print_headers(self, ws):
+        row_1_headers = [export.Header(label)
+                         for label in ['ID', 'First name', 'Last name']]
+        row_2_headers = [export.Header('') for i in range(3)]
+        for activity_info in self.activities:
+            row_1_headers.append(DateHeader(activity_info['date']))
+            row_2_headers.append(export.Header(activity_info['period']))
+        for col, header in enumerate(row_1_headers):
+            self.write(ws, 0, col, header.data, **header.style)
+        for col, header in enumerate(row_2_headers):
+            self.write(ws, 1, col, header.data, **header.style)
+
+    def studentSortKey(self, value):
+        student = self.persons[value['student']['id']]
+        return IDemographics(student).get('ID', '')
+
+    def print_grades(self, ws):
+        starting_row = 2
+        table = sorted(self.table(), key=lambda x:self.studentSortKey)
+        for i, row in enumerate(table):
+            student = self.persons[row['student']['id']]
+            cells = [export.Text(IDemographics(student).get('ID', '')),
+                     export.Text(student.first_name),
+                     export.Text(student.last_name)]
+            for grade in row['grades']:
+                value = grade['value']
+                cells.append(export.Text(value))
+            for col, cell in enumerate(cells):
+                self.write(ws, starting_row+i, col, cell.data, **cell.style)
+
+    def export_month_worksheets(self, wb):
+        for month_id in self.selected_months:
+            self._active_month = month_id
+            title = self.monthTitle(month_id)
+            ws = wb.add_sheet(title)
+            self.print_headers(ws)
+            self.print_grades(ws)
+
+    def __call__(self):
+        app = ISchoolToolApplication(None)
+        self.persons = app['persons']
+        self.tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
+        wb = xlwt.Workbook()
+        self.export_month_worksheets(wb)
+        datafile = StringIO()
+        wb.save(datafile)
+        data = datafile.getvalue()
+        self.setUpHeaders(data)
+        return data
+
+    @property
+    def active_month(self):
+        return self._active_month
+
+    @property
+    def meetings(self):
+        result = []
+        for event in self.all_meetings:
+            insecure_event = removeSecurityProxy(event)
+            if insecure_event.dtstart.date().month == self.active_month:
+                result.append(event)
+        return result
+
+    @property
+    def activities(self):
+        result = []
+        for meeting in self.meetings:
+            info = {}
+            insecure_meeting = removeSecurityProxy(meeting)
+            meetingDate = insecure_meeting.dtstart.astimezone(self.tzinfo).date()
+            info['date'] = meetingDate
+            try:
+                if meeting.period is not None:
+                    short_title = meeting.period.title
+                else:
+                    short_title = ''
+                period = short_title
+                if period[-1] == ':':
+                    period = period[:-1]
+            except:
+                period = ''
+            info['period'] = period
+            result.append(info)
+        return result

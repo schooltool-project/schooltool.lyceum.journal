@@ -84,9 +84,21 @@
           <tbody>
             <tr tal:repeat="row table">
               <td colspan="2">
+                <ul class="popup_menu">
+                  <li>
+                    <span tal:content="row/student/title" />
+                  </li>
+                  <li>
+                    <a href="" i18n:translate="" i18n:domain="schooltool"
+                       tal:attributes="href row/student/url">
+                      Student
+                    </a>
+                  </li>
+                </ul>
                 <div>
-                  <a href=""
-                     tal:attributes="title row/student/title"
+                  <a class="popup_link"
+                     tal:attributes="title row/student/title;
+                                     href row/student/url"
                      tal:content="row/student/title" />
                 </div>
               </td>

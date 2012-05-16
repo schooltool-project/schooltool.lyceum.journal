@@ -11,7 +11,7 @@
       require="schooltool.skin.flourish-gradebook"
       layer="schooltool.skin.flourish.IFlourishLayer">
     <directory
-          source=""
+          source="resources"
           include="f_journal.css"
           />
   </zope:resourceLibrary>

@@ -23,7 +23,6 @@ from BTrees.OOBTree import OOBTree
 from persistent import Persistent
 
 from zope.annotation.interfaces import IAnnotations
-from zope.viewlet.viewlet import CSSViewlet
 from zope.security.proxy import removeSecurityProxy
 from zope.intid.interfaces import IIntIds
 from zope.container.btree import BTreeContainer
@@ -336,9 +335,6 @@ class JournalAppStartup(StartUpBase):
     def __call__(self):
         if 'schooltool.lyceum.journal' not in self.app:
             self.app['schooltool.lyceum.journal'] = LyceumJournalContainer()
-
-
-JournalCSSViewlet = CSSViewlet("journal.css")
 
 
 class JournalEditorsCrowd(ConfigurableCrowd):

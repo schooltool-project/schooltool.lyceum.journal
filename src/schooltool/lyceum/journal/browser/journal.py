@@ -29,6 +29,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
 from zope.proxy import sameProxiedObjects
 from zope.viewlet.interfaces import IViewlet
+from zope.viewlet.viewlet import CSSViewlet
 from zope.exceptions.interfaces import UserError
 from zope.publisher.browser import BrowserView
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
@@ -82,6 +83,9 @@ ATTENDANCE_DATA_TO_TRANSLATION = {ABSENT: ABSENT_LETTER,
                                   TARDY:  TARDY_LETTER}
 ATTENDANCE_TRANSLATION_TO_DATA = {ABSENT_LETTER: ABSENT,
                                   TARDY_LETTER:  TARDY}
+
+
+JournalCSSViewlet = CSSViewlet("journal.css")
 
 
 class JournalCalendarEventViewlet(object):

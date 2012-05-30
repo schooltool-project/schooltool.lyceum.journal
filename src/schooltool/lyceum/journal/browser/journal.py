@@ -717,11 +717,30 @@ class StudentGradebookTabViewlet(object):
 class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
                                        LyceumSectionJournalView):
 
-    has_header = False
-    page_class = 'page grid'
     no_timetable = False
     no_periods = False
     render_journal = True
+
+    @property
+    def page_class(self):
+        if self.render_journal:
+            return 'page grid'
+        else:
+            return 'page'
+
+    @property
+    def title(self):
+        if self.render_journal:
+            return _('Enter Attendance')
+        else:
+            if self.no_timetable:
+                return _('Section is not scheduled')
+            else:
+                return _('No periods assigned for this section')
+
+    @property
+    def has_header(self):
+        return not self.render_journal
 
     def updateGradebook(self):
         members = self.members()
@@ -730,7 +749,8 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
                 cell_id = "%s_%s" % (meeting.__name__, person.__name__)
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
-                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
+                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value,
+                                                                    cell_value)
                     self.context.setGrade(person, meeting, cell_value)
 
     def update(self):
@@ -763,7 +783,9 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
-                grade = self.context.getGrade(person, insecure_meeting, default='')
+                grade = self.context.getGrade(person,
+                                              insecure_meeting,
+                                              default='')
                 value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
@@ -822,7 +844,10 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
     def activities(self):
         result = []
         for meeting in self.meetings:
-            info = {'hash': meeting.__name__}
+            info = {
+                'hash': meeting.__name__,
+                'cssClass': 'scorable',
+                }
             insecure_meeting = removeSecurityProxy(meeting)
             meetingDate = insecure_meeting.dtstart.astimezone(self.tzinfo).date()
             info['shortTitle'] = meetingDate.strftime("%d")
@@ -934,14 +959,7 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
 
 class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager):
 
-    template = InlineViewPageTemplate("""
-        <ul tal:attributes="class view/list_class">
-          <li tal:repeat="item view/items"
-              tal:attributes="class item/class"
-              tal:content="structure item/viewlet">
-          </li>
-        </ul>
-    """)
+    template = ViewPageTemplateFile('templates/f_journal_tertiary_nav.pt')
 
     @Lazy
     def items(self):
@@ -968,76 +986,83 @@ class FlourishJournalNavigationViewletBase(flourish.viewlet.Viewlet):
     def getUserSections(self):
         return list(IInstructor(self.person).sections())
 
+    @Lazy
+    def user_sections(self):
+        return self.getUserSections()
 
-class FlourishJournalYearNavigation(flourish.page.RefineLinksViewlet):
+
+class TeacherNavigationViewletBase(flourish.page.RefineLinksViewlet):
+
+    @property
+    def person(self):
+        return IPerson(self.request.principal)
+
+    @property
+    def section(self):
+        return self.context.section
+
+    def render(self, *args, **kw):
+        if self.person in self.section.instructors:
+            return super(TeacherNavigationViewletBase,
+                         self).render(*args, **kw)
+
+
+class FlourishJournalYearNavigation(TeacherNavigationViewletBase):
     """Journal year navigation viewlet."""
 
 
 class FlourishJournalYearNavigationViewlet(FlourishJournalNavigationViewletBase):
     template = InlineViewPageTemplate('''
-    <form method="post"
-          tal:attributes="action string:${context/@@absolute_url}">
-      <select name="currentYear" class="navigator"
-              onchange="this.form.submit()">
-        <tal:block repeat="year view/getYears">
-          <option
-              tal:attributes="value year/form_id;
+    <select name="currentYear" class="navigator"
+            tal:define="years view/getYears"
+            tal:condition="years"
+            onchange="ST.redirect($(this).context.value)">
+      <option tal:repeat="year years"
+              tal:attributes="value year/section_url;
                               selected year/selected"
               tal:content="year/title" />
-        </tal:block>
-      </select>
-    </form>
+    </select>
     ''')
 
     def getYears(self):
         currentSection = self.context.section
         currentYear = ISchoolYear(ITerm(currentSection))
         years = []
-        for section in self.getUserSections():
+        for section in self.user_sections:
             year = ISchoolYear(ITerm(section))
             if year not in years:
                 years.append(year)
         return [{'title': year.title,
-                 'form_id': year.__name__,
+                 'section_url': self.getSectionURL(year),
                  'selected': year is currentYear and 'selected' or None}
-                for year in years]
+                for year in sorted(years, key=lambda x:x.first)]
 
-    def update(self):
-        super(FlourishJournalYearNavigationViewlet, self).update()
-        if 'currentYear' in self.request:
-            currentSection = self.context.section
-            currentYear = ISchoolYear(ITerm(currentSection))
-            requestYearId = self.request['currentYear']
-            if requestYearId != currentYear.__name__:
-                for section in self.getUserSections():
-                    year = ISchoolYear(ITerm(section))
-                    if year.__name__ == requestYearId:
-                        newSection = section
-                        break
-                else:
-                    return
-                url = absoluteURL(newSection, self.request) + '/journal'
-                self.request.response.redirect(url)
+    def getSectionURL(self, year):
+        result = None
+        for section in self.user_sections:
+            term = ITerm(section)
+            if ISchoolYear(term).__name__ == year.__name__:
+               result = section
+               break
+        url = '%s/journal' % absoluteURL(result, self.request)
+        return url
 
 
-class FlourishJournalTermNavigation(flourish.page.RefineLinksViewlet):
+class FlourishJournalTermNavigation(TeacherNavigationViewletBase):
     """Journal term navigation viewlet."""
 
 
 class FlourishJournalTermNavigationViewlet(FlourishJournalNavigationViewletBase):
     template = InlineViewPageTemplate('''
-    <form method="post"
-          tal:attributes="action string:${context/@@absolute_url}">
-      <select name="currentTerm" class="navigator"
-              onchange="this.form.submit()">
-        <tal:block repeat="term view/getTerms">
-          <option
-              tal:attributes="value term/form_id;
+    <select name="currentTerm" class="navigator"
+            tal:define="terms view/getTerms"
+            tal:condition="terms"
+            onchange="ST.redirect($(this).context.value)">
+      <option tal:repeat="term terms"
+              tal:attributes="value term/section_url;
                               selected term/selected"
               tal:content="term/title" />
-        </tal:block>
-      </select>
-    </form>
+    </select>
     ''')
 
     def getTerms(self):
@@ -1045,96 +1070,67 @@ class FlourishJournalTermNavigationViewlet(FlourishJournalNavigationViewletBase)
         currentTerm = ITerm(currentSection)
         currentYear = ISchoolYear(currentTerm)
         terms = []
-        for section in self.getUserSections():
+        for section in self.user_sections:
             term = ITerm(section)
-            if term not in terms and ISchoolYear(term) == currentYear:
+            if ISchoolYear(term) == currentYear and term not in terms:
                 terms.append(term)
         return [{'title': term.title,
-                 'form_id': self.getTermId(term),
+                 'section_url': self.getSectionURL(term),
                  'selected': term is currentTerm and 'selected' or None}
-                for term in terms]
+                for term in sorted(terms, key=lambda x:x.first)]
 
-    def update(self):
-        super(FlourishJournalTermNavigationViewlet, self).update()
-        if 'currentTerm' in self.request:
-            currentSection = self.context.section
-            try:
-                currentCourse = list(currentSection.courses)[0]
-            except (IndexError,):
-                currentCourse = None
-            currentTerm = ITerm(currentSection)
-            requestTermId = self.request['currentTerm']
-            if requestTermId != self.getTermId(currentTerm):
-                newSection = None
-                for section in self.getUserSections():
-                    term = ITerm(section)
-                    if self.getTermId(term) == requestTermId:
-                        try:
-                            temp = list(section.courses)[0]
-                        except (IndexError,):
-                            temp = None
-                        if currentCourse == temp:
-                            newSection = section
-                            break
-                        if newSection is None:
-                            newSection = section
-                url = absoluteURL(newSection, self.request) + '/journal'
-                self.request.response.redirect(url)
+    def getCourse(self, section):        
+        try:
+            return list(section.courses)[0]
+        except (IndexError,):
+            return None
 
-    def getTermId(self, term):
-        year = ISchoolYear(term)
-        return '%s.%s' % (simple_form_key(year), simple_form_key(term))
+    def getSectionURL(self, term):
+        result = None
+        currentSection = self.context.section
+        currentCourse = self.getCourse(currentSection)
+        for section in self.user_sections:
+            if term == ITerm(section):
+                if currentCourse == self.getCourse(section):
+                    result = section
+                    break
+                elif result is None:
+                    result = section
+        url = '%s/journal' % absoluteURL(result, self.request)
+        return url
 
 
-class FlourishJournalSectionNavigation(flourish.page.RefineLinksViewlet):
+class FlourishJournalSectionNavigation(TeacherNavigationViewletBase):
     """Journal section navigation viewlet."""
 
 
 class FlourishJournalSectionNavigationViewlet(FlourishJournalNavigationViewletBase):
     template = InlineViewPageTemplate('''
-    <form method="post"
-          tal:attributes="action string:${context/@@absolute_url}">
-      <select name="currentSection" class="navigator"
-              onchange="this.form.submit()">
-        <tal:block repeat="section view/getSections">
-	  <option
-	      tal:attributes="value section/form_id;
+    <select name="currentSection" class="navigator"
+            tal:define="sections view/getSections"
+            tal:condition="sections"
+            onchange="ST.redirect($(this).context.value)">
+      <option tal:repeat="section sections"
+	      tal:attributes="value section/url;
 			      selected section/selected;"
 	      tal:content="section/title" />
-        </tal:block>
-      </select>
-    </form>
+    </select>
     ''')
 
     def getSections(self):
+        result = []
         currentSection = self.context.section
         currentTerm = ITerm(currentSection)
-        for section in self.getUserSections():
+        for section in self.user_sections:
             term = ITerm(section)
             if term != currentTerm:
                 continue
-            yield {
+            result.append({
+                'url': '%s/journal' % absoluteURL(section, self.request),
                 'title': section.title,
-                'form_id': self.getSectionId(section),
                 'selected': section == currentSection and 'selected' or None,
-                }
-
-    def getSectionId(self, section):
-        term = ITerm(section)
-        year = ISchoolYear(term)
-        return '%s.%s.%s' % (simple_form_key(year), simple_form_key(term),
-                             simple_form_key(section))
-
-    def update(self):
-        super(FlourishJournalSectionNavigationViewlet, self).update()
-        if 'currentSection' in self.request:
-            for section in self.getUserSections():
-                if self.getSectionId(section) == self.request['currentSection']:
-                    if section == self.context.section:
-                        break
-                    url = absoluteURL(section, self.request) + '/journal'
-                    self.request.response.redirect(url)
-                    return
+                })
+        return result
 
 
 class FlourishJournalRedirectView(flourish.page.Page):
@@ -1176,7 +1172,7 @@ class FlourishJournalHelpView(flourish.form.Dialog):
         self.ajax_settings['dialog'] = {
             'autoOpen': True,
             'modal': False,
-            'resizable': True,
+            'resizable': False,
             'draggable': True,
             'position': ['center','middle'],
             'width': 'auto',
@@ -1212,6 +1208,140 @@ class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
             return None
         can_view = flourish.canView(journal)
         return can_view
+
+
+class FlourishJournalValidateScoreView(flourish.page.Page):
+
+    def __call__(self):
+        result = {'is_valid': True, 'is_extracredit': False}
+        score = self.request.get('score')
+        if score:
+            grades = [grade['value'].lower() for grade in journal_grades()]
+            if score not in grades:
+                result['is_valid'] = False
+        response = self.request.response
+        response.setHeader('Content-Type', 'application/json')
+        encoder = flourish.tal.JSONEncoder()
+        json = encoder.encode(result)
+        return json
+
+
+class FlourishActivityPopupMenuView(flourish.page.Page):
+
+    def translate(self, message):
+        return translate(message, context=self.request)
+
+    def __call__(self):
+        result = {}
+        app = ISchoolToolApplication(None)
+        tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
+        activity_id = self.request.get('activity_id')
+        meetings = dict([(meeting.__name__, meeting)
+                         for meeting in self.context.meetings])
+        if activity_id is not None and activity_id in meetings:
+            meeting = meetings[activity_id]
+            meetingDate = meeting.dtstart.astimezone(tzinfo).date()
+            info = {
+                'longTitle': meetingDate.strftime("%Y-%m-%d"),
+                'hash': activity_id,
+                }
+            url = absoluteURL(self.context, self.request)
+            result['header'] = info['longTitle']
+            result['options'] = [
+                {
+                    'label': self.translate(_('Fill down')),
+                    'url': '#',
+                    'css_class': 'filldown',
+                    },
+                {
+                    'label': self.translate(_('Sort by')),
+                    'url': '%s?sort_by=%s' % (url, info['hash']),
+                    }
+                ]
+        response = self.request.response
+        response.setHeader('Content-Type', 'application/json')
+        encoder = flourish.tal.JSONEncoder()
+        json = encoder.encode(result)
+        return json
+
+
+class FlourishStudentPopupMenuView(flourish.page.Page):
+
+    def translate(self, message):
+        return translate(message, context=self.request)
+
+    def __call__(self):
+        result = {}
+        student_id = self.request.get('student_id')
+        if student_id is not None:
+            app = ISchoolToolApplication(None)
+            student = app['persons'].get(student_id)
+            if student is not None and student in self.context.members:
+                url = absoluteURL(student, self.request)
+                result['header'] = student.title
+                result['options'] = [
+                    {
+                        'label': self.translate(_('Student')),
+                        'url': url,
+                        }
+                    ]
+        response = self.request.response
+        response.setHeader('Content-Type', 'application/json')
+        encoder = flourish.tal.JSONEncoder()
+        json = encoder.encode(result)
+        return json
+
+
+class FlourishNamePopupMenuView(flourish.page.Page):
+
+    def translate(self, message):
+        return translate(message, context=self.request)
+
+    def __call__(self):
+        result = {
+            'header': self.translate(_('Name')),
+            'options': [
+                {
+                    'label': self.translate(_('Sort by')),
+                    'url': '?sort_by=student',
+                    }
+                ],
+            }
+        response = self.request.response
+        response.setHeader('Content-Type', 'application/json')
+        encoder = flourish.tal.JSONEncoder()
+        json = encoder.encode(result)
+        return json
+
+
+class FlourishTotalPopupMenuView(flourish.page.Page):
+
+    titles = {
+        'total': _('Total'),
+        'average': _('Ave.'),
+        'tardies': _('Trd.'),
+        'absences': _('Abs.'),
+        }
+
+    def translate(self, message):
+        return translate(message, context=self.request)
+
+    def __call__(self):
+        result = {}
+        column_id = self.request.get('column_id')
+        if column_id in self.titles:
+            result['header'] = self.translate(self.titles[column_id])
+            result['options'] = [
+                {
+                    'label': self.translate(_('Sort by')),
+                    'url': '?sort_by=%s' % column_id,
+                    },
+                ]
+        response = self.request.response
+        response.setHeader('Content-Type', 'application/json')
+        encoder = flourish.tal.JSONEncoder()
+        json = encoder.encode(result)
+        return json
 
 
 class FlourishRequestJournalExportView(RequestReportDownloadDialog):

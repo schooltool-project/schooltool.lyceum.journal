@@ -1,49 +1,26 @@
+<tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
+<tal:block condition="not:view/render_journal"
+           i18n:domain="schooltool.lyceum.journal">
+  <p tal:condition="view/no_timetable" i18n:translate="">
+    This section is not scheduled for any term, to use the journal you
+    should add a timetable first.
+  </p>
+  <p tal:condition="view/no_periods" i18n:translate="">
+    No periods have been assigned in timetables of this section.
+  </p>
+  <p i18n:translate="">
+    You can manage timetables for this section here:
+    <a i18n:name="timetable_link"
+       tal:attributes="href string:${view/context/section/@@absolute_url}/schedule"
+       i18n:translate="">Schedule</a>
+  </p>
+</tal:block>
 <div i18n:domain="schooltool.lyceum.journal"
-     tal:define="table view/table;
-                 activities view/activities">
-  <tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
-  <div tal:condition="not:view/render_journal">
-    <h3 tal:condition="view/no_timetable" i18n:translate="">
-      This section is not scheduled for any term, to use the journal
-      you should add a timetable first.
-    </h3>
-    <h3 tal:condition="view/no_periods" i18n:translate="">
-      No periods have been assigned in timetables of this section.
-    </h3>
-    <h3 i18n:translate="">
-      You can manage timetables for this section here:
-      <a i18n:name="timetable_link"
-         tal:attributes="href string:${view/context/section/@@absolute_url}/schedule"
-         i18n:translate="">Schedule</a>
-    </h3>
-  </div>
-  <metal:block tal:replace="structure string:&lt;script type=&quot;text/javascript&quot;&gt;" />
-      var numstudents = <tal:block replace="python: len(view.members())"/>;
-      var students = new Array(numstudents);
-      <tal:loop repeat="row table">
-      students[<tal:block replace="repeat/row/index"/>] = '<tal:block replace="python: view.breakJSString(row['student']['id'])"/>';
-      </tal:loop>
-      var numactivities = <tal:block replace="python: len(view.scorableActivities())"/>;
-      var activities = new Array(numactivities);
-      <tal:loop repeat="activity activities">
-      activities[<tal:block replace="repeat/activity/index"/>] = '<tal:block replace="activity/hash"/>';
-      </tal:loop>
-      var numscores = <tal:block replace="python: len(view.scores)"/>;
-      var scores = new Object();
-      <tal:loop repeat="activity view/scores">
-      scores['<tal:block replace="activity" />'] = new Array(<tal:block replace="python: view.scores[activity]" />);
-      </tal:loop>
-      var edited = false;
-      var currentCell;
-      var currentDesc = '';
-      window.onload = onLoadHandler;
-      window.onunload = checkChanges;
-      warningText = '<tal:block replace="view/warningText" />';
-  <metal:block tal:replace="structure string:&lt;/script&gt;" />
-  <form method="post" class="grid-form"
-        tal:condition="view/render_journal"
-        tal:attributes="action request/URL">
-
+     tal:condition="view/render_journal">
+  <form method="post" id="grid-form" class="grid-form"
+        tal:define="table view/table;
+                    activities view/activities"
+        tal:attributes="action string:${context/@@absolute_url}">
     <input tal:condition="request/month|nothing"
            type="hidden"
            name="month"
@@ -56,26 +33,15 @@
            type="hidden"
            name="student"
            tal:attributes="value request/student" />
-
-    <div class="gradebook">
-      <div class="students gradebook-part">
+    <div id="gradebook" class="gradebook">
+      <div id="students-part" class="students gradebook-part">
         <table>
           <thead>
             <tr>
               <th rowspan="2" class="name">
-                <ul class="popup_menu">
-                  <li>
-                    <span i18n:translate="">Name</span>
-                  </li>
-                  <li>
-                    <a href="?sort_by=student" i18n:translate="">Sort by</a>
-                  </li>
-                </ul>
-                <div>
-                  <a class="popup_link" href="" i18n:translate="">Name</a>
-                </div>
+                <a class="popup_link" href="" i18n:translate="">Name</a>
               </th>
-              <th i18n:translate="" class="activity-title">Day</th>
+              <th i18n:translate="">Day</th>
             </tr>
             <tr>
               <th i18n:translate="">Period</th>
@@ -83,133 +49,59 @@
           </thead>
           <tbody>
             <tr tal:repeat="row table">
-              <td colspan="2">
-                <ul class="popup_menu">
-                  <li>
-                    <span tal:content="row/student/title" />
-                  </li>
-                  <li>
-                    <a href="" i18n:translate="" i18n:domain="schooltool"
-                       tal:attributes="href row/student/url">
-                      Student
-                    </a>
-                  </li>
-                </ul>
-                <div>
-                  <a class="popup_link"
-                     tal:attributes="title row/student/title;
-                                     href row/student/url"
-                     tal:content="row/student/title" />
-                </div>
+              <td colspan="2" tal:attributes="id row/student/id">
+                <a class="popup_link"
+                   href=""
+                   tal:attributes="title row/student/title"
+                   tal:content="row/student/title" />
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div class="grades gradebook-part">
+      <div id="grades-part" class="grades gradebook-part">
         <table>
           <thead>
             <tr>
-              <th tal:repeat="activity activities" class="activity-title">
-                <ul class="popup_menu">
-                  <li>
-                    <span tal:content="activity/longTitle" />
-                  </li>
-                  <li>
-                    <a tal:attributes="href string:${request/URL}?sort_by=${activity/hash}"
-                       i18n:translate="">Sort by</a>
-                  </li>
-                </ul>
-                <div>
+              <tal:loop repeat="activity activities">
+                <th tal:attributes="id activity/hash;
+                                    class activity/cssClass">
                   <a class="popup_link"
                      href=""
                      tal:attributes="title activity/longTitle;
                                      href request/URL;"
                      tal:content="activity/shortTitle" />
-                </div>
-              </th>
-              <th class="placeholder">&nbsp;</th>
+                </th>
+              </tal:loop>
+              <th class="placeholder" rowspan="2">&nbsp;</th>
             </tr>
             <tr>
-              <th tal:repeat="activity activities">
-                <div tal:content="activity/period" />
-              </th>
-              <th class="placeholder">&nbsp;</th>
+              <th tal:repeat="activity activities"
+                  tal:content="activity/period" />
             </tr>
           </thead>
           <tbody>
-            <metal:block tal:repeat="row table">
-              <tr>
-                <td tal:repeat="grade row/grades"
-                    tal:attributes="id string:${grade/id}_cell">
-                  <span tal:condition="not: grade/editable"
-                        tal:content="grade/value" />
-                  <input type="text" name="" value="" size="4"
-                         tal:condition="grade/editable"
-                         onkeydown="return spreadsheetBehaviour(event)"
-                         tal:attributes="name string:${grade/id};
-                                         id string:${grade/id};
-                                         value grade/value;
-                                         onkeyup string:checkValid(event,'${grade/id}');
-                                         onfocus string:handleCellFocus(this, '${grade/id}')"/>
-                </td>
-                <td class="placeholder">&nbsp;</td>
-              </tr>
-            </metal:block>
+            <tr tal:repeat="row table">
+              <td tal:repeat="grade row/grades"
+                  tal:content="grade/value" />
+              <td class="placeholder">&nbsp;</td>
+            </tr>
           </tbody>
         </table>
       </div>
-      <div class="totals gradebook-part">
+      <div id="totals-part" class="totals gradebook-part">
         <table>
           <thead>
             <tr>
-              <th rowspan="2">
-                <ul class="popup_menu">
-                  <li>
-                    <span i18n:translate="">Abs.</span>
-                  </li>
-                  <li>
-                    <a href="?sort_by=absences" i18n:translate="">Sort by</a>
-                  </li>
-                </ul>
-                <div>
-                  <a class="popup_link" href="" i18n:translate="">
-                    Abs.
-                  </a>
-                </div>
+              <th id="column_absences">
+                <a class="popup_link" href="" i18n:translate="">Abs.</a>
               </th>
-              <th rowspan="2">
-                <ul class="popup_menu">
-                  <li>
-                    <span i18n:translate="">Trd.</span>
-                  </li>
-                  <li>
-                    <a href="?sort_by=tardies" i18n:translate="">Sort by</a>
-                  </li>
-                </ul>
-                <div>
-                  <a class="popup_link" href="" i18n:translate="">
-                    Trd.
-                  </a>
-                </div>
+              <th id="column_tardies">
+                <a class="popup_link" href="" i18n:translate="">Trd.</a>
               </th>
-              <th rowspan="2">
-                <ul class="popup_menu">
-                  <li>
-                    <span i18n:translate="">Ave.</span>
-                  </li>
-                  <li>
-                    <a href="?sort_by=average" i18n:translate="">Sort by</a>
-                  </li>
-                </ul>
-                <div>
-                  <a class="popup_link" href="" i18n:translate="">
-                    Ave.
-                  </a>
-                </div>
+              <th id="column_average">
+                <a class="popup_link" href="" i18n:translate="">Ave.</a>
               </th>
-            </tr>
-            <tr>
             </tr>
           </thead>
           <tbody>
@@ -222,23 +114,30 @@
         </table>
       </div>
     </div>
-    <div class="gradebook-controls">
+    <div class="gradebook-controls" id="gradebook-controls">
       <div class="buttons">
         <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save" 
-               onclick="setNotEdited()"
                title="Shortcut: Alt-S" accesskey="S"
                i18n:attributes="value; title; accesskey" />
       </div>
       <div class="buttons zoom-buttons">
-        <button type="button" class="button-neutral zoom-button" id="zoom-out"
+        <button type="button" class="button-neutral zoom-button expand"
+                title="Expand" i18n:attributes="title">
+          <span class="ui-icon ui-icon-arrowthick-1-w"></span>
+        </button>
+        <button type="button" class="button-neutral zoom-button collapse"
+                title="Collapse" i18n:attributes="title">
+          <span class="ui-icon ui-icon-arrowthick-1-e"></span>
+        </button>
+        <button type="button" class="button-neutral zoom-button zoom-out"
                 title="Zoom Out" i18n:attributes="title">
           <span class="ui-icon ui-icon-zoomout"></span>
         </button>
-        <button type="button" class="button-neutral zoom-button" id="zoom-normal"
+        <button type="button" class="button-neutral zoom-button zoom-normal"
                 title="Zoom Normal" i18n:attributes="title">
           <span class="ui-icon ui-icon-search"></span>
         </button>
-        <button type="button" class="button-neutral zoom-button" id="zoom-in"
+        <button type="button" class="button-neutral zoom-button zoom-in"
                 title="Zoom In" i18n:attributes="title">
           <span class="ui-icon ui-icon-zoomin"></span>
         </button>

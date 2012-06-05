@@ -20,6 +20,7 @@
 Lyceum journal content classes.
 """
 from BTrees.OOBTree import OOBTree
+from decimal import Decimal
 from persistent import Persistent
 
 from zope.annotation.interfaces import IAnnotations
@@ -32,6 +33,7 @@ from zope.component import adapter
 from zope.component import adapts
 from zope.interface import implementer
 from zope.interface import implements
+from zope.keyreference.interfaces import IKeyReference
 from zope.location.interfaces import ILocation
 
 from schooltool.app.app import InitBase, StartUpBase
@@ -40,16 +42,78 @@ from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ILearner
 from schooltool.course.interfaces import ISection
 from schooltool.person.interfaces import IPerson
+from schooltool.requirement.interfaces import IEvaluations
+from schooltool.requirement.evaluation import Evaluation
+from schooltool.requirement.scoresystem import AbstractScoreSystem
+from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
+from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
 from schooltool.securitypolicy.crowds import AdministrationCrowd
 
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
+from schooltool.lyceum.journal import LyceumMessage as _
 
 ABSENT = 'n' #n means absent in lithuanian
 TARDY = 'p' #p means tardy in lithuanian
 
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
+
+
+class AbsenceScoreSystem(AbstractScoreSystem):
+
+    values = ()
+
+    def __init__(self, title, description=None,
+                 values={'a': u'Absent', 't': u'Tardy'}):
+        super(AbsenceScoreSystem, self).__init__(title, description=description)
+        self.values = tuple(values.items())
+
+    def isValidScore(self, score):
+        """See interfaces.IScoreSystem"""
+        if score is UNSCORED:
+            return True
+        if not isinstance(score, (str, unicode)):
+            return False
+        if score.lower() in dict(self.values):
+            return True
+        return False
+
+    def fromUnicode(self, rawScore):
+        """See interfaces.IScoreSystem"""
+        if not rawScore:
+            return UNSCORED
+        if not self.isValidScore(rawScore):
+            raise ScoreValidationError(rawScore)
+        return rawScore.strip().lower()
+
+
+class GlobalAbsenceScoreSystem(AbsenceScoreSystem):
+
+    def __init__(self, name, *args, **kw):
+        super(GlobalAbsenceScoreSystem, self).__init__(*args, **kw)
+        self.__name__ = name
+
+    def __reduce__(self):
+        return self.__name__
+
+
+class GlobalJournalRangedValuesScoreSystem(GlobalRangedValuesScoreSystem):
+    pass
+
+
+# The score system used in the old journal
+TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
+    'TenPointScoreSystem',
+    u'10 Points', u'10 Points Score System',
+    min=Decimal(1), max=Decimal(10))
+
+
+# Attendance score system
+AbsenceScoreSystem = GlobalAbsenceScoreSystem(
+    'AbsenceScoreSystem',
+    u'Absences', u'Attendance Score System',
+    values={ABSENT: _('Absent'), TARDY: _('Tardy')})
 
 
 def getCurrentSectionTaught(person):
@@ -114,6 +178,61 @@ def getSectionForSectionJournal(sj):
     return sj.section
 
 
+class MeetingRequirement(tuple):
+    implements(IKeyReference)
+
+    key_type_id  = 'schooltool.lyceum.journal.journal.MeetingRequirement'
+    requirement_type = None
+    score_system = None
+
+    def __new__(cls, meeting):
+        date = meeting.dtstart.date()
+        meeting_id = meeting.meeting_id
+        if meeting_id is None:
+            meeting_id = meeting.unique_id
+        try:
+            calendar = meeting.__parent__
+            target = calendar.__parent__
+            target_ref = IKeyReference(target)
+        except TypeError:
+            target_ref = None
+        return tuple.__new__(
+            cls, (cls.requirement_type, date, meeting_id, target_ref))
+
+    def __cmp__(self, other):
+        if self.key_type_id == other.key_type_id:
+            return cmp(tuple(self), tuple(other))
+        return cmp(self.key_type_id, other.key_type_id)
+
+    @property
+    def date(self):
+        return self[1]
+
+    @property
+    def meeting_id(self):
+        return self[2]
+
+    @property
+    def target(self):
+        """Return the grading target (for example, section)"""
+        if self[3] is None:
+            return None
+        return self[3]()
+
+    def __call__(self):
+        return self
+
+
+class GradeRequirement(MeetingRequirement):
+    requirement_type = 'grade'
+    score_system = TenPointScoreSystem
+
+
+class AttendanceRequirement(MeetingRequirement):
+    requirement_type = 'attendance'
+    score_system = AbsenceScoreSystem
+
+
 class SectionJournalData(Persistent):
     """A journal for a section."""
     implements(ISectionJournalData, ILocation)
@@ -136,31 +255,48 @@ class SectionJournalData(Persistent):
             entry_id = meeting.unique_id
         return (key, entry_id)
 
-    def setGrade(self, person, meeting, grade):
-        key, eid = self.getKeys(person, meeting)
-        entries = dict(self.__grade_data__.get(key, ()))
-        entries[eid] = (grade, ) + entries.get(eid, ())
-        self.__grade_data__[key] = tuple(sorted(entries.items()))
+    def evaluate(self, person, requirement, grade, evaluator=None, score_system=None):
+        if score_system is None:
+            score_system = requirement.score_system
+        score = score_system.fromUnicode(grade)
+        evaluations = IEvaluations(person)
+        if score is UNSCORED:
+            if requirement in evaluations:
+                del evaluations[requirement]
+        else:
+            eval = Evaluation(requirement, score_system, score, evaluator=evaluator)
+            evaluations.addEvaluation(eval)
+
+    def getEvaluation(self, person, requirement, default=None):
+        evaluations = IEvaluations(person)
+        score = evaluations.get(requirement)
+        if score is None:
+            return default
+        return score
+
+    def setGrade(self, person, meeting, grade, evaluator=None):
+        requirement = GradeRequirement(removeSecurityProxy(meeting))
+        self.evaluate(person, requirement, grade, evaluator=evaluator)
 
     def getGrade(self, person, meeting, default=None):
-        key, eid = self.getKeys(person, meeting)
-        entries = dict(self.__grade_data__.get(key, ()))
-        if not entries or not entries.get(eid):
-            return default
-        return entries.get(eid)[0]
+        requirement = GradeRequirement(removeSecurityProxy(meeting))
+        score = self.getEvaluation(person, requirement, default=default)
+        if score is not default:
+            return score.value
+        return default
 
-    def setAbsence(self, person, meeting, explained=True):
-        key, eid = self.getKeys(person, meeting)
-        entries = dict(self.__attendance_data__.get(key, ()))
-        entries[eid] = (explained, ) + entries.get(eid, ())
-        self.__attendance_data__[key] = tuple(sorted(entries.items()))
+    def setAbsence(self, person, meeting, explained=True, evaluator=None):
+        requirement = AttendanceRequirement(removeSecurityProxy(meeting))
+        # XXX: how to mark explained absences?  With score comments OFC
+        #      so we need score comments now.
+        self.evaluate(person, requirement, ABSENT, evaluator=evaluator)
 
     def getAbsence(self, person, meeting, default=False):
-        key, eid = self.getKeys(person, meeting)
-        entries = dict(self.__attendance_data__.get(key, ()))
-        if not entries or not entries.get(eid):
+        requirement = AttendanceRequirement(removeSecurityProxy(meeting))
+        score = self.getEvaluation(person, requirement, default=default)
+        if score is default:
             return default
-        return entries.get(eid)[0]
+        return score.value
 
     def descriptionKey(self, meeting):
         date = meeting.dtstart.date()
@@ -177,25 +313,38 @@ class SectionJournalData(Persistent):
         key = self.descriptionKey(meeting)
         self.__description_data__[key] = description
 
-    def recordedMeetingIds(self, person):
-        for key in self.__grade_data__.keys():
-            person_name, date = key
-            if person_name == person.__name__:
-                for meeting_id, grades in self.__grade_data__[key]:
-                    yield meeting_id
-
     def recordedMeetings(self, person):
         result = []
         unique_meetings = set()
-        recorded_ids = set(self.recordedMeetingIds(person))
         calendar = ISchoolToolCalendar(self.section)
         sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+        evaluations = IEvaluations(person)
         for event in sorted_events:
-            if event.meeting_id in recorded_ids and \
-               event.meeting_id not in unique_meetings:
+            requirement = GradeRequirement(removeSecurityProxy(event))
+            if (requirement in evaluations and
+                event.meeting_id not in unique_meetings):
                 result.append(event)
                 unique_meetings.add(event.meeting_id)
         return result
+
+    def gradedMeetings(self, person, requirement_factory=GradeRequirement):
+        result = []
+        unique_meetings = set()
+        calendar = ISchoolToolCalendar(self.section)
+        sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+        evaluations = IEvaluations(person)
+        for event in sorted_events:
+            requirement = requirement_factory(removeSecurityProxy(event))
+            score = evaluations.get(requirement)
+            if (requirement in evaluations and
+                event.meeting_id not in unique_meetings):
+                result.append((event, score))
+                unique_meetings.add(event.meeting_id)
+        return result
+
+    def absentMeetings(self, person):
+        return self.gradedMeetings(
+            person, requirement_factory=AttendanceRequirement)
 
 
 class SectionJournal(object):
@@ -213,11 +362,12 @@ class SectionJournal(object):
         self.section = context
         self.__name__ = "journal"
 
-    def setGrade(self, person, meeting, grade):
+    def setGrade(self, person, meeting, grade, evaluator=None):
         calendar = meeting.__parent__
         owner = calendar.__parent__
         section_journal_data = ISectionJournalData(owner)
-        section_journal_data.setGrade(person, meeting, grade)
+        section_journal_data.setGrade(person, meeting, grade,
+                                      evaluator=evaluator)
 
     def getGrade(self, person, meeting, default=None):
         calendar = meeting.__parent__
@@ -225,17 +375,29 @@ class SectionJournal(object):
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getGrade(person, meeting, default)
 
-    def setAbsence(self, person, meeting, explained=True):
+    def setAbsence(self, person, meeting, explained=True, evaluator=None):
         calendar = meeting.__parent__
         owner = calendar.__parent__
         section_journal_data = ISectionJournalData(owner)
-        section_journal_data.setAbsence(person, meeting, explained)
+        section_journal_data.setAbsence(person, meeting, explained,
+                                        evaluator=evaluator)
 
     def getAbsence(self, person, meeting, default=False):
         calendar = meeting.__parent__
         owner = calendar.__parent__
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getAbsence(person, meeting, default)
+
+    def evaluate(self, person, requirement, grade, evaluator=None, score_system=None):
+        section_journal_data = ISectionJournalData(requirement.target)
+        return section_journal_data.evaluate(
+            person, requirement, grade,
+            evaluator=evaluator, score_system=score_system)
+
+    def getEvaluation(self, person, requirement, default=None):
+        section_journal_data = ISectionJournalData(requirement.target)
+        return section_journal_data.getEvaluation(
+            person, requirement, default=default)
 
     def setDescription(self, meeting, description):
         calendar = meeting.__parent__
@@ -286,6 +448,17 @@ class SectionJournal(object):
             sd = ISectionJournalData(section)
             meetings.extend(sd.recordedMeetings(person))
         return sorted(meetings)
+
+    def gradedMeetings(self, person, requirement_factory=GradeRequirement):
+        meetings = []
+        for section in self.adjacent_sections:
+            sd = ISectionJournalData(section)
+            meetings.extend(sd.gradedMeetings(
+                    person, requirement_factory=requirement_factory))
+        return sorted(meetings)
+
+    def absentMeetings(self, person):
+        return self.gradedMeetings(person, requirement_factory=AttendanceRequirement)
 
     def hasMeeting(self, person, meeting):
         calendar = meeting.__parent__

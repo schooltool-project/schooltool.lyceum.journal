@@ -43,7 +43,7 @@
       class=".journal.FlourishJournalSectionNavigation"
       title="Section"
       permission="schooltool.edit"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       />
 
   <flourish:viewlet
@@ -53,7 +53,7 @@
       class=".journal.FlourishJournalTermNavigation"
       title="Term"
       permission="schooltool.edit"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       />
 
   <flourish:viewlet
@@ -63,7 +63,7 @@
       class=".journal.FlourishJournalYearNavigation"
       title="Year"
       permission="schooltool.edit"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       />
 
   <flourish:viewlet
@@ -91,23 +91,63 @@
       name="tertiary_navigation"
       provides="schooltool.skin.flourish.page.ITertiaryNavigationManager"
       class=".journal.JournalTertiaryNavigationManager"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       permission="zope.Public"
       />
 
   <flourish:page
       name="index.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.FlourishLyceumSectionJournalView"
+      class=".journal.FlourishLyceumSectionJournalGrades"
       content_template="templates/f_journal.pt"
       permission="schooltool.view"
       />
 
-  <flourish:page
+  <zope:attributeTraverserPlugin
+      for=".journal.FlourishLyceumSectionJournalBase"
+      layer="schooltool.skin.flourish.IFlourishLayer"
       name="validate_score"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.FlourishJournalValidateScoreView"
+      permission="zope.Public"
+      />
+
+  <flourish:content
+      name="gradebook-table"
+      view=".journal.FlourishLyceumSectionJournalGrades"
+      template="templates/f_journal_grade_table.pt"
       permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="attendance.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishLyceumSectionJournalAttendance"
+      content_template="templates/f_journal.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="gradebook-table"
+      view=".journal.FlourishLyceumSectionJournalAttendance"
+      template="templates/f_journal_absence_table.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="journal_modes"
+      before="*"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.JournalModes"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      title="View"
+      permission="schooltool.edit"
+      view=".journal.FlourishLyceumSectionJournalBase"
+      />
+
+  <flourish:viewlet
+      name="journal_modes_selector"
+      manager=".journal.JournalModes"
+      class=".journal.JournalModeSelector"
+      permission="schooltool.edit"
       />
 
   <flourish:page
@@ -125,7 +165,7 @@
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       title="Actions"
       permission="schooltool.view"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       />
 
   <flourish:viewlet
@@ -169,28 +209,28 @@
 
   <flourish:page
       name="name_popup_menu"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      for=".journal.FlourishLyceumSectionJournalBase"
       class=".journal.FlourishNamePopupMenuView"
       permission="schooltool.view"
       />
 
   <flourish:page
       name="activity_popup_menu"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      for=".journal.FlourishLyceumSectionJournalBase"
       class=".journal.FlourishActivityPopupMenuView"
       permission="schooltool.view"
       />
 
   <flourish:page
       name="student_popup_menu"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      for=".journal.FlourishLyceumSectionJournalBase"
       class=".journal.FlourishStudentPopupMenuView"
       permission="schooltool.view"
       />
 
   <flourish:page
       name="total_popup_menu"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      for=".journal.FlourishLyceumSectionJournalBase"
       class=".journal.FlourishTotalPopupMenuView"
       permission="schooltool.view"
       />
@@ -208,13 +248,13 @@
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class="schooltool.report.browser.report.ReportsLinks"
       title="Reports"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       permission="schooltool.edit"
       />
 
   <report:reportLink
       name="journal_export"
-      view=".journal.FlourishLyceumSectionJournalView"
+      view=".journal.FlourishLyceumSectionJournalBase"
       layer="schooltool.skin.flourish.IFlourishLayer"
       permission="schooltool.edit"
       group="Section"

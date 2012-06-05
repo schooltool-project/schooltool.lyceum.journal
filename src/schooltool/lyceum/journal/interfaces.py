@@ -47,8 +47,17 @@ class ISectionJournalData(Interface):
     def getDescription(meeting):
         """Retrieve the description of a meeting."""
 
-    def recordedMeetings(person):
-        """Returns a list of recorded grades/absences for a person."""
+    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
+        """Add evaluation of a requirement."""
+
+    def getEvaluation(person, requirement, default=None):
+        """Get evaluation of a requirement."""
+
+    def gradedMeetings(person):
+        """Returns a list of (meeting, grades) for a person."""
+
+    def absentMeetings(person):
+        """Returns a list of (meeting, absence) for a person."""
 
 
 class ISectionJournal(ILocation):
@@ -74,11 +83,20 @@ class ISectionJournal(ILocation):
     def getDescription(meeting):
         """Retrieve the description of a meeting."""
 
+    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
+        """Add evaluation of a requirement."""
+
+    def getEvaluation(person, requirement, default=None):
+        """Get evaluation of a requirement."""
+
     def meetings():
         """List all possible meetings for this section."""
 
-    def recordedMeetings(person):
-        """Returns a list of recorded grades/absences for a person."""
+    def gradedMeetings(person):
+        """Returns a list of (meeting, grades) for a person."""
+
+    def absentMeetings(person):
+        """Returns a list of (meeting, absence) for a person."""
 
     def hasMeeting(person, meeting):
         """Returns true if person should participate in a given meeting."""

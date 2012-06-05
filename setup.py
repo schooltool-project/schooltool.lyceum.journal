@@ -60,6 +60,7 @@ setup(
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),
     install_requires=['schooltool>=1.9',
+                      'schooltool.gradebook',
                       'pytz',
                       'setuptools',
                       'zc.table',

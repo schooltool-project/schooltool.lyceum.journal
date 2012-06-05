@@ -20,12 +20,12 @@
   <class class="schooltool.lyceum.journal.journal.SectionJournal">
     <require
         permission="schooltool.view"
-        attributes="getGrade getAbsence getDescription members
-                    adjacent_sections meetings recordedMeetings
+        attributes="getGrade getAbsence getDescription getEvaluation members
+                    adjacent_sections meetings recordedMeetings gradedMeetings absentMeetings
                     hasMeeting findMeeting section __parent__ __name__" />
     <require
         permission="schooltool.edit"
-        attributes="setGrade setAbsence setDescription" />
+        attributes="setGrade setAbsence setDescription evaluate" />
   </class>
 
   <adapter

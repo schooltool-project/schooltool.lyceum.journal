@@ -253,13 +253,13 @@
       />
 
   <report:reportLink
-      name="journal_export"
+      name="journal_export_grades"
       view=".journal.FlourishLyceumSectionJournalBase"
       layer="schooltool.skin.flourish.IFlourishLayer"
       permission="schooltool.edit"
       group="Section"
       description="A single Excel-formatted spreadsheet containing all the worksheets for this journal."
-      title="Journal Export"
+      title="Journal Grades Export"
       file_type="xls"
       link="request_journal_export.html"
       />
@@ -267,14 +267,40 @@
   <flourish:page
       name="request_journal_export.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.FlourishRequestJournalExportView"
+      class=".journal.FlourishRequestJournalExportGrades"
+      permission="schooltool.edit"
+      />
+
+  <report:reportLink
+      name="journal_export_attendance"
+      view=".journal.FlourishLyceumSectionJournalBase"
+      layer="schooltool.skin.flourish.IFlourishLayer"
+      permission="schooltool.edit"
+      group="Section"
+      description="A single Excel-formatted spreadsheet containing all the worksheets for this journal."
+      title="Journal Attendance Export"
+      file_type="xls"
+      link="request_attendance_export.html"
+      />
+
+  <flourish:page
+      name="request_attendance_export.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishRequestJournalExportAttendance"
       permission="schooltool.edit"
       />
 
   <flourish:page
-      name="export.xls"
+      name="grades.xls"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.FlourishJournalExportView"
+      class=".journal.FlourishJournalExportGrades"
+      permission="schooltool.edit"
+      />
+
+  <flourish:page
+      name="attendance.xls"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishJournalExportAttendance"
       permission="schooltool.edit"
       />
 

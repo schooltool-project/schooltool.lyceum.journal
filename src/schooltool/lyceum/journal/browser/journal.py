@@ -1485,10 +1485,16 @@ class FlourishTotalPopupMenuView(flourish.content.ContentProvider):
         return json
 
 
-class FlourishRequestJournalExportView(RequestReportDownloadDialog):
+class FlourishRequestJournalExportGrades(RequestReportDownloadDialog):
 
     def nextURL(self):
-        return absoluteURL(self.context, self.request) + '/export.xls'
+        return absoluteURL(self.context, self.request) + '/grades.xls'
+
+
+class FlourishRequestJournalExportAttendance(RequestReportDownloadDialog):
+
+    def nextURL(self):
+        return absoluteURL(self.context, self.request) + '/attendance.xls'
 
 
 class DateHeader(export.Header):
@@ -1500,9 +1506,7 @@ class DateHeader(export.Header):
         return result
 
 
-# XXX: TODO PLZ
-class FlourishJournalExportView(export.ExcelExportView,
-                                FlourishLyceumSectionJournalGrades):
+class FlourishJournalExportBase(export.ExcelExportView):
 
     def print_headers(self, ws):
         row_1_headers = [export.Header(label)
@@ -1588,6 +1592,16 @@ class FlourishJournalExportView(export.ExcelExportView,
             info['period'] = period
             result.append(info)
         return result
+
+
+class FlourishJournalExportGrades(FlourishJournalExportBase,
+                                  FlourishLyceumSectionJournalGrades):
+    pass
+
+
+class FlourishJournalExportAttendance(FlourishJournalExportBase,
+                                      FlourishLyceumSectionJournalAttendance):
+    pass
 
 
 class JournalModes(flourish.page.RefineLinksViewlet):

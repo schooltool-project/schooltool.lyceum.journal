@@ -96,7 +96,7 @@
       />
 
   <flourish:page
-      name="index.html"
+      name="grades.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.FlourishLyceumSectionJournalGrades"
       content_template="templates/f_journal.pt"
@@ -118,7 +118,7 @@
       />
 
   <flourish:page
-      name="attendance.html"
+      name="index.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.FlourishLyceumSectionJournalAttendance"
       content_template="templates/f_journal.pt"

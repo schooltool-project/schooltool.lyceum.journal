@@ -1631,16 +1631,16 @@ class JournalModeSelector(flourish.viewlet.Viewlet):
         journal_url = absoluteURL(self.context, self.request)
         result = []
         result.append({
-                'id': 'journal-mode-grades',
-                'label': _('Grades'),
-                'url': journal_url,
+                'id': 'journal-mode-attendance',
+                'label': _('Attendance'),
+                'url': journal_url + '/index.html',
                 'selected': self.manager.view.__name__ == 'index.html',
                 })
         result.append({
-                'id': 'journal-mode-attendance',
-                'label': _('Attendance'),
-                'url': journal_url + '/attendance.html',
-                'selected': self.manager.view.__name__ == 'attendance.html',
+                'id': 'journal-mode-grades',
+                'label': _('Grades'),
+                'url': journal_url + '/grades.html',
+                'selected': self.manager.view.__name__ == 'grades.html',
                 })
         return result
 

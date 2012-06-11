@@ -57,6 +57,7 @@ from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.report.browser.report import RequestReportDownloadDialog
 from schooltool.requirement.scoresystem import UNSCORED
+from schooltool.requirement.interfaces import IEvaluations
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
@@ -66,6 +67,7 @@ from schooltool.schoolyear.interfaces import ISchoolYear
 
 from schooltool.lyceum.journal.journal import (ABSENT, TARDY,
     getCurrentSectionTaught, setCurrentSectionTaught)
+from schooltool.lyceum.journal.journal import JournalAbsenceScoreSystem
 from schooltool.lyceum.journal.journal import GradeRequirement
 from schooltool.lyceum.journal.journal import AttendanceRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
@@ -157,7 +159,7 @@ class GradesColumn(object):
         for meeting, score in self.journal.gradedMeetings(person):
             # This is not a correct way, as this looses score system info
             if (meeting.dtstart.date() in self.term and
-                score is not UNSCORED):
+                score.value is not UNSCORED):
                 grades.append(score.value)
         return grades
 
@@ -166,7 +168,7 @@ class GradesColumn(object):
         grades = []
         for meeting, score in self.journal.absentMeetings(person):
             if (meeting.dtstart.date() in self.term and
-                score is not UNSCORED):
+                score.value is not UNSCORED):
                 grades.append(score.value)
         return grades
 
@@ -810,6 +812,9 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
             result.append(info)
         return result
 
+    def getDefaultScoreSystem(self):
+        return None
+
     def makeRequirement(self, meeting):
         return None
 
@@ -900,6 +905,9 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             else:
                 return _('No periods assigned for this section')
 
+    def getDefaultScoreSystem(self):
+        return GradeRequirement.score_system
+
     def makeRequirement(self, meeting):
         return GradeRequirement(meeting)
 
@@ -925,7 +933,10 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                 requirement = self.makeRequirement(insecure_meeting)
                 score = self.context.getEvaluation(person, requirement, default=UNSCORED)
                 grade = score.value
-                value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                if grade is not UNSCORED:
+                    value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                else:
+                    value = ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
@@ -971,14 +982,15 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
         grades = []
         scores = self.getScores(person)
         for score in scores:
+            if score.value is UNSCORED:
+                continue
             try:
                 # XXX: ints!
                 grade = int(score.value)
             except ValueError:
                 continue
             except TypeError:
-                import pdb; pdb.set_trace()
-                scores = self.getScores(person)
+                continue
             grades.append(grade)
         if not grades:
             return _('N/A')
@@ -998,6 +1010,9 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             else:
                 return _('No periods assigned for this section')
 
+    def getDefaultScoreSystem(self):
+        return AttendanceRequirement.score_system
+
     def makeRequirement(self, meeting):
         return AttendanceRequirement(meeting)
 
@@ -1011,7 +1026,10 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 grade = self.context.getAbsence(person,
                                                 insecure_meeting,
                                                 default='')
-                value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                if grade is not UNSCORED:
+                    value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                else:
+                    value = ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
@@ -1301,12 +1319,23 @@ class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
 class FlourishJournalHelpViewlet(flourish.page.ModalFormLinkViewlet):
 
     @property
+    def url(self):
+        return "%s/%s" % (absoluteURL(self.view, self.request),
+                          self.link)
+
+    @property
     def dialog_title(self):
         title = _(u'Journal Help')
         return translate(title, context=self.request)
 
 
 class FlourishJournalHelpView(flourish.form.Dialog):
+
+    template = InlineViewPageTemplate('''
+        <tal:block define="scoresystem view/context/getDefaultScoreSystem"
+                   condition="scoresystem"
+                   content="structure scoresystem/schooltool:content/legend" />
+    ''')
 
     def updateDialog(self):
         # XXX: fix the width of dialog content in css
@@ -1323,11 +1352,27 @@ class FlourishJournalHelpView(flourish.form.Dialog):
             'width': 'auto',
             }
 
+
+class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
+
+    title = _('Attendance')
+
     def getLegendItems(self):
-        for grade in journal_grades():
-            yield {'keys': u', '.join(grade['keys']),
-                   'value': grade['value'],
-                   'description': grade['legend']}
+        score_system = self.context
+        for grade, title in score_system.values:
+            translated = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+            valid_grades = set([grade.lower(), grade.upper(),
+                                translated.lower(), translated.upper()])
+            yield {'value': ', '.join(sorted(valid_grades)),
+                   'description': title}
+
+
+class RangedScoreSystemLegend(flourish.content.ContentProvider):
+
+    title = _('Grades')
+
+    def getGrades(self):
+        return list(reversed(range(self.context.min, self.context.max+1)))
 
 
 class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
@@ -1412,13 +1457,19 @@ class FlourishStudentPopupMenuView(flourish.content.ContentProvider):
             app = ISchoolToolApplication(None)
             student = app['persons'].get(student_id)
             if student is not None and student in self.context.members:
-                url = absoluteURL(student, self.request)
+                journal_url = absoluteURL(self.view, self.request)
+                student_url = absoluteURL(student, self.request)
                 result['header'] = student.title
                 result['options'] = [
                     {
                         'label': self.translate(_('Student')),
-                        'url': url,
-                        }
+                        'url': student_url,
+                        },
+                    {
+                        'label': self.translate(_('History')),
+                        'url': '%s/score_history?student_id=%s&month=%s' % (
+                            journal_url, student_id, self.view.active_month),
+                        },
                     ]
         response = self.request.response
         response.setHeader('Content-Type', 'application/json')
@@ -1646,3 +1697,138 @@ class JournalModeSelector(flourish.viewlet.Viewlet):
 
     def render(self, *args, **kw):
         return self.template(*args, **kw)
+
+
+class SubPage(flourish.content.ContentProvider,
+              flourish.page.Page):
+
+    update = flourish.page.Page.update
+    render = flourish.page.Page.render
+    __call__ = flourish.page.Page.__call__
+
+    def __init__(self, context, request):
+        view = context
+        flourish.content.ContentProvider.__init__(
+            self, view.context, request, view)
+
+
+class SectionJournalGradeHistory(SubPage):
+
+    @property
+    def title(self):
+        section = self.context.section
+        return section.title
+
+    @Lazy
+    def student(self):
+        student_id = self.request.get('student_id')
+        if student_id is None:
+            return None
+        app = ISchoolToolApplication(None)
+        student = app['persons'].get(student_id)
+        return student
+
+    @property
+    def meetings(self):
+        calendar = ISchoolToolCalendar(self.context.section)
+        sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+        return sorted_events
+
+    @property
+    def timezone(self):
+        app = ISchoolToolApplication(None)
+        return pytz.timezone(IApplicationPreferences(app).timezone)
+
+    @property
+    def timeformat(self):
+        app = ISchoolToolApplication(None)
+        prefs = IApplicationPreferences(app)
+        return prefs.timeformat
+
+    def formatScoreValue(self, requirement, score):
+        if (score is None or score.value is UNSCORED):
+            return ''
+        return score.value
+
+    def table(self):
+        if self.student is None:
+            return []
+
+        persons = ISchoolToolApplication(None)['persons']
+        evaluations = removeSecurityProxy(IEvaluations(self.student))
+        result = []
+
+        meetings = self.meetings
+        timezone = self.timezone
+        timeformat = self.timeformat
+
+        for meeting in meetings:
+            requirement = self.view.makeRequirement(removeSecurityProxy(meeting))
+            scores = list(evaluations.getHistory(requirement))
+            current = evaluations.get(requirement)
+            if (scores or current is not None):
+                scores.append(current)
+            if not scores:
+                continue
+            scores.reverse()
+            meeting_time = meeting.dtstart.astimezone(timezone)
+            activity = {
+                'date': meeting_time.date(),
+                'time': meeting_time.time().strftime(timeformat),
+                'period': '',
+                'grades': [],
+                }
+            if meeting.period is not None:
+                activity['period'] = meeting.period.title
+
+            for score in scores:
+                record = {'date': '',
+                          'time': '',
+                          'value': '',
+                          'evaluator': None}
+                record['value'] = self.formatScoreValue(requirement, score)
+
+                if score is not None:
+                    if score.evaluator:
+                        record['evaluator'] = persons.get(score.evaluator)
+
+                    if (getattr(score, 'time', None) is not None):
+                        time_utc = pytz.utc.localize(score.time)
+                        time = time_utc.astimezone(timezone)
+                        record['date'] = time.date()
+                        record['time'] = time.strftime(timeformat)
+
+                activity['grades'].append(record)
+
+            result.append(activity)
+
+        return result
+
+    @property
+    def done_url(self):
+        month = None
+        try:
+            month = int(self.request.get('month'))
+        except TypeError:
+            pass
+        except ValueError:
+            pass
+        if month is not None:
+            return self.view.monthURL(month)
+        return absoluteURL(self.view, self.request)
+
+
+class SectionJournalAttendanceHistory(SectionJournalGradeHistory):
+
+    def formatScoreValue(self, requirement, score):
+        if (score is None or score.value is UNSCORED):
+            return ''
+        grade = score.value
+        value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+        if isinstance(requirement.score_system, JournalAbsenceScoreSystem):
+            description = dict(requirement.score_system.values).get(grade, u'')
+        else:
+            description = ''
+        result = ' - '.join([translate(i, self.request)
+                             for i in (value, description)])
+        return result

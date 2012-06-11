@@ -125,6 +125,22 @@
       permission="schooltool.view"
       />
 
+  <flourish:page
+      name="score_history"
+      for=".journal.FlourishLyceumSectionJournalGrades"
+      class=".journal.SectionJournalGradeHistory"
+      content_template="templates/f_journal_history.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="score_history"
+      for=".journal.FlourishLyceumSectionJournalAttendance"
+      class=".journal.SectionJournalAttendanceHistory"
+      content_template="templates/f_journal_history.pt"
+      permission="schooltool.view"
+      />
+
   <flourish:content
       name="gradebook-table"
       view=".journal.FlourishLyceumSectionJournalAttendance"
@@ -178,9 +194,24 @@
 
   <flourish:page
       name="help.html"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      for=".journal.FlourishLyceumSectionJournalBase"
       class=".journal.FlourishJournalHelpView"
-      template="templates/f_journal_help.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="legend"
+      for="schooltool.lyceum.journal.journal.GlobalAbsenceScoreSystem"
+      class=".journal.AbsenceScoreSystemLegend"
+      template="templates/f_journal_absence_legend.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="legend"
+      for="schooltool.lyceum.journal.journal.GlobalJournalRangedValuesScoreSystem"
+      class=".journal.RangedScoreSystemLegend"
+      template="templates/f_journal_grades_legend.pt"
       permission="schooltool.view"
       />
 

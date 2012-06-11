@@ -60,13 +60,13 @@ TARDY = 'p' #p means tardy in lithuanian
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
 
 
-class AbsenceScoreSystem(AbstractScoreSystem):
+class JournalAbsenceScoreSystem(AbstractScoreSystem):
 
     values = ()
 
     def __init__(self, title, description=None,
                  values={'a': u'Absent', 't': u'Tardy'}):
-        super(AbsenceScoreSystem, self).__init__(title, description=description)
+        super(JournalAbsenceScoreSystem, self).__init__(title, description=description)
         self.values = tuple(values.items())
 
     def isValidScore(self, score):
@@ -88,7 +88,7 @@ class AbsenceScoreSystem(AbstractScoreSystem):
         return rawScore.strip().lower()
 
 
-class GlobalAbsenceScoreSystem(AbsenceScoreSystem):
+class GlobalAbsenceScoreSystem(JournalAbsenceScoreSystem):
 
     def __init__(self, name, *args, **kw):
         super(GlobalAbsenceScoreSystem, self).__init__(*args, **kw)
@@ -259,16 +259,17 @@ class SectionJournalData(Persistent):
         if score_system is None:
             score_system = requirement.score_system
         score = score_system.fromUnicode(grade)
-        evaluations = IEvaluations(person)
-        if score is UNSCORED:
-            if requirement in evaluations:
-                del evaluations[requirement]
-        else:
-            eval = Evaluation(requirement, score_system, score, evaluator=evaluator)
-            evaluations.addEvaluation(eval)
+        evaluations = removeSecurityProxy(IEvaluations(person))
+
+        if (requirement in evaluations and
+            evaluations[requirement].value == score):
+            return
+
+        eval = Evaluation(requirement, score_system, score, evaluator=evaluator)
+        evaluations.addEvaluation(eval)
 
     def getEvaluation(self, person, requirement, default=None):
-        evaluations = IEvaluations(person)
+        evaluations = removeSecurityProxy(IEvaluations(person))
         score = evaluations.get(requirement)
         if score is None:
             return default
@@ -318,7 +319,7 @@ class SectionJournalData(Persistent):
         unique_meetings = set()
         calendar = ISchoolToolCalendar(self.section)
         sorted_events = sorted(calendar, key=lambda e: e.dtstart)
-        evaluations = IEvaluations(person)
+        evaluations = removeSecurityProxy(IEvaluations(person))
         for event in sorted_events:
             requirement = GradeRequirement(removeSecurityProxy(event))
             if (requirement in evaluations and
@@ -332,7 +333,7 @@ class SectionJournalData(Persistent):
         unique_meetings = set()
         calendar = ISchoolToolCalendar(self.section)
         sorted_events = sorted(calendar, key=lambda e: e.dtstart)
-        evaluations = IEvaluations(person)
+        evaluations = removeSecurityProxy(IEvaluations(person))
         for event in sorted_events:
             requirement = requirement_factory(removeSecurityProxy(event))
             score = evaluations.get(requirement)

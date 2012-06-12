@@ -99,7 +99,7 @@ class AttendanceColumn(object):
         absences = 0
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences += 1
         if absences == 0:
             return '<td></td>'
@@ -129,7 +129,7 @@ class AttendanceColumn(object):
         absences = 0
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences += 1
 
         name = student.__name__ + "." + self.date.strftime("%Y-%m-%d")
@@ -162,7 +162,7 @@ class AttendanceTotalColumn(object):
         for date, meetings in self.days.items():
             for meeting in meetings:
                 journal = ISectionJournal(meeting)
-                if journal.getGrade(student, meeting, default="") == "n":
+                if journal.getAbsence(student, meeting, default="") == "n":
                     absences += 1
         if absences == 0:
             return '<td></td>'
@@ -185,7 +185,7 @@ class PeriodAttendanceColumn(object):
         absences = []
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences.append(meeting)
         if absences == []:
             return '<td></td>'
@@ -200,7 +200,7 @@ class PeriodAttendanceColumn(object):
         absences = []
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences.append(meeting)
         if absences == []:
             return '<td></td>'

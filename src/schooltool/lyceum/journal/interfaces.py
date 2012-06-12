@@ -35,7 +35,7 @@ class ISectionJournalData(Interface):
     def getGrade(person, meeting, default=None):
         """Retrieve a grade for a person and a meeting."""
 
-    def setAbsence(person, meeting, explained=True):
+    def setAbsence(person, meeting, explained=True, value=None):
         """Mark an absence as an explained or unexplained one."""
 
     def getAbsence(person, meeting, default=False):

@@ -56,6 +56,7 @@ from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.report.browser.report import RequestReportDownloadDialog
+from schooltool.requirement.scoresystem import ScoreValidationError
 from schooltool.requirement.scoresystem import UNSCORED
 from schooltool.requirement.interfaces import IEvaluations
 from schooltool.term.interfaces import ITerm
@@ -237,7 +238,10 @@ class PersonGradesColumn(GradesColumn):
 
     def getCellValue(self, item):
         if self.hasMeeting(item):
-            grade = self.journal.getGrade(item, self.meeting, default="")
+            grade = self.journal.getAbsence(item, self.meeting, default="")
+            grade = self.journal.getGrade(item, self.meeting, grade)
+            if grade is UNSCORED:
+                grade = ''
             return ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
         return "X"
 
@@ -277,6 +281,8 @@ class SectionTermGradesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         grades = []
         for grade in self.getGrades(person):
+            if grade is UNSCORED:
+                continue
             try:
                 grade = int(grade)
             except ValueError:
@@ -302,6 +308,8 @@ class SectionTermAverageGradesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         grades = []
         for grade in self.getGrades(person):
+            if grade is UNSCORED:
+                continue
             try:
                 grade = int(grade)
             except ValueError:
@@ -508,7 +516,12 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
                     cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
-                    self.context.setGrade(person, meeting, cell_value, evaluator=evaluator)
+                    try:
+                        self.context.setGrade(
+                            person, meeting, cell_value, evaluator=evaluator)
+                    except ScoreValidationError:
+                        self.context.setAbsence(
+                            person, meeting, evaluator=evaluator, value=cell_value)
 
     def gradeColumns(self):
         columns = []
@@ -659,7 +672,11 @@ class SectionJournalAjaxView(BrowserView):
         grade = self.request['grade']
         grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade, grade)
         evaluator = getEvaluator(self.request)
-        self.context.setGrade(person, meeting, grade, evaluator=evaluator)
+        try:
+            self.context.setGrade(person, meeting, grade, evaluator=evaluator)
+        except ScoreValidationError:
+            self.context.setAbsence(
+                person, meeting, evaluator=evaluator, value=grade)
         return ""
 
 
@@ -970,6 +987,8 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                           for grade in row['grades']])
             if self.sortBy in grades:
                 grade = grades.get(self.sortBy)
+                if grade is UNSCORED:
+                    return (0, grade, row['student']['sortKey'])
                 try:
                     grade = int(grade)
                 except (ValueError,):
@@ -1063,6 +1082,8 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                           for grade in row['grades']])
             if self.sortBy in grades:
                 grade = grades.get(self.sortBy)
+                if grade is UNSCORED:
+                    return (0, grade, row['student']['sortKey'])
                 try:
                     grade = int(grade)
                 except (ValueError,):

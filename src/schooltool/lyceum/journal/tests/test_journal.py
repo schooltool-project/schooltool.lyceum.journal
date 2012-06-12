@@ -229,7 +229,7 @@ def doctest_SectionJournal():
         ...         self.grade_data[person, meeting] = value
         ...     def getGrade(self, person, meeting, default):
         ...         return self.grade_data.get((person, meeting), default)
-        ...     def setAbsence(self, person, meeting, value, evaluator=None):
+        ...     def setAbsence(self, person, meeting, explained=True, evaluator=None, value=None):
         ...         self.absence_data[person, meeting] = value
         ...     def getAbsence(self, person, meeting, default):
         ...         return self.absence_data.get((person, meeting), default)
@@ -265,7 +265,7 @@ def doctest_SectionJournal():
         >>> sj.setAbsence("john", meeting, True)
 
         >>> sj.getAbsence("john", meeting)
-        True
+        'n'
 
     """
 

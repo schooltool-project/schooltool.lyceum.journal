@@ -10,6 +10,8 @@
   <include package="schooltool.timetable" />
   <include package="schooltool.timetable.browser" file="configure-oldskin.zcml" />
   <include package="schooltool.basicperson" />
+
+  <include package="schooltool.requirement" />
   <include package="schooltool.lyceum.journal" />
 
   <interface

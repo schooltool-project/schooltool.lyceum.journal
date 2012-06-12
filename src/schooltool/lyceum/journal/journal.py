@@ -286,11 +286,11 @@ class SectionJournalData(Persistent):
             return score.value
         return default
 
-    def setAbsence(self, person, meeting, explained=True, evaluator=None):
+    def setAbsence(self, person, meeting, explained=True, evaluator=None, value=ABSENT):
         requirement = AttendanceRequirement(removeSecurityProxy(meeting))
         # XXX: how to mark explained absences?  With score comments OFC
         #      so we need score comments now.
-        self.evaluate(person, requirement, ABSENT, evaluator=evaluator)
+        self.evaluate(person, requirement, value, evaluator=evaluator)
 
     def getAbsence(self, person, meeting, default=''):
         requirement = AttendanceRequirement(removeSecurityProxy(meeting))
@@ -376,12 +376,12 @@ class SectionJournal(object):
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getGrade(person, meeting, default)
 
-    def setAbsence(self, person, meeting, explained=True, evaluator=None):
+    def setAbsence(self, person, meeting, explained=True, evaluator=None, value=ABSENT):
         calendar = meeting.__parent__
         owner = calendar.__parent__
         section_journal_data = ISectionJournalData(owner)
-        section_journal_data.setAbsence(person, meeting, explained,
-                                        evaluator=evaluator)
+        section_journal_data.setAbsence(person, meeting, explained=explained,
+                                        evaluator=evaluator, value=value)
 
     def getAbsence(self, person, meeting, default=''):
         calendar = meeting.__parent__

@@ -33,6 +33,7 @@ from schooltool.term.interfaces import ITermContainer
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.course.interfaces import ICourseContainer
 from schooltool.course.interfaces import ILearner
+from schooltool.requirement.scoresystem import UNSCORED
 
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
@@ -55,8 +56,8 @@ class CourseGradesColumn(object):
             for meeting in journal.recordedMeetings(self.student):
                 if meeting.dtstart.date() == self.date:
                     grade = journal.getGrade(self.student, meeting, default=None)
-                    if (grade is not None) and (grade != ""):
-                        grades.append(grade)
+                    if (grade is not None) and (grade != "") and (grade is not UNSCORED):
+                        grades.append(unicode(grade))
 
         return ", ".join(grades)
 
@@ -80,7 +81,7 @@ class CourseTermAverageGradesColumn(object):
             for meeting in journal.recordedMeetings(self.student):
                 if meeting.dtstart.date() in self.term:
                     grade = journal.getGrade(self.student, meeting, default=None)
-                    if (grade is not None) and (grade != ""):
+                    if (grade is not None) and (grade != "") and (grade is not UNSCORED):
                         grades.append(grade)
         int_grades = []
         for grade in grades:

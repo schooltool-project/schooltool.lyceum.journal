@@ -353,6 +353,7 @@ def doctest_PersonGradesColumn_renderCell_renderSelectedCell():
 def doctest_SectionTermAverageGradesColumn_getGrades():
     """Tests for SectionTermAverageGradesColumn.getGrades
 
+        >>> from schooltool.requirement.scoresystem import UNSCORED
         >>> from schooltool.lyceum.journal.browser.journal import SectionTermAverageGradesColumn
         >>> class JournalStub(object):
         ...     def getGrade(self, person, meeting, default=None):
@@ -372,7 +373,7 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
         >>> class PersonStub(object):
         ...     pass
         >>> item = PersonStub()
-        >>> journal.recordedMeetings = lambda person: []
+        >>> journal.gradedMeetings = lambda person: []
         >>> column.getGrades(item)
         []
 
@@ -380,16 +381,18 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
         ...     def __init__(self, datetime, grade=None):
         ...         self.dtstart = datetime
         ...         self.grade = grade
+        >>> class ScoreStub(object):
+        ...     def __init__(self, value):
+        ...         self.value = value
         >>> MS = MeetingStub
+        >>> SS = ScoreStub
         >>> dt = datetime
-        >>> journal.recordedMeetings = lambda person: [
-        ...                                     MS(dt(2006, 1, 1, 10, 15), 'n'),
-        ...                                     MS(dt(2006, 1, 2, 10, 15), '4'),
-        ...                                     MS(dt(2006, 1, 3, 10, 15)),
-        ...                                     MS(dt(2006, 1, 4, 10, 15), " "),
-        ...                                     MS(dt(2006, 2, 1, 10, 15), '3')]
+        >>> journal.gradedMeetings = lambda person: [
+        ...                                     (MS(dt(2006, 1, 2, 10, 15)), SS('4')),
+        ...                                     (MS(dt(2006, 1, 3, 10, 15)), SS(UNSCORED)),
+        ...                                     (MS(dt(2006, 2, 1, 10, 15)), SS('3'))]
         >>> column.getGrades(item)
-        ['n', '4']
+        ['4']
 
     """
 
@@ -428,11 +431,11 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
         ...     __name__ = "2006-Spring"
         >>> column = SectionTermAttendanceColumn("journal", TermStub())
 
-        >>> column.getGrades = lambda person: ["1", "2", "n"]
+        >>> column.getAbsences = lambda person: ["1", "2", "n"]
         >>> column.renderCell("john", "formatter")
         '1'
 
-        >>> column.getGrades = lambda person: ["1", "n", "n", "N"]
+        >>> column.getAbsences = lambda person: ["1", "n", "n", "N"]
         >>> column.renderCell("john", "formatter")
         '3'
 

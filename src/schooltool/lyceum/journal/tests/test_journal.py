@@ -29,10 +29,22 @@ from zope.app.testing import setup
 from zope.interface import implementer
 from zope.interface import implements
 from zope.interface.verify import verifyObject
+from zope.keyreference.interfaces import IKeyReference
 
 from schooltool.course.interfaces import ISection
+from schooltool.requirement.testing import KeyReferenceStub
+from schooltool.requirement.evaluation import Evaluations
+from schooltool.requirement.interfaces import IEvaluations
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.interfaces import ISectionJournal
+
+
+def stubbedGetEvaluations(context):
+    evals = getattr(context, '_evaluations', None)
+    if evals is None:
+        evals = Evaluations()
+        context._evaluations = evals
+    return evals
 
 
 def doctest_SectionJournalData():
@@ -54,13 +66,29 @@ def doctest_SectionJournalData():
         >>> verifyObject(ISectionJournalData, journal)
         True
 
+        >>> provideAdapter(KeyReferenceStub,
+        ...                adapts=(SectionStub, ),
+        ...                provides=IKeyReference)
+
+
     Grades can be added for every person/meeting pair:
 
         >>> class PersonStub(object):
         ...     def __init__(self, name):
         ...         self.__name__ = name
 
+        >>> provideAdapter(stubbedGetEvaluations,
+        ...                adapts=(PersonStub, ),
+        ...                provides=IEvaluations)
+
+        >>> class CalendarStub(object):
+        ...     def __init__(self, section):
+        ...         self.__parent__ = section
+
+        >>> calendar = CalendarStub(section)
+
         >>> class MeetingStub(object):
+        ...     __parent__ = calendar
         ...     def __init__(self, uid, meeting_id=None,
         ...                  date=datetime.date(2011, 05, 05)):
         ...         self.dtstart = datetime.datetime(
@@ -78,7 +106,7 @@ def doctest_SectionJournalData():
     And are read that way too:
 
         >>> journal.getGrade(person1, meeting)
-        '5'
+        Decimal('5')
 
     If there is no grade present in that position, you get None:
 
@@ -94,15 +122,13 @@ def doctest_SectionJournalData():
 
         >>> journal.setAbsence(person1, meeting)
 
-    If value was not provided, it defaults to True:
-
         >>> journal.getAbsence(person1, meeting)
-        True
+        'n'
 
     Absences are treated as unexplained by default:
 
         >>> journal.getAbsence(person2, meeting)
-        False
+        ''
 
     Unless default is provided:
 
@@ -114,8 +140,8 @@ def doctest_SectionJournalData():
         >>> meeting2 = MeetingStub('double-1', meeting_id='double-meeting')
         >>> meeting3 = MeetingStub('double-2', meeting_id='double-meeting')
 
-        >>> print journal.getGrade(person1, meeting)
-        5
+        >>> journal.getGrade(person1, meeting)
+        Decimal('5')
 
         >>> print journal.getGrade(person1, meeting2)
         None
@@ -125,11 +151,11 @@ def doctest_SectionJournalData():
 
         >>> journal.setGrade(person1, meeting2, "7")
 
-        >>> print journal.getGrade(person1, meeting3)
-        7
+        >>> journal.getGrade(person1, meeting3)
+        Decimal('7')
 
-        >>> print journal.getGrade(person1, meeting)
-        5
+        >>> journal.getGrade(person1, meeting)
+        Decimal('5')
 
     """
 
@@ -199,11 +225,11 @@ def doctest_SectionJournal():
         >>> class SectionDataStub(object):
         ...     grade_data = {}
         ...     absence_data = {}
-        ...     def setGrade(self, person, meeting, value):
+        ...     def setGrade(self, person, meeting, value, evaluator=None):
         ...         self.grade_data[person, meeting] = value
         ...     def getGrade(self, person, meeting, default):
         ...         return self.grade_data.get((person, meeting), default)
-        ...     def setAbsence(self, person, meeting, value):
+        ...     def setAbsence(self, person, meeting, value, evaluator=None):
         ...         self.absence_data[person, meeting] = value
         ...     def getAbsence(self, person, meeting, default):
         ...         return self.absence_data.get((person, meeting), default)

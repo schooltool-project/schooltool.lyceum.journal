@@ -292,7 +292,7 @@ class SectionJournalData(Persistent):
         #      so we need score comments now.
         self.evaluate(person, requirement, ABSENT, evaluator=evaluator)
 
-    def getAbsence(self, person, meeting, default=False):
+    def getAbsence(self, person, meeting, default=''):
         requirement = AttendanceRequirement(removeSecurityProxy(meeting))
         score = self.getEvaluation(person, requirement, default=default)
         if score is default:
@@ -383,7 +383,7 @@ class SectionJournal(object):
         section_journal_data.setAbsence(person, meeting, explained,
                                         evaluator=evaluator)
 
-    def getAbsence(self, person, meeting, default=False):
+    def getAbsence(self, person, meeting, default=''):
         calendar = meeting.__parent__
         owner = calendar.__parent__
         section_journal_data = ISectionJournalData(owner)

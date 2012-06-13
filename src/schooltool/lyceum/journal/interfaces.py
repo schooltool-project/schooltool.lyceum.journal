@@ -41,12 +41,6 @@ class ISectionJournalData(Interface):
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
-    def setDescription(meeting, description):
-        """Set the description of the meeting."""
-
-    def getDescription(meeting):
-        """Retrieve the description of a meeting."""
-
     def evaluate(person, requirement, grade, evaluator=None, score_system=None):
         """Add evaluation of a requirement."""
 
@@ -76,12 +70,6 @@ class ISectionJournal(ILocation):
 
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
-
-    def setDescription(meeting, description):
-        """Set the description of the meeting."""
-
-    def getDescription(meeting):
-        """Retrieve the description of a meeting."""
 
     def evaluate(person, requirement, grade, evaluator=None, score_system=None):
         """Add evaluation of a requirement."""

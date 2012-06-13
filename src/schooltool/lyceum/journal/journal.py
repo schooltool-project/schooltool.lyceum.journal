@@ -306,14 +306,6 @@ class SectionJournalData(Persistent):
             entry_id = meeting.unique_id
         return (date, entry_id)
 
-    def getDescription(self, meeting):
-        key = self.descriptionKey(meeting)
-        return self.__description_data__.get(key)
-
-    def setDescription(self, meeting, description):
-        key = self.descriptionKey(meeting)
-        self.__description_data__[key] = description
-
     def recordedMeetings(self, person):
         result = []
         unique_meetings = set()
@@ -399,18 +391,6 @@ class SectionJournal(object):
         section_journal_data = ISectionJournalData(requirement.target)
         return section_journal_data.getEvaluation(
             person, requirement, default=default)
-
-    def setDescription(self, meeting, description):
-        calendar = meeting.__parent__
-        owner = calendar.__parent__
-        section_journal_data = ISectionJournalData(owner)
-        return section_journal_data.setDescription(meeting, description)
-
-    def getDescription(self, meeting):
-        calendar = meeting.__parent__
-        owner = calendar.__parent__
-        section_journal_data = ISectionJournalData(owner)
-        return section_journal_data.getDescription(meeting)
 
     @Lazy
     def members(self):

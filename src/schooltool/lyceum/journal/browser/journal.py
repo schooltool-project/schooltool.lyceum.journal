@@ -675,8 +675,12 @@ class SectionJournalAjaxView(BrowserView):
         try:
             self.context.setGrade(person, meeting, grade, evaluator=evaluator)
         except ScoreValidationError:
-            self.context.setAbsence(
-                person, meeting, evaluator=evaluator, value=grade)
+            pass
+        try:
+            self.context.setAbsence(person, meeting, evaluator=evaluator, value=grade)
+        except ScoreValidationError:
+            pass
+
         return ""
 
 
@@ -937,8 +941,11 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
                     requirement = self.makeRequirement(removeSecurityProxy(meeting))
-                    self.context.evaluate(person, requirement, cell_value,
-                                          evaluator=evaluator)
+                    try:
+                        self.context.evaluate(person, requirement, cell_value,
+                                              evaluator=evaluator)
+                    except ScoreValidationError:
+                        pass
 
     def table(self):
         result = []
@@ -1130,8 +1137,11 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                     cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value,
                                                                     cell_value)
                     requirement = self.makeRequirement(removeSecurityProxy(meeting))
-                    self.context.evaluate(person, requirement, cell_value,
-                                          evaluator=evaluator)
+                    try:
+                        self.context.evaluate(person, requirement, cell_value,
+                                              evaluator=evaluator)
+                    except ScoreValidationError:
+                        pass
 
     def validate_score(self, activity_id=None, score=None):
         if score is None:

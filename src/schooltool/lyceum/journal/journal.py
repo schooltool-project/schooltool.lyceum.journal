@@ -261,9 +261,14 @@ class SectionJournalData(Persistent):
         score = score_system.fromUnicode(grade)
         evaluations = removeSecurityProxy(IEvaluations(person))
 
-        if (requirement in evaluations and
-            evaluations[requirement].value == score):
-            return
+        if requirement in evaluations:
+            current = evaluations[requirement]
+            if (current.value == score and
+                current.evaluator == evaluator):
+                return
+        else:
+            if score is UNSCORED:
+                return
 
         eval = Evaluation(requirement, score_system, score, evaluator=evaluator)
         evaluations.addEvaluation(eval)

@@ -240,9 +240,6 @@ class SectionJournalData(Persistent):
     def __init__(self):
         self.__parent__ = None
         self.__name__ = None
-        self.__grade_data__ = OOBTree()
-        self.__description_data__ = OOBTree()
-        self.__attendance_data__ = OOBTree()
 
     @property
     def section(self):

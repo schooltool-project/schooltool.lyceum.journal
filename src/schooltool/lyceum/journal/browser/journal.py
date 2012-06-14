@@ -765,6 +765,10 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
     no_periods = False
     render_journal = True
 
+    def __init__(self, *args, **kw):
+        self.__grade_cache = {}
+        super(FlourishLyceumSectionJournalBase, self).__init__(*args, **kw)
+
     @property
     def page_class(self):
         if self.render_journal:
@@ -895,18 +899,22 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
         return json
 
     def getScores(self, person):
-        result = []
+        if person in self.__grade_cache:
+            return list(self.__grade_cache[person])
+        self.__grade_cache[person] = result = []
         unique_meetings = set()
         term = self.selected_term
         calendar = ISchoolToolCalendar(self.context.section)
         events = [e for e in calendar if e.dtstart.date() in term]
         sorted_events = sorted(events, key=lambda e: e.dtstart)
+        unproxied_person = removeSecurityProxy(person)
         for event in sorted_events:
             if event.dtstart.date() not in term:
                 continue
-            requirement = self.makeRequirement(event)
-            score = removeSecurityProxy(self.context.getEvaluation(
-                    person, requirement, default=UNSCORED))
+            unproxied_event = removeSecurityProxy(event)
+            requirement = self.makeRequirement(unproxied_event)
+            score = self.context.getEvaluation(
+                    unproxied_person, requirement, default=UNSCORED)
             if (event.meeting_id not in unique_meetings and
                 score is not UNSCORED):
                 result.append(score)

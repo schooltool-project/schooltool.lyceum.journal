@@ -290,7 +290,7 @@
       permission="schooltool.edit"
       group="Section"
       description="A single Excel-formatted spreadsheet containing all the worksheets for this journal."
-      title="Journal Grades Export"
+      title="Journal Scores Export"
       file_type="xls"
       link="request_journal_export.html"
       />

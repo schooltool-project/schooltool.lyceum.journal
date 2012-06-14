@@ -294,7 +294,7 @@ class SectionTermGradesColumn(GradesColumn):
             return ",".join(["%s" % grade for grade in grades])
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Grades"),
+        return '<span>%s</span>' % translate(_("Scores"),
                                              context=formatter.request)
 
 class SectionTermAverageGradesColumn(GradesColumn):
@@ -927,7 +927,7 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
     @property
     def title(self):
         if self.render_journal:
-            return _('Enter Grades')
+            return _('Enter Scores')
         else:
             if self.no_timetable:
                 return _('Section is not scheduled')
@@ -1408,7 +1408,7 @@ class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
 
 class RangedScoreSystemLegend(flourish.content.ContentProvider):
 
-    title = _('Grades')
+    title = _('Scores')
 
     def getGrades(self):
         return list(reversed(range(self.context.min, self.context.max+1)))
@@ -1728,7 +1728,7 @@ class JournalModeSelector(flourish.viewlet.Viewlet):
                 })
         result.append({
                 'id': 'journal-mode-grades',
-                'label': _('Grades'),
+                'label': _('Scores'),
                 'url': journal_url + '/grades.html',
                 'selected': self.manager.view.__name__ == 'grades.html',
                 })

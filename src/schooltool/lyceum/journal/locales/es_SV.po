@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-11-22 20:32+0200\n"
-"PO-Revision-Date: 2011-11-26 17:54+0000\n"
+"POT-Creation-Date: 2012-04-17 21:00+0300\n"
+"PO-Revision-Date: 2012-03-25 17:00+0000\n"
 "Last-Translator: Douglas Cerna <douglascerna@yahoo.com>\n"
 "Language-Team: Spanish\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-27 05:49+0000\n"
-"X-Generator: Launchpad (build 14381)\n"
-"Language: \n"
+"X-Launchpad-Export-Date: 2012-03-26 05:12+0000\n"
+"X-Generator: Launchpad (build 15008)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -61,8 +61,22 @@ msgstr "Acciones"
 msgid "Help"
 msgstr "Ayuda"
 
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
+msgid "Reports"
+msgstr "Reportes"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid ""
+"A single Excel-formatted spreadsheet containing all the worksheets for this "
+"journal."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+msgid "Journal Export"
+msgstr ""
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:73
+#: /src/schooltool/lyceum/journal/browser/journal.py:76
 msgid "Single letter that represents an absent mark for a student"
 msgstr "a"
 
@@ -178,8 +192,8 @@ msgstr "Período"
 msgid "Abs."
 msgstr "Aus."
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
-#, fuzzy
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
 msgid "Trd."
 msgstr "Tar."
 

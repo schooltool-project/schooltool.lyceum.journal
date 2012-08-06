@@ -28,7 +28,7 @@ And some students:
     >>> addPerson('Grum', 'Student', username='grum', password='pwd', groups=['students'])
     >>> addPerson('Bogon', 'Student', username='bogon', password='pwd', groups=['students'])
 
-Add 2 Terms:
+Add a Term:
 
     >>> manager.getLink('Add a new term').click()
     >>> manager.getControl('Title').value = '2005 Fall 1'

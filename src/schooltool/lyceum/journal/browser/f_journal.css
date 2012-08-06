@@ -1,7 +1,0 @@
-.grades input[type="text"] {
-    width: 2em;
-}
-
-.grades input[type="text"]:focus {
-    width: 1.8em;
-}

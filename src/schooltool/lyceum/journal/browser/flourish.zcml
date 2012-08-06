@@ -11,7 +11,7 @@
       require="schooltool.skin.flourish-gradebook"
       layer="schooltool.skin.flourish.IFlourishLayer">
     <directory
-          source=""
+          source="resources"
           include="f_journal.css"
           />
   </zope:resourceLibrary>
@@ -99,8 +99,14 @@
       name="index.html"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.FlourishLyceumSectionJournalView"
-      title="Enter Attendance"
       content_template="templates/f_journal.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="validate_score"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishJournalValidateScoreView"
       permission="schooltool.view"
       />
 
@@ -157,6 +163,43 @@
       layer="schooltool.skin.flourish.interfaces.IFlourishLayer"
       permission="zope.Public"
       order="15"
+      />
+
+  <!-- Popup views -->
+
+  <flourish:page
+      name="name_popup_menu"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishNamePopupMenuView"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="activity_popup_menu"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishActivityPopupMenuView"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="student_popup_menu"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishStudentPopupMenuView"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="total_popup_menu"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishTotalPopupMenuView"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="filldown"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      template="templates/f_journal_filldown_dialog.pt"
+      permission="schooltool.view"
       />
 
   <flourish:viewlet

@@ -2,9 +2,11 @@
 CHANGES
 =======
 
-2.1.1 (unreleased)
+2.2.0 (2012-08-08)
 ------------------
 
+- Refactored month navigation to match new-style gradebook
+- Hide sidebar button
 - Update translations
 
 

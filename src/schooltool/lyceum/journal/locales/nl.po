@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-17 21:00+0300\n"
-"PO-Revision-Date: 2012-03-20 16:03+0000\n"
+"PO-Revision-Date: 2012-04-18 17:11+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
-"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-21 05:57+0000\n"
-"X-Generator: Launchpad (build 14981)\n"
+"X-Launchpad-Export-Date: 2012-04-19 04:58+0000\n"
+"X-Generator: Launchpad (build 15108)\n"
+"Language: nl\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -70,10 +70,11 @@ msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
 msgstr ""
+"Eén enkel Excel-geformatteerd werkblad met alle werkbladen van dit logboek."
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid "Journal Export"
-msgstr ""
+msgstr "Logboekexport"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:76
@@ -164,7 +165,7 @@ msgstr "Planning"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr "U kunt hier de roosters voor deze sectie beheren: ${timetable_link}"
+msgstr "U kunt hier de roosters van deze sectie beheren: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
@@ -191,11 +192,13 @@ msgstr "Periode"
 msgid "Abs."
 msgstr "Absent"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:159
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
 msgid "Trd."
 msgstr "Te laat"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:174
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
 msgid "Ave."
 msgstr "Gem."
 
@@ -240,7 +243,7 @@ msgstr "Aanwezigheid"
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} logboek voor ${month} ${year}"
+msgstr "${section} logboek van ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -254,7 +257,7 @@ msgstr "${section} logboek"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${person} cijferlijst voor ${month}"
+msgstr "${person} cijferlijst van ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
@@ -262,7 +265,7 @@ msgstr "${person} cijferlijst"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} cijferlijst voor ${month}"
+msgstr "${student_name} cijferlijst van ${month}"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -285,7 +288,7 @@ msgstr "Mijn secties"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr "Logboekgegevens voor een sectie aanmaken en bewerken."
+msgstr "Logboekgegevens van een sectie aanmaken en bewerken."
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
@@ -297,7 +300,7 @@ msgstr "Logboek bekijken"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View journal data for a section."
-msgstr "Logboekgegevens voor een sectie bekijken."
+msgstr "Logboekgegevens van een sectie bekijken."
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."

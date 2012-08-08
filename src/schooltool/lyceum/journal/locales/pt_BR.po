@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-17 21:00+0300\n"
-"PO-Revision-Date: 2011-12-25 13:25+0000\n"
+"PO-Revision-Date: 2012-05-02 02:16+0000\n"
 "Last-Translator: Sam Samuels <gemini_sam_samuels@hotmail.co.uk>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
-"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-03-21 05:58+0000\n"
-"X-Generator: Launchpad (build 14981)\n"
+"X-Launchpad-Export-Date: 2012-05-03 05:56+0000\n"
+"X-Generator: Launchpad (build 15185)\n"
+"Language: pt_BR\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -70,10 +70,12 @@ msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
 msgstr ""
+"Uma única planilha do Excel formatada contendo todas as planilhas para esta "
+"revista."
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid "Journal Export"
-msgstr ""
+msgstr "Jornal Exportação"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:76
@@ -194,7 +196,7 @@ msgstr "Abs."
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
 msgid "Trd."
-msgstr ""
+msgstr "Trd."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194

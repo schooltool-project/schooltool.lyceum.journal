@@ -5,7 +5,7 @@ CHANGES
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update translations
 
 
 2.1.0 (2012-04-18)

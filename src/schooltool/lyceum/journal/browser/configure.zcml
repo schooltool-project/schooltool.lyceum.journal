@@ -5,6 +5,24 @@
            i18n_domain="schooltool.lyceum.journal">
 
   <viewlet
+      name="journal_css"
+      for="*"
+      manager="schooltool.skin.ICSSManager"
+      class=".journal.JournalCSSViewlet"
+      permission="zope.View"
+      />
+
+  <resource
+      name="journal.css"
+      file="resources/journal.css"
+      layer="schooltool.skin.ISchoolToolLayer" />
+
+  <resource
+      name="journal_non_ie.css"
+      file="resources/journal_non_ie.css"
+      layer="schooltool.skin.ISchoolToolLayer" />
+
+  <viewlet
       name="journal-link"
       for="*"
       manager="schooltool.app.browser.skin.ICalendarEventViewletManager"

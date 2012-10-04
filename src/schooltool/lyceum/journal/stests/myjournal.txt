@@ -1,0 +1,146 @@
+Students should be able to see their journal data
+=================================================
+
+Log in as manager:
+
+    >>> manager = browsers.manager
+    >>> manager.ui.login('manager', 'schooltool')
+
+Set today's date:
+
+    >>> manager.open('http://localhost/time?value=2011-09-05')
+
+Add a school year:
+
+    >>> manager.ui.schoolyear.add('2010', '2010-01-01', '2010-12-31')
+
+Let's specify a test file with just a single section with one teacher and one
+student that is scheduled.
+
+    >>> import os
+    >>> dirname = os.path.abspath(os.path.dirname(__file__))
+    >>> filename = os.path.join(dirname, 'myjournal_sections.xls')
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Import XLS').click()
+    >>> import pkg_resources
+    >>> elem = manager.query.name('xlsfile')
+    >>> manager.query.name('xlsfile').type(filename)
+    >>> page = manager.query.tag('html')
+    >>> manager.query.button('Submit').click()
+    >>> manager.wait(lambda: page.expired)
+
+Log in as the teacher:
+
+    >>> teacher = browsers.teacher
+    >>> teacher.ui.login('teacher000', 'teacher000')
+
+We'll define a helper function for entering into journal cells.
+
+    >>> def enter_cell(col, value):
+    ...     cell = teacher.query_all.css('tbody > tr > td')[col]
+    ...     cell.click()
+    ...     cell.query.css('input').type(value)
+
+Clicking on the Journal tab takes the teacher to the section journal for the
+default section:
+
+    >>> teacher.query.link('Journal').click()
+    >>> print teacher.url
+    http://localhost/schoolyears/2011-2012/2011-fall/sections/art_a_2011-fall/journal
+
+We'll fill in some scores for our student.
+
+    >>> enter_cell(1, '9')
+    >>> enter_cell(2, '7')
+    >>> enter_cell(3, 'a')
+    >>> enter_cell(4, 't')
+    >>> enter_cell(5, 'a')
+    >>> enter_cell(6, 'a')
+    >>> enter_cell(7, 'a')
+    >>> enter_cell(8, '8')
+    >>> enter_cell(9, '5')
+    >>> enter_cell(10, '9')
+    >>> enter_cell(11, '6')
+    >>> enter_cell(12, '6')
+    >>> enter_cell(13, 't')
+    >>> enter_cell(14, 't')
+    >>> enter_cell(15, '5')
+    >>> enter_cell(16, '4')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.wait_page(teacher.query.name('currentSection').query_all.css('option')[1].click)
+    >>> enter_cell(1, 'a')
+    >>> enter_cell(2, 't')
+    >>> enter_cell(3, '8')
+    >>> enter_cell(4, '9')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.wait_page(teacher.query.name('currentSection').query_all.css('option')[0].click)
+    >>> teacher.wait_page(teacher.query.name('currentTerm').query_all.css('option')[1].click)
+    >>> enter_cell(3, 'a')
+    >>> enter_cell(4, '8')
+    >>> enter_cell(5, '7')
+    >>> enter_cell(6, '5')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.wait_page(teacher.query.name('currentSection').query_all.css('option')[1].click)
+    >>> enter_cell(5, 'a')
+    >>> enter_cell(6, 't')
+    >>> enter_cell(7, '6')
+    >>> enter_cell(8, '9')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+Log in as the student:
+
+    >>> student = browsers.student
+    >>> student.ui.login('student000', 'student000')
+
+Clicking on the Journal tab takes the student to the journal report for the
+current year.  The three tables we print out here are the absences, tardies and
+particpation tables.  Not that periods C and A in Sep 07 and 14 are sorted
+correctly because C really does come before A in day 3 of the schedule.
+
+    >>> student.query.link('Journal').click()
+    >>> print student.url
+    http://localhost/schoolyears/2011-2012/myjournal.html
+
+    >>> tables = student.query_all.css('.body table')
+    >>> print tables[0].query_all.css('tbody tr td').text
+    Sep 5, 2011
+    A
+    Sep 6, 2011
+    B
+    Sep 7, 2011
+    C, A
+    Sep 8, 2011
+    D
+    Jan 3, 2012
+    B
+    Jan 4, 2012
+    C
+
+    >>> print tables[1].query_all.css('tbody tr td').text
+    Sep 5, 2011
+    C
+    Sep 6, 2011
+    D
+    Sep 14, 2011
+    C, A
+    Jan 4, 2012
+    A
+
+    >>> print tables[2].query_all.css('tbody tr td').text
+    2011 Fall
+    Art A Fall
+    6.6
+    2011 Fall
+    English A Fall
+    8.5
+    2012 Spring
+    Art A Spring
+    6.7
+    2012 Spring
+    History A Spring
+    7.5
+

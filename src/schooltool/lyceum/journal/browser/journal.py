@@ -19,6 +19,7 @@
 """
 Lyceum journal views.
 """
+from decimal import Decimal
 import pytz
 import urllib
 import base64
@@ -54,6 +55,7 @@ from schooltool.person.interfaces import IPerson
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
+from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.report.browser.report import RequestReportDownloadDialog
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
@@ -66,6 +68,7 @@ from schooltool.schoolyear.interfaces import ISchoolYear
 from schooltool.lyceum.journal.journal import (ABSENT, TARDY,
     getCurrentSectionTaught, setCurrentSectionTaught)
 from schooltool.lyceum.journal.interfaces import ISectionJournal
+from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
@@ -1139,13 +1142,18 @@ class FlourishJournalRedirectView(flourish.page.Page):
         url = absoluteURL(self.context, self.request)
         person = IPerson(self.request.principal, None)
         if person is not None:
-            section = getCurrentSectionTaught(person)
-            if section is None:
-                sections = list(IInstructor(person).sections())
-                if sections:
+            sections = list(IInstructor(person).sections())
+            if sections:
+                section = getCurrentSectionTaught(person)
+                if section is None:
                     section = sections[0]
-            if section is not None:
                 url = absoluteURL(section, self.request) + '/journal'
+            elif list(ILearner(person).sections()):
+                current_term = getUtility(IDateManager).current_term
+                if current_term is not None:
+                    schoolyear = ISchoolYear(current_term)
+                    url = (absoluteURL(schoolyear, self.request) +
+                           '/myjournal.html')
         self.request.response.redirect(url)
 
 
@@ -1446,3 +1454,92 @@ class FlourishJournalExportView(export.ExcelExportView,
             info['period'] = period
             result.append(info)
         return result
+
+
+class FlourishSchoolYearMyJournalView(flourish.page.Page):
+
+    @property
+    def subtitle(self):
+        return self.context.title
+
+    @property
+    def person(self):
+        return IPerson(self.request.principal, None)
+
+    @property
+    def sections(self):
+        if self.person is None:
+            return []
+        result = []
+        for section in ILearner(self.person).sections():
+            term = ITerm(section)
+            if ISchoolYear(term) != self.context:
+                continue
+            result.append([term.first, section.title, term, section])
+        return [(term, section)
+                 for first, title, term, section in sorted(result)]
+
+    def getEventGrades(self, section):
+        person = self.person
+        if person is None:
+            return
+        section_journal_data = ISectionJournalData(section)
+        average, count = Decimal(0), 0
+        for event in ISchoolToolCalendar(section):
+            grade = section_journal_data.getGrade(person, event)
+            yield event, grade
+
+    @property
+    def absences(self):
+        days = {}
+        for term, section in self.sections:
+            for event, grade in self.getEventGrades(section):
+                if grade != ABSENT:
+                    continue
+                days.setdefault(event.dtstart.date(), []).append(
+                    (event.dtstart, event.period.title))
+        result = []
+        for day, periods in sorted(days.items()):
+            result.append({
+                'day': day,
+                'period': ', '.join([period for dt, period in sorted(periods)]),
+                })
+        return result
+
+    @property
+    def tardies(self):
+        days = {}
+        for term, section in self.sections:
+            for event, grade in self.getEventGrades(section):
+                if grade != TARDY:
+                    continue
+                days.setdefault(event.dtstart.date(), []).append(
+                    (event.dtstart, event.period.title))
+        result = []
+        for day, periods in sorted(days.items()):
+            result.append({
+                'day': day,
+                'period': ', '.join([period for dt, period in sorted(periods)]),
+                })
+        return result
+
+    @property
+    def particpation(self):
+        result = []
+        for term, section in self.sections:
+            average, count = Decimal(0), 0
+            for event, grade in self.getEventGrades(section):
+                if grade is None or grade in [ABSENT, TARDY]:
+                    continue
+                average += Decimal(grade)
+                count += 1
+            if not count:
+                continue
+            average /= count
+            result.append({
+                'term': term.title,
+                'section': section.title,
+                'average': '%.1f' % average,
+                })
+        return result
+

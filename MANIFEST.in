@@ -5,6 +5,7 @@ recursive-include src *.txt
 recursive-include src *.pot
 recursive-include src *.po
 recursive-include src *.mo
+recursive-include src *.xls
 include version.txt
 include version.txt.in
 include CHANGES.txt

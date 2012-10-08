@@ -238,4 +238,13 @@
       permission="schooltool.edit"
       />
 
+  <flourish:page
+      name="myjournal.html"
+      for="schooltool.schoolyear.interfaces.ISchoolYear"
+      class=".journal.FlourishSchoolYearMyJournalView"
+      title="My Journal"
+      content_template="templates/f_myjournal.pt"
+      permission="schooltool.view"
+      />
+
 </configure>

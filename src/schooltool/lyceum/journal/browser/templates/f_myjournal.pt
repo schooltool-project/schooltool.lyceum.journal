@@ -1,0 +1,51 @@
+<tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
+<div i18n:domain="schooltool.lyceum.journal"
+     tal:define="absences view/absences; tardies view/tardies; participation view/participation">
+
+  <h3 i18n:translate="">Absences</h3>
+  <table>
+    <tr>
+      <thead>
+        <th i18n:translate="">Day</th>
+        <th i18n:translate="">Period</th>
+      </thead>
+    </tr>
+    <tr tal:repeat="row absences">
+      <td tal:content="row/day/@@mediumDate" />
+      <td tal:content="row/period" />
+    </tr>
+  </table>
+  <p tal:condition="not: absences" i18n:translate="">There are no absences.</p>
+
+  <h3 i18n:translate="">Tardies</h3>
+  <table>
+    <tr>
+      <thead>
+        <th i18n:translate="">Day</th>
+        <th i18n:translate="">Period</th>
+      </thead>
+    </tr>
+    <tr tal:repeat="row tardies">
+      <td tal:content="row/day/@@mediumDate" />
+      <td tal:content="row/period" />
+    </tr>
+  </table>
+  <p tal:condition="not: tardies" i18n:translate="">There are no tardies.</p>
+
+  <h3 i18n:translate="">Participation</h3>
+  <table>
+    <tr>
+      <thead>
+        <th i18n:translate="">Term</th>
+        <th i18n:translate="">Section</th>
+        <th i18n:translate="">Average</th>
+      </thead>
+    </tr>
+    <tr tal:repeat="row participation">
+      <td tal:content="row/term" />
+      <td tal:content="row/section" />
+      <td tal:content="row/average" />
+    </tr>
+  </table>
+  <p tal:condition="not: participation" i18n:translate="">There are no participation scores.</p>
+</div>

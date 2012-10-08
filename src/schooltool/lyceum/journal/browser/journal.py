@@ -1524,7 +1524,7 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
         return result
 
     @property
-    def particpation(self):
+    def participation(self):
         result = []
         for term, section in self.sections:
             average, count = Decimal(0), 0

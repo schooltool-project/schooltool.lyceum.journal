@@ -1,6 +1,6 @@
 <tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
 <div i18n:domain="schooltool.lyceum.journal"
-     tal:define="absences view/absences; tardies view/tardies; particpation view/particpation">
+     tal:define="absences view/absences; tardies view/tardies; participation view/participation">
 
   <h3 i18n:translate="">Absences</h3>
   <table>
@@ -32,7 +32,7 @@
   </table>
   <p tal:condition="not: tardies" i18n:translate="">There are no tardies.</p>
 
-  <h3 i18n:translate="">Particpation</h3>
+  <h3 i18n:translate="">Participation</h3>
   <table>
     <tr>
       <thead>
@@ -41,11 +41,11 @@
         <th i18n:translate="">Average</th>
       </thead>
     </tr>
-    <tr tal:repeat="row particpation">
+    <tr tal:repeat="row participation">
       <td tal:content="row/term" />
       <td tal:content="row/section" />
       <td tal:content="row/average" />
     </tr>
   </table>
-  <p tal:condition="not: particpation" i18n:translate="">There are no particpation scores.</p>
+  <p tal:condition="not: participation" i18n:translate="">There are no participation scores.</p>
 </div>

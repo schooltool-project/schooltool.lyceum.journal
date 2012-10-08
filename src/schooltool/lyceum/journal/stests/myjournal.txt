@@ -98,7 +98,7 @@ Log in as the student:
 
 Clicking on the Journal tab takes the student to the journal report for the
 current year.  The three tables we print out here are the absences, tardies and
-particpation tables.  Not that periods C and A in Sep 07 and 14 are sorted
+participation tables.  Not that periods C and A in Sep 07 and 14 are sorted
 correctly because C really does come before A in day 3 of the schedule.
 
     >>> student.query.link('Journal').click()

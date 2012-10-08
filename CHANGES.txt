@@ -6,6 +6,7 @@ CHANGES
 ------------------
 
 - Journal tab for students calls up MyJournal view with schoolyear as context
+- Update Dutch translation
 
 
 2.2.0 (2012-08-08)

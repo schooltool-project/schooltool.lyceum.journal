@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-2.2.1 (unreleased)
+2.2.1 (2012-10-08)
 ------------------
 
-- Journal tab for students calls up MyJournal view with schoolyear as context
+- Journal for students (https://launchpad.net/bugs/882663)
 - Update Dutch translation
 
 

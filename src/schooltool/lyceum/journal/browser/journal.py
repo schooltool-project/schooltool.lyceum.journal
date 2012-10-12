@@ -19,7 +19,6 @@
 """
 Lyceum journal views.
 """
-from decimal import Decimal
 import pytz
 import urllib
 import base64
@@ -61,7 +60,6 @@ from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
-from schooltool.table.table import simple_form_key
 from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
@@ -1484,7 +1482,6 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
         if person is None:
             return
         section_journal_data = ISectionJournalData(section)
-        average, count = Decimal(0), 0
         for event in ISchoolToolCalendar(section):
             grade = section_journal_data.getGrade(person, event)
             yield event, grade
@@ -1527,15 +1524,19 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
     def participation(self):
         result = []
         for term, section in self.sections:
-            average, count = Decimal(0), 0
+            average, count = 0, 0
             for event, grade in self.getEventGrades(section):
-                if grade is None or grade in [ABSENT, TARDY]:
+                if grade is None:
                     continue
-                average += Decimal(grade)
+                try:
+                    grade = int(grade)
+                except ValueError:
+                    continue
+                average += grade
                 count += 1
             if not count:
                 continue
-            average /= count
+            average /= float(count)
             result.append({
                 'term': term.title,
                 'section': section.title,

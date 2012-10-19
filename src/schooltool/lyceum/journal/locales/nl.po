@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-08-08 19:11+0300\n"
-"PO-Revision-Date: 2012-08-10 16:18+0000\n"
+"POT-Creation-Date: 2012-10-08 20:15+0300\n"
+"PO-Revision-Date: 2012-10-16 17:10+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-08-11 05:57+0000\n"
-"X-Generator: Launchpad (build 15780)\n"
+"X-Launchpad-Export-Date: 2012-10-17 04:48+0000\n"
+"X-Generator: Launchpad (build 16152)\n"
 "Language: nl\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -72,8 +72,12 @@ msgstr ""
 msgid "Journal Export"
 msgstr "Logboekexport"
 
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:241
+msgid "My Journal"
+msgstr "Mijn logboek"
+
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:76
+#: /src/schooltool/lyceum/journal/browser/journal.py:80
 msgid "Single letter that represents an absent mark for a student"
 msgstr "Enkele letter die de absentie van een leerling aanduidt."
 
@@ -280,6 +284,22 @@ msgstr "Legenda"
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
 msgid "Attendance / grade"
 msgstr "Aanwezigheid / cijfer"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
+msgid "There are no absences."
+msgstr "Er zijn geen absenties."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:33
+msgid "There are no tardies."
+msgstr "Er zijn geen laatkomers."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:35
+msgid "Participation"
+msgstr "Deelname"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:50
+msgid "There are no participation scores."
+msgstr "Er zijn geen deelnamescores."
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"

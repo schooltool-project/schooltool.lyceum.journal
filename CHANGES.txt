@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-2.2.2 (unreleased)
+2.3.0 (2012-10-19)
 ------------------
 
-- Nothing changed yet.
+- Fix exception in student journal when grade is not a number (https://launchpad.net/bugs/1065474)
 
 
 2.2.1 (2012-10-08)

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2012-04-17 21:00+0300\n"
-"PO-Revision-Date: 2012-01-16 12:48+0000\n"
+"POT-Creation-Date: 2012-10-08 20:15+0300\n"
+"PO-Revision-Date: 2012-12-03 04:59+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-18 05:10+0000\n"
-"X-Generator: Launchpad (build 15108)\n"
+"X-Launchpad-Export-Date: 2012-12-04 06:08+0000\n"
+"X-Generator: Launchpad (build 16335)\n"
 "Language: ms\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -39,7 +39,7 @@ msgstr "Jurnal"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr "Seksyen"
+msgstr "Bahagian"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
@@ -49,11 +49,7 @@ msgstr "Penggal"
 msgid "Year"
 msgstr "Tahun"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
-msgid "Enter Attendance"
-msgstr "Masukkan Kehadiran"
-
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:120
 msgid "Actions"
 msgstr "Tindakan"
 
@@ -63,20 +59,26 @@ msgstr "Bantuan"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
 msgid "Reports"
-msgstr ""
+msgstr "Laporan"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
 msgstr ""
+"Lembaran elektronik berformat-Excel tunggal mengandungi semua lembaran kerja "
+"untuk jurnal ini."
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid "Journal Export"
-msgstr ""
+msgstr "Jurnal Eksport"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:241
+msgid "My Journal"
+msgstr "Jurnal Saya"
 
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:76
+#: /src/schooltool/lyceum/journal/browser/journal.py:80
 msgid "Single letter that represents an absent mark for a student"
 msgstr "Huruf tunggal yang mewakili penanda pelajar ponteng"
 
@@ -115,7 +117,19 @@ msgstr "Tidak hadir"
 msgid "Tardy"
 msgstr "Lewat"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:811
+#: /src/schooltool/lyceum/journal/browser/journal.py:734
+msgid "Enter Attendance"
+msgstr "Masukkan Kehadiran"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:737
+msgid "Section is not scheduled"
+msgstr "Bahagian tidak dijadualkan"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:739
+msgid "No periods assigned for this section"
+msgstr "Tiada waktu diumpuk untuk bahagian ini"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:910
 msgid "N/A"
 msgstr "T/A"
 
@@ -130,6 +144,40 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
 msgstr "Bantuan Jurnal"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1252
+msgid "Fill down"
+msgstr "Isikan"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1257
+#: /src/schooltool/lyceum/journal/browser/journal.py:1305
+#: /src/schooltool/lyceum/journal/browser/journal.py:1336
+msgid "Sort by"
+msgstr "Isih mengikut"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+msgid "Student"
+msgstr "Pelajar"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1302
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:42
+msgid "Name"
+msgstr "Nama"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1321
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:103
+msgid "Ave."
+msgstr "Pur."
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1322
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+msgid "Trd."
+msgstr "Lew."
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1323
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+msgid "Abs."
+msgstr "Pon."
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -146,13 +194,13 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Seksyen ini tidak mendaftar mana-mana penggal, untuk menggunakan jurnal anda "
-"haruslah menambah jadual waktu terlebih dahulu."
+"Bahagian ini tidak mendaftar mana-mana penggal, untuk menggunakan jurnal "
+"anda haruslah menambah jadual waktu terlebih dahulu."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:10
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Tiada waktu yang telah ditentukan pada jadual waktu di seksyen ini."
+msgstr "Tiada waktu yang telah ditentukan pada jadual waktu di bahagian ini."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
@@ -165,66 +213,68 @@ msgstr "Jadual"
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr ""
-"Anda boleh mengurus jadual waktu untuk seksyen ini disini: ${timetable_link}"
+"Anda boleh mengurus jadual waktu untuk bahagian ini disini: ${timetable_link}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
-msgid "Name"
-msgstr "Nama"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:51
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:87
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:155
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:170
-msgid "Sort by"
-msgstr "Isih mengikut"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:44
 msgid "Day"
 msgstr "Hari"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:47
 msgid "Period"
 msgstr "Waktu"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:144
-msgid "Abs."
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
-msgid "Trd."
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
-msgid "Ave."
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "S"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Save"
 msgstr "Simpan"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Shortcut: Alt-S"
 msgstr "Pintasan: Alt-S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:201
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+msgid "Expand"
+msgstr "Kembang"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+msgid "Collapse"
+msgstr "Kuncup"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
 msgid "Zoom Out"
 msgstr "Zum Keluar"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:205
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
 msgid "Zoom Normal"
 msgstr "Zum Biasa"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:209
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
 msgid "Zoom In"
 msgstr "Zum Masuk"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
+msgid "Fill empty cells"
+msgstr "Isi sel kosong"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
+msgid "Grade"
+msgstr "Gred"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
+msgid "Choose a grade to apply to all the students in the gradebook column."
+msgstr ""
+"Pilih gred untuk laksanakan pada semua pelajar dalam lajur buku gred."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
+msgid "Submit"
+msgstr "Serah"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
+msgid "Cancel"
+msgstr "Batal"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
@@ -236,6 +286,22 @@ msgstr "Petunjuk"
 msgid "Attendance / grade"
 msgstr "Kehadiran / gred"
 
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
+msgid "There are no absences."
+msgstr "Tiada yang tidak hadir."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:33
+msgid "There are no tardies."
+msgstr "Tiada yang lewat."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:35
+msgid "Participation"
+msgstr "Penyertaan"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:50
+msgid "There are no participation scores."
+msgstr "Tiada skor penyertaan."
+
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
 msgstr "Kehadiran"
@@ -243,7 +309,7 @@ msgstr "Kehadiran"
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} jurnal untuk ${month} ${year}"
+msgstr "jurnal ${section} untuk ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -257,11 +323,11 @@ msgstr "Jurnal ${section}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${person} buku laporan untuk ${month}"
+msgstr "Buku laporan ${person}  untuk bulan ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "${person} buku laporan"
+msgstr "Buku laporan ${person}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
@@ -280,15 +346,15 @@ msgstr "P"
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "tajuk-untuk butang-pilih"
+msgstr "Pintasan: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Seksyen Saya"
+msgstr "Bahagian Saya"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr "Bina dan sunting data jurnal untuk seksyen."
+msgstr "Bina dan sunting data jurnal untuk bahagian."
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
@@ -300,15 +366,15 @@ msgstr "Lihat Jurnal"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View journal data for a section."
-msgstr "Lihat data jurnal untuk seksyen."
+msgstr "Lihat data jurnal untuk bahagian."
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
-msgstr "Hanya pengajar seksyen boleh menyunting jurnalnya."
+msgstr "Hanya pengajar bahagian boleh menyunting jurnalnya."
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid ""
 "The instructor of a section and school administration can edit a section's "
 "journal."
 msgstr ""
-"Pengajar seksyen dan pentadbir sekolah boleh menyuntinh seksyen jurnal."
+"Pengajar bahagian dan pentadbir sekolah boleh menyunting bahagian jurnal."

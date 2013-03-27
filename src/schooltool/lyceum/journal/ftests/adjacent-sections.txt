@@ -1,4 +1,4 @@
-Functional doctest for SchoolTool Journal Advanced Sections
+Functional doctest for SchoolTool Journal Adjacent Sections
 ===========================================================
 
 Let's log in with the manager account:
@@ -123,7 +123,10 @@ Let's log in with the teacher account:
     >>> teacher.getControl('Password').value = 'pwd'
     >>> teacher.getControl('Log in').click()
 
-Journal supports an interesting way of combining multiple sections:
+Up to version 2.4, journal had a notion of adjacent sections. That means that
+journal displayed meetings of similar sections, taught by the same teacher for
+roughly the same group of students. This was confusing. Moreover, some grades
+were disappearing. So this behaviour has been removed.
 
     >>> teacher.open('http://localhost/schoolyears/2005/2005-fall-1/sections/1')
     >>> teacher.getLink('Journal', index=1).click()
@@ -205,7 +208,7 @@ the sections, even though he is teaching another one:
     | 2   | Grum       | Student   |      |      |      |      |      |      |      |      |      |      |      |      |         |          |         |
     +-----+------------+-----------+------+------+------+------+------+------+------+------+------+------+------+------+---------+----------+---------+
 
-Now let's change the teacher for the adjacent section section:
+Now let's change the teacher for the adjacent section:
 
     >>> manager.open('http://localhost/schoolyears/2005/2005-fall-1/sections/2/')
     >>> manager.getLink('edit instructors').click()

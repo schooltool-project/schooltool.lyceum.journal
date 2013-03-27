@@ -1,30 +1,29 @@
-# Russian translation for schooltool
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the schooltool package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Thai translation for schooltool.lyceum.journal
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the schooltool.lyceum.journal package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: schooltool\n"
+"Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-10-08 20:15+0300\n"
-"PO-Revision-Date: 2013-02-19 07:58+0000\n"
-"Last-Translator: Krasheninnikov Vitaliy (krushik) <mail@krushik.ru>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"PO-Revision-Date: 2013-03-12 04:39+0000\n"
+"Last-Translator: mathinan <mathinan@jaansi.com>\n"
+"Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-02-20 05:14+0000\n"
-"X-Generator: Launchpad (build 16491)\n"
-"Language: ru\n"
+"X-Launchpad-Export-Date: 2013-03-13 04:50+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
-msgstr "Пояснения:"
+msgstr "คำอธิบาย"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:172
 msgid "Total"
-msgstr "Всего"
+msgstr "รวมทั้งหมด"
 
 #: /src/schooltool/lyceum/journal/browser/configure.zcml:38
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
@@ -35,156 +34,156 @@ msgstr "Всего"
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 #: /src/schooltool/lyceum/journal/security.zcml:6
 msgid "Journal"
-msgstr "Журнал"
+msgstr "บทความทางการศึกษา"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr "Класс"
+msgstr "หัวข้อย่อย"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr "Период"
+msgstr "ภาคเรียน"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
-msgstr "Год"
+msgstr "ปี"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:120
 msgid "Actions"
-msgstr "Мероприятие"
+msgstr "การดำเนินการ"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr "Помощь"
+msgstr "ช่วยเหลือ"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
 msgid "Reports"
-msgstr "Отчёты"
+msgstr "รายงาน"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
-msgstr "Сводная таблица Excel содержащая все страницы журнала."
+msgstr "แผ่นงานสำหรับวารสารนี้บรรจุอยู่ในไฟล์ Excel ไฟล์เดียว"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid "Journal Export"
-msgstr "Экспорт журнала"
+msgstr "ส่งออกวารสาร"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:241
 msgid "My Journal"
-msgstr "Мой журнал"
+msgstr "วารสารวิชาการของฉัน"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:80
 msgid "Single letter that represents an absent mark for a student"
-msgstr "п"
+msgstr "จดหมายที่แสดงถึงการไม่มาหรือขาดเรียน"
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:75
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "о"
+msgstr "จดหมายที่แสดงถึงการมาสาย"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:116
 #: /src/schooltool/lyceum/journal/browser/journal.py:396
 msgid "Nr."
-msgstr "№"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:246
 msgid "Grades"
-msgstr "Оценки"
+msgstr "ชั้น"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:271
 #: /src/schooltool/lyceum/journal/browser/student.py:102
 msgid "Average"
-msgstr "Среднее"
+msgstr "เฉลี่ย"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:295
 msgid "Absences"
-msgstr "Пропуски"
+msgstr "การขาด"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:319
 msgid "Tardies"
-msgstr "Опоздания"
+msgstr "สาย"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:326
 msgid "Absent"
-msgstr "Пропуск"
+msgstr "ขาด"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:329
 msgid "Tardy"
-msgstr "Опоздание"
+msgstr "สาย"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:734
 msgid "Enter Attendance"
-msgstr "Указать посещение"
+msgstr "กรอกข้อมูลการเข้าเรียน"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:737
 msgid "Section is not scheduled"
-msgstr "Класс не планируется"
+msgstr "เซกชั่นที่ยังไม่ถูกจัดลงตารางเวลา"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:739
 msgid "No periods assigned for this section"
-msgstr "Нет периодов предназначенных для этого класса"
+msgstr "ไม่มีช่วงเวลาตามที่ระบุสำหรับเซกชั่นนี้"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:910
 msgid "N/A"
-msgstr "Н/Д"
+msgstr "ไม่มีข้อมูล"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:849
 msgid ""
 "You have some changes that have not been saved.  Click OK to save now or "
 "CANCEL to continue without saving."
 msgstr ""
-"У вас есть некоторые не сохранённые изменения. Нажмите кнопку \"ОК\", чтобы "
-"сохранить их сейчас, или \"Отмена\", чтобы продолжить без сохранения."
+"มีการเปลี่ยนแปลงที่ยังไม่ได้ถูกบันทึก เลือก OK เพื่อ บันทึก หรือ CANCEL "
+"เพื่อทำต่อโดยไม่บันทึก"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
-msgstr "Помощь по журналу"
+msgstr "การช่วยเหลือทางด้านวารสาร"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1252
 msgid "Fill down"
-msgstr "Заполнить"
+msgstr "วิธีการคัดลอกข้อมูลให้กับเซลล์ที่ติดกัน"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1257
 #: /src/schooltool/lyceum/journal/browser/journal.py:1305
 #: /src/schooltool/lyceum/journal/browser/journal.py:1336
 msgid "Sort by"
-msgstr "Сортировать по"
+msgstr "เรียงตาม"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1284
 msgid "Student"
-msgstr "Учащийся"
+msgstr "นักเรียน"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1302
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:42
 msgid "Name"
-msgstr "Имя"
+msgstr "ชื่อ"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1321
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:103
 msgid "Ave."
-msgstr "Средн."
+msgstr "ค่าเฉลี่ย"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1322
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
 msgid "Trd."
-msgstr "Опозд."
+msgstr "สาย"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1323
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
 msgid "Abs."
-msgstr "Проп."
+msgstr "ขาด"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
-msgstr "Посещаемость ${group} в ${month}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:78
 msgid "There have been no meetings in the selected term."
-msgstr "В выбранном периоде встреч нет."
+msgstr "ไม่มีการประชุมในภาคเรียนที่เลือก"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
@@ -192,34 +191,33 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
-"Этот класс не связан ни с каким периодом. Для использования журнала "
-"необходимо добавить расписание."
+"เซกชั่นนี้ไม่ได้อยู่ในตารางเวลาของเทอมใดๆ "
+"หากจะใช้บทความทางการศึกษานี้ควรเพิ่มตารางเรียนก่อน"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:10
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr "Никакие периоды не связаны с расписанием этого класса."
+msgstr "ไม่มีคาบเรียนใดถูกระบุในตารางเรียนของเซกชั่นนี้"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "Schedule"
-msgstr "Расписание"
+msgstr "ตารางเวลา"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr ""
-"Вы можете управлять расписанием для этого класса здесь: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:44
 msgid "Day"
-msgstr "День"
+msgstr "วัน"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:47
 msgid "Period"
-msgstr "Период"
+msgstr "คาบ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "S"
@@ -227,86 +225,86 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Save"
-msgstr "Сохранить"
+msgstr "บันทึก"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Shortcut: Alt-S"
-msgstr "Сочетание клавиш: Alt-S"
+msgstr "แป้นลัด: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
 msgid "Expand"
-msgstr "Раскрыть"
+msgstr "ขยาย"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
 msgid "Collapse"
-msgstr "Свернуть"
+msgstr "ยุบเข้า"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
 msgid "Zoom Out"
-msgstr "Уменьшить масштаб"
+msgstr "ลดขนาดการแสดงผล"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
 msgid "Zoom Normal"
-msgstr "Нормальный размер"
+msgstr "แสดงขนาดปกติ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
 msgid "Zoom In"
-msgstr "Увеличить масштаб"
+msgstr "เพิ่มขนาดการแสดงผล"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
 msgid "Fill empty cells"
-msgstr "Заполнить пустые ячейки"
+msgstr "ทำเป็นช่องว่าง"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
 msgid "Grade"
-msgstr "Оценка"
+msgstr "เกรด"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
 msgid "Choose a grade to apply to all the students in the gradebook column."
-msgstr "Укажите оценку для занесения всем учащимся в колонку табеля."
+msgstr "เลือกระดับชั้นสำหรับนักเรียนทุกคนในคอลัมน์ gradebook"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
 msgid "Submit"
-msgstr "Подтвердить"
+msgstr "ส่งข้อมูล"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "ยกเลิก"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
 msgid "Legend"
-msgstr "Обозначения"
+msgstr "คำบรรยายใต้ภาพ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
 msgid "Attendance / grade"
-msgstr "Посещаемость / оценка"
+msgstr "การเข้าชั้นเรียน"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
 msgid "There are no absences."
-msgstr "Нет пропусков."
+msgstr "ไม่มีการขาด"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:33
 msgid "There are no tardies."
-msgstr "Нет опозданий."
+msgstr "ไม่มีการมาสาย"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:35
 msgid "Participation"
-msgstr "Участие"
+msgstr "การมีส่วนร่วม"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:50
 msgid "There are no participation scores."
-msgstr "Нет никаких баллов участия."
+msgstr "ไม่มีคะแนนการมีส่วนร่วม"
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
-msgstr "Посещаемость"
+msgstr "ความเอาใจใส่"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "Журнал класса ${section} за ${month} ${year}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -316,62 +314,61 @@ msgstr "Журнал класса ${section} за ${month} ${year}"
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
 msgid "${section} journal"
-msgstr "Журнал класса ${section}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "Табель ${person} за ${month}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr "Табель ${person}"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "Табель ${student_name} за ${month}"
+msgstr ""
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "select-button"
-msgstr "Выбрать"
+msgstr "เลือก-ปุ่ม"
 
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "S"
+msgstr "แป้นอักษรลัดเพื่อเลือก"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "Быстрая клавиша: Alt-S"
+msgstr "ชื่อสำหรับปุ่ม"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "Мои классы"
+msgstr "เซกชั่นของฉัน"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr "Создать и редактировать данные журнала для класса."
+msgstr "สร้างและแก้ไขวารสารวิชาการของเซกชั่นนี้"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
-msgstr "Редактировать журнал"
+msgstr "แกไขวารสารวิชาการ"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View Journal"
-msgstr "Посмотреть журнал"
+msgstr "เรียกดูวารสารวิชาการ"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View journal data for a section."
-msgstr "Посмотреть журнал для класса."
+msgstr "เรียกดูวารสารวิชาการของเซกชั่นนี้"
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
-msgstr "Только преподаватель класса может редактировать этот журнал."
+msgstr "ผู้สอนของเซกชั่นนี้เท่านั้นที่สามารถแก้ไขวารสารวิชาการได้"
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid ""
 "The instructor of a section and school administration can edit a section's "
 "journal."
-msgstr ""
-"Только преподаватель класса и администратор могут редактировать этот журнал."
+msgstr "ผู้สอนและผู้ดูแลระบบสามารถแก้ไขวารสารวิชาการของเซกชั่นได้"

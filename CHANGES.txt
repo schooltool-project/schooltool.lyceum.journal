@@ -5,6 +5,7 @@ CHANGES
 2.3.1 (unreleased)
 ------------------
 
+- Added Thai translation
 - Update translations
 
 

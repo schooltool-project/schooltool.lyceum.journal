@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-2.3.2 (unreleased)
+2.4b1 (unreleased)
 ------------------
 
-- Fix journals when section out-of-term-bounds schedules overlap
+- Fix journals when section out-of-term-bounds schedules overlap (https://launchpad.net/bugs/1104190)
 - Journals now display all scheduled dates for selected section
 
 

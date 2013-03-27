@@ -35,7 +35,7 @@ def read(*rnames):
 
 setup(
     name="schooltool.lyceum.journal",
-    description="An attendance and class participation component for SchoolTool",
+    description="Attendance and class participation plugin for SchoolTool",
     long_description=(
         read('README.txt')
         + '\n\n' +
@@ -47,15 +47,17 @@ setup(
     maintainer="SchoolTool Developers",
     maintainer_email="schooltool-developers@lists.launchpad.net",
     platforms=["any"],
-    classifiers=["Development Status :: 4 - Beta",
+    classifiers=["Development Status :: 5 - Production/Stable",
     "Environment :: Web Environment",
     "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: GNU General Public License (GPL)",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 2.5",
+    "Programming Language :: Python :: 2.6",
+    "Programming Language :: Python :: 2.7",
     "Programming Language :: Zope",
-    "Topic :: Education",
-    "Topic :: Office/Business :: Scheduling"],
+    "Topic :: Education"],
     package_dir={'': 'src'},
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),

@@ -38,6 +38,7 @@ from schooltool.app.app import InitBase, StartUpBase
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ILearner
+from schooltool.course.interfaces import IInstructor
 from schooltool.course.interfaces import ISection
 from schooltool.person.interfaces import IPerson
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
@@ -52,12 +53,18 @@ TARDY = 'p' #p means tardy in lithuanian
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
 
 
+def getInstructorSections(person):
+    return list(IInstructor(person).sections())
+
+
 def getCurrentSectionTaught(person):
     ann = IAnnotations(removeSecurityProxy(person))
     if CURRENT_SECTION_TAUGHT_KEY not in ann:
         ann[CURRENT_SECTION_TAUGHT_KEY] = None
     else:
         section = ann[CURRENT_SECTION_TAUGHT_KEY]
+        if section not in getInstructorSections(person):
+            return None
         try:
             getSectionJournalData(section)
         except:
@@ -67,7 +74,8 @@ def getCurrentSectionTaught(person):
 
 def setCurrentSectionTaught(person, section):
     ann = IAnnotations(removeSecurityProxy(person))
-    ann[CURRENT_SECTION_TAUGHT_KEY] = removeSecurityProxy(section)
+    if section in getInstructorSections(person):
+        ann[CURRENT_SECTION_TAUGHT_KEY] = removeSecurityProxy(section)
 
 
 class LyceumJournalContainer(BTreeContainer):

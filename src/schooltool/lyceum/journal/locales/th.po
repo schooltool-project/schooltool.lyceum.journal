@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-10-08 20:15+0300\n"
-"PO-Revision-Date: 2013-03-12 04:39+0000\n"
+"PO-Revision-Date: 2013-04-04 17:35+0200\n"
 "Last-Translator: mathinan <mathinan@jaansi.com>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-13 04:50+0000\n"
-"X-Generator: Launchpad (build 16532)\n"
+"X-Launchpad-Export-Date: 2013-03-28 05:06+0000\n"
+"X-Generator: Launchpad (build 16546)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
@@ -38,7 +38,7 @@ msgstr "บทความทางการศึกษา"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr "หัวข้อย่อย"
+msgstr "เซกชั่น"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
@@ -77,12 +77,12 @@ msgstr "วารสารวิชาการของฉัน"
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:80
 msgid "Single letter that represents an absent mark for a student"
-msgstr "จดหมายที่แสดงถึงการไม่มาหรือขาดเรียน"
+msgstr ""
 
 #. Default: "t"
 #: /src/schooltool/lyceum/journal/browser/journal.py:75
 msgid "Single letter that represents an tardy mark for a student"
-msgstr "จดหมายที่แสดงถึงการมาสาย"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:116
 #: /src/schooltool/lyceum/journal/browser/journal.py:396
@@ -209,7 +209,7 @@ msgstr "ตารางเวลา"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
+msgstr "คุณสามารถจัดการตารางเวลาสำหรับเซกชั่นนี้ที่นี่: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:44
 msgid "Day"
@@ -221,7 +221,7 @@ msgstr "คาบ"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Save"
@@ -336,12 +336,12 @@ msgstr "เลือก-ปุ่ม"
 #. Default: "S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "shortcut-letter-for-select"
-msgstr "แป้นอักษรลัดเพื่อเลือก"
+msgstr "S"
 
 #. Default: "Shortcut: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
 msgid "title-for-select-button"
-msgstr "ชื่อสำหรับปุ่ม"
+msgstr "แป้นลัด: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"

@@ -897,8 +897,10 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             return term
 
     def getGrades(self, person):
-        grades = []
         term = self.selected_term
+        if not term:
+            return ()
+        grades = []
         for meeting in self.context.recordedMeetings(person):
             insecure_meeting = removeSecurityProxy(meeting)
             if insecure_meeting.dtstart.date() in term:

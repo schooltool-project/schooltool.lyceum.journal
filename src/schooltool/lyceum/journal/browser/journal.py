@@ -743,6 +743,15 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
     def has_header(self):
         return not self.render_journal
 
+    def allMeetings(self):
+        term = removeSecurityProxy(self.selected_term)
+        if not term:
+            return ()
+        by_uid = dict([(removeSecurityProxy(e).unique_id, e)
+                       for e in self.context.meetings])
+        meetings = sorted(by_uid.values())
+        return meetings
+
     def updateGradebook(self):
         members = self.members()
         for meeting in self.meetings:
@@ -888,8 +897,10 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             return term
 
     def getGrades(self, person):
-        grades = []
         term = self.selected_term
+        if not term:
+            return ()
+        grades = []
         for meeting in self.context.recordedMeetings(person):
             insecure_meeting = removeSecurityProxy(meeting)
             if insecure_meeting.dtstart.date() in term:
@@ -1080,7 +1091,7 @@ class FlourishJournalTermNavigationViewlet(FlourishJournalNavigationViewletBase)
                  'selected': term is currentTerm and 'selected' or None}
                 for term in sorted(terms, key=lambda x:x.first)]
 
-    def getCourse(self, section):        
+    def getCourse(self, section):
         try:
             return list(section.courses)[0]
         except (IndexError,):

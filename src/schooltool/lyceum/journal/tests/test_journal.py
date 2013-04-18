@@ -244,70 +244,6 @@ def doctest_SectionJournal():
     """
 
 
-def doctest_SectionJournal_adjacent_sections():
-    """Tests for SectionJournal.adjacent_sections:
-
-        >>> from schooltool.lyceum.journal.journal import SectionJournal
-        >>> from schooltool.course.interfaces import ISection
-        >>> class SectionStub(object):
-        ...     implements(ISection)
-        ...     def __init__(self, name):
-        ...         self.name = name
-        ...     def __repr__(self):
-        ...         return "<Section %s>" % self.name
-        ...     def __cmp__(self, other):
-        ...         return cmp(self.name, other.name)
-        ...     courses = []
-        ...     members = []
-        ...     instructors = []
-        >>> section = SectionStub("Math 1a")
-        >>> section.courses = ["math"]
-        >>> sj = SectionJournal(section)
-        >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a>]
-
-        >>> from schooltool.person.interfaces import IPerson
-        >>> class PersonStub(object):
-        ...     implements(IPerson)
-        ...     groups = []
-        >>> john = PersonStub()
-        >>> pete = PersonStub()
-        >>> teacher = PersonStub()
-        >>> section.members = [john, pete, "something-else"]
-        >>> section.instructors = [teacher]
-        >>> sj = SectionJournal(section)
-        >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a>]
-
-        >>> sj = SectionJournal(section)
-        >>> section2 = SectionStub("Math 1a A")
-        >>> john.groups = [section2, "something-else"]
-        >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a>]
-
-        >>> sj = SectionJournal(section)
-        >>> section2.courses = ["math"]
-        >>> section2.instructors = [teacher]
-        >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a>, <Section Math 1a A>]
-
-        >>> sj = SectionJournal(section)
-        >>> section2.courses = ["math", "history"]
-        >>> section.courses = ["math", "history"]
-        >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a>, <Section Math 1a A>]
-
-        >>> sj = SectionJournal(section)
-        >>> section3 = SectionStub("Math 1a B")
-        >>> section3.courses = ["math"]
-        >>> section3.instructors = [teacher]
-        >>> pete.groups = [section3]
-        >>> sorted(sj.adjacent_sections)
-        [<Section Math 1a>, <Section Math 1a A>, <Section Math 1a B>]
-
-    """
-
-
 def doctest_SectionJournal_findMeeting():
     """Test for SectionJournal.findMeeting
 
@@ -328,31 +264,19 @@ def doctest_SectionJournal_findMeeting():
         >>> section1.calendar = CalendarStub()
         >>> section1.calendar.events = ["section-meeting"]
         >>> sj = SectionJournal(section1)
-        >>> sj.adjacent_sections = [section1]
 
     If there is no such meeting, a key error is raised:
 
         >>> sj.findMeeting("some-meeting-id")
         Traceback (most recent call last):
         ...
-        KeyError: 'Could not find a meeting.'
+        KeyError: 'Event not found!'
 
     But if we are looking for a meeting that belongs to the calendar
     of the context section, we should get it:
 
         >>> sj.findMeeting("section-meeting")
         '<Event uid=section-meeting>'
-
-    If meeting belongs to some other section that is adjacent, we
-    should still get it's instance:
-
-        >>> section2 = SectionStub()
-        >>> section2.calendar = CalendarStub()
-        >>> section2.calendar.events = ["section2-meeting"]
-        >>> sj.adjacent_sections = [section1, section2]
-
-        >>> sj.findMeeting("section2-meeting")
-        '<Event uid=section2-meeting>'
 
     """
 

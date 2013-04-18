@@ -38,6 +38,7 @@ from schooltool.app.app import InitBase, StartUpBase
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ILearner
+from schooltool.course.interfaces import IInstructor
 from schooltool.course.interfaces import ISection
 from schooltool.person.interfaces import IPerson
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
@@ -52,12 +53,18 @@ TARDY = 'p' #p means tardy in lithuanian
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
 
 
+def getInstructorSections(person):
+    return list(IInstructor(person).sections())
+
+
 def getCurrentSectionTaught(person):
     ann = IAnnotations(removeSecurityProxy(person))
     if CURRENT_SECTION_TAUGHT_KEY not in ann:
         ann[CURRENT_SECTION_TAUGHT_KEY] = None
     else:
         section = ann[CURRENT_SECTION_TAUGHT_KEY]
+        if section not in getInstructorSections(person):
+            return None
         try:
             getSectionJournalData(section)
         except:
@@ -67,34 +74,8 @@ def getCurrentSectionTaught(person):
 
 def setCurrentSectionTaught(person, section):
     ann = IAnnotations(removeSecurityProxy(person))
-    ann[CURRENT_SECTION_TAUGHT_KEY] = removeSecurityProxy(section)
-
-
-def student_sections(students):
-    sections = set()
-    for student in students:
-        for section in student.groups:
-            if ISection.providedBy(section):
-                sections.add(section)
-    return sections
-
-
-def adjacent_sections(section):
-    courses = section.courses
-    instructors = section.instructors
-    sections = set()
-    sections.add(section)
-    members = [member for member in section.members
-               if IPerson.providedBy(member)]
-    for section in student_sections(members):
-        section = removeSecurityProxy(section)
-        for course in section.courses:
-            if course in courses:
-                for instructor in section.instructors:
-                    if instructor in instructors:
-                        sections.add(section)
-                        break
-    return sections
+    if section in getInstructorSections(person):
+        ann[CURRENT_SECTION_TAUGHT_KEY] = removeSecurityProxy(section)
 
 
 class LyceumJournalContainer(BTreeContainer):
@@ -255,36 +236,26 @@ class SectionJournal(object):
                 if IPerson.providedBy(member)]
 
     @Lazy
-    def adjacent_sections(self):
-        """Sections in the same course that share members and at least one
-        teacher with this section."""
-        return adjacent_sections(removeSecurityProxy(self.section))
-
-    @Lazy
     def meetings(self):
-        """Ordered list of all meetings for this and adjacent sections with
+        """Ordered list of all meetings for this section with
            consecutive periods removed if the timetable is so configured."""
         events = []
         unique_meetings = set()
-        calendars = [ISchoolToolCalendar(section)
-                     for section in self.adjacent_sections]
-        for calendar in calendars:
-            sorted_events = sorted(calendar, key=lambda e: e.dtstart)
-            for event in sorted_events:
-                if event.meeting_id not in unique_meetings:
-                    events.append(event)
-                    unique_meetings.add(event.meeting_id)
+        calendar = ISchoolToolCalendar(removeSecurityProxy(self.section))
+        sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+        for event in sorted_events:
+            if event.meeting_id not in unique_meetings:
+                events.append(event)
+                unique_meetings.add(event.meeting_id)
         return sorted(events)
 
     def recordedMeetings(self, person):
         """Ordered list of all recorded meetings for this person.
 
-        For this and adjacent sections.
+        For this section.
         """
-        meetings = []
-        for section in self.adjacent_sections:
-            sd = ISectionJournalData(section)
-            meetings.extend(sd.recordedMeetings(person))
+        sd = ISectionJournalData(removeSecurityProxy(self.section))
+        meetings = sd.recordedMeetings(person)
         return sorted(meetings)
 
     def hasMeeting(self, person, meeting):
@@ -293,14 +264,9 @@ class SectionJournal(object):
         return owner in ILearner(person).sections()
 
     def findMeeting(self, meeting_id):
-        calendars = [ISchoolToolCalendar(section)
-                     for section in self.adjacent_sections]
-        for calendar in calendars:
-            try:
-                return calendar.find(meeting_id)
-            except KeyError:
-                pass
-        raise KeyError("Could not find a meeting.")
+        calendar = ISchoolToolCalendar(removeSecurityProxy(self.section))
+        meeting = calendar.find(meeting_id)
+        return meeting
 
 
 def getSectionJournalData(section):

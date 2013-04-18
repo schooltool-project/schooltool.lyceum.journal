@@ -247,4 +247,10 @@
       permission="schooltool.view"
       />
 
+  <flourish:activeViewlet
+      name="journal"
+      manager="schooltool.skin.flourish.page.IHeaderNavigationManager"
+      view=".journal.FlourishSchoolYearMyJournalView"
+      />
+
 </configure>

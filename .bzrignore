@@ -16,3 +16,4 @@ src/schooltool.lyceum.journal.egg-info
 ./tags
 ./coverage
 ./ftest-coverage
+./buildout.cfg

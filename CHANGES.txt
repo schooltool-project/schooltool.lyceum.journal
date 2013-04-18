@@ -2,10 +2,24 @@
 CHANGES
 =======
 
-2.3.1 (unreleased)
+2.4.1 (unreleased)
 ------------------
 
+- Nothing changed yet.
+
+
+2.4.0 (2013-04-04)
+------------------
+
+- Fix journals when section out-of-term-bounds schedules overlap (https://launchpad.net/bugs/1104190)
+- Journals now display all scheduled dates for selected section
+- Tab redirects to a section only if current user can access it (https://launchpad.net/bugs/1155226)
 - Added Thai translation
+
+
+2.3.1 (2013-02-19)
+------------------
+
 - Update translations
 
 

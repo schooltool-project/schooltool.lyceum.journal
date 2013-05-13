@@ -55,7 +55,9 @@ from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
-from schooltool.report.browser.report import RequestReportDownloadDialog
+from schooltool.course.interfaces import ISection
+from schooltool.export.export import RequestXLSReportDialog
+from schooltool.task.progress import normalized_progress
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
@@ -65,6 +67,7 @@ from schooltool.schoolyear.interfaces import ISchoolYear
 
 from schooltool.lyceum.journal.journal import (ABSENT, TARDY,
     getCurrentSectionTaught, setCurrentSectionTaught)
+from schooltool.lyceum.journal.journal import JournalXLSReportTask
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
@@ -1361,10 +1364,10 @@ class FlourishTotalPopupMenuView(flourish.page.Page):
         return json
 
 
-class FlourishRequestJournalExportView(RequestReportDownloadDialog):
+class FlourishRequestJournalExportView(RequestXLSReportDialog):
 
-    def nextURL(self):
-        return absoluteURL(self.context, self.request) + '/export.xls'
+    report_builder = 'export.xls'
+    task_factory = JournalXLSReportTask
 
 
 class DateHeader(export.Header):
@@ -1378,6 +1381,13 @@ class DateHeader(export.Header):
 
 class FlourishJournalExportView(export.ExcelExportView,
                                 FlourishLyceumSectionJournalView):
+
+    @property
+    def base_filename(self):
+        section = ISection(self.context)
+        filename = '%s journal' % section.title
+        filename = filename.replace(' ', '_')
+        return filename
 
     def print_headers(self, ws):
         row_1_headers = [export.Header(label)
@@ -1395,7 +1405,7 @@ class FlourishJournalExportView(export.ExcelExportView,
         student = self.persons[value['student']['id']]
         return IDemographics(student).get('ID', '')
 
-    def print_grades(self, ws):
+    def print_grades(self, ws, nmonth, total_months):
         starting_row = 2
         table = sorted(self.table(), key=lambda x:self.studentSortKey)
         for i, row in enumerate(table):
@@ -1408,26 +1418,39 @@ class FlourishJournalExportView(export.ExcelExportView,
                 cells.append(export.Text(value))
             for col, cell in enumerate(cells):
                 self.write(ws, starting_row+i, col, cell.data, **cell.style)
+            self.progress('journal', normalized_progress(
+                    nmonth, total_months,
+                    i, len(table),
+                    ))
 
     def export_month_worksheets(self, wb):
-        for month_id in self.selected_months:
+        months = list(self.selected_months)
+        for nm, month_id in enumerate(months):
             self._active_month = month_id
             title = self.monthTitle(month_id)
             ws = wb.add_sheet(title)
             self.print_headers(ws)
-            self.print_grades(ws)
+            self.print_grades(ws, nm, len(months))
+            self.progress('journal', normalized_progress(
+                    nm, len(months),
+                    ))
+        self.finish('journal')
+
+    def addImporters(self, progress):
+        self.task_progress.add(
+            'journal',
+            title=_('Journal'), progress=0.0)
 
     def __call__(self):
+        self.makeProgress()
+        self.task_progress.title = _("Exporting")
+        self.addImporters(self.task_progress)
         app = ISchoolToolApplication(None)
         self.persons = app['persons']
         self.tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
-        wb = xlwt.Workbook()
-        self.export_month_worksheets(wb)
-        datafile = StringIO()
-        wb.save(datafile)
-        data = datafile.getvalue()
-        self.setUpHeaders(data)
-        return data
+        workbook = xlwt.Workbook()
+        self.export_month_worksheets(workbook)
+        return workbook
 
     @property
     def active_month(self):

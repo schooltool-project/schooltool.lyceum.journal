@@ -40,6 +40,7 @@ from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ILearner
 from schooltool.course.interfaces import IInstructor
 from schooltool.course.interfaces import ISection
+from schooltool.export.export import XLSReportTask
 from schooltool.person.interfaces import IPerson
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
 from schooltool.securitypolicy.crowds import AdministrationCrowd
@@ -311,3 +312,17 @@ class JournalEditorsCrowd(ConfigurableCrowd):
         """Return the value of the related setting (True or False)."""
         return (AdministrationCrowd(self.context).contains(principal) and
                 super(JournalEditorsCrowd, self).contains(principal))
+
+
+class JournalXLSReportTask(XLSReportTask):
+
+    @property
+    def context(self):
+        section = XLSReportTask.context.fget(self)
+        journal = ISectionJournal(section)
+        return journal
+
+    @context.setter
+    def context(self, value):
+        section = ISection(value)
+        XLSReportTask.context.fset(self, section)

@@ -57,6 +57,13 @@
       name="schooltool.lyceum.journal" />
 
 
+  <class class=".journal.JournalXLSReportTask">
+    <require permission="schooltool.view"
+             interface="schooltool.report.interfaces.IReportTask" />
+    <require permission="schooltool.edit"
+             set_schema="schooltool.report.interfaces.IReportTask" />
+  </class>
+
   <include package="schooltool.lyceum.journal.browser" />
 
   <!-- Generations -->

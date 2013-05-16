@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-2.4.1 (unreleased)
+2.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remote XLS export
 
 
 2.4.0 (2013-04-04)

@@ -1,7 +1,10 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:flourish="http://schooltool.org/flourish"
+           xmlns:meta="http://namespaces.zope.org/meta"
            i18n_domain="schooltool.lyceum.journal">
+
+  <meta:provides feature="devmode" />
 
   <include package="schooltool.skin.flourish.instance" />
   <include package="schooltool.testing" file="selenium.zcml" />
@@ -14,5 +17,5 @@
      for="schooltool.term.interfaces.IDateManager"
      class="schooltool.lyceum.journal.stests.test_selenium.DateManagementView"
      permission="schooltool.view" />
-      
+
 </configure>

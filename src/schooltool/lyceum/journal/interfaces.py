@@ -35,20 +35,23 @@ class ISectionJournalData(Interface):
     def getGrade(person, meeting, default=None):
         """Retrieve a grade for a person and a meeting."""
 
-    def setAbsence(person, meeting, explained=True):
+    def setAbsence(person, meeting, explained=True, value=None):
         """Mark an absence as an explained or unexplained one."""
 
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
-    def setDescription(meeting, description):
-        """Set the description of the meeting."""
+    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
+        """Add evaluation of a requirement."""
 
-    def getDescription(meeting):
-        """Retrieve the description of a meeting."""
+    def getEvaluation(person, requirement, default=None):
+        """Get evaluation of a requirement."""
 
-    def recordedMeetings(person):
-        """Returns a list of recorded grades/absences for a person."""
+    def gradedMeetings(person):
+        """Returns a list of (meeting, grades) for a person."""
+
+    def absentMeetings(person):
+        """Returns a list of (meeting, absence) for a person."""
 
 
 class ISectionJournal(ILocation):
@@ -68,17 +71,20 @@ class ISectionJournal(ILocation):
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
-    def setDescription(meeting, description):
-        """Set the description of the meeting."""
+    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
+        """Add evaluation of a requirement."""
 
-    def getDescription(meeting):
-        """Retrieve the description of a meeting."""
+    def getEvaluation(person, requirement, default=None):
+        """Get evaluation of a requirement."""
 
     def meetings():
         """List all possible meetings for this section."""
 
-    def recordedMeetings(person):
-        """Returns a list of recorded grades/absences for a person."""
+    def gradedMeetings(person):
+        """Returns a list of (meeting, grades) for a person."""
+
+    def absentMeetings(person):
+        """Returns a list of (meeting, absence) for a person."""
 
     def hasMeeting(person, meeting):
         """Returns true if person should participate in a given meeting."""

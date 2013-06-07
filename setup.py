@@ -61,6 +61,7 @@ setup(
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),
     install_requires=['schooltool>=2.5dev',
+                      'schooltool.gradebook',
                       'pytz',
                       'setuptools',
                       'zc.table',

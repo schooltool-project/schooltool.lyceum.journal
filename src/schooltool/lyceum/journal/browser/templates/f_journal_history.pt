@@ -1,0 +1,62 @@
+<div i18n:domain="schooltool.gradebook">
+
+  <h3 tal:condition="not: view/table"
+     i18n:translate="">
+    <tal:block content="view/student/@@title"
+               i18n:name="student_name" />
+    was never scored in this worksheet.
+  </h3>
+
+  <h3 tal:condition="view/table"
+      tal:content="view/student/@@title">
+  </h3>
+
+  <table tal:condition="view/table">
+    <thead>
+      <tr>
+        <th i18n:translate="">Score</th>
+        <th i18n:translate="">Evaluator</th>
+        <th i18n:translate="">Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    <tal:block repeat="activity view/table">
+      <tr>
+        <th colspan="3">
+          <tal:block content="activity/date/@@fullDate" />
+          -
+          <tal:block tal:condition="activity/period">
+            <tal:block i18n:translate="">
+              Period <tal:block i18n:name="period_title" content="activity/period/title" />
+            </tal:block>
+          </tal:block>
+          <tal:block content="activity/time" />
+        </th>
+      </tr>
+      <tr tal:repeat="grade activity/grades">
+        <td>
+          <div tal:content="grade/value" />
+        </td>
+        <td>
+          <tal:block tal:condition="grade/evaluator|nothing"
+                     tal:content="grade/evaluator/@@title|nothing"/>
+        </td>
+        <td>
+          <tal:block condition="python:grade['time'] is not None">
+            <span tal:content="grade/date/@@fullDate|nothing" />
+            -
+            <span tal:content="grade/time|nothing" />
+          </tal:block>
+        </td>
+      </tr>
+    </tal:block>
+    </tbody>
+  </table>
+
+  <h3>
+    <a tal:attributes="href view/done_url"
+       i18n:translate="">Done</a>
+  </h3>
+</div>
+

@@ -23,7 +23,6 @@ import pytz
 import urllib
 import base64
 import xlwt
-from StringIO import StringIO
 
 from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
@@ -58,6 +57,9 @@ from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.course.interfaces import ISection
 from schooltool.export.export import RequestXLSReportDialog
 from schooltool.task.progress import normalized_progress
+from schooltool.requirement.scoresystem import ScoreValidationError
+from schooltool.requirement.scoresystem import UNSCORED
+from schooltool.requirement.interfaces import IEvaluations
 from schooltool.term.interfaces import ITerm
 from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
@@ -65,9 +67,13 @@ from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
 from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
-from schooltool.lyceum.journal.journal import (ABSENT, TARDY,
-    getCurrentSectionTaught, setCurrentSectionTaught)
+from schooltool.lyceum.journal.journal import ABSENT, TARDY
+from schooltool.lyceum.journal.journal import getCurrentSectionTaught
+from schooltool.lyceum.journal.journal import setCurrentSectionTaught
 from schooltool.lyceum.journal.journal import JournalXLSReportTask
+from schooltool.lyceum.journal.journal import JournalAbsenceScoreSystem
+from schooltool.lyceum.journal.journal import GradeRequirement
+from schooltool.lyceum.journal.journal import AttendanceRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
@@ -90,6 +96,13 @@ ATTENDANCE_TRANSLATION_TO_DATA = {ABSENT_LETTER: ABSENT,
 
 
 JournalCSSViewlet = CSSViewlet("journal.css")
+
+
+def getEvaluator(request):
+    user = IPerson(request.principal, None)
+    if user is None:
+        return None
+    return user.__name__
 
 
 class JournalCalendarEventViewlet(object):
@@ -143,15 +156,25 @@ class StudentNumberColumn(GetterColumn):
         return '<span>%s</span>' % translate(_("Nr."),
                                              context=formatter.request)
 
+
 class GradesColumn(object):
     def getGrades(self, person):
         """Get the grades for the person."""
         grades = []
-        for meeting in self.journal.recordedMeetings(person):
-            if meeting.dtstart.date() in self.term:
-                grade = self.journal.getGrade(person, meeting)
-                if grade and grade.strip():
-                    grades.append(grade)
+        for meeting, score in self.journal.gradedMeetings(person):
+            # This is not a correct way, as this looses score system info
+            if (meeting.dtstart.date() in self.term and
+                score.value is not UNSCORED):
+                grades.append(score.value)
+        return grades
+
+    def getAbsences(self, person):
+        """Get the grades for the person."""
+        grades = []
+        for meeting, score in self.journal.absentMeetings(person):
+            if (meeting.dtstart.date() in self.term and
+                score.value is not UNSCORED):
+                grades.append(score.value)
         return grades
 
 
@@ -219,7 +242,10 @@ class PersonGradesColumn(GradesColumn):
 
     def getCellValue(self, item):
         if self.hasMeeting(item):
-            grade = self.journal.getGrade(item, self.meeting, default="")
+            grade = self.journal.getAbsence(item, self.meeting, default="")
+            grade = self.journal.getGrade(item, self.meeting, grade)
+            if grade is UNSCORED:
+                grade = ''
             return ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
         return "X"
 
@@ -259,6 +285,8 @@ class SectionTermGradesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         grades = []
         for grade in self.getGrades(person):
+            if grade is UNSCORED:
+                continue
             try:
                 grade = int(grade)
             except ValueError:
@@ -270,7 +298,7 @@ class SectionTermGradesColumn(GradesColumn):
             return ",".join(["%s" % grade for grade in grades])
 
     def renderHeader(self, formatter):
-        return '<span>%s</span>' % translate(_("Grades"),
+        return '<span>%s</span>' % translate(_("Scores"),
                                              context=formatter.request)
 
 class SectionTermAverageGradesColumn(GradesColumn):
@@ -284,6 +312,8 @@ class SectionTermAverageGradesColumn(GradesColumn):
     def renderCell(self, person, formatter):
         grades = []
         for grade in self.getGrades(person):
+            if grade is UNSCORED:
+                continue
             try:
                 grade = int(grade)
             except ValueError:
@@ -309,7 +339,7 @@ class SectionTermAttendanceColumn(GradesColumn):
 
     def renderCell(self, person, formatter):
         absences = 0
-        for grade in self.getGrades(person):
+        for grade in self.getAbsences(person):
             if (grade.strip().lower() == ABSENT):
                 absences += 1
 
@@ -333,7 +363,7 @@ class SectionTermTardiesColumn(GradesColumn):
 
     def renderCell(self, person, formatter):
         tardies = 0
-        for grade in self.getGrades(person):
+        for grade in self.getAbsences(person):
             if (grade.strip().lower() == TARDY):
                 tardies += 1
 
@@ -483,13 +513,19 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
     def updateGradebook(self):
         members = self.members()
+        evaluator = getEvaluator(self.request)
         for meeting in self.meetings():
             for person in members:
                 cell_id = "%s.%s" % (person.__name__, meeting.__name__)
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
                     cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
-                    self.context.setGrade(person, meeting, cell_value)
+                    try:
+                        self.context.setGrade(
+                            person, meeting, cell_value, evaluator=evaluator)
+                    except ScoreValidationError:
+                        self.context.setAbsence(
+                            person, meeting, evaluator=evaluator, value=cell_value)
 
     def gradeColumns(self):
         columns = []
@@ -639,7 +675,16 @@ class SectionJournalAjaxView(BrowserView):
         meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
         grade = self.request['grade']
         grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade, grade)
-        self.context.setGrade(person, meeting, grade);
+        evaluator = getEvaluator(self.request)
+        try:
+            self.context.setGrade(person, meeting, grade, evaluator=evaluator)
+        except ScoreValidationError:
+            pass
+        try:
+            self.context.setAbsence(person, meeting, evaluator=evaluator, value=grade)
+        except ScoreValidationError:
+            pass
+
         return ""
 
 
@@ -718,12 +763,15 @@ class StudentGradebookTabViewlet(object):
         return bool(list(ILearner(person).sections()))
 
 
-class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
+class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
                                        LyceumSectionJournalView):
-
     no_timetable = False
     no_periods = False
     render_journal = True
+
+    def __init__(self, *args, **kw):
+        self.__grade_cache = {}
+        super(FlourishLyceumSectionJournalBase, self).__init__(*args, **kw)
 
     @property
     def page_class(self):
@@ -733,38 +781,16 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             return 'page'
 
     @property
-    def title(self):
-        if self.render_journal:
-            return _('Enter Attendance')
-        else:
-            if self.no_timetable:
-                return _('Section is not scheduled')
-            else:
-                return _('No periods assigned for this section')
-
-    @property
     def has_header(self):
         return not self.render_journal
 
-    def allMeetings(self):
-        term = removeSecurityProxy(self.selected_term)
-        if not term:
-            return ()
-        by_uid = dict([(removeSecurityProxy(e).unique_id, e)
-                       for e in self.context.meetings])
-        meetings = sorted(by_uid.values())
-        return meetings
-
-    def updateGradebook(self):
-        members = self.members()
-        for meeting in self.meetings:
-            for person in members:
-                cell_id = "%s_%s" % (meeting.__name__, person.__name__)
-                cell_value = self.request.get(cell_id, None)
-                if cell_value is not None:
-                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value,
-                                                                    cell_value)
-                    self.context.setGrade(person, meeting, cell_value)
+    def monthURL(self, month_id):
+        url = absoluteURL(self, self.request)
+        url = "%s?%s" % (
+            url,
+            urllib.urlencode([('month', month_id)] +
+                             self.extra_parameters(self.request)))
+        return url
 
     def update(self):
         schedules = IScheduleContainer(self.context.section)
@@ -788,70 +814,6 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
 
         app = ISchoolToolApplication(None)
         self.tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
-
-    def table(self):
-        result = []
-        collator = ICollator(self.request.locale)
-        for person in self.members():
-            grades = []
-            for meeting in self.meetings:
-                insecure_meeting = removeSecurityProxy(meeting)
-                grade = self.context.getGrade(person,
-                                              insecure_meeting,
-                                              default='')
-                value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
-                grade_data = {
-                    'id': '%s_%s' % (meeting.__name__, person.__name__),
-                    'sortKey': meeting.__name__,
-                    'value': value,
-                    'editable': True,
-                    }
-                grades.append(grade_data)
-            if flourish.canView(person):
-                person = removeSecurityProxy(person)
-            result.append(
-                {'student': {'title': person.title,
-                             'id': person.username,
-                             'sortKey': collator.key(person.title),
-                             'url': absoluteURL(person, self.request)},
-                 'grades': grades,
-                 'average': self.average(person),
-                 'absences': self.absences(person),
-                 'tardies': self.tardies(person),
-                })
-        self.sortBy = self.request.get('sort_by')
-        return sorted(result, key=self.sortKey)
-
-    def sortKey(self, row):
-        if self.sortBy == 'student':
-            return row['student']['sortKey']
-        elif self.sortBy == 'average':
-            try:
-                return (float(row['average']), row['student']['sortKey'])
-            except (ValueError,):
-                return ('', row['student']['sortKey'])
-        elif self.sortBy == 'absences':
-            return (int(row['absences']), row['student']['sortKey'])
-        elif self.sortBy == 'tardies':
-            return (int(row['tardies']), row['student']['sortKey'])
-        else:
-            grades = dict([(grade['sortKey'], grade['value'])
-                          for grade in row['grades']])
-            if self.sortBy in grades:
-                grade = grades.get(self.sortBy)
-                try:
-                    grade = int(grade)
-                except (ValueError,):
-                    grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade)
-                    if grade == ABSENT:
-                        return (1, row['student']['sortKey'])
-                    elif grade == TARDY:
-                        return (2, row['student']['sortKey'])
-                    else:
-                        return (3, row['student']['sortKey'])
-                return (0, grade, row['student']['sortKey'])
-            else:
-                return (1, row['student']['sortKey'])
 
     @Lazy
     def activities(self):
@@ -879,73 +841,16 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             result.append(info)
         return result
 
-    @property
-    def scores(self):
-        results = {}
-        scores = set()
-        for grade in journal_grades():
-            value = grade['value']
-            scores.add(value.lower())
-            scores.add(value.upper())
-        scores = list(scores)
-        scores.insert(0, 'd') # score system type (discrete)
-        resultStr = ', '.join(["'%s'" % unicode(value) for value in scores])
-        for activity in self.activities:
-            results[activity['hash']] = resultStr
-        return results
+    def getDefaultScoreSystem(self):
+        return None
+
+    def makeRequirement(self, meeting):
+        return None
 
     def getSelectedTerm(self):
         term = ITerm(self.context.section)
         if term in self.scheduled_terms:
             return term
-
-    def getGrades(self, person):
-        term = self.selected_term
-        if not term:
-            return ()
-        grades = []
-        for meeting in self.context.recordedMeetings(person):
-            insecure_meeting = removeSecurityProxy(meeting)
-            if insecure_meeting.dtstart.date() in term:
-                grade = self.context.getGrade(
-                    person, insecure_meeting, default=None)
-                if (grade is not None) and (grade.strip() != ""):
-                    grades.append(grade)
-        return grades
-
-    def average(self, person):
-        grades = []
-        for grade in self.getGrades(person):
-            try:
-                grade = int(grade)
-            except ValueError:
-                continue
-            grades.append(grade)
-        if not grades:
-            return _('N/A')
-        else:
-            return "%.1f" % (sum(grades) / float(len(grades)))
-
-    def absences(self, person):
-        absences = 0
-        for grade in self.getGrades(person):
-            if (grade.strip().lower() == "n"):
-                absences += 1
-        if absences == 0:
-            return "0"
-        else:
-            return str(absences)
-
-    def tardies(self, person):
-        tardies = 0
-        for grade in self.getGrades(person):
-            if (grade.strip().lower() == "p"):
-                tardies += 1
-
-        if tardies == 0:
-            return "0"
-        else:
-            return str(tardies)
 
     def breakJSString(self, origstr):
         newstr = unicode(origstr)
@@ -970,6 +875,292 @@ class FlourishLyceumSectionJournalView(flourish.page.WideContainerPage,
             if insecure_event.dtstart.date().month == self.active_month:
                 result.append(event)
         return result
+
+    def validate_score(self, activity_id=None, score=None):
+        """Intended to be used from AJAX calls."""
+        if score is None:
+            score = self.request.get('score')
+        if activity_id is None:
+            activity_id = self.request.get('activity_id')
+        result = {'is_valid': True,
+                  'is_extracredit': False}
+
+        meeting = None
+        meetings = dict([(meeting.__name__, meeting)
+                         for meeting in self.context.meetings])
+        if activity_id is not None and activity_id in meetings:
+            meeting = meetings[activity_id]
+        if (meeting is not None and
+            score and score.strip()):
+            requirement = self.makeRequirement(meeting)
+            if requirement is not None:
+                result['is_valid'] = requirement.score_system.isValidScore(score)
+
+        response = self.request.response
+        response.setHeader('Content-Type', 'application/json')
+        encoder = flourish.tal.JSONEncoder()
+        json = encoder.encode(result)
+        return json
+
+    def getScores(self, person):
+        if person in self.__grade_cache:
+            return list(self.__grade_cache[person])
+        self.__grade_cache[person] = result = []
+        unique_meetings = set()
+        term = self.selected_term
+        calendar = ISchoolToolCalendar(self.context.section)
+        events = [e for e in calendar if e.dtstart.date() in term]
+        sorted_events = sorted(events, key=lambda e: e.dtstart)
+        unproxied_person = removeSecurityProxy(person)
+        for event in sorted_events:
+            if event.dtstart.date() not in term:
+                continue
+            unproxied_event = removeSecurityProxy(event)
+            requirement = self.makeRequirement(unproxied_event)
+            score = self.context.getEvaluation(
+                    unproxied_person, requirement, default=UNSCORED)
+            if (event.meeting_id not in unique_meetings and
+                score is not UNSCORED):
+                result.append(score)
+                unique_meetings.add(event.meeting_id)
+        return result
+
+
+class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
+
+    @property
+    def title(self):
+        if self.render_journal:
+            return _('Enter Scores')
+        else:
+            if self.no_timetable:
+                return _('Section is not scheduled')
+            else:
+                return _('No periods assigned for this section')
+
+    def getDefaultScoreSystem(self):
+        return GradeRequirement.score_system
+
+    def makeRequirement(self, meeting):
+        return GradeRequirement(meeting)
+
+    def updateGradebook(self):
+        evaluator = getEvaluator(self.request)
+        members = self.members()
+        for meeting in self.meetings:
+            for person in members:
+                cell_id = "%s_%s" % (meeting.__name__, person.__name__)
+                cell_value = self.request.get(cell_id, None)
+                if cell_value is not None:
+                    requirement = self.makeRequirement(removeSecurityProxy(meeting))
+                    try:
+                        self.context.evaluate(person, requirement, cell_value,
+                                              evaluator=evaluator)
+                    except ScoreValidationError:
+                        pass
+
+    def table(self):
+        result = []
+        collator = ICollator(self.request.locale)
+        for person in self.members():
+            grades = []
+            for meeting in self.meetings:
+                insecure_meeting = removeSecurityProxy(meeting)
+                requirement = self.makeRequirement(insecure_meeting)
+                score = self.context.getEvaluation(person, requirement, default=UNSCORED)
+                grade = score.value
+                if grade is not UNSCORED:
+                    value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                else:
+                    value = ''
+                grade_data = {
+                    'id': '%s_%s' % (meeting.__name__, person.__name__),
+                    'sortKey': meeting.__name__,
+                    'value': value,
+                    'editable': True,
+                    }
+                grades.append(grade_data)
+            if flourish.canView(person):
+                person = removeSecurityProxy(person)
+            result.append(
+                {'student': {'title': person.title,
+                             'id': person.username,
+                             'sortKey': collator.key(person.title),
+                             'url': absoluteURL(person, self.request)},
+                 'grades': grades,
+                 'average': self.average(person),
+                })
+        self.sortBy = self.request.get('sort_by')
+        return sorted(result, key=self.sortKey)
+
+    def sortKey(self, row):
+        if self.sortBy == 'student':
+            return row['student']['sortKey']
+        elif self.sortBy == 'average':
+            try:
+                return (float(row['average']), row['student']['sortKey'])
+            except (ValueError,):
+                return ('', row['student']['sortKey'])
+        else:
+            grades = dict([(grade['sortKey'], grade['value'])
+                          for grade in row['grades']])
+            if self.sortBy in grades:
+                grade = grades.get(self.sortBy)
+                if grade is UNSCORED:
+                    return (0, grade, row['student']['sortKey'])
+                try:
+                    grade = int(grade)
+                except (ValueError,):
+                    return (2, row['student']['sortKey'])
+                return (0, grade, row['student']['sortKey'])
+            else:
+                return (1, row['student']['sortKey'])
+
+    def average(self, person):
+        grades = []
+        scores = self.getScores(person)
+        for score in scores:
+            if score.value is UNSCORED:
+                continue
+            try:
+                # XXX: ints!
+                grade = int(score.value)
+            except ValueError:
+                continue
+            except TypeError:
+                continue
+            grades.append(grade)
+        if not grades:
+            return _('N/A')
+        else:
+            return "%.1f" % (sum(grades) / float(len(grades)))
+
+
+class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
+
+    @property
+    def title(self):
+        if self.render_journal:
+            return _('Enter Attendance')
+        else:
+            if self.no_timetable:
+                return _('Section is not scheduled')
+            else:
+                return _('No periods assigned for this section')
+
+    def getDefaultScoreSystem(self):
+        return AttendanceRequirement.score_system
+
+    def makeRequirement(self, meeting):
+        return AttendanceRequirement(meeting)
+
+    def table(self):
+        result = []
+        collator = ICollator(self.request.locale)
+        for person in self.members():
+            grades = []
+            for meeting in self.meetings:
+                insecure_meeting = removeSecurityProxy(meeting)
+                grade = self.context.getAbsence(person,
+                                                insecure_meeting,
+                                                default='')
+                if grade is not UNSCORED:
+                    value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                else:
+                    value = ''
+                grade_data = {
+                    'id': '%s_%s' % (meeting.__name__, person.__name__),
+                    'sortKey': meeting.__name__,
+                    'value': value,
+                    'editable': True,
+                    }
+                grades.append(grade_data)
+            if flourish.canView(person):
+                person = removeSecurityProxy(person)
+            result.append(
+                {'student': {'title': person.title,
+                             'id': person.username,
+                             'sortKey': collator.key(person.title),
+                             'url': absoluteURL(person, self.request)},
+                 'grades': grades,
+                 'absences': self.absences(person),
+                 'tardies': self.tardies(person),
+                })
+        self.sortBy = self.request.get('sort_by')
+        return sorted(result, key=self.sortKey)
+
+    def sortKey(self, row):
+        if self.sortBy == 'student':
+            return row['student']['sortKey']
+        elif self.sortBy == 'absences':
+            return (int(row['absences']), row['student']['sortKey'])
+        elif self.sortBy == 'tardies':
+            return (int(row['tardies']), row['student']['sortKey'])
+        else:
+            grades = dict([(grade['sortKey'], grade['value'])
+                          for grade in row['grades']])
+            if self.sortBy in grades:
+                grade = grades.get(self.sortBy)
+                if grade is UNSCORED:
+                    return (0, grade, row['student']['sortKey'])
+                try:
+                    grade = int(grade)
+                except (ValueError,):
+                    grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade)
+                    if grade == ABSENT:
+                        return (1, row['student']['sortKey'])
+                    elif grade == TARDY:
+                        return (2, row['student']['sortKey'])
+                    else:
+                        return (3, row['student']['sortKey'])
+                return (0, grade, row['student']['sortKey'])
+            else:
+                return (1, row['student']['sortKey'])
+
+    def absences(self, person):
+        absences = 0
+        for score in self.getScores(person):
+            if (score.value == ABSENT):
+                absences += 1
+        if absences == 0:
+            return "0"
+        else:
+            return str(absences)
+
+    def tardies(self, person):
+        tardies = 0
+        for score in self.getScores(person):
+            if (score.value == TARDY):
+                tardies += 1
+
+        if tardies == 0:
+            return "0"
+        else:
+            return str(tardies)
+
+    def updateGradebook(self):
+        evaluator = getEvaluator(self.request)
+        members = self.members()
+        for meeting in self.meetings:
+            for person in members:
+                cell_id = "%s_%s" % (meeting.__name__, person.__name__)
+                cell_value = self.request.get(cell_id, None)
+                if cell_value is not None:
+                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value,
+                                                                    cell_value)
+                    requirement = self.makeRequirement(removeSecurityProxy(meeting))
+                    try:
+                        self.context.evaluate(person, requirement, cell_value,
+                                              evaluator=evaluator)
+                    except ScoreValidationError:
+                        pass
+
+    def validate_score(self, activity_id=None, score=None):
+        if score is None:
+            score = self.request.get('score')
+        score = ATTENDANCE_TRANSLATION_TO_DATA.get(score, score)
+        return FlourishLyceumSectionJournalBase.validate_score(
+            self, activity_id=activity_id, score=score)
 
 
 class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager):
@@ -1154,18 +1345,13 @@ class FlourishJournalRedirectView(flourish.page.Page):
         url = absoluteURL(self.context, self.request)
         person = IPerson(self.request.principal, None)
         if person is not None:
-            sections = list(IInstructor(person).sections())
-            if sections:
-                section = getCurrentSectionTaught(person)
-                if section is None:
+            section = getCurrentSectionTaught(person)
+            if section is None:
+                sections = list(IInstructor(person).sections())
+                if sections:
                     section = sections[0]
+            if section is not None:
                 url = absoluteURL(section, self.request) + '/journal'
-            elif list(ILearner(person).sections()):
-                current_term = getUtility(IDateManager).current_term
-                if current_term is not None:
-                    schoolyear = ISchoolYear(current_term)
-                    url = (absoluteURL(schoolyear, self.request) +
-                           '/myjournal.html')
         self.request.response.redirect(url)
 
 
@@ -1176,12 +1362,23 @@ class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
 class FlourishJournalHelpViewlet(flourish.page.ModalFormLinkViewlet):
 
     @property
+    def url(self):
+        return "%s/%s" % (absoluteURL(self.view, self.request),
+                          self.link)
+
+    @property
     def dialog_title(self):
         title = _(u'Journal Help')
         return translate(title, context=self.request)
 
 
 class FlourishJournalHelpView(flourish.form.Dialog):
+
+    template = InlineViewPageTemplate('''
+        <tal:block define="scoresystem view/context/getDefaultScoreSystem"
+                   condition="scoresystem"
+                   content="structure scoresystem/schooltool:content/legend" />
+    ''')
 
     def updateDialog(self):
         # XXX: fix the width of dialog content in css
@@ -1198,11 +1395,27 @@ class FlourishJournalHelpView(flourish.form.Dialog):
             'width': 'auto',
             }
 
+
+class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
+
+    title = _('Attendance')
+
     def getLegendItems(self):
-        for grade in journal_grades():
-            yield {'keys': u', '.join(grade['keys']),
-                   'value': grade['value'],
-                   'description': grade['legend']}
+        score_system = self.context
+        for grade, title in score_system.values:
+            translated = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+            valid_grades = set([grade.lower(), grade.upper(),
+                                translated.lower(), translated.upper()])
+            yield {'value': ', '.join(sorted(valid_grades)),
+                   'description': title}
+
+
+class RangedScoreSystemLegend(flourish.content.ContentProvider):
+
+    title = _('Scores')
+
+    def getGrades(self):
+        return list(reversed(range(self.context.min, self.context.max+1)))
 
 
 class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
@@ -1230,23 +1443,10 @@ class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
         return can_view
 
 
-class FlourishJournalValidateScoreView(flourish.page.Page):
+class FlourishActivityPopupMenuView(flourish.content.ContentProvider):
 
-    def __call__(self):
-        result = {'is_valid': True, 'is_extracredit': False}
-        score = self.request.get('score')
-        if score:
-            grades = [grade['value'].lower() for grade in journal_grades()]
-            if score not in grades:
-                result['is_valid'] = False
-        response = self.request.response
-        response.setHeader('Content-Type', 'application/json')
-        encoder = flourish.tal.JSONEncoder()
-        json = encoder.encode(result)
-        return json
-
-
-class FlourishActivityPopupMenuView(flourish.page.Page):
+    def __init__(self, view, request):
+        flourish.content.ContentProvider.__init__(self, view.context, request, view)
 
     def translate(self, message):
         return translate(message, context=self.request)
@@ -1285,7 +1485,10 @@ class FlourishActivityPopupMenuView(flourish.page.Page):
         return json
 
 
-class FlourishStudentPopupMenuView(flourish.page.Page):
+class FlourishStudentPopupMenuView(flourish.content.ContentProvider):
+
+    def __init__(self, view, request):
+        flourish.content.ContentProvider.__init__(self, view.context, request, view)
 
     def translate(self, message):
         return translate(message, context=self.request)
@@ -1297,13 +1500,19 @@ class FlourishStudentPopupMenuView(flourish.page.Page):
             app = ISchoolToolApplication(None)
             student = app['persons'].get(student_id)
             if student is not None and student in self.context.members:
-                url = absoluteURL(student, self.request)
+                journal_url = absoluteURL(self.view, self.request)
+                student_url = absoluteURL(student, self.request)
                 result['header'] = student.title
                 result['options'] = [
                     {
                         'label': self.translate(_('Student')),
-                        'url': url,
-                        }
+                        'url': student_url,
+                        },
+                    {
+                        'label': self.translate(_('History')),
+                        'url': '%s/score_history?student_id=%s&month=%s' % (
+                            journal_url, student_id, self.view.active_month),
+                        },
                     ]
         response = self.request.response
         response.setHeader('Content-Type', 'application/json')
@@ -1312,7 +1521,10 @@ class FlourishStudentPopupMenuView(flourish.page.Page):
         return json
 
 
-class FlourishNamePopupMenuView(flourish.page.Page):
+class FlourishNamePopupMenuView(flourish.content.ContentProvider):
+
+    def __init__(self, view, request):
+        flourish.content.ContentProvider.__init__(self, view.context, request, view)
 
     def translate(self, message):
         return translate(message, context=self.request)
@@ -1334,7 +1546,10 @@ class FlourishNamePopupMenuView(flourish.page.Page):
         return json
 
 
-class FlourishTotalPopupMenuView(flourish.page.Page):
+class FlourishTotalPopupMenuView(flourish.content.ContentProvider):
+
+    def __init__(self, view, request):
+        flourish.content.ContentProvider.__init__(self, view.context, request, view)
 
     titles = {
         'total': _('Total'),
@@ -1364,9 +1579,15 @@ class FlourishTotalPopupMenuView(flourish.page.Page):
         return json
 
 
-class FlourishRequestJournalExportView(RequestXLSReportDialog):
+class FlourishRequestJournalExportGrades(RequestXLSReportDialog):
 
-    report_builder = 'export.xls'
+    report_builder = 'grades.xls'
+    task_factory = JournalXLSReportTask
+
+
+class FlourishRequestJournalExportAttendance(RequestXLSReportDialog):
+
+    report_builder = 'attendance.xls'
     task_factory = JournalXLSReportTask
 
 
@@ -1379,15 +1600,7 @@ class DateHeader(export.Header):
         return result
 
 
-class FlourishJournalExportView(export.ExcelExportView,
-                                FlourishLyceumSectionJournalView):
-
-    @property
-    def base_filename(self):
-        section = ISection(self.context)
-        filename = '%s journal' % section.title
-        filename = filename.replace(' ', '_')
-        return filename
+class FlourishJournalExportBase(export.ExcelExportView):
 
     def print_headers(self, ws):
         row_1_headers = [export.Header(label)
@@ -1426,14 +1639,14 @@ class FlourishJournalExportView(export.ExcelExportView,
     def export_month_worksheets(self, wb):
         months = list(self.selected_months)
         for nm, month_id in enumerate(months):
-            self._active_month = month_id
-            title = self.monthTitle(month_id)
-            ws = wb.add_sheet(title)
-            self.print_headers(ws)
-            self.print_grades(ws, nm, len(months))
-            self.progress('journal', normalized_progress(
-                    nm, len(months),
-                    ))
+             self._active_month = month_id
+             title = self.monthTitle(month_id)
+             ws = wb.add_sheet(title)
+             self.print_headers(ws)
+             self.print_grades(ws, nm, len(months))
+             self.progress('journal', normalized_progress(
+                     nm, len(months),
+                     ))
         self.finish('journal')
 
     def addImporters(self, progress):
@@ -1485,6 +1698,208 @@ class FlourishJournalExportView(export.ExcelExportView,
                 period = ''
             info['period'] = period
             result.append(info)
+        return result
+
+
+class FlourishJournalExportGrades(FlourishJournalExportBase,
+                                  FlourishLyceumSectionJournalGrades):
+
+    @property
+    def base_filename(self):
+        section = ISection(self.context)
+        filename = '%s journal scores' % section.title
+        filename = filename.replace(' ', '_')
+        return filename
+
+
+
+class FlourishJournalExportAttendance(FlourishJournalExportBase,
+                                      FlourishLyceumSectionJournalAttendance):
+
+    @property
+    def base_filename(self):
+        section = ISection(self.context)
+        filename = '%s attendance' % section.title
+        filename = filename.replace(' ', '_')
+        return filename
+
+
+class JournalModes(flourish.page.RefineLinksViewlet):
+    pass
+
+
+class JournalModeSelector(flourish.viewlet.Viewlet):
+
+    list_class = 'filter'
+
+    template = InlineViewPageTemplate('''
+        <ul tal:attributes="class view/list_class"
+            tal:condition="view/items">
+          <li tal:repeat="item view/items">
+            <input type="radio"
+                   onclick="ST.redirect($(this).context.value)"
+                   tal:attributes="value item/url;
+                                   id item/id;
+                                   checked item/selected;" />
+            <label tal:content="item/label"
+                   tal:attributes="for item/id" />
+          </li>
+        </ul>
+    ''')
+
+    def items(self):
+        journal_url = absoluteURL(self.context, self.request)
+        result = []
+        result.append({
+                'id': 'journal-mode-attendance',
+                'label': _('Attendance'),
+                'url': journal_url + '/index.html',
+                'selected': self.manager.view.__name__ == 'index.html',
+                })
+        result.append({
+                'id': 'journal-mode-grades',
+                'label': _('Scores'),
+                'url': journal_url + '/grades.html',
+                'selected': self.manager.view.__name__ == 'grades.html',
+                })
+        return result
+
+    def render(self, *args, **kw):
+        return self.template(*args, **kw)
+
+
+class SubPage(flourish.content.ContentProvider,
+              flourish.page.Page):
+
+    update = flourish.page.Page.update
+    render = flourish.page.Page.render
+    __call__ = flourish.page.Page.__call__
+
+    def __init__(self, context, request):
+        view = context
+        flourish.content.ContentProvider.__init__(
+            self, view.context, request, view)
+
+
+class SectionJournalGradeHistory(SubPage):
+
+    @property
+    def title(self):
+        section = self.context.section
+        return section.title
+
+    @Lazy
+    def student(self):
+        student_id = self.request.get('student_id')
+        if student_id is None:
+            return None
+        app = ISchoolToolApplication(None)
+        student = app['persons'].get(student_id)
+        return student
+
+    @property
+    def meetings(self):
+        calendar = ISchoolToolCalendar(self.context.section)
+        sorted_events = sorted(calendar, key=lambda e: e.dtstart)
+        return sorted_events
+
+    @property
+    def timezone(self):
+        app = ISchoolToolApplication(None)
+        return pytz.timezone(IApplicationPreferences(app).timezone)
+
+    @property
+    def timeformat(self):
+        app = ISchoolToolApplication(None)
+        prefs = IApplicationPreferences(app)
+        return prefs.timeformat
+
+    def formatScoreValue(self, requirement, score):
+        if (score is None or score.value is UNSCORED):
+            return ''
+        return score.value
+
+    def table(self):
+        if self.student is None:
+            return []
+
+        persons = ISchoolToolApplication(None)['persons']
+        evaluations = removeSecurityProxy(IEvaluations(self.student))
+        result = []
+
+        meetings = self.meetings
+        timezone = self.timezone
+        timeformat = self.timeformat
+
+        for meeting in meetings:
+            requirement = self.view.makeRequirement(removeSecurityProxy(meeting))
+            scores = list(evaluations.getHistory(requirement))
+            current = evaluations.get(requirement)
+            if (scores or current is not None):
+                scores.append(current)
+            if not scores:
+                continue
+            scores.reverse()
+            meeting_time = meeting.dtstart.astimezone(timezone)
+            activity = {
+                'date': meeting_time.date(),
+                'time': meeting_time.time().strftime(timeformat),
+                'period': '',
+                'grades': [],
+                }
+            if meeting.period is not None:
+                activity['period'] = meeting.period.title
+
+            for score in scores:
+                record = {'date': '',
+                          'time': '',
+                          'value': '',
+                          'evaluator': None}
+                record['value'] = self.formatScoreValue(requirement, score)
+
+                if score is not None:
+                    if score.evaluator:
+                        record['evaluator'] = persons.get(score.evaluator)
+
+                    if (getattr(score, 'time', None) is not None):
+                        time_utc = pytz.utc.localize(score.time)
+                        time = time_utc.astimezone(timezone)
+                        record['date'] = time.date()
+                        record['time'] = time.strftime(timeformat)
+
+                activity['grades'].append(record)
+
+            result.append(activity)
+
+        return result
+
+    @property
+    def done_url(self):
+        month = None
+        try:
+            month = int(self.request.get('month'))
+        except TypeError:
+            pass
+        except ValueError:
+            pass
+        if month is not None:
+            return self.view.monthURL(month)
+        return absoluteURL(self.view, self.request)
+
+
+class SectionJournalAttendanceHistory(SectionJournalGradeHistory):
+
+    def formatScoreValue(self, requirement, score):
+        if (score is None or score.value is UNSCORED):
+            return ''
+        grade = score.value
+        value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+        if isinstance(requirement.score_system, JournalAbsenceScoreSystem):
+            description = dict(requirement.score_system.values).get(grade, u'')
+        else:
+            description = ''
+        result = ' - '.join([translate(i, self.request)
+                             for i in (value, description)])
         return result
 
 

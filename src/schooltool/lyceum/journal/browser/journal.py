@@ -1791,7 +1791,7 @@ class JournalModeSelector(flourish.viewlet.Viewlet):
         if takes_day_attendance:
             result.append({
                     'id': 'journal-mode-homeroom',
-                    'label': _('Day attendance'),
+                    'label': _('Homeroom'),
                     'url': journal_url + '/homeroom.html',
                     'selected': self.manager.view.__name__ == 'homeroom.html',
                     })

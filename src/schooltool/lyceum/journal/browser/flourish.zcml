@@ -148,6 +148,21 @@
       permission="schooltool.view"
       />
 
+  <flourish:page
+      name="homeroom.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.FlourishSectionHomeroomAttendance"
+      content_template="templates/f_journal.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="gradebook-table"
+      view=".journal.FlourishSectionHomeroomAttendance"
+      template="templates/f_journal_absence_table.pt"
+      permission="schooltool.view"
+      />
+
   <flourish:viewlet
       name="journal_modes"
       before="*"
@@ -269,6 +284,13 @@
   <flourish:page
       name="filldown"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      template="templates/f_journal_filldown_dialog.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:page
+      name="filldown"
+      for="schooltool.app.interfaces.ISchoolToolApplication"
       template="templates/f_journal_filldown_dialog.pt"
       permission="schooltool.view"
       />

@@ -34,6 +34,16 @@
       factory="schooltool.lyceum.journal.journal.getSectionForSectionJournal" />
 
   <adapter
+      factory="schooltool.lyceum.journal.journal.getEvaluateRequirementForSection" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getEvaluateRequirementForMeetingRequirement" />
+
+  <adapter
+      for="*"
+      factory="schooltool.lyceum.journal.journal.EvaluateGeneric" />
+
+  <adapter
       for="schooltool.course.interfaces.ISection"
       provides="schooltool.lyceum.journal.journal.ISectionJournalData"
       factory="schooltool.lyceum.journal.journal.getSectionJournalData"

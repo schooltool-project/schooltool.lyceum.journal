@@ -24,7 +24,16 @@ from zope.interface import Attribute
 from zope.location.interfaces import ILocation
 
 
-class ISectionJournalData(Interface):
+class IEvaluateRequirement(Interface):
+
+    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
+        """Add evaluation of a requirement."""
+
+    def getEvaluation(person, requirement, default=None):
+        """Get evaluation of a requirement."""
+
+
+class ISectionJournalData(IEvaluateRequirement):
     """A journal for a section."""
 
     section = Attribute("""Section this data belongs to.""")
@@ -40,12 +49,6 @@ class ISectionJournalData(Interface):
 
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
-
-    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
-        """Add evaluation of a requirement."""
-
-    def getEvaluation(person, requirement, default=None):
-        """Get evaluation of a requirement."""
 
     def gradedMeetings(person):
         """Returns a list of (meeting, grades) for a person."""
@@ -70,12 +73,6 @@ class ISectionJournal(ILocation):
 
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
-
-    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
-        """Add evaluation of a requirement."""
-
-    def getEvaluation(person, requirement, default=None):
-        """Get evaluation of a requirement."""
 
     def meetings():
         """List all possible meetings for this section."""

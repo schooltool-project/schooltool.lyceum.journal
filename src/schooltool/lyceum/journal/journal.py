@@ -52,6 +52,7 @@ from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
 from schooltool.securitypolicy.crowds import ClerksCrowd
 
+from schooltool.lyceum.journal.interfaces import IEvaluateRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal import LyceumMessage as _
@@ -160,6 +161,38 @@ def getSectionForSectionJournal(sj):
     return sj.section
 
 
+class EvaluateGeneric(object):
+    implements(IEvaluateRequirement)
+
+    def __init__(self, target):
+        self.context = target
+
+    def evaluate(self, person, requirement, grade, evaluator=None, score_system=None):
+        if score_system is None:
+            score_system = requirement.score_system
+        score = score_system.fromUnicode(grade)
+        evaluations = removeSecurityProxy(IEvaluations(person))
+
+        if requirement in evaluations:
+            current = evaluations[requirement]
+            if (current.value == score and
+                current.evaluator == evaluator):
+                return
+        else:
+            if score is UNSCORED:
+                return
+
+        eval = Evaluation(requirement, score_system, score, evaluator=evaluator)
+        evaluations.addEvaluation(eval)
+
+    def getEvaluation(self, person, requirement, default=None):
+        evaluations = removeSecurityProxy(IEvaluations(person))
+        score = evaluations.get(requirement)
+        if score is None:
+            return default
+        return score
+
+
 class MeetingRequirement(tuple):
     implements(IKeyReference)
 
@@ -168,6 +201,12 @@ class MeetingRequirement(tuple):
     score_system = None
 
     def __new__(cls, meeting):
+        params = cls.getMeetingParams(meeting)
+        return tuple.__new__(
+            cls, params)
+
+    @classmethod
+    def getMeetingParams(cls, meeting):
         date = meeting.dtstart.date()
         meeting_id = meeting.meeting_id
         if meeting_id is None:
@@ -178,8 +217,7 @@ class MeetingRequirement(tuple):
             target_ref = IKeyReference(target)
         except TypeError:
             target_ref = None
-        return tuple.__new__(
-            cls, (cls.requirement_type, date, meeting_id, target_ref))
+        return (cls.requirement_type, date, meeting_id, target_ref)
 
     def __cmp__(self, other):
         if self.key_type_id == other.key_type_id:
@@ -205,6 +243,18 @@ class MeetingRequirement(tuple):
         return self
 
 
+class SchoolMeetingRequirement(MeetingRequirement):
+    implements(IKeyReference)
+
+    @classmethod
+    def getMeetingParams(cls, meeting):
+        params = MeetingRequirement.getMeetingParams(meeting)
+        requirement_type, date, meeting_id, target_ref = params
+        # XXX: school year?  term?
+        target_ref = IKeyReference(ISchoolToolApplication(None))
+        return (requirement_type, date, None, target_ref)
+
+
 class GradeRequirement(MeetingRequirement):
     requirement_type = 'grade'
     score_system = TenPointScoreSystem
@@ -212,6 +262,11 @@ class GradeRequirement(MeetingRequirement):
 
 class AttendanceRequirement(MeetingRequirement):
     requirement_type = 'attendance'
+    score_system = AbsenceScoreSystem
+
+
+class HomeroomRequirement(SchoolMeetingRequirement):
+    requirement_type = 'homeroom'
     score_system = AbsenceScoreSystem
 
 
@@ -365,17 +420,6 @@ class SectionJournal(object):
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getAbsence(person, meeting, default)
 
-    def evaluate(self, person, requirement, grade, evaluator=None, score_system=None):
-        section_journal_data = ISectionJournalData(requirement.target)
-        return section_journal_data.evaluate(
-            person, requirement, grade,
-            evaluator=evaluator, score_system=score_system)
-
-    def getEvaluation(self, person, requirement, default=None):
-        section_journal_data = ISectionJournalData(requirement.target)
-        return section_journal_data.getEvaluation(
-            person, requirement, default=default)
-
     @Lazy
     def members(self):
         return [member for member in self.section.members
@@ -482,3 +526,17 @@ class JournalXLSReportTask(XLSReportTask):
     def context(self, value):
         section = ISection(value)
         XLSReportTask.context.fset(self, section)
+
+
+@adapter(MeetingRequirement)
+@implementer(IEvaluateRequirement)
+def getEvaluateRequirementForMeetingRequirement(requirement):
+    return IEvaluateRequirement(requirement.target)
+
+
+@adapter(ISection)
+@implementer(IEvaluateRequirement)
+def getEvaluateRequirementForSection(section):
+    return ISectionJournalData(section)
+
+

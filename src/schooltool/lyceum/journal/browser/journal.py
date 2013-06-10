@@ -38,7 +38,7 @@ from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
 from zope.traversing.browser.absoluteurl import absoluteURL
-from zope.component import getUtility
+from zope.component import getUtility, queryMultiAdapter
 
 from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
@@ -74,6 +74,8 @@ from schooltool.lyceum.journal.journal import JournalXLSReportTask
 from schooltool.lyceum.journal.journal import JournalAbsenceScoreSystem
 from schooltool.lyceum.journal.journal import GradeRequirement
 from schooltool.lyceum.journal.journal import AttendanceRequirement
+from schooltool.lyceum.journal.journal import HomeroomRequirement
+from schooltool.lyceum.journal.interfaces import IEvaluateRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
@@ -476,6 +478,9 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         kwargs['selected_items'] = self.selected_students
         return SelectableRowTableFormatter(*args, **kwargs)
 
+    def isJournalMeeting(self, term, meeting):
+        return meeting.dtstart.date() in term
+
     def allMeetings(self):
         term = removeSecurityProxy(self.selected_term)
         if not term:
@@ -487,7 +492,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         insecure_events = [removeSecurityProxy(e)
                            for e in by_uid.values()]
-        insecure_events[:] = filter(lambda e: e.dtstart.date() in term,
+        insecure_events[:] = filter(lambda e: self.isJournalMeeting(term, e),
                                     insecure_events)
         meetings = [by_uid[e.unique_id] for e in sorted(insecure_events)]
         return meetings
@@ -769,6 +774,8 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
     no_periods = False
     render_journal = True
 
+    no_periods_text = _("No periods have been assigned in timetables of this section.")
+
     def __init__(self, *args, **kw):
         self.__grade_cache = {}
         super(FlourishLyceumSectionJournalBase, self).__init__(*args, **kw)
@@ -917,7 +924,7 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
                 continue
             unproxied_event = removeSecurityProxy(event)
             requirement = self.makeRequirement(unproxied_event)
-            score = self.context.getEvaluation(
+            score = IEvaluateRequirement(requirement).getEvaluation(
                     unproxied_person, requirement, default=UNSCORED)
             if (event.meeting_id not in unique_meetings and
                 score is not UNSCORED):
@@ -954,8 +961,9 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                 if cell_value is not None:
                     requirement = self.makeRequirement(removeSecurityProxy(meeting))
                     try:
-                        self.context.evaluate(person, requirement, cell_value,
-                                              evaluator=evaluator)
+                        IEvaluateRequirement(requirement).evaluate(
+                            person, requirement, cell_value,
+                            evaluator=evaluator)
                     except ScoreValidationError:
                         pass
 
@@ -967,16 +975,15 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
                 requirement = self.makeRequirement(insecure_meeting)
-                score = self.context.getEvaluation(person, requirement, default=UNSCORED)
+                score = IEvaluateRequirement(requirement).getEvaluation(
+                    person, requirement, default=UNSCORED)
                 grade = score.value
-                if grade is not UNSCORED:
-                    value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
-                else:
-                    value = ''
+                if grade is UNSCORED:
+                    grade = ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
-                    'value': value,
+                    'value': grade,
                     'editable': True,
                     }
                 grades.append(grade_data)
@@ -1061,9 +1068,10 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
-                grade = self.context.getAbsence(person,
-                                                insecure_meeting,
-                                                default='')
+                requirement = self.makeRequirement(insecure_meeting)
+                score = IEvaluateRequirement(requirement).getEvaluation(
+                    person, requirement, default=UNSCORED)
+                grade = score.value
                 if grade is not UNSCORED:
                     value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
                 else:
@@ -1150,8 +1158,9 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                                                                     cell_value)
                     requirement = self.makeRequirement(removeSecurityProxy(meeting))
                     try:
-                        self.context.evaluate(person, requirement, cell_value,
-                                              evaluator=evaluator)
+                        IEvaluateRequirement(requirement).evaluate(
+                            person, requirement, cell_value,
+                            evaluator=evaluator)
                     except ScoreValidationError:
                         pass
 
@@ -1161,6 +1170,27 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         score = ATTENDANCE_TRANSLATION_TO_DATA.get(score, score)
         return FlourishLyceumSectionJournalBase.validate_score(
             self, activity_id=activity_id, score=score)
+
+
+class FlourishSectionHomeroomAttendance(FlourishLyceumSectionJournalAttendance):
+
+    no_periods_text = _("This section is not scheduled for any homeroom periods.")
+
+    def isJournalMeeting(self, term, meeting):
+        if not FlourishLyceumSectionJournalAttendance.isJournalMeeting(self, term, meeting):
+            return False
+        period = getattr(meeting, 'period', None)
+        if period is None:
+            return False
+        if period.activity_type == 'homeroom':
+            return True
+        return False
+
+    def getDefaultScoreSystem(self):
+        return HomeroomRequirement.score_system
+
+    def makeRequirement(self, meeting):
+        return HomeroomRequirement(meeting)
 
 
 class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager):
@@ -1750,6 +1780,22 @@ class JournalModeSelector(flourish.viewlet.Viewlet):
     def items(self):
         journal_url = absoluteURL(self.context, self.request)
         result = []
+
+        takes_day_attendance = True
+        if (self.manager.view.__name__ != 'homeroom.html'):
+            homerooms = queryMultiAdapter(
+                (self.context, self.request), name='homeroom.html')
+            if (homerooms is None or
+                not homerooms.all_meetings):
+                takes_day_attendance = False
+        if takes_day_attendance:
+            result.append({
+                    'id': 'journal-mode-homeroom',
+                    'label': _('Day attendance'),
+                    'url': journal_url + '/homeroom.html',
+                    'selected': self.manager.view.__name__ == 'homeroom.html',
+                    })
+
         result.append({
                 'id': 'journal-mode-attendance',
                 'label': _('Attendance'),

@@ -5,8 +5,8 @@
     This section is not scheduled for any term, to use the journal you
     should add a timetable first.
   </p>
-  <p tal:condition="view/no_periods" i18n:translate="">
-    No periods have been assigned in timetables of this section.
+  <p tal:condition="view/no_periods" i18n:translate=""
+     tal:content="view/no_periods_text">
   </p>
   <p i18n:translate="">
     You can manage timetables for this section here:

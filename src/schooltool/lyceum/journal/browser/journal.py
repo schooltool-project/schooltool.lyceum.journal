@@ -25,6 +25,7 @@ import urllib
 import base64
 import xlwt
 import datetime
+import dateutil
 import pytz
 
 from zope.security.proxy import removeSecurityProxy
@@ -116,6 +117,13 @@ def getEvaluator(request):
     if user is None:
         return None
     return user.__name__
+
+
+def makeSchoolAttendanceMeeting(date):
+    uid = '%s' % date.isoformat()
+    dt = datetime.datetime(date.year, date.month, date.day)
+    meeting = ScheduleCalendarEvent(dt, datetime.timedelta(1), '', unique_id=uid)
+    return meeting
 
 
 class JournalCalendarEventViewlet(object):
@@ -2306,8 +2314,7 @@ class FlourishSchoolAttendanceGradebook(flourish.content.ContentProvider,
             for term in terms:
                 if date in term and term.isSchoolday(date):
                     # meeting duration is not precise - some days are not 24 hours long
-                    meetings.append(
-                        ScheduleCalendarEvent(dt, datetime.timedelta(1), ''))
+                    meetings.append(makeSchoolAttendanceMeeting(dt))
         return meetings
 
     def getScores(self, person):
@@ -2331,6 +2338,42 @@ class FlourishSchoolAttendanceGradebook(flourish.content.ContentProvider,
                 score is not UNSCORED):
                 result.append(score)
                 unique_meetings.add(event.meeting_id)
+        return result
+
+
+class FlourishAttendanceValidateScoreView(flourish.ajax.AJAXPart):
+
+    def render(self):
+        if not self.fromPublication:
+            return ''
+        data = self.validate_score()
+        json = self.setJSONResponse(data)
+        return json
+
+    @property
+    def requirement(self):
+        activity_id = self.request.get('activity_id')
+        if activity_id is None:
+            return None
+        dts = base64.decodestring(activity_id.strip())
+        try:
+            dt = dateutil.parser.parse(dts)
+        except ValueError:
+            return None
+        meeting = makeSchoolAttendanceMeeting(dt)
+        requirement = HomeroomRequirement(meeting)
+        return requirement
+
+    def validate_score(self):
+        score = self.request.get('score')
+        score = ATTENDANCE_TRANSLATION_TO_DATA.get(score, score)
+        result = {'is_valid': True,
+                  'is_extracredit': False}
+        requirement = self.requirement
+        if requirement is None:
+            result['is_valid'] = False
+        else:
+            result['is_valid'] = requirement.score_system.isValidScore(score)
         return result
 
 

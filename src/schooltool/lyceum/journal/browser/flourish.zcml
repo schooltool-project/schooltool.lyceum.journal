@@ -403,6 +403,48 @@
       permission="schooltool.view"
       />
 
+  <flourish:viewlet
+      name="filldown"
+      class="schooltool.skin.flourish.page.DisabledViewlet"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="comment_cell"
+      class="schooltool.skin.flourish.page.DisabledViewlet"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="name_popup_menu"
+      class="schooltool.skin.flourish.page.DisabledViewlet"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="activity_popup_menu"
+      class="schooltool.skin.flourish.page.DisabledViewlet"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="student_popup_menu"
+      class="schooltool.skin.flourish.page.DisabledViewlet"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="validate_score"
+      class="schooltool.lyceum.journal.browser.journal.FlourishAttendanceValidateScoreView"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
   <flourish:content
       name="gradebook-table"
       view="schooltool.lyceum.journal.browser.journal.AttendanceTableTable"

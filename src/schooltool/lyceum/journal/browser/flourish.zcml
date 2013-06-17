@@ -372,4 +372,118 @@
       view=".journal.FlourishSchoolYearMyJournalView"
       />
 
+  <flourish:page
+      name="attendance.html"
+      for="schooltool.person.interfaces.IPersonContainer"
+      class=".journal.FlourishSchoolAttendanceView"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="table"
+      for="schooltool.person.interfaces.IPersonContainer"
+      view="schooltool.lyceum.journal.browser.journal.FlourishSchoolAttendanceView"
+      manager="schooltool.skin.flourish.interfaces.IAJAXParts"
+      class="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="filter"
+      class="schooltool.lyceum.journal.browser.journal.AttendanceFilter"
+      render="template"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="table"
+      class="schooltool.lyceum.journal.browser.journal.AttendanceTableTable"
+      manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="gradebook-table"
+      view="schooltool.lyceum.journal.browser.journal.AttendanceTableTable"
+      class=".journal.FlourishSchoolAttendanceGradebook"
+      template="templates/f_school_absence_table.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewletManager
+      name="page_refine"
+      provides="schooltool.skin.flourish.page.IPageRefineManager"
+      view=".journal.FlourishSchoolAttendanceView"
+      class=".journal.RefineFormManager"
+      permission="zope.Public"
+      />
+
+  <flourish:viewlet
+      name="attendance_date_navigation"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishSchoolAttendanceDateNavigation"
+      title="Month"
+      permission="schooltool.view"
+      view=".journal.FlourishSchoolAttendanceView"
+      />
+
+  <flourish:viewlet
+      name="select_date"
+      class=".journal.FlourishSchoolAttendanceYearMonthPicker"
+      manager=".journal.FlourishSchoolAttendanceDateNavigation"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewlet
+      name="attendance_term_navigation"
+      after="attendance_date_navigation"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishSchoolAttendanceTermNavigation"
+      title="Term(s)"
+      permission="schooltool.view"
+      view=".journal.FlourishSchoolAttendanceView"
+      />
+
+  <flourish:viewlet
+      name="terms_selected"
+      class=".journal.FlourishSchoolAttendanceCurrentTerm"
+      manager=".journal.FlourishSchoolAttendanceTermNavigation"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewlet
+      name="attendance_group_navigation"
+      after="attendance_term_navigation"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishSchoolAttendanceGroupNavigation"
+      title="Filter group"
+      permission="schooltool.view"
+      view=".journal.FlourishSchoolAttendanceView"
+      />
+
+  <flourish:viewlet
+      name="select_group"
+      class=".journal.FlourishSchoolAttendanceGroupPicker"
+      manager=".journal.FlourishSchoolAttendanceGroupNavigation"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewlet
+      name="attendance_instructor_navigation"
+      after="attendance_group_navigation"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishSchoolAttendanceInstructorNavigation"
+      title="Filter instructor"
+      permission="schooltool.view"
+      view=".journal.FlourishSchoolAttendanceView"
+      />
+
+  <flourish:viewlet
+      name="select_instructor"
+      class=".journal.FlourishSchoolAttendanceInstructorPicker"
+      manager=".journal.FlourishSchoolAttendanceInstructorNavigation"
+      permission="schooltool.edit"
+      />
+
 </configure>

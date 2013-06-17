@@ -19,10 +19,13 @@
 """
 Lyceum journal views.
 """
+import calendar
 import pytz
 import urllib
 import base64
 import xlwt
+import datetime
+import pytz
 
 from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
@@ -37,6 +40,7 @@ from zope.component import queryMultiAdapter
 from zope.i18n import translate
 from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
+from zope.intid.interfaces import IIntIds
 from zope.traversing.browser.absoluteurl import absoluteURL
 from zope.component import getUtility, queryMultiAdapter
 
@@ -45,7 +49,9 @@ from zc.table.interfaces import IColumn
 from zope.cachedescriptors.property import Lazy
 
 from schooltool.skin import flourish
+from schooltool import table
 from schooltool.basicperson.interfaces import IDemographics
+from schooltool.calendar.simple import SimpleCalendarEvent
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
 from schooltool.export import export
@@ -54,9 +60,12 @@ from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
+from schooltool.app.relationships import Instruction
 from schooltool.course.interfaces import ISection
 from schooltool.export.export import RequestXLSReportDialog
 from schooltool.task.progress import normalized_progress
+from schooltool.group.interfaces import IGroupContainer
+from schooltool.course.interfaces import ISectionContainer
 from schooltool.requirement.scoresystem import ScoreValidationError
 from schooltool.requirement.scoresystem import UNSCORED
 from schooltool.requirement.interfaces import IEvaluations
@@ -65,6 +74,8 @@ from schooltool.term.interfaces import ITermContainer
 from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
 from schooltool.timetable.interfaces import IScheduleContainer
+from schooltool.timetable.calendar import ScheduleCalendarEvent
+from schooltool.schoolyear.interfaces import ISchoolYearContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
 from schooltool.lyceum.journal.journal import ABSENT, TARDY
@@ -777,7 +788,7 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
     no_periods_text = _("No periods have been assigned in timetables of this section.")
 
     def __init__(self, *args, **kw):
-        self.__grade_cache = {}
+        self._grade_cache = {}
         super(FlourishLyceumSectionJournalBase, self).__init__(*args, **kw)
 
     @property
@@ -910,9 +921,9 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
         return json
 
     def getScores(self, person):
-        if person in self.__grade_cache:
-            return list(self.__grade_cache[person])
-        self.__grade_cache[person] = result = []
+        if person in self._grade_cache:
+            return list(self._grade_cache[person])
+        self._grade_cache[person] = result = []
         unique_meetings = set()
         term = self.selected_term
         calendar = ISchoolToolCalendar(self.context.section)
@@ -2039,3 +2050,480 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
                 })
         return result
 
+
+class FlourishSchoolAttendanceView(flourish.page.Page):
+    content_template = InlineViewPageTemplate('''
+      <div>
+        <tal:block content="structure context/schooltool:content/ajax/table" />
+      </div>
+    ''')
+
+    @Lazy
+    def year(self):
+        year = self.request.get('year', '').strip()
+        if year:
+            try:
+                year = int(year)
+            except ValueError:
+                pass
+        if not year:
+            dateman = getUtility(IDateManager)
+            year = dateman.today.year
+        return year
+
+    @Lazy
+    def month(self):
+        month = self.request.get('month', '').strip()
+        if month:
+            try:
+                month = int(month)
+            except ValueError:
+                pass
+        if not month:
+            dateman = getUtility(IDateManager)
+            month = dateman.today.month
+        return month
+
+    @Lazy
+    def schoolyears(self):
+        years = []
+        for term in self.terms:
+            year = term.__parent__
+            if year not in years:
+                years.append(year)
+        return years
+
+    @Lazy
+    def terms(self):
+        terms = ITermContainer(None, {})
+        selected = set()
+        year = self.year
+        month = self.month
+        for day in filter(None, calendar.Calendar().itermonthdays(year, month)):
+            date = datetime.date(year, month, day)
+            for term in terms.values():
+                if date in term and term not in selected:
+                    selected.add(term)
+        return sorted(selected, key=lambda term: term.first)
+
+    @Lazy
+    def group(self):
+        params = self.request.get('group', '').strip().split('.')
+        if len(params) != 2:
+            return None
+        year_id, group_id = params
+        if year_id not in [year.__name__ for year in self.schoolyears]:
+            return None
+        app = ISchoolToolApplication(None)
+        year = ISchoolYearContainer(app).get(year_id)
+        if year is None:
+            return None
+        group = IGroupContainer(year).get(group_id)
+        return group
+
+    @Lazy
+    def instructor(self):
+        username = self.request.get('instructor', '').strip()
+        app = ISchoolToolApplication(None)
+        return app['persons'].get(username)
+
+
+class AttendanceFilter(table.ajax.IndexedTableFilter):
+
+    def instructorSections(self, instructor, terms):
+        sections = set()
+        for section in Instruction.query(instructor=self.view.instructor):
+            term = ITerm(section)
+            if term not in terms:
+                continue
+            sections.add(section)
+        return sections
+
+    def termSections(self, terms):
+        sections = set()
+        for term in self.view.terms:
+            container = ISectionContainer(term)
+            for section in container.values():
+                if section not in sections:
+                    sections.add(section)
+        return sections
+
+    def availableSections(self):
+        instructor = self.view.instructor
+        terms = set([removeSecurityProxy(term) for term in self.view.terms])
+        if instructor:
+            sections = self.instructorSections(instructor, terms)
+            return sections
+        if terms:
+            sections = self.termSections(terms)
+            return sections
+        return None
+
+    @Lazy
+    def section_student_ids(self):
+        sections = self.availableSections()
+        if sections is None:
+            return None
+        int_ids = getUtility(IIntIds)
+        ids = {}
+        for section in sections:
+            unsecure_section = removeSecurityProxy(section)
+            for person in unsecure_section.members:
+                if person in ids:
+                    continue
+                intid = int_ids.queryId(person, None)
+                if intid is None:
+                    continue
+                ids[person] = intid
+        return set(ids.values())
+
+    def filterBySection(self, items):
+        available_ids = self.section_student_ids
+        if available_ids is None:
+            return items
+        return [item for item in items if item['id'] in available_ids]
+
+    def filterByGroup(self, items):
+        if not self.view.group:
+            return items
+        int_ids = getUtility(IIntIds)
+        group_person_ids = set([
+                int_ids.queryId(person)
+                for person in self.view.group.members
+                ])
+        items = [item for item in items
+                 if item['id'] in group_person_ids]
+        return items
+
+    def filter(self, items):
+        items = self.filterBySection(items)
+        items = self.filterByGroup(items)
+        if self.ignoreRequest:
+            return items
+        return table.ajax.IndexedTableFilter.filter(self, items)
+
+
+class AttendanceTable(table.ajax.IndexedTable):
+
+    no_default_url_cell_formatter = True
+    form_class = 'grid-form'
+    form_id = 'grid-form'
+
+    def columns(self):
+        first_name = table.column.IndexedLocaleAwareGetterColumn(
+            index='first_name',
+            name='first_name',
+            title=_(u'First Name'),
+            getter=lambda i, f: i.first_name,
+            subsort=True)
+        last_name = table.column.IndexedLocaleAwareGetterColumn(
+            index='last_name',
+            name='last_name',
+            title=_(u'Last Name'),
+            getter=lambda i, f: i.last_name,
+            subsort=True)
+        return [first_name, last_name]
+
+    def sortOn(self):
+        return (("last_name", False), ("first_name", False))
+
+
+class AttendanceTableTable(flourish.viewlet.Viewlet):
+
+    template = flourish.templates.HTMLFile('templates/f_school_attendance.pt')
+
+    persons = None
+
+    def extractItems(self):
+        formatter = self.manager.makeFormatter()
+        self.persons = [
+            table.catalog.unindex(item)
+            for item in formatter.getItems()
+            ]
+
+    def render(self, *args, **kw):
+        self.extractItems()
+        return self.template()
+
+
+class FlourishSchoolAttendanceGradebook(flourish.content.ContentProvider,
+                                        FlourishSectionHomeroomAttendance):
+
+    no_periods_text = _("There are no school days this month.")
+
+    def __init__(self, context, request, view):
+        flourish.content.ContentProvider.__init__(self, context, request, view)
+        FlourishSectionHomeroomAttendance.__init__(self, context, request)
+
+    def update(self):
+        app = ISchoolToolApplication(None)
+        self.tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
+        meetings = self.all_meetings
+        if not meetings:
+            self.no_periods = True
+            self.render_journal = False
+            return
+        if 'UPDATE_SUBMIT' in self.request:
+            self.updateGradebook()
+
+    def getSelectedTerm(self):
+        return None
+
+    @Lazy
+    def selected_terms(self):
+        table = self.view
+        return table.view.terms
+
+    @property
+    def selected_year(self):
+        table = self.view
+        return table.view.year
+
+    @property
+    def selected_month(self):
+        table = self.view
+        return table.view.month
+
+    def members(self):
+        return self.view.persons
+
+    def allMeetings(self):
+        terms = removeSecurityProxy(self.selected_terms)
+        if not terms:
+            return ()
+
+        year = self.selected_year
+        month = self.selected_month
+
+        dates = [self.tzinfo.localize(datetime.datetime(year, month, day))
+                 for day in calendar.Calendar().itermonthdays(year, month)
+                 if day]
+
+        meetings = []
+
+        for dt in dates:
+            date = dt.date()
+            for term in terms:
+                if date in term and term.isSchoolday(date):
+                    # meeting duration is not precise - some days are not 24 hours long
+                    meetings.append(
+                        ScheduleCalendarEvent(dt, datetime.timedelta(1), ''))
+        return meetings
+
+    def getScores(self, person):
+        if person in self._grade_cache:
+            return list(self._grade_cache[person])
+        self._grade_cache[person] = result = []
+        unique_meetings = set()
+        terms = self.selected_terms
+        events = list(self.all_meetings)
+        sorted_events = sorted(events, key=lambda e: e.dtstart)
+        unproxied_person = removeSecurityProxy(person)
+        for event in sorted_events:
+            date = event.dtstart.date()
+            if not any([date in term for term in terms]):
+                continue
+            unproxied_event = removeSecurityProxy(event)
+            requirement = self.makeRequirement(unproxied_event)
+            score = IEvaluateRequirement(requirement).getEvaluation(
+                    unproxied_person, requirement, default=UNSCORED)
+            if (event.meeting_id not in unique_meetings and
+                score is not UNSCORED):
+                result.append(score)
+                unique_meetings.add(event.meeting_id)
+        return result
+
+
+class RefineFormManager(flourish.page.ContentViewletManager):
+    template = flourish.templates.Inline("""
+        <form method="get">
+          <tal:block repeat="viewlet view/viewlets">
+            <div class="content"
+                 tal:define="rendered viewlet;
+                             stripped rendered/strip|nothing"
+                 tal:condition="stripped"
+                 tal:content="structure stripped">
+            </div>
+          </tal:block>
+        </form>
+    """)
+
+
+class OptionalViewlet(flourish.viewlet.Viewlet):
+
+    enabled = True
+
+    def render(self, *args, **kw):
+        if not self.enabled:
+            return ''
+        return self.template(*args, **kw)
+
+
+class FlourishSchoolAttendanceDateNavigation(flourish.page.RefineLinksViewlet):
+    """School attendance date navigation viewlet."""
+
+
+class FlourishSchoolAttendanceYearMonthPicker(OptionalViewlet):
+    template = InlineViewPageTemplate('''
+    <select name="year" class="navigator"
+            tal:define="years view/years"
+            tal:condition="years"
+            onchange="$(this).closest('form').submit()">
+      <option tal:repeat="year years"
+              tal:attributes="value year/value;
+                              selected year/selected"
+              tal:content="year/title" />
+    </select>
+    <select name="month" class="navigator"
+            tal:define="months view/months"
+            tal:condition="months"
+            onchange="$(this).closest('form').submit()">
+      <option tal:repeat="month months"
+              tal:attributes="value month/value;
+                              selected month/selected"
+              tal:content="month/title" />
+    </select>
+    ''')
+
+    def years(self):
+        this_year = self.view.year
+        terms = ITermContainer(None)
+        min_year = min([this_year] +
+                       [term.first.year for term in terms.values() if term.first])
+        max_year = max([this_year] +
+                       [term.last.year for term in terms.values() if term.last])
+        years = [{'selected': year == this_year,
+                  'title': str(year),
+                  'value': str(year)}
+                 for year in range(min_year, max_year+1)]
+        return years
+
+    def months(self):
+        this_month = self.view.month
+
+        months = [{'selected': month == this_month,
+                   'title': title,
+                   'value': str(month)}
+                  for month, title in month_names.items()]
+        return months
+
+    def terms(self):
+        return self.view.terms
+
+
+class FlourishSchoolAttendanceTermNavigation(flourish.page.RefineLinksViewlet):
+    """School attendance date navigation viewlet."""
+
+
+class FlourishSchoolAttendanceCurrentTerm(OptionalViewlet):
+    template = InlineViewPageTemplate('''
+    <ul tal:repeat="term view/view/terms">
+      <li i18n:translate="">
+        School year
+        <tal:block i18n:name="schoolyear" content="term/__parent__/@@title" />,
+        term <tal:block i18n:name="term" content="term/@@title" />.
+      </li>
+    </ul>
+    ''')
+
+    @property
+    def enabled(self):
+        return bool(self.view.terms)
+
+
+class FlourishSchoolAttendanceGroupNavigation(flourish.page.RefineLinksViewlet):
+    """School attendance date navigation viewlet."""
+
+
+class FlourishSchoolAttendanceGroupPicker(OptionalViewlet):
+    template = InlineViewPageTemplate('''
+    <select name="group" class="navigator"
+            onchange="$(this).closest('form').submit()">
+      <option i18n:translate="" value="">Everybody</option>
+      <tal:block repeat="year view/groups_by_year">
+        <option disabled="disabled"
+                class="separator"
+                tal:content="year/title" />
+        <option tal:repeat="group year/groups"
+                tal:attributes="value group/value;
+                                selected group/selected"
+                tal:content="group/title" />
+      </tal:block>
+    </select>
+    ''')
+
+    @property
+    def enabled(self):
+        return any([len(year['groups']) for year in self.groups_by_year])
+
+    @Lazy
+    def groups_by_year(self):
+        result = []
+        selected_group = self.view.group
+        selected_key = None
+        if self.view.group:
+            selected_key = '%s.%s' % (
+                ISchoolYear(selected_group.__parent__).__name__,
+                selected_group.__name__)
+
+        collator = ICollator(self.request.locale)
+        for year in self.view.schoolyears:
+            key = lambda g: '%s.%s' % (year.__name__, g.__name__)
+            groups = sorted(IGroupContainer(year).values(),
+                            key=lambda g: collator.key(g.title))
+            result.append({
+                'title': year.title,
+                'groups': [
+                    {'title': group.title,
+                     'value': key(group),
+                     'selected': key(group) == selected_key}
+                    for group in groups],
+                })
+        return result
+
+
+class FlourishSchoolAttendanceInstructorNavigation(flourish.page.RefineLinksViewlet):
+    """School attendance date navigation viewlet."""
+
+
+class FlourishSchoolAttendanceInstructorPicker(OptionalViewlet):
+    template = InlineViewPageTemplate('''
+    <select name="instructor" class="navigator"
+            onchange="$(this).closest('form').submit()">
+      <option i18n:translate="" value="">All instructors</option>
+      <option tal:repeat="instructor view/instructors"
+              tal:attributes="value instructor/value;
+                              selected instructor/selected"
+              tal:content="instructor/title" />
+    </select>
+    ''')
+
+    @property
+    def enabled(self):
+        return len(self.instructors)
+
+    @Lazy
+    def instructors(self):
+        instructors = set()
+        selected_instructor = self.view.instructor
+        selected_username = selected_instructor and selected_instructor.__name__
+
+        for term in self.view.terms:
+            sections = ISectionContainer(term)
+            for section in sections.values():
+                if len(section.members):
+                    instructors.update(section.instructors)
+
+        collator = ICollator(self.request.locale)
+        instructors = sorted(instructors, key=lambda a: collator.key(
+                removeSecurityProxy(a).first_name))
+        instructors.sort(key=lambda a: collator.key(
+                removeSecurityProxy(a).last_name))
+
+        result = [
+            {'title': instructor.title,
+             'value': instructor.__name__,
+             'selected': instructor.__name__ == selected_username,
+             }
+            for instructor in instructors]
+        return result

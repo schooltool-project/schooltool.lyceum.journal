@@ -248,11 +248,9 @@ class SchoolMeetingRequirement(MeetingRequirement):
 
     @classmethod
     def getMeetingParams(cls, meeting):
-        params = MeetingRequirement.getMeetingParams(meeting)
-        requirement_type, date, meeting_id, target_ref = params
-        # XXX: school year?  term?
+        date = meeting.dtstart.date()
         target_ref = IKeyReference(ISchoolToolApplication(None))
-        return (requirement_type, date, None, target_ref)
+        return (cls.requirement_type, date, None, target_ref)
 
 
 class GradeRequirement(MeetingRequirement):

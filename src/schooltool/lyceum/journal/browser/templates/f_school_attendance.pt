@@ -1,0 +1,13 @@
+<tal:block i18n:domain="schooltool.lyceum.journal">
+  <tal:block replace="resource_library:schooltool.lyceum.journal.flourish" />
+  <div style="position:relative"
+       tal:content="structure context/schooltool:content/gradebook-table">
+  </div>
+  <script tal:condition="view/manager/fromPublication">
+    $(document).ready(initGradebook);
+  </script>
+  <input type="hidden" name="year" tal:attributes="value request/year|nothing" />
+  <input type="hidden" name="month" tal:attributes="value request/month|nothing" />
+  <input type="hidden" name="group" tal:attributes="value request/group|nothing" />
+  <input type="hidden" name="instructor" tal:attributes="value request/instructor|nothing" />
+</tal:block>

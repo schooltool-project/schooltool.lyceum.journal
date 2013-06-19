@@ -6,8 +6,64 @@
   <script tal:condition="view/manager/fromPublication">
     $(document).ready(initGradebook);
   </script>
+
   <input type="hidden" name="year" tal:attributes="value request/year|nothing" />
   <input type="hidden" name="month" tal:attributes="value request/month|nothing" />
   <input type="hidden" name="group" tal:attributes="value request/group|nothing" />
   <input type="hidden" name="instructor" tal:attributes="value request/instructor|nothing" />
+
+  <div class="gradebook-controls" id="gradebook-controls">
+    <tal:block define="container_id view/manager/html_id">
+      <div class="buttons">
+        <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save"
+               title="Shortcut: Alt-S" accesskey="S"
+               i18n:attributes="value; title; accesskey" />
+      </div>
+      <script>ST.state.push()</script>
+      <tal:script replace="structure scriptlocal: container_id;
+                                                  batch view/batch" />
+      <script>
+        $('input[name="UPDATE_SUBMIT"]').click(
+          function(){
+            var container_id = ST.local.container_id;
+            var data = new Array();
+            data.push({
+              name: 'start.'+ST.local.batch.postfix,
+              value: ST.local.batch.start
+              });
+            data.push({
+            name: 'size.'+ST.local.batch.postfix,
+            value: ST.local.batch.size
+            });
+            return function(button) {
+              return ST.table.on_form_submit(
+                container_id, 'input[name="UPDATE_SUBMIT"]', data);
+              }
+          }());
+    </script>
+    <script>ST.state.pop()</script>
+    </tal:block>
+    <div class="buttons zoom-buttons">
+      <button type="button" class="button-neutral zoom-button expand"
+              title="Expand" i18n:attributes="title">
+        <span class="ui-icon ui-icon-arrowthick-1-w"></span>
+      </button>
+      <button type="button" class="button-neutral zoom-button collapse"
+              title="Collapse" i18n:attributes="title">
+        <span class="ui-icon ui-icon-arrowthick-1-e"></span>
+      </button>
+      <button type="button" class="button-neutral zoom-button zoom-out"
+              title="Zoom Out" i18n:attributes="title">
+        <span class="ui-icon ui-icon-zoomout"></span>
+      </button>
+      <button type="button" class="button-neutral zoom-button zoom-normal"
+              title="Zoom Normal" i18n:attributes="title">
+        <span class="ui-icon ui-icon-search"></span>
+      </button>
+      <button type="button" class="button-neutral zoom-button zoom-in"
+              title="Zoom In" i18n:attributes="title">
+        <span class="ui-icon ui-icon-zoomin"></span>
+      </button>
+    </div>
+  </div>
 </tal:block>

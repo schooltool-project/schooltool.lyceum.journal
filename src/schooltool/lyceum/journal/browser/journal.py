@@ -2253,6 +2253,17 @@ class AttendanceTableTable(flourish.viewlet.Viewlet):
         self.extractItems()
         return self.template()
 
+    @Lazy
+    def batch(self):
+        params = {'start': None,
+                  'size': None,
+                  'postfix': self.manager.__name__}
+        batch = self.manager.get('batch')
+        if batch is not None:
+            params['start'] = getattr(batch, 'start', None)
+            params['size'] = getattr(batch, 'size', None)
+        return params
+
 
 class FlourishSchoolAttendanceGradebook(flourish.content.ContentProvider,
                                         FlourishSectionHomeroomAttendance):

@@ -36,6 +36,7 @@ from schooltool.course.interfaces import ISectionContainer
 from schooltool.schoolyear.interfaces import ISchoolYearContainer
 from schooltool.lyceum.journal.journal import AttendanceRequirement
 from schooltool.lyceum.journal.journal import GradeRequirement
+from schooltool.lyceum.journal.journal import JournalScoresystemsStartup
 from schooltool.term.interfaces import ITermContainer
 
 
@@ -95,7 +96,35 @@ def findMeeting(calendar, date, meeting_id, guessmap):
     return
 
 
+def getAttendanceScores(app):
+    ss_prefs = app['schooltool.lyceum.journal-ss-prefs']
+    absent_score = None
+    scores = sorted(set(ss_prefs.attendance_scoresystem.tag_absent).difference(
+            ss_prefs.attendance_scoresystem.tag_excused))
+    if scores:
+        absent_score = scores[0]
+    else:
+        scores = sorted(ss_prefs.attendance_scoresystem.tag_absent)
+        if scores:
+            absent_score = scores[0]
+    tardy_score = None
+    scores = sorted(set(ss_prefs.attendance_scoresystem.tag_tardy).difference(
+            ss_prefs.attendance_scoresystem.tag_excused))
+    if scores:
+        tardy_score = scores[0]
+    else:
+        scores = sorted(ss_prefs.attendance_scoresystem.tag_tardy)
+        if scores:
+            tardy_score = scores[0]
+    attendance_scores = dict.fromkeys(('n', 'N', 'a', 'A'), absent_score)
+    attendance_scores.update(dict.fromkeys(('p', 'P', 't', 'T'), tardy_score))
+    return attendance_scores
+
+
 def evolveJournal(app, journal):
+    ss_prefs = app['schooltool.lyceum.journal-ss-prefs']
+    attendance_scores = getAttendanceScores(app)
+
     persons = app['persons']
     calendar = ISchoolToolCalendar(journal.section)
     meeting_guessmap = {}
@@ -117,13 +146,19 @@ def evolveJournal(app, journal):
                     raise Exception('No meeting %s found in calendar' % meeting_id)
 
                 entry = entries.pop(0)
-                if entry in ('n', 'p', 'N', 'P', 'a', 't', 'A', 'T'):
-                    requirement = AttendanceRequirement(meeting)
-                    journal.evaluate(student, requirement, entry, evaluator=None)
+                if entry in attendance_scores:
+                    requirement = AttendanceRequirement(
+                        meeting, ss_prefs.attendance_scoresystem)
+                    journal.evaluate(student, requirement,
+                                     attendance_scores[entry],
+                                     evaluator=None)
                     last_requirement = requirement
                 elif entry:
-                    requirement = GradeRequirement(meeting)
-                    journal.evaluate(student, requirement, entry, evaluator=None)
+                    requirement = GradeRequirement(
+                        meeting, ss_prefs.grading_scoresystem)
+                    journal.evaluate(student, requirement,
+                                     entry,
+                                     evaluator=None)
                     last_requirement = requirement
                 elif last_requirement is not None:
                     journal.evaluate(student, last_requirement, '', evaluator=None)
@@ -138,9 +173,11 @@ def evolve(context):
     root = context.connection.root().get(ZopePublication.root_name, None)
 
     old_site = getSite()
-    apps = findObjectsProviding(root, ISchoolToolApplication)
+    apps = list(findObjectsProviding(root, ISchoolToolApplication))
     for app in apps:
         setSite(app)
+        # Initialize score systems
+        JournalScoresystemsStartup(app)()
         journals = iterJournals(app)
         for journal in journals:
             evolveJournal(app, journal)

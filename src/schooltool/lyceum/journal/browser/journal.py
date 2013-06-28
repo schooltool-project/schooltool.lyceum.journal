@@ -43,11 +43,16 @@ from zope.i18n.interfaces.locales import ICollator
 from zope.interface import implements
 from zope.intid.interfaces import IIntIds
 from zope.traversing.browser.absoluteurl import absoluteURL
+from zope.cachedescriptors.property import Lazy
 from zope.component import getUtility, queryMultiAdapter
+from zope.publisher.browser import BrowserView
+from zope.container.interfaces import INameChooser
 
+import z3c.form.field
+import z3c.form.form
+import z3c.form.button
 from zc.table.column import GetterColumn
 from zc.table.interfaces import IColumn
-from zope.cachedescriptors.property import Lazy
 
 from schooltool.skin import flourish
 from schooltool import table
@@ -79,17 +84,18 @@ from schooltool.timetable.calendar import ScheduleCalendarEvent
 from schooltool.schoolyear.interfaces import ISchoolYearContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 
-from schooltool.lyceum.journal.journal import ABSENT, TARDY
 from schooltool.lyceum.journal.journal import getCurrentSectionTaught
 from schooltool.lyceum.journal.journal import setCurrentSectionTaught
 from schooltool.lyceum.journal.journal import JournalXLSReportTask
-from schooltool.lyceum.journal.journal import JournalAbsenceScoreSystem
+from schooltool.lyceum.journal.journal import PersistentAttendanceScoreSystem
 from schooltool.lyceum.journal.journal import GradeRequirement
 from schooltool.lyceum.journal.journal import AttendanceRequirement
 from schooltool.lyceum.journal.journal import HomeroomRequirement
+from schooltool.lyceum.journal.interfaces import IAttendanceScoreSystem
 from schooltool.lyceum.journal.interfaces import IEvaluateRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
+from schooltool.lyceum.journal.interfaces import IJournalScoresystemPreferences
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
@@ -102,12 +108,6 @@ ABSENT_LETTER = translate(_(u"Single letter that represents an absent mark for a
                            default='a'))
 TARDY_LETTER = translate(_(u"Single letter that represents an tardy mark for a student",
                           default='t'))
-
-ATTENDANCE_DATA_TO_TRANSLATION = {ABSENT: ABSENT_LETTER,
-                                  TARDY:  TARDY_LETTER}
-ATTENDANCE_TRANSLATION_TO_DATA = {ABSENT_LETTER: ABSENT,
-                                  TARDY_LETTER:  TARDY}
-
 
 JournalCSSViewlet = CSSViewlet("journal.css")
 
@@ -186,7 +186,7 @@ class GradesColumn(object):
             # This is not a correct way, as this looses score system info
             if (meeting.dtstart.date() in self.term and
                 score.value is not UNSCORED):
-                grades.append(score.value)
+                grades.append(score)
         return grades
 
     def getAbsences(self, person):
@@ -195,7 +195,7 @@ class GradesColumn(object):
         for meeting, score in self.journal.absentMeetings(person):
             if (meeting.dtstart.date() in self.term and
                 score.value is not UNSCORED):
-                grades.append(score.value)
+                grades.append(score)
         return grades
 
 
@@ -267,7 +267,7 @@ class PersonGradesColumn(GradesColumn):
             grade = self.journal.getGrade(item, self.meeting, grade)
             if grade is UNSCORED:
                 grade = ''
-            return ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+            return grade
         return "X"
 
     def hasMeeting(self, item):
@@ -305,7 +305,8 @@ class SectionTermGradesColumn(GradesColumn):
 
     def renderCell(self, person, formatter):
         grades = []
-        for grade in self.getGrades(person):
+        for score in self.getGrades(person):
+            grade = score.value
             if grade is UNSCORED:
                 continue
             try:
@@ -332,7 +333,8 @@ class SectionTermAverageGradesColumn(GradesColumn):
 
     def renderCell(self, person, formatter):
         grades = []
-        for grade in self.getGrades(person):
+        for score in self.getGrades(person):
+            grade = score.value
             if grade is UNSCORED:
                 continue
             try:
@@ -360,10 +362,11 @@ class SectionTermAttendanceColumn(GradesColumn):
 
     def renderCell(self, person, formatter):
         absences = 0
-        for grade in self.getAbsences(person):
-            if (grade.strip().lower() == ABSENT):
+        for score in self.getAbsences(person):
+            if (IAttendanceScoreSystem.providedBy(score.scoreSystem) and
+                score.value is not UNSCORED and
+                score.value in score.scoreSystem.tag_absent):
                 absences += 1
-
         if absences == 0:
             return ""
         else:
@@ -384,10 +387,11 @@ class SectionTermTardiesColumn(GradesColumn):
 
     def renderCell(self, person, formatter):
         tardies = 0
-        for grade in self.getAbsences(person):
-            if (grade.strip().lower() == TARDY):
+        for score in self.getAbsences(person):
+            if (IAttendanceScoreSystem.providedBy(score.scoreSystem) and
+                score.value is not UNSCORED and
+                score.value in score.scoreSystem.tag_tardy):
                 tardies += 1
-
         if tardies == 0:
             return ""
         else:
@@ -395,6 +399,38 @@ class SectionTermTardiesColumn(GradesColumn):
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Tardies"),
+                                             context=formatter.request)
+
+class SectionTermExcusedColumn(GradesColumn):
+    implements(IColumn)
+
+    def __init__(self, journal, term):
+        self.term = term
+        self.name = term.__name__ + "excused"
+        self.journal = journal
+
+    def renderCell(self, person, formatter):
+        excusable = 0
+        excused = 0
+        for score in self.getAbsences(person):
+            if (score.value is UNSCORED or
+                not IAttendanceScoreSystem.providedBy(score.scoreSystem)):
+                continue
+            value = score.value
+            ss = score.scoreSystem
+            if (value in ss.tag_absent or
+                value in ss.tag_tardy or
+                value in ss.tag_excused):
+                excusable += 1
+            if value in ss.tag_excused:
+                excused += 1
+        if excusable == 0:
+            return ""
+        else:
+            return "%d / %d" % (excusable, excused)
+
+    def renderHeader(self, formatter):
+        return '<span>%s</span>' % translate(_("Excused"),
                                              context=formatter.request)
 
 def journal_grades():
@@ -543,7 +579,6 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 cell_id = "%s.%s" % (person.__name__, meeting.__name__)
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
-                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value, cell_value)
                     try:
                         self.context.setGrade(
                             person, meeting, cell_value, evaluator=evaluator)
@@ -566,6 +601,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         columns.append(SectionTermAttendanceColumn(self.context,
                                                    self.selected_term))
         columns.append(SectionTermTardiesColumn(self.context,
+                                                self.selected_term))
+        columns.append(SectionTermExcusedColumn(self.context,
                                                 self.selected_term))
         return columns
 
@@ -698,7 +735,6 @@ class SectionJournalAjaxView(BrowserView):
             raise UserError('Person was invalid!')
         meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
         grade = self.request['grade']
-        grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade, grade)
         evaluator = getEvaluator(self.request)
         try:
             self.context.setGrade(person, meeting, grade, evaluator=evaluator)
@@ -965,10 +1001,15 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                 return _('No periods assigned for this section')
 
     def getDefaultScoreSystem(self):
+        prefs = IJournalScoresystemPreferences(self.context)
+        ss = prefs.grading_scoresystem
+        if ss is not None:
+            return ss
         return GradeRequirement.score_system
 
     def makeRequirement(self, meeting):
-        return GradeRequirement(meeting)
+        ss = self.getDefaultScoreSystem()
+        return GradeRequirement(meeting, ss)
 
     def updateGradebook(self):
         evaluator = getEvaluator(self.request)
@@ -1075,10 +1116,15 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 return _('No periods assigned for this section')
 
     def getDefaultScoreSystem(self):
+        prefs = IJournalScoresystemPreferences(self.context)
+        ss = prefs.attendance_scoresystem
+        if ss is not None:
+            return ss
         return AttendanceRequirement.score_system
 
     def makeRequirement(self, meeting):
-        return AttendanceRequirement(meeting)
+        ss = self.getDefaultScoreSystem()
+        return AttendanceRequirement(meeting, ss)
 
     def table(self):
         result = []
@@ -1092,7 +1138,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                     person, requirement, default=UNSCORED)
                 grade = score.value
                 if grade is not UNSCORED:
-                    value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
+                    value = grade
                 else:
                     value = ''
                 grade_data = {
@@ -1104,6 +1150,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 grades.append(grade_data)
             if flourish.canView(person):
                 person = removeSecurityProxy(person)
+            excused, excusable = self.excused(person)
             result.append(
                 {'student': {'title': person.title,
                              'id': person.username,
@@ -1112,6 +1159,11 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                  'grades': grades,
                  'absences': self.absences(person),
                  'tardies': self.tardies(person),
+                 'excused': (
+                        '%s / %s' % (excused, excusable)
+                        if excusable
+                        else ''),
+                 'unexcused': excused - excusable if excusable else 1,
                 })
         self.sortBy = self.request.get('sort_by')
         return sorted(result, key=self.sortKey)
@@ -1123,6 +1175,8 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             return (int(row['absences']), row['student']['sortKey'])
         elif self.sortBy == 'tardies':
             return (int(row['tardies']), row['student']['sortKey'])
+        elif self.sortBy == 'excused':
+            return (row['unexcused'], row['student']['sortKey'])
         else:
             grades = dict([(grade['sortKey'], grade['value'])
                           for grade in row['grades']])
@@ -1133,13 +1187,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 try:
                     grade = int(grade)
                 except (ValueError,):
-                    grade = ATTENDANCE_TRANSLATION_TO_DATA.get(grade)
-                    if grade == ABSENT:
                         return (1, row['student']['sortKey'])
-                    elif grade == TARDY:
-                        return (2, row['student']['sortKey'])
-                    else:
-                        return (3, row['student']['sortKey'])
                 return (0, grade, row['student']['sortKey'])
             else:
                 return (1, row['student']['sortKey'])
@@ -1147,7 +1195,9 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
     def absences(self, person):
         absences = 0
         for score in self.getScores(person):
-            if (score.value == ABSENT):
+            if (score.value is not UNSCORED and
+                IAttendanceScoreSystem.providedBy(score.scoreSystem) and
+                score.value in score.scoreSystem.tag_absent):
                 absences += 1
         if absences == 0:
             return "0"
@@ -1157,13 +1207,33 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
     def tardies(self, person):
         tardies = 0
         for score in self.getScores(person):
-            if (score.value == TARDY):
+            if (score.value is not UNSCORED and
+                IAttendanceScoreSystem.providedBy(score.scoreSystem) and
+                score.value in score.scoreSystem.tag_tardy):
                 tardies += 1
-
         if tardies == 0:
             return "0"
         else:
             return str(tardies)
+
+    def excused(self, person):
+        excusable = 0
+        excused = 0
+        for score in self.getScores(person):
+            if (score.value is UNSCORED or
+                not IAttendanceScoreSystem.providedBy(score.scoreSystem)):
+                continue
+            ss = score.scoreSystem
+            value = score.value
+            if (value in ss.tag_absent or
+                value in ss.tag_tardy or
+                value in ss.tag_excused):
+                excusable += 1
+            if value in ss.tag_excused:
+                excused += 1
+        if not excusable:
+            return 0, 0
+        return excused, excusable
 
     def updateGradebook(self):
         evaluator = getEvaluator(self.request)
@@ -1173,8 +1243,6 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 cell_id = "%s_%s" % (meeting.__name__, person.__name__)
                 cell_value = self.request.get(cell_id, None)
                 if cell_value is not None:
-                    cell_value = ATTENDANCE_TRANSLATION_TO_DATA.get(cell_value,
-                                                                    cell_value)
                     requirement = self.makeRequirement(removeSecurityProxy(meeting))
                     try:
                         IEvaluateRequirement(requirement).evaluate(
@@ -1186,7 +1254,6 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
     def validate_score(self, activity_id=None, score=None):
         if score is None:
             score = self.request.get('score')
-        score = ATTENDANCE_TRANSLATION_TO_DATA.get(score, score)
         return FlourishLyceumSectionJournalBase.validate_score(
             self, activity_id=activity_id, score=score)
 
@@ -1206,10 +1273,15 @@ class FlourishSectionHomeroomAttendance(FlourishLyceumSectionJournalAttendance):
         return False
 
     def getDefaultScoreSystem(self):
+        prefs = IJournalScoresystemPreferences(self.context)
+        ss = prefs.attendance_scoresystem
+        if ss is not None:
+            return ss
         return HomeroomRequirement.score_system
 
     def makeRequirement(self, meeting):
-        return HomeroomRequirement(meeting)
+        ss = self.getDefaultScoreSystem()
+        return HomeroomRequirement(meeting, ss)
 
 
 class JournalTertiaryNavigationManager(flourish.page.TertiaryNavigationManager):
@@ -1432,7 +1504,7 @@ class FlourishJournalHelpView(flourish.form.Dialog):
     def updateDialog(self):
         # XXX: fix the width of dialog content in css
         if self.ajax_settings['dialog'] != 'close':
-            self.ajax_settings['dialog']['width'] = 144 + 16
+            self.ajax_settings['dialog']['width'] = 192 + 16
 
     def initDialog(self):
         self.ajax_settings['dialog'] = {
@@ -1452,11 +1524,19 @@ class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
     def getLegendItems(self):
         score_system = self.context
         for grade, title in score_system.values:
-            translated = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
-            valid_grades = set([grade.lower(), grade.upper(),
-                                translated.lower(), translated.upper()])
-            yield {'value': ', '.join(sorted(valid_grades)),
-                   'description': title}
+            meaning = []
+            if grade in score_system.tag_absent:
+                meaning.append(translate(_('Absent'), self.request))
+            if grade in score_system.tag_tardy:
+                meaning.append(translate(_('Tardy'), self.request))
+            if not meaning:
+                meaning.append(translate(_('Present'), self.request))
+            if grade in score_system.tag_excused:
+                meaning.append(translate(_('Excused'), self.request))
+            yield {'value': grade,
+                   'description': title,
+                   'meaning': ', '.join(meaning)
+                   }
 
 
 class RangedScoreSystemLegend(flourish.content.ContentProvider):
@@ -1605,6 +1685,7 @@ class FlourishTotalPopupMenuView(flourish.content.ContentProvider):
         'average': _('Ave.'),
         'tardies': _('Trd.'),
         'absences': _('Abs.'),
+        'excused': _('Unexc.'),
         }
 
     def translate(self, message):
@@ -1958,13 +2039,12 @@ class SectionJournalAttendanceHistory(SectionJournalGradeHistory):
         if (score is None or score.value is UNSCORED):
             return ''
         grade = score.value
-        value = ATTENDANCE_DATA_TO_TRANSLATION.get(grade, grade)
-        if isinstance(requirement.score_system, JournalAbsenceScoreSystem):
+        if IAttendanceScoreSystem.providedBy(requirement.score_system):
             description = dict(requirement.score_system.values).get(grade, u'')
         else:
             description = ''
         result = ' - '.join([translate(i, self.request)
-                             for i in (value, description)])
+                             for i in (grade, description)])
         return result
 
 
@@ -2000,12 +2080,26 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
             grade = section_journal_data.getGrade(person, event)
             yield event, grade
 
-    @property
-    def absences(self):
+    def getEventAttendanceScores(self, section):
+        person = self.person
+        if person is None:
+            return
+        default = object()
+        for event in ISchoolToolCalendar(section):
+            requirement = AttendanceRequirement(removeSecurityProxy(event))
+            score = self.getEvaluation(person, requirement, default=default)
+            if (score is default or
+                score is UNSCORED or
+                score.value is UNSCORED):
+                continue
+            yield event, score
+
+    def collectAttendance(self, tag_name):
         days = {}
         for term, section in self.sections:
-            for event, grade in self.getEventGrades(section):
-                if grade != ABSENT:
+            for event, score in self.getEventAttendanceScores(section):
+                if (not IAttendanceScoreSystem.providedBy(score.scoreSystem) or
+                    score.value not in getattr(score.scoreSystem, tag_name)):
                     continue
                 days.setdefault(event.dtstart.date(), []).append(
                     (event.dtstart, event.period.title))
@@ -2017,21 +2111,15 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
                 })
         return result
 
+
+    @property
+    def absences(self):
+        result = self.collectAttendance('tag_absent')
+        return result
+
     @property
     def tardies(self):
-        days = {}
-        for term, section in self.sections:
-            for event, grade in self.getEventGrades(section):
-                if grade != TARDY:
-                    continue
-                days.setdefault(event.dtstart.date(), []).append(
-                    (event.dtstart, event.period.title))
-        result = []
-        for day, periods in sorted(days.items()):
-            result.append({
-                'day': day,
-                'period': ', '.join([period for dt, period in sorted(periods)]),
-                })
+        result = self.collectAttendance('tag_tardy')
         return result
 
     @property
@@ -2377,7 +2465,6 @@ class FlourishAttendanceValidateScoreView(flourish.ajax.AJAXPart):
 
     def validate_score(self):
         score = self.request.get('score')
-        score = ATTENDANCE_TRANSLATION_TO_DATA.get(score, score)
         result = {'is_valid': True,
                   'is_extracredit': False}
         requirement = self.requirement
@@ -2581,3 +2668,196 @@ class FlourishSchoolAttendanceInstructorPicker(OptionalViewlet):
              }
             for instructor in instructors]
         return result
+
+
+class SSValidationError(Exception):
+
+    message = None
+
+    def __init__(self, msg):
+        self.message = msg
+        Exception.__init__(self)
+
+
+class FlourishAttendanceScoresystemAddView(BrowserView):
+    """A view for adding a custom score system"""
+
+    def update(self):
+        self.message = ''
+        if 'form-submitted' in self.request:
+            if 'CANCEL' in self.request:
+                self.request.response.redirect(self.nextURL())
+
+            try:
+                self.validateForm()
+            except SSValidationError, e:
+                self.message = e.message
+                return
+
+            if 'UPDATE_SUBMIT' in self.request:
+                try:
+                    self.validateScores()
+                except SSValidationError, e:
+                    self.message = e.message
+                    return
+                target = PersistentAttendanceScoreSystem(self.validTitle)
+                self.updateScoreSystem(target)
+                self.addScoreSystem(target)
+                self.request.response.redirect(self.nextURL())
+
+    def addScoreSystem(self, target):
+        chooser = INameChooser(self.context)
+        name = chooser.chooseName(target.title, target)
+        self.context[name] = target
+
+    def nextURL(self):
+        return absoluteURL(self.context, self.request)
+
+    def scores(self):
+        rownum = 1
+        results = []
+        for value, title, absence, excused in self.getRequestScores():
+            results.append(self.buildScoreRow(rownum, value, title, absence, excused))
+            rownum += 1
+        results.append(self.buildScoreRow(rownum, '', '', '', ''))
+        return results
+
+    def buildScoreRow(self, rownum, value, title, absence, excused):
+        return {
+            'value_name': 'value' + unicode(rownum),
+            'value': value,
+            'title_name': 'title' + unicode(rownum),
+            'title_value': title,
+            'absence_name': 'absence' + unicode(rownum),
+            'present': not absence and 'selected',
+            'absent': absence == 'a' and 'selected',
+            'tardy': absence == 't' and 'selected',
+            'excused_name': 'excused' + unicode(rownum),
+            'excused': excused and 'checked',
+            }
+
+    def getRequestScores(self):
+        rownum = 0
+        results = []
+        while True:
+            rownum += 1
+            value_name = 'value' + unicode(rownum)
+            title_name = 'title' + unicode(rownum)
+            absence_name = 'absence' + unicode(rownum)
+            excused_name = 'excused' + unicode(rownum)
+            if value_name not in self.request:
+                break
+            if not len(self.request[value_name]):
+                continue
+            results.append((self.request[value_name],
+                            self.request[title_name],
+                            self.request[absence_name],
+                            bool(self.request.get(excused_name))))
+        return results
+
+    def validateForm(self):
+        title = self.request.get('title', '').strip()
+        if not len(title):
+            raise SSValidationError(_('The title field must not be empty'))
+        self.validTitle = title
+
+        scores = []
+        for value, title, absence, excused in self.getRequestScores():
+            value = value.strip().lower()
+            title = title.strip()
+            scores.append([value, title, absence, excused])
+        self.validScores = scores
+
+    def validateScores(self):
+        if len(self.validScores) < 1:
+            raise SSValidationError(_('A score system must have at least one value.'))
+
+        all_values = set()
+        all_titles = set()
+        for value, title, absence, excused in self.validScores:
+            if value in all_values:
+                raise SSValidationError(_('Duplicate value: ${value}',
+                                          mapping={'value': value}))
+            all_values.add(value)
+            if not title.strip():
+                raise SSValidationError(_('Title required for: ${value}',
+                                          mapping={'value': value}))
+            if title in all_titles:
+                raise SSValidationError(_('Duplicate title: ${title}',
+                                          mapping={'title': title}))
+            all_titles.add(title)
+
+    def updateScoreSystem(self, target):
+        target.values = tuple([(s[0], s[1]) for s in self.validScores])
+        target.tag_absent = tuple([s[0] for s in self.validScores if s[2] == 'a'])
+        target.tag_tardy = tuple([s[0] for s in self.validScores if s[2] == 't'])
+        target.tag_excused = tuple([s[0] for s in self.validScores if s[3]])
+
+
+class FlourishAttendanceScoresystemView(BrowserView):
+    """A view for adding a custom score system"""
+
+    @property
+    def subtitle(self):
+        return self.scoresystem.title
+
+    @property
+    def scoresystem(self):
+        return self.context
+
+    def scores(self):
+        scoresystem = self.scoresystem
+        results = []
+        for score in self.context.values:
+            tags = []
+            value = score[0]
+            if value in scoresystem.tag_absent:
+                tags.append(_('absent'))
+            if value in scoresystem.tag_tardy:
+                tags.append(_('tardy'))
+            if not tags:
+                tags.append(_('present'))
+            if value in scoresystem.tag_excused:
+                tags.append(_('excused'))
+            tags = ', '.join([translate(t, self.request)
+                              for t in tags])
+            results.append({
+                    'value': score[0],
+                    'description': score[1],
+                    'tags': tags,
+                    })
+        return results
+
+    def done_link(self):
+        return absoluteURL(self.context.__parent__, self.request)
+
+
+class EditDefaultJournalScoresystems(flourish.form.Form, z3c.form.form.EditForm):
+
+    fields = z3c.form.field.Fields(IJournalScoresystemPreferences)
+
+    legend = _('Customize')
+
+    def updateActions(self):
+        super(EditDefaultJournalScoresystems, self).updateActions()
+        self.actions['apply'].addClass('button-ok')
+        self.actions['cancel'].addClass('button-cancel')
+
+    @z3c.form.button.buttonAndHandler(_('Done'), name="apply")
+    def handle_apply_action(self, action):
+        super(EditDefaultJournalScoresystems,self).handleApply.func(self, action)
+        if (self.status == self.successMessage or
+            self.status == self.noChangesMessage):
+            self.request.response.redirect(self.nextURL())
+
+    @z3c.form.button.buttonAndHandler(_('Cancel'))
+    def handle_cancel_action(self, action):
+        self.request.response.redirect(self.nextURL())
+
+    def nextURL(self):
+        return absoluteURL(self.context, self.request)
+
+    def getContent(self):
+        app = ISchoolToolApplication(None)
+        prefs = IJournalScoresystemPreferences(app)
+        return prefs

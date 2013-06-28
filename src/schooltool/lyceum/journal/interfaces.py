@@ -19,9 +19,14 @@
 """
 Lyceum journal interfaces.
 """
+import zope.schema
 from zope.interface import Interface
 from zope.interface import Attribute
 from zope.location.interfaces import ILocation
+
+from schooltool.requirement.interfaces import IScoreSystem
+
+from schooltool.lyceum.journal import LyceumMessage as _
 
 
 class IEvaluateRequirement(Interface):
@@ -93,3 +98,60 @@ class ISectionJournal(ILocation):
         goes through all their calendars to find the meeting.
         """
 
+
+class IAttendanceScoreSystem(IScoreSystem):
+
+    values = zope.schema.List(
+        title=u'All values',
+        description=u'(score, label)',
+        value_type=zope.schema.Tuple(),
+        required=True)
+
+    tag_absent = zope.schema.List(
+        title=u'Absence scores',
+        value_type=zope.schema.TextLine(),
+        required=True)
+
+    tag_tardy = zope.schema.List(
+        title=u'Tardy scores',
+        value_type=zope.schema.TextLine(),
+        required=True)
+
+    tag_excused = zope.schema.List(
+        title=u'Excused scores',
+        value_type=zope.schema.TextLine(),
+        required=True)
+
+    def isAbsent(score):
+        pass
+
+    def isTardy(score):
+        pass
+
+    def isExcused(score):
+        pass
+
+
+class IPersistentAttendanceScoreSystem(IAttendanceScoreSystem):
+
+    hidden = zope.schema.Bool(
+        title=u"Hidden Score System",
+        required=False
+        )
+
+
+class IJournalScoresystemPreferences(Interface):
+
+    grading_scoresystem = zope.schema.Choice(
+        title=_("Grading scoresystem"),
+        vocabulary="schooltool.lyceum.journal-grading-scoresystems",
+        required=True)
+
+    attendance_scoresystem = zope.schema.Choice(
+        title=_("Atttendance scoresystem"),
+        vocabulary="schooltool.lyceum.journal-attendance-scoresystems",
+        required=True)
+
+
+class IAvailableScoresystems(Interface):
+    """A marker interface to get a list of available scoresystems."""

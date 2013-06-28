@@ -216,7 +216,7 @@
 
   <flourish:content
       name="legend"
-      for="schooltool.lyceum.journal.journal.GlobalAbsenceScoreSystem"
+      for="schooltool.lyceum.journal.interfaces.IAttendanceScoreSystem"
       class=".journal.AbsenceScoreSystemLegend"
       template="templates/f_journal_absence_legend.pt"
       permission="schooltool.view"
@@ -224,7 +224,7 @@
 
   <flourish:content
       name="legend"
-      for="schooltool.lyceum.journal.journal.GlobalJournalRangedValuesScoreSystem"
+      for="schooltool.requirement.interfaces.IRangedValuesScoreSystem"
       class=".journal.RangedScoreSystemLegend"
       template="templates/f_journal_grades_legend.pt"
       permission="schooltool.view"
@@ -527,5 +527,52 @@
       manager=".journal.FlourishSchoolAttendanceInstructorNavigation"
       permission="schooltool.edit"
       />
+
+  <flourish:page
+      name="add_attendance.html"
+      for="schooltool.requirement.interfaces.IScoreSystemContainer"
+      class=".journal.FlourishAttendanceScoresystemAddView"
+      title="Score Systems"
+      subtitle="Add Attendance Score System"
+      content_template="templates/f_attendance_ss_add.pt"
+      permission="schooltool.edit"
+      />
+
+  <flourish:viewlet
+      name="add_attendance.html"
+      manager="schooltool.requirement.browser.scoresystem.FlourishScoreSystemContainerLinks"
+      class="schooltool.skin.flourish.page.LinkViewlet"
+      title="Attendance System"
+      permission="schooltool.edit"
+      />
+
+  <flourish:page
+      name="index.html"
+      for="schooltool.lyceum.journal.interfaces.IAttendanceScoreSystem"
+      class=".journal.FlourishAttendanceScoresystemView"
+      title="Score Systems"
+      content_template="templates/f_attendance_ss_view.pt"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="journal_defaults.html"
+      manager="schooltool.requirement.browser.scoresystem.FlourishScoreSystemContainerCustomizeLinks"
+      class="schooltool.skin.flourish.page.LinkViewlet"
+      title="Journal Scoresystems"
+      permission="schooltool.edit"
+      />
+
+  <configure package="schooltool.skin.flourish">
+    <flourish:page
+        name="journal_defaults.html"
+        for="schooltool.requirement.interfaces.IScoreSystemContainer"
+        class="schooltool.lyceum.journal.browser.journal.EditDefaultJournalScoresystems"
+        content_template="templates/z3c-schooltool-form.pt"
+        title="Journal"
+        subtitle="Score Systems"
+        permission="schooltool.edit"
+        />
+  </configure>
 
 </configure>

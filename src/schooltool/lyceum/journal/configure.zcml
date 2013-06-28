@@ -74,6 +74,53 @@
              set_schema="schooltool.report.interfaces.IReportTask" />
   </class>
 
+  <class class=".journal.AttendanceScoreSystem">
+    <require
+        permission="zope.View"
+        interface=".interfaces.IAttendanceScoreSystem"
+        />
+    <require
+        permission="schooltool.edit"
+        set_schema=".interfaces.IAttendanceScoreSystem"
+        />
+  </class>
+
+  <class class=".journal.PersistentAttendanceScoreSystem">
+    <require
+        permission="zope.View"
+        interface=".interfaces.IPersistentAttendanceScoreSystem"
+        />
+    <require
+        permission="schooltool.edit"
+        set_schema=".interfaces.IPersistentAttendanceScoreSystem"
+        />
+  </class>
+
+  <adapter
+      factory=".journal.JournalScoresystemsStartup"
+      name="schooltool.lyceum.journal-ss-prefs" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getScoreSystemPreferences" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getJournalGradingScoresystems"
+      name="grading" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getJournalAttendanceScoresystems"
+      name="attendance" />
+
+  <utility
+     factory=".journal.journalgradingchoicesfactory"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     name="schooltool.lyceum.journal-grading-scoresystems" />
+
+  <utility
+     factory=".journal.journalattendancechoicesfactory"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     name="schooltool.lyceum.journal-attendance-scoresystems" />
+
   <include package="schooltool.lyceum.journal.browser" />
 
   <!-- Generations -->

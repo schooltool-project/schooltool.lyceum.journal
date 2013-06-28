@@ -5,12 +5,14 @@
     <thead>
       <tr>
         <th colspan="2" tal:content="context/title"></th>
+        <th i18n:translate="">Report as</th>
       </tr>
     </thead>
     <tbody>
       <tr tal:repeat="item view/getLegendItems">
         <td tal:content="item/value" />
         <td tal:content="item/description" />
+        <td tal:content="item/meaning" />
       </tr>
     </tbody>
   </table>

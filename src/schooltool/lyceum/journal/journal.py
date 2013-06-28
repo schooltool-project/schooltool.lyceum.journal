@@ -23,16 +23,23 @@ from BTrees.OOBTree import OOBTree
 from decimal import Decimal
 from persistent import Persistent
 
+import zope.schema
+import zope.schema.interfaces
+import zope.schema.vocabulary
+import z3c.form.widget
 from zope.annotation.interfaces import IAnnotations
 from zope.security.proxy import removeSecurityProxy
 from zope.intid.interfaces import IIntIds
 from zope.container.btree import BTreeContainer
+from zope.container.interfaces import INameChooser
 from zope.cachedescriptors.property import Lazy
 from zope.component import getUtility
 from zope.component import adapter
 from zope.component import adapts
+from zope.component import queryMultiAdapter
 from zope.interface import implementer
 from zope.interface import implements
+from zope.interface import Interface
 from zope.keyreference.interfaces import IKeyReference
 from zope.location.interfaces import ILocation
 
@@ -44,17 +51,24 @@ from schooltool.course.interfaces import IInstructor
 from schooltool.course.interfaces import ISection
 from schooltool.export.export import XLSReportTask
 from schooltool.person.interfaces import IPerson
+from schooltool.requirement.interfaces import IPersistentRangedValuesScoreSystem
 from schooltool.requirement.interfaces import IEvaluations
 from schooltool.requirement.evaluation import Evaluation
 from schooltool.requirement.scoresystem import AbstractScoreSystem
 from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
+from schooltool.requirement.scoresystem import PersistentRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
+from schooltool.requirement.interfaces import IScoreSystemContainer
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
 from schooltool.securitypolicy.crowds import ClerksCrowd
 
+from schooltool.lyceum.journal.interfaces import IJournalScoresystemPreferences
+from schooltool.lyceum.journal.interfaces import IAttendanceScoreSystem
+from schooltool.lyceum.journal.interfaces import IPersistentAttendanceScoreSystem
 from schooltool.lyceum.journal.interfaces import IEvaluateRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
+from schooltool.lyceum.journal.interfaces import IAvailableScoresystems
 from schooltool.lyceum.journal import LyceumMessage as _
 
 ABSENT = 'n' #n means absent in lithuanian
@@ -63,14 +77,31 @@ TARDY = 'p' #p means tardy in lithuanian
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
 
 
-class JournalAbsenceScoreSystem(AbstractScoreSystem):
+class AttendanceScoreSystem(AbstractScoreSystem):
+    implements(IAttendanceScoreSystem)
 
     values = ()
+    tag_absent = ()
+    tag_tardy = ()
+    tag_excused = ()
 
-    def __init__(self, title, description=None,
-                 values={'a': u'Absent', 't': u'Tardy'}):
-        super(JournalAbsenceScoreSystem, self).__init__(title, description=description)
-        self.values = tuple(values.items())
+    def __init__(self, title, description=None, **kw):
+        super(AttendanceScoreSystem, self).__init__(title, description=description)
+        self.initDefaults(**kw)
+
+    def initDefaults(self, **kw):
+        if 'values' not in kw:
+            self.values = (('a', 'Absent'),
+                           ('t', 'Tardy'),
+                           ('ae', 'Absent (excused)'),
+                           ('te', 'Tardy (excused)'))
+            self.tag_absent = 'a', 'ae',
+            self.tag_tardy = 't', 'te',
+            self.tag_excused = 'ae', 'te',
+        else:
+            self.values = tuple(kw['values'].items())
+            for attr in ('tag_absent', 'tag_tardy', 'tag_excused'):
+                setattr(self, attr, tuple(kw.get(attr, ())))
 
     def isValidScore(self, score):
         """See interfaces.IScoreSystem"""
@@ -90,8 +121,29 @@ class JournalAbsenceScoreSystem(AbstractScoreSystem):
             raise ScoreValidationError(rawScore)
         return rawScore.strip().lower()
 
+    def isTardy(self, score):
+        if isinstance(score, (str, unicode)):
+            return score in self.tag_tardy
+        return False
 
-class GlobalAbsenceScoreSystem(JournalAbsenceScoreSystem):
+    def isAbsent(self, score):
+        if isinstance(score, (str, unicode)):
+            return score in self.tag_absent
+        return False
+
+    def isExcused(self, score):
+        if isinstance(score, (str, unicode)):
+            return score in self.tag_excused
+        return False
+
+
+class PersistentAttendanceScoreSystem(AttendanceScoreSystem, Persistent):
+    implements(IPersistentAttendanceScoreSystem)
+
+    hidden = False
+
+
+class GlobalAbsenceScoreSystem(AttendanceScoreSystem):
 
     def __init__(self, name, *args, **kw):
         super(GlobalAbsenceScoreSystem, self).__init__(*args, **kw)
@@ -115,8 +167,7 @@ TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
 # Attendance score system
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
-    u'Absences', u'Attendance Score System',
-    values={ABSENT: _('Absent'), TARDY: _('Tardy')})
+    u'Absences', u'Attendance Score System')
 
 
 def getInstructorSections(person):
@@ -200,10 +251,12 @@ class MeetingRequirement(tuple):
     requirement_type = None
     score_system = None
 
-    def __new__(cls, meeting):
+    def __new__(cls, meeting, score_system=None):
         params = cls.getMeetingParams(meeting)
-        return tuple.__new__(
-            cls, params)
+        inst = tuple.__new__(cls, params)
+        if score_system is not None:
+            inst.score_system = score_system
+        return inst
 
     @classmethod
     def getMeetingParams(cls, meeting):
@@ -245,6 +298,8 @@ class MeetingRequirement(tuple):
 
 class SchoolMeetingRequirement(MeetingRequirement):
     implements(IKeyReference)
+
+    key_type_id  = 'schooltool.lyceum.journal.journal.SchoolMeetingRequirement'
 
     @classmethod
     def getMeetingParams(cls, meeting):
@@ -538,3 +593,139 @@ def getEvaluateRequirementForSection(section):
     return ISectionJournalData(section)
 
 
+class ScoreSystemPreferences(Persistent):
+    implements(IJournalScoresystemPreferences)
+
+    grading_scoresystem = None
+    attendance_scoresystem = None
+
+
+@adapter(Interface)
+@implementer(IJournalScoresystemPreferences)
+def getScoreSystemPreferences(jd):
+    app = ISchoolToolApplication(None)
+    ssp = app['schooltool.lyceum.journal-ss-prefs']
+    return ssp
+
+
+class JournalScoresystemsStartup(StartUpBase):
+
+    def updateGradingSS(self, prefs):
+        if prefs.grading_scoresystem is not None:
+            return
+        app = ISchoolToolApplication(None)
+        ssc = IScoreSystemContainer(app)
+        tenPointScoreSystem = PersistentRangedValuesScoreSystem(
+            u'10 Points', u'10 Points Score System',
+            min=Decimal(1), max=Decimal(10))
+        chooser = INameChooser(ssc)
+        name = chooser.chooseName('ten_points', tenPointScoreSystem)
+        ssc[name] = tenPointScoreSystem
+        prefs.grading_scoresystem = tenPointScoreSystem
+
+    def updateAttendanceSS(self, prefs):
+        if prefs.attendance_scoresystem is not None:
+            return
+        app = ISchoolToolApplication(None)
+        ssc = IScoreSystemContainer(app)
+        attendanceScoreSystem = None
+        for ss in ssc.values():
+            if (IAttendanceScoreSystem.providedBy(ss) and
+                not ss.hidden):
+                attendanceScoreSystem = ss
+                break
+        if attendanceScoreSystem is None:
+            attendanceScoreSystem = PersistentAttendanceScoreSystem('Attendance')
+            chooser = INameChooser(ssc)
+            name = chooser.chooseName(attendanceScoreSystem.title, attendanceScoreSystem)
+            ssc[name] = attendanceScoreSystem
+        prefs.attendance_scoresystem = attendanceScoreSystem
+
+    def updatePreferences(self, prefs):
+        self.updateGradingSS(prefs)
+        self.updateAttendanceSS(prefs)
+
+    def __call__(self):
+        if 'schooltool.lyceum.journal-ss-prefs' not in self.app:
+            prefs = ScoreSystemPreferences()
+            self.app['schooltool.lyceum.journal-ss-prefs'] = prefs
+        else:
+            prefs = self.app['schooltool.lyceum.journal-ss-prefs']
+        self.updatePreferences(prefs)
+
+
+@adapter(Interface)
+@implementer(IAvailableScoresystems)
+def getJournalGradingScoresystems(context):
+    app = ISchoolToolApplication(None)
+    ssc = IScoreSystemContainer(app)
+    result = [
+        ss for ss in ssc.values()
+        if (IPersistentRangedValuesScoreSystem.providedBy(ss) and
+            not ss.hidden)]
+    return result
+
+
+@adapter(Interface)
+@implementer(IAvailableScoresystems)
+def getJournalAttendanceScoresystems(context):
+    app = ISchoolToolApplication(None)
+    ssc = IScoreSystemContainer(app)
+    result = [
+        ss for ss in ssc.values()
+        if (IPersistentAttendanceScoreSystem.providedBy(ss) and
+            not ss.hidden)]
+    return result
+
+
+class JournalGradingScoresystemChoices(zope.schema.vocabulary.SimpleVocabulary):
+    implements(zope.schema.interfaces.IContextSourceBinder)
+
+    def __init__(self, context):
+        self.context = context
+        terms = self.createTerms()
+        zope.schema.vocabulary.SimpleVocabulary.__init__(self, terms)
+
+    def getScoresystems(self):
+        scoresystems = list(queryMultiAdapter(
+                (self.context, ),
+                IAvailableScoresystems,
+                name="grading",
+                default=[],
+                ))
+        return scoresystems
+
+    def createTerms(self):
+        result = []
+        result.append(self.createTerm(
+                None,
+                z3c.form.widget.SequenceWidget.noValueToken,
+                _("Select a scoresystem"),
+                ))
+        scoresystems = self.getScoresystems()
+        for scoresystem in scoresystems:
+            title = scoresystem.title
+            token = scoresystem.__name__
+            token=unicode(token).encode('punycode')
+            result.append(self.createTerm(scoresystem, token, title))
+        return result
+
+
+class JournalAttendanceScoresystemChoices(JournalGradingScoresystemChoices):
+
+    def getScoresystems(self):
+        scoresystems = list(queryMultiAdapter(
+                (self.context, ),
+                IAvailableScoresystems,
+                name="attendance",
+                default=[],
+                ))
+        return scoresystems
+
+
+def journalgradingchoicesfactory():
+    return JournalGradingScoresystemChoices
+
+
+def journalattendancechoicesfactory():
+    return JournalAttendanceScoresystemChoices

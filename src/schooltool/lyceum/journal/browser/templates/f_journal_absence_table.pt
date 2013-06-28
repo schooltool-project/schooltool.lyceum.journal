@@ -67,12 +67,16 @@
           <th id="column_tardies">
             <a class="popup_link" href="" i18n:translate="">Trd.</a>
           </th>
+          <th id="column_excused">
+            <a class="popup_link" href="" i18n:translate="">Unexc.</a>
+          </th>
         </tr>
       </thead>
       <tbody>
         <tr tal:repeat="row table">
           <td tal:content="row/absences" />
           <td tal:content="row/tardies" />
+          <td tal:content="row/excused" />
         </tr>
       </tbody>
     </table>

@@ -101,7 +101,7 @@ class ISectionJournal(ILocation):
 
 class IAttendanceScoreSystem(IScoreSystem):
 
-    values = zope.schema.List(
+    scores = zope.schema.List(
         title=u'All values',
         description=u'(score, label)',
         value_type=zope.schema.Tuple(),

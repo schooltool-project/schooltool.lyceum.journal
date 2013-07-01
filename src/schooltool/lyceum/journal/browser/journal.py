@@ -364,8 +364,7 @@ class SectionTermAttendanceColumn(GradesColumn):
         absences = 0
         for score in self.getAbsences(person):
             if (IAttendanceScoreSystem.providedBy(score.scoreSystem) and
-                score.value is not UNSCORED and
-                score.value in score.scoreSystem.tag_absent):
+                score.scoreSystem.isAbsent(score)):
                 absences += 1
         if absences == 0:
             return ""
@@ -389,8 +388,7 @@ class SectionTermTardiesColumn(GradesColumn):
         tardies = 0
         for score in self.getAbsences(person):
             if (IAttendanceScoreSystem.providedBy(score.scoreSystem) and
-                score.value is not UNSCORED and
-                score.value in score.scoreSystem.tag_tardy):
+                score.scoreSystem.isTardy(score)):
                 tardies += 1
         if tardies == 0:
             return ""
@@ -416,13 +414,12 @@ class SectionTermExcusedColumn(GradesColumn):
             if (score.value is UNSCORED or
                 not IAttendanceScoreSystem.providedBy(score.scoreSystem)):
                 continue
-            value = score.value
             ss = score.scoreSystem
-            if (value in ss.tag_absent or
-                value in ss.tag_tardy or
-                value in ss.tag_excused):
+            if (ss.isAbsent(score) or
+                ss.isTardy(score) or
+                ss.isExcused(score)):
                 excusable += 1
-            if value in ss.tag_excused:
+            if ss.isExcused(score):
                 excused += 1
         if excusable == 0:
             return ""
@@ -1197,7 +1194,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         for score in self.getScores(person):
             if (score.value is not UNSCORED and
                 IAttendanceScoreSystem.providedBy(score.scoreSystem) and
-                score.value in score.scoreSystem.tag_absent):
+                score.scoreSystem.isAbsent(score)):
                 absences += 1
         if absences == 0:
             return "0"
@@ -1209,7 +1206,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         for score in self.getScores(person):
             if (score.value is not UNSCORED and
                 IAttendanceScoreSystem.providedBy(score.scoreSystem) and
-                score.value in score.scoreSystem.tag_tardy):
+                score.scoreSystem.isTardy(score)):
                 tardies += 1
         if tardies == 0:
             return "0"
@@ -1224,12 +1221,11 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 not IAttendanceScoreSystem.providedBy(score.scoreSystem)):
                 continue
             ss = score.scoreSystem
-            value = score.value
-            if (value in ss.tag_absent or
-                value in ss.tag_tardy or
-                value in ss.tag_excused):
+            if (ss.isAbsent(score) or
+                ss.isTardy(score) or
+                ss.isExcused(score)):
                 excusable += 1
-            if value in ss.tag_excused:
+            if ss.isExcused(score):
                 excused += 1
         if not excusable:
             return 0, 0
@@ -1523,7 +1519,7 @@ class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
 
     def getLegendItems(self):
         score_system = self.context
-        for grade, title in score_system.values:
+        for grade, title in score_system.scores:
             meaning = []
             if grade in score_system.tag_absent:
                 meaning.append(translate(_('Absent'), self.request))
@@ -2040,7 +2036,7 @@ class SectionJournalAttendanceHistory(SectionJournalGradeHistory):
             return ''
         grade = score.value
         if IAttendanceScoreSystem.providedBy(requirement.score_system):
-            description = dict(requirement.score_system.values).get(grade, u'')
+            description = dict(requirement.score_system.scores).get(grade, u'')
         else:
             description = ''
         result = ' - '.join([translate(i, self.request)
@@ -2094,12 +2090,12 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
                 continue
             yield event, score
 
-    def collectAttendance(self, tag_name):
+    def collectAttendance(self, attr):
         days = {}
         for term, section in self.sections:
             for event, score in self.getEventAttendanceScores(section):
                 if (not IAttendanceScoreSystem.providedBy(score.scoreSystem) or
-                    score.value not in getattr(score.scoreSystem, tag_name)):
+                    not getattr(score.scoreSystem, attr)(score)):
                     continue
                 days.setdefault(event.dtstart.date(), []).append(
                     (event.dtstart, event.period.title))
@@ -2111,15 +2107,14 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
                 })
         return result
 
-
     @property
     def absences(self):
-        result = self.collectAttendance('tag_absent')
+        result = self.collectAttendance('isAbsent')
         return result
 
     @property
     def tardies(self):
-        result = self.collectAttendance('tag_tardy')
+        result = self.collectAttendance('isTardy')
         return result
 
     @property
@@ -2788,7 +2783,7 @@ class FlourishAttendanceScoresystemAddView(BrowserView):
             all_titles.add(title)
 
     def updateScoreSystem(self, target):
-        target.values = tuple([(s[0], s[1]) for s in self.validScores])
+        target.scores = tuple([(s[0], s[1]) for s in self.validScores])
         target.tag_absent = tuple([s[0] for s in self.validScores if s[2] == 'a'])
         target.tag_tardy = tuple([s[0] for s in self.validScores if s[2] == 't'])
         target.tag_excused = tuple([s[0] for s in self.validScores if s[3]])
@@ -2808,7 +2803,7 @@ class FlourishAttendanceScoresystemView(BrowserView):
     def scores(self):
         scoresystem = self.scoresystem
         results = []
-        for score in self.context.values:
+        for score in self.context.scores:
             tags = []
             value = score[0]
             if value in scoresystem.tag_absent:

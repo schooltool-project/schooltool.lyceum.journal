@@ -80,7 +80,7 @@ CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
 class AttendanceScoreSystem(AbstractScoreSystem):
     implements(IAttendanceScoreSystem)
 
-    values = ()
+    scores = ()
     tag_absent = ()
     tag_tardy = ()
     tag_excused = ()
@@ -90,8 +90,8 @@ class AttendanceScoreSystem(AbstractScoreSystem):
         self.initDefaults(**kw)
 
     def initDefaults(self, **kw):
-        if 'values' not in kw:
-            self.values = (('a', 'Absent'),
+        if 'scores' not in kw:
+            self.scores = (('a', 'Absent'),
                            ('t', 'Tardy'),
                            ('ae', 'Absent (excused)'),
                            ('te', 'Tardy (excused)'))
@@ -99,7 +99,7 @@ class AttendanceScoreSystem(AbstractScoreSystem):
             self.tag_tardy = 't', 'te',
             self.tag_excused = 'ae', 'te',
         else:
-            self.values = tuple(kw['values'].items())
+            self.scores = tuple(kw['scores'].items())
             for attr in ('tag_absent', 'tag_tardy', 'tag_excused'):
                 setattr(self, attr, tuple(kw.get(attr, ())))
 
@@ -109,7 +109,7 @@ class AttendanceScoreSystem(AbstractScoreSystem):
             return True
         if not isinstance(score, (str, unicode)):
             return False
-        if score.lower() in dict(self.values):
+        if score.lower() in dict(self.scores):
             return True
         return False
 
@@ -122,19 +122,25 @@ class AttendanceScoreSystem(AbstractScoreSystem):
         return rawScore.strip().lower()
 
     def isTardy(self, score):
-        if isinstance(score, (str, unicode)):
-            return score in self.tag_tardy
-        return False
+        if (score is None or
+            score is UNSCORED or
+            score.value is UNSCORED):
+            return False
+        return score.value in self.tag_tardy
 
     def isAbsent(self, score):
-        if isinstance(score, (str, unicode)):
-            return score in self.tag_absent
-        return False
+        if (score is None or
+            score is UNSCORED or
+            score.value is UNSCORED):
+            return False
+        return self.tag_absent
 
     def isExcused(self, score):
-        if isinstance(score, (str, unicode)):
-            return score in self.tag_excused
-        return False
+        if (score is None or
+            score is UNSCORED or
+            score.value is UNSCORED):
+            return False
+        return self.tag_excused
 
 
 class PersistentAttendanceScoreSystem(AttendanceScoreSystem, Persistent):

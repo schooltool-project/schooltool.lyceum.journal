@@ -1681,7 +1681,7 @@ class FlourishTotalPopupMenuView(flourish.content.ContentProvider):
         'average': _('Ave.'),
         'tardies': _('Trd.'),
         'absences': _('Abs.'),
-        'excused': _('Unexc.'),
+        'excused': _('Exc.'),
         }
 
     def translate(self, message):

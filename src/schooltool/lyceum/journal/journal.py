@@ -133,14 +133,14 @@ class AttendanceScoreSystem(AbstractScoreSystem):
             score is UNSCORED or
             score.value is UNSCORED):
             return False
-        return self.tag_absent
+        return score.value in self.tag_absent
 
     def isExcused(self, score):
         if (score is None or
             score is UNSCORED or
             score.value is UNSCORED):
             return False
-        return self.tag_excused
+        return score.value in self.tag_excused
 
 
 class PersistentAttendanceScoreSystem(AttendanceScoreSystem, Persistent):

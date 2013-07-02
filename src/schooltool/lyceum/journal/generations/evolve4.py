@@ -36,7 +36,7 @@ from schooltool.course.interfaces import ISectionContainer
 from schooltool.schoolyear.interfaces import ISchoolYearContainer
 from schooltool.lyceum.journal.journal import AttendanceRequirement
 from schooltool.lyceum.journal.journal import GradeRequirement
-from schooltool.lyceum.journal.journal import JournalScoresystemsStartup
+from schooltool.lyceum.journal.journal import JournalScoreSystemsStartup
 from schooltool.term.interfaces import ITermContainer
 
 
@@ -177,7 +177,7 @@ def evolve(context):
     for app in apps:
         setSite(app)
         # Initialize score systems
-        JournalScoresystemsStartup(app)()
+        JournalScoreSystemsStartup(app)()
         journals = iterJournals(app)
         for journal in journals:
             evolveJournal(app, journal)

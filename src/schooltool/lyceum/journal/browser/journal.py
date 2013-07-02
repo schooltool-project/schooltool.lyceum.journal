@@ -95,7 +95,7 @@ from schooltool.lyceum.journal.interfaces import IAttendanceScoreSystem
 from schooltool.lyceum.journal.interfaces import IEvaluateRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
-from schooltool.lyceum.journal.interfaces import IJournalScoresystemPreferences
+from schooltool.lyceum.journal.interfaces import IJournalScoreSystemPreferences
 from schooltool.lyceum.journal.browser.interfaces import IIndependentColumn
 from schooltool.lyceum.journal.browser.interfaces import ISelectableColumn
 from schooltool.lyceum.journal.browser.table import SelectStudentCellFormatter
@@ -998,7 +998,7 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                 return _('No periods assigned for this section')
 
     def getDefaultScoreSystem(self):
-        prefs = IJournalScoresystemPreferences(self.context)
+        prefs = IJournalScoreSystemPreferences(self.context)
         ss = prefs.grading_scoresystem
         if ss is not None:
             return ss
@@ -1113,7 +1113,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 return _('No periods assigned for this section')
 
     def getDefaultScoreSystem(self):
-        prefs = IJournalScoresystemPreferences(self.context)
+        prefs = IJournalScoreSystemPreferences(self.context)
         ss = prefs.attendance_scoresystem
         if ss is not None:
             return ss
@@ -1269,7 +1269,7 @@ class FlourishSectionHomeroomAttendance(FlourishLyceumSectionJournalAttendance):
         return False
 
     def getDefaultScoreSystem(self):
-        prefs = IJournalScoresystemPreferences(self.context)
+        prefs = IJournalScoreSystemPreferences(self.context)
         ss = prefs.attendance_scoresystem
         if ss is not None:
             return ss
@@ -2674,7 +2674,7 @@ class SSValidationError(Exception):
         Exception.__init__(self)
 
 
-class FlourishAttendanceScoresystemAddView(BrowserView):
+class FlourishAttendanceScoreSystemAddView(BrowserView):
     """A view for adding a custom score system"""
 
     def update(self):
@@ -2789,7 +2789,7 @@ class FlourishAttendanceScoresystemAddView(BrowserView):
         target.tag_excused = tuple([s[0] for s in self.validScores if s[3]])
 
 
-class FlourishAttendanceScoresystemView(BrowserView):
+class FlourishAttendanceScoreSystemView(BrowserView):
     """A view for adding a custom score system"""
 
     @property
@@ -2827,20 +2827,20 @@ class FlourishAttendanceScoresystemView(BrowserView):
         return absoluteURL(self.context.__parent__, self.request)
 
 
-class EditDefaultJournalScoresystems(flourish.form.Form, z3c.form.form.EditForm):
+class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm):
 
-    fields = z3c.form.field.Fields(IJournalScoresystemPreferences)
+    fields = z3c.form.field.Fields(IJournalScoreSystemPreferences)
 
     legend = _('Customize')
 
     def updateActions(self):
-        super(EditDefaultJournalScoresystems, self).updateActions()
+        super(EditDefaultJournalScoreSystems, self).updateActions()
         self.actions['apply'].addClass('button-ok')
         self.actions['cancel'].addClass('button-cancel')
 
     @z3c.form.button.buttonAndHandler(_('Done'), name="apply")
     def handle_apply_action(self, action):
-        super(EditDefaultJournalScoresystems,self).handleApply.func(self, action)
+        super(EditDefaultJournalScoreSystems,self).handleApply.func(self, action)
         if (self.status == self.successMessage or
             self.status == self.noChangesMessage):
             self.request.response.redirect(self.nextURL())
@@ -2854,5 +2854,5 @@ class EditDefaultJournalScoresystems(flourish.form.Form, z3c.form.form.EditForm)
 
     def getContent(self):
         app = ISchoolToolApplication(None)
-        prefs = IJournalScoresystemPreferences(app)
+        prefs = IJournalScoreSystemPreferences(app)
         return prefs

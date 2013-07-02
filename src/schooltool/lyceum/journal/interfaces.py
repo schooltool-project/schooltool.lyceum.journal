@@ -140,7 +140,7 @@ class IPersistentAttendanceScoreSystem(IAttendanceScoreSystem):
         )
 
 
-class IJournalScoresystemPreferences(Interface):
+class IJournalScoreSystemPreferences(Interface):
 
     grading_scoresystem = zope.schema.Choice(
         title=_("Grading scoresystem"),
@@ -153,5 +153,5 @@ class IJournalScoresystemPreferences(Interface):
         required=True)
 
 
-class IAvailableScoresystems(Interface):
+class IAvailableScoreSystems(Interface):
     """A marker interface to get a list of available scoresystems."""

@@ -97,18 +97,18 @@
   </class>
 
   <adapter
-      factory=".journal.JournalScoresystemsStartup"
+      factory=".journal.JournalScoreSystemsStartup"
       name="schooltool.lyceum.journal-ss-prefs" />
 
   <adapter
       factory="schooltool.lyceum.journal.journal.getScoreSystemPreferences" />
 
   <adapter
-      factory="schooltool.lyceum.journal.journal.getJournalGradingScoresystems"
+      factory="schooltool.lyceum.journal.journal.getJournalGradingScoreSystems"
       name="grading" />
 
   <adapter
-      factory="schooltool.lyceum.journal.journal.getJournalAttendanceScoresystems"
+      factory="schooltool.lyceum.journal.journal.getJournalAttendanceScoreSystems"
       name="attendance" />
 
   <utility

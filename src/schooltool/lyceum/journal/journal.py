@@ -62,13 +62,13 @@ from schooltool.requirement.interfaces import IScoreSystemContainer
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
 from schooltool.securitypolicy.crowds import ClerksCrowd
 
-from schooltool.lyceum.journal.interfaces import IJournalScoresystemPreferences
+from schooltool.lyceum.journal.interfaces import IJournalScoreSystemPreferences
 from schooltool.lyceum.journal.interfaces import IAttendanceScoreSystem
 from schooltool.lyceum.journal.interfaces import IPersistentAttendanceScoreSystem
 from schooltool.lyceum.journal.interfaces import IEvaluateRequirement
 from schooltool.lyceum.journal.interfaces import ISectionJournal
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
-from schooltool.lyceum.journal.interfaces import IAvailableScoresystems
+from schooltool.lyceum.journal.interfaces import IAvailableScoreSystems
 from schooltool.lyceum.journal import LyceumMessage as _
 
 ABSENT = 'n' #n means absent in lithuanian
@@ -600,21 +600,21 @@ def getEvaluateRequirementForSection(section):
 
 
 class ScoreSystemPreferences(Persistent):
-    implements(IJournalScoresystemPreferences)
+    implements(IJournalScoreSystemPreferences)
 
     grading_scoresystem = None
     attendance_scoresystem = None
 
 
 @adapter(Interface)
-@implementer(IJournalScoresystemPreferences)
+@implementer(IJournalScoreSystemPreferences)
 def getScoreSystemPreferences(jd):
     app = ISchoolToolApplication(None)
     ssp = app['schooltool.lyceum.journal-ss-prefs']
     return ssp
 
 
-class JournalScoresystemsStartup(StartUpBase):
+class JournalScoreSystemsStartup(StartUpBase):
 
     def updateGradingSS(self, prefs):
         if prefs.grading_scoresystem is not None:
@@ -661,8 +661,8 @@ class JournalScoresystemsStartup(StartUpBase):
 
 
 @adapter(Interface)
-@implementer(IAvailableScoresystems)
-def getJournalGradingScoresystems(context):
+@implementer(IAvailableScoreSystems)
+def getJournalGradingScoreSystems(context):
     app = ISchoolToolApplication(None)
     ssc = IScoreSystemContainer(app)
     result = [
@@ -673,8 +673,8 @@ def getJournalGradingScoresystems(context):
 
 
 @adapter(Interface)
-@implementer(IAvailableScoresystems)
-def getJournalAttendanceScoresystems(context):
+@implementer(IAvailableScoreSystems)
+def getJournalAttendanceScoreSystems(context):
     app = ISchoolToolApplication(None)
     ssc = IScoreSystemContainer(app)
     result = [
@@ -684,7 +684,7 @@ def getJournalAttendanceScoresystems(context):
     return result
 
 
-class JournalGradingScoresystemChoices(zope.schema.vocabulary.SimpleVocabulary):
+class JournalGradingScoreSystemChoices(zope.schema.vocabulary.SimpleVocabulary):
     implements(zope.schema.interfaces.IContextSourceBinder)
 
     def __init__(self, context):
@@ -692,10 +692,10 @@ class JournalGradingScoresystemChoices(zope.schema.vocabulary.SimpleVocabulary):
         terms = self.createTerms()
         zope.schema.vocabulary.SimpleVocabulary.__init__(self, terms)
 
-    def getScoresystems(self):
+    def getScoreSystems(self):
         scoresystems = list(queryMultiAdapter(
                 (self.context, ),
-                IAvailableScoresystems,
+                IAvailableScoreSystems,
                 name="grading",
                 default=[],
                 ))
@@ -708,7 +708,7 @@ class JournalGradingScoresystemChoices(zope.schema.vocabulary.SimpleVocabulary):
                 z3c.form.widget.SequenceWidget.noValueToken,
                 _("Select a scoresystem"),
                 ))
-        scoresystems = self.getScoresystems()
+        scoresystems = self.getScoreSystems()
         for scoresystem in scoresystems:
             title = scoresystem.title
             token = scoresystem.__name__
@@ -717,12 +717,12 @@ class JournalGradingScoresystemChoices(zope.schema.vocabulary.SimpleVocabulary):
         return result
 
 
-class JournalAttendanceScoresystemChoices(JournalGradingScoresystemChoices):
+class JournalAttendanceScoreSystemChoices(JournalGradingScoreSystemChoices):
 
-    def getScoresystems(self):
+    def getScoreSystems(self):
         scoresystems = list(queryMultiAdapter(
                 (self.context, ),
-                IAvailableScoresystems,
+                IAvailableScoreSystems,
                 name="attendance",
                 default=[],
                 ))
@@ -730,8 +730,8 @@ class JournalAttendanceScoresystemChoices(JournalGradingScoresystemChoices):
 
 
 def journalgradingchoicesfactory():
-    return JournalGradingScoresystemChoices
+    return JournalGradingScoreSystemChoices
 
 
 def journalattendancechoicesfactory():
-    return JournalAttendanceScoresystemChoices
+    return JournalAttendanceScoreSystemChoices

@@ -531,7 +531,7 @@
   <flourish:page
       name="add_attendance.html"
       for="schooltool.requirement.interfaces.IScoreSystemContainer"
-      class=".journal.FlourishAttendanceScoresystemAddView"
+      class=".journal.FlourishAttendanceScoreSystemAddView"
       title="Score Systems"
       subtitle="Add Attendance Score System"
       content_template="templates/f_attendance_ss_add.pt"
@@ -549,7 +549,7 @@
   <flourish:page
       name="index.html"
       for="schooltool.lyceum.journal.interfaces.IAttendanceScoreSystem"
-      class=".journal.FlourishAttendanceScoresystemView"
+      class=".journal.FlourishAttendanceScoreSystemView"
       title="Score Systems"
       content_template="templates/f_attendance_ss_view.pt"
       permission="schooltool.view"
@@ -559,7 +559,7 @@
       name="journal_defaults.html"
       manager="schooltool.requirement.browser.scoresystem.FlourishScoreSystemContainerCustomizeLinks"
       class="schooltool.skin.flourish.page.LinkViewlet"
-      title="Journal Scoresystems"
+      title="Journal ScoreSystems"
       permission="schooltool.edit"
       />
 
@@ -567,7 +567,7 @@
     <flourish:page
         name="journal_defaults.html"
         for="schooltool.requirement.interfaces.IScoreSystemContainer"
-        class="schooltool.lyceum.journal.browser.journal.EditDefaultJournalScoresystems"
+        class="schooltool.lyceum.journal.browser.journal.EditDefaultJournalScoreSystems"
         content_template="templates/z3c-schooltool-form.pt"
         title="Journal"
         subtitle="Score Systems"

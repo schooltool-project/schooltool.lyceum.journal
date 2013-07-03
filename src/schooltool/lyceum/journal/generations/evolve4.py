@@ -156,9 +156,12 @@ def evolveJournal(app, journal):
                 elif entry:
                     requirement = GradeRequirement(
                         meeting, ss_prefs.grading_scoresystem)
-                    journal.evaluate(student, requirement,
-                                     entry,
-                                     evaluator=None)
+                    try:
+                        journal.evaluate(student, requirement,
+                                         entry,
+                                         evaluator=None)
+                    except:
+                        pass
                     last_requirement = requirement
                 elif last_requirement is not None:
                     journal.evaluate(student, last_requirement, '', evaluator=None)

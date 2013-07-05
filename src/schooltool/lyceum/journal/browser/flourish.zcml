@@ -324,6 +324,13 @@
       permission="schooltool.view"
       />
 
+  <flourish:page
+      name="filldown"
+      for=".journal.FlourishLyceumSectionJournalBase"
+      template="templates/f_journal_filldown_dialog.pt"
+      permission="schooltool.view"
+      />
+
   <flourish:viewlet
       name="journal-reports-links"
       after="journal-actions"
@@ -434,8 +441,8 @@
 
   <flourish:viewlet
       name="filldown"
-      class="schooltool.skin.flourish.page.DisabledViewlet"
       manager="schooltool.lyceum.journal.browser.journal.AttendanceTable"
+      class="schooltool.skin.flourish.helpers.Empty"
       permission="schooltool.view"
       />
 

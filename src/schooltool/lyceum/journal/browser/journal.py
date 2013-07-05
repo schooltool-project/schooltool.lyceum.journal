@@ -1066,6 +1066,11 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                             evaluator=evaluator)
                     except ScoreValidationError:
                         pass
+                    except:
+                        import ipdb; ipdb.set_trace()
+                        IEvaluateRequirement(requirement).evaluate(
+                            person, requirement, cell_value,
+                            evaluator=evaluator)
 
     def table(self):
         result = []
@@ -1111,9 +1116,9 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                           for grade in row['grades']])
             if self.sortBy in grades:
                 grade = grades.get(self.sortBy)
-                return (0, grade, row['student']['sortKey'])
-            else:
-                return (1, row['student']['sortKey'])
+                if grade:
+                    return (0, grade, row['student']['sortKey'])
+        return (1, row['student']['sortKey'])
 
     def average(self, person):
         grades = []
@@ -1209,9 +1214,9 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                           for grade in row['grades']])
             if self.sortBy in grades:
                 grade = grades.get(self.sortBy)
-                return (0, grade, row['student']['sortKey'])
-            else:
-                return (1, row['student']['sortKey'])
+                if grade:
+                    return (0, grade, row['student']['sortKey'])
+        return (1, row['student']['sortKey'])
 
     def absences(self, person):
         absences = 0
@@ -1637,6 +1642,7 @@ class FlourishActivityPopupMenuView(flourish.content.ContentProvider):
         activity_id = self.request.get('activity_id')
         meetings = dict([(meeting.__name__, meeting)
                          for meeting in self.context.meetings])
+
         if activity_id is not None and activity_id in meetings:
             meeting = meetings[activity_id]
             meetingDate = meeting.dtstart.astimezone(tzinfo).date()
@@ -1644,7 +1650,7 @@ class FlourishActivityPopupMenuView(flourish.content.ContentProvider):
                 'longTitle': meetingDate.strftime("%Y-%m-%d"),
                 'hash': activity_id,
                 }
-            url = absoluteURL(self.context, self.request)
+            url = absoluteURL(self.view, self.request)
             result['header'] = info['longTitle']
             result['options'] = [
                 {
@@ -1654,7 +1660,8 @@ class FlourishActivityPopupMenuView(flourish.content.ContentProvider):
                     },
                 {
                     'label': self.translate(_('Sort by')),
-                    'url': '%s?sort_by=%s' % (url, info['hash']),
+                    'url': '%s?sort_by=%s&month=%s' % (
+                        url, info['hash'], meetingDate.month),
                     }
                 ]
         response = self.request.response

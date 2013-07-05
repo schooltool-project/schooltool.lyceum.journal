@@ -51,12 +51,12 @@ from schooltool.course.interfaces import IInstructor
 from schooltool.course.interfaces import ISection
 from schooltool.export.export import XLSReportTask
 from schooltool.person.interfaces import IPerson
-from schooltool.requirement.interfaces import IPersistentRangedValuesScoreSystem
+from schooltool.requirement.interfaces import ICustomScoreSystem
 from schooltool.requirement.interfaces import IEvaluations
 from schooltool.requirement.evaluation import Evaluation
 from schooltool.requirement.scoresystem import AbstractScoreSystem
 from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
-from schooltool.requirement.scoresystem import PersistentRangedValuesScoreSystem
+from schooltool.requirement.scoresystem import CustomScoreSystem
 from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.requirement.interfaces import IScoreSystemContainer
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
@@ -75,6 +75,7 @@ ABSENT = 'n' #n means absent in lithuanian
 TARDY = 'p' #p means tardy in lithuanian
 
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
+CURRENT_JOURNAL_MODE_KEY = 'schooltool.gradebook.currentjournalmode'
 
 
 class AttendanceScoreSystem(AbstractScoreSystem):
@@ -199,6 +200,18 @@ def setCurrentSectionTaught(person, section):
     ann = IAnnotations(removeSecurityProxy(person))
     if section in getInstructorSections(person):
         ann[CURRENT_SECTION_TAUGHT_KEY] = removeSecurityProxy(section)
+
+
+def getCurrentJournalMode(person):
+    ann = IAnnotations(removeSecurityProxy(person))
+    if CURRENT_JOURNAL_MODE_KEY not in ann:
+        ann[CURRENT_JOURNAL_MODE_KEY] = None
+    return ann.get(CURRENT_JOURNAL_MODE_KEY, None)
+
+
+def setCurrentJournalMode(person, mode):
+    ann = IAnnotations(removeSecurityProxy(person))
+    ann[CURRENT_JOURNAL_MODE_KEY] = mode
 
 
 class LyceumJournalContainer(BTreeContainer):
@@ -621,9 +634,12 @@ class JournalScoreSystemsStartup(StartUpBase):
             return
         app = ISchoolToolApplication(None)
         ssc = IScoreSystemContainer(app)
-        tenPointScoreSystem = PersistentRangedValuesScoreSystem(
+        tenPointScoreSystem = CustomScoreSystem(
             u'10 Points', u'10 Points Score System',
-            min=Decimal(1), max=Decimal(10))
+            scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))
+                    for i in range(1, 11)],
+            bestScore='10',
+            minPassingScore='4')
         chooser = INameChooser(ssc)
         name = chooser.chooseName('ten_points', tenPointScoreSystem)
         ssc[name] = tenPointScoreSystem
@@ -667,7 +683,7 @@ def getJournalGradingScoreSystems(context):
     ssc = IScoreSystemContainer(app)
     result = [
         ss for ss in ssc.values()
-        if (IPersistentRangedValuesScoreSystem.providedBy(ss) and
+        if (ICustomScoreSystem.providedBy(ss) and
             not ss.hidden)]
     return result
 

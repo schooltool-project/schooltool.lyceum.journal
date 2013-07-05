@@ -4,12 +4,19 @@
   <table>
     <thead>
       <tr>
-        <th tal:content="context/title"></th>
+        <th i18n:translate="">Score</th>
+        <th i18n:translate="">Point Value</th>
+        <th i18n:translate="">Passing</th>
       </tr>
     </thead>
     <tbody>
       <tr tal:repeat="item view/getGrades">
-        <td tal:content="item" />
+        <td tal:content="item/value" />
+        <td tal:content="item/points" />
+        <td>
+          <span tal:condition="item/passing"
+                class="ui-icon ui-icon-check ui-icon-center"></span>
+        </td>
       </tr>
     </tbody>
   </table>

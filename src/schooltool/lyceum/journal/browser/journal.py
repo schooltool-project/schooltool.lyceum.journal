@@ -83,9 +83,12 @@ from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.timetable.calendar import ScheduleCalendarEvent
 from schooltool.schoolyear.interfaces import ISchoolYearContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
+from schooltool.securitypolicy.crowds import inCrowd
 
 from schooltool.lyceum.journal.journal import getCurrentSectionTaught
 from schooltool.lyceum.journal.journal import setCurrentSectionTaught
+from schooltool.lyceum.journal.journal import getCurrentJournalMode
+from schooltool.lyceum.journal.journal import setCurrentJournalMode
 from schooltool.lyceum.journal.journal import JournalXLSReportTask
 from schooltool.lyceum.journal.journal import PersistentAttendanceScoreSystem
 from schooltool.lyceum.journal.journal import GradeRequirement
@@ -309,10 +312,6 @@ class SectionTermGradesColumn(GradesColumn):
             grade = score.value
             if grade is UNSCORED:
                 continue
-            try:
-                grade = int(grade)
-            except ValueError:
-                continue
             grades.append(grade)
         if not grades:
             return ""
@@ -338,14 +337,14 @@ class SectionTermAverageGradesColumn(GradesColumn):
             if grade is UNSCORED:
                 continue
             try:
-                grade = int(grade)
-            except ValueError:
+                grade = score.scoreSystem.getNumericalValue(grade)
+            except KeyError:
                 continue
             grades.append(grade)
         if not grades:
             return ""
         else:
-            return "%.3f" % (sum(grades) / float(len(grades)))
+            return "%.3f" % (float(sum(grades)) / float(len(grades)))
 
     def renderHeader(self, formatter):
         return '<span>%s</span>' % translate(_("Average"),
@@ -795,6 +794,9 @@ class JournalNavViewlet(flourish.page.LinkViewlet, SectionListView):
         person = self.person
         if person is None:
             return False
+        if inCrowd(self.request.principal, 'clerks',
+                   context=self.context):
+            return True
         taught_sections = list(self.getSectionsForPerson(person))
         learner_sections = list(ILearner(person).sections())
         return taught_sections or learner_sections
@@ -825,6 +827,7 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
     no_timetable = False
     no_periods = False
     render_journal = True
+    journal_mode = None
 
     no_periods_text = _("No periods have been assigned in timetables of this section.")
 
@@ -868,6 +871,7 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
         if person is not None:
             setCurrentSectionTaught(person, self.context.section)
 
+        self.updateJournalMode()
         if 'UPDATE_SUBMIT' in self.request:
             self.updateGradebook()
 
@@ -984,8 +988,32 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
                 unique_meetings.add(event.meeting_id)
         return result
 
+    def getGrade(self, person, meeting):
+        requirement = self.makeRequirement(meeting)
+        score = IEvaluateRequirement(requirement).getEvaluation(
+            person, requirement, default=UNSCORED)
+        if score is UNSCORED:
+            return None
+        grade = score.value
+        if grade is UNSCORED:
+            return None
+        return score.value
+
+    def updateJournalMode(self):
+        if self.journal_mode is None:
+            return
+        person = IPerson(self.request.principal, None)
+        if person is None:
+            return
+        mode = getCurrentJournalMode(person) or ''
+        if mode == self.journal_mode:
+            return
+        setCurrentJournalMode(person, self.journal_mode)
+
 
 class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
+
+    journal_mode = 'journal-mode-grades'
 
     @property
     def title(self):
@@ -1031,12 +1059,7 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
-                requirement = self.makeRequirement(insecure_meeting)
-                score = IEvaluateRequirement(requirement).getEvaluation(
-                    person, requirement, default=UNSCORED)
-                grade = score.value
-                if grade is UNSCORED:
-                    grade = ''
+                grade = self.getGrade(person, insecure_meeting) or ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
@@ -1070,12 +1093,6 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                           for grade in row['grades']])
             if self.sortBy in grades:
                 grade = grades.get(self.sortBy)
-                if grade is UNSCORED:
-                    return (0, grade, row['student']['sortKey'])
-                try:
-                    grade = int(grade)
-                except (ValueError,):
-                    return (2, row['student']['sortKey'])
                 return (0, grade, row['student']['sortKey'])
             else:
                 return (1, row['student']['sortKey'])
@@ -1087,20 +1104,19 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             if score.value is UNSCORED:
                 continue
             try:
-                # XXX: ints!
-                grade = int(score.value)
-            except ValueError:
-                continue
-            except TypeError:
+                grade = score.scoreSystem.getNumericalValue(score.value)
+            except KeyError:
                 continue
             grades.append(grade)
         if not grades:
             return _('N/A')
         else:
-            return "%.1f" % (sum(grades) / float(len(grades)))
+            return "%.1f" % (float(sum(grades)) / float(len(grades)))
 
 
 class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
+
+    journal_mode = 'journal-mode-attendance'
 
     @property
     def title(self):
@@ -1123,6 +1139,20 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         ss = self.getDefaultScoreSystem()
         return AttendanceRequirement(meeting, ss)
 
+    def getHomeroomAttendance(self, person, meeting):
+        period = getattr(meeting, 'period', None)
+        if period is None:
+            return None
+        if period.activity_type != 'homeroom':
+            return None
+        requirement = HomeroomRequirement(meeting)
+        score = IEvaluateRequirement(requirement).getEvaluation(
+            person, requirement, default=UNSCORED)
+        if (score is UNSCORED or
+            score.value is UNSCORED):
+            return None
+        return score.value
+
     def table(self):
         result = []
         collator = ICollator(self.request.locale)
@@ -1130,18 +1160,13 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
-                requirement = self.makeRequirement(insecure_meeting)
-                score = IEvaluateRequirement(requirement).getEvaluation(
-                    person, requirement, default=UNSCORED)
-                grade = score.value
-                if grade is not UNSCORED:
-                    value = grade
-                else:
-                    value = ''
+                attendance = self.getGrade(person, insecure_meeting) or ''
+                homeroom = self.getHomeroomAttendance(person, insecure_meeting) or ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
-                    'value': value,
+                    'value': attendance,
+                    'homeroom': homeroom,
                     'editable': True,
                     }
                 grades.append(grade_data)
@@ -1161,6 +1186,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                         if excusable
                         else ''),
                  'unexcused': excused - excusable if excusable else 1,
+                 'has_homeroom': any([g['homeroom'] for g in grades]),
                 })
         self.sortBy = self.request.get('sort_by')
         return sorted(result, key=self.sortKey)
@@ -1179,12 +1205,6 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                           for grade in row['grades']])
             if self.sortBy in grades:
                 grade = grades.get(self.sortBy)
-                if grade is UNSCORED:
-                    return (0, grade, row['student']['sortKey'])
-                try:
-                    grade = int(grade)
-                except (ValueError,):
-                        return (1, row['student']['sortKey'])
                 return (0, grade, row['student']['sortKey'])
             else:
                 return (1, row['student']['sortKey'])
@@ -1255,6 +1275,8 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
 
 
 class FlourishSectionHomeroomAttendance(FlourishLyceumSectionJournalAttendance):
+
+    journal_mode = 'journal-mode-homeroom'
 
     no_periods_text = _("This section is not scheduled for any homeroom periods.")
 
@@ -1458,22 +1480,36 @@ class FlourishJournalSectionNavigationViewlet(FlourishJournalNavigationViewletBa
 
 class FlourishJournalRedirectView(flourish.page.Page):
 
+    def getModeUrl(self):
+        content = self.providers.get('lyceum-journal-modes')
+        if content is None:
+            return
+        modes = content.modes
+        if not modes:
+            return
+        url = modes[0]['url']
+        current = getCurrentJournalMode(IPerson(self.request.principal, None)) or ''
+        if not current:
+            return url
+        for mode in content.modes:
+            if mode['id'] == current:
+                return mode['url']
+        return url
+
     def render(self):
-        url = absoluteURL(self.context, self.request)
-        person = IPerson(self.request.principal, None)
-        if person is not None:
-            section = getCurrentSectionTaught(person)
-            if section is None:
-                sections = list(IInstructor(person).sections())
-                if sections:
-                    section = sections[0]
-            if section is not None:
-                url = absoluteURL(section, self.request) + '/journal'
+        url = self.getModeUrl()
+        if not url:
+            self.request.response.redirect(
+                absoluteURL(self.context, self.request))
         self.request.response.redirect(url)
 
 
 class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
     """Journal action links viewlet."""
+
+
+class FlourishJournalHelpLinks(flourish.page.RefineLinksViewlet):
+    """Journal help links viewlet."""
 
 
 class FlourishJournalHelpViewlet(flourish.page.ModalFormLinkViewlet):
@@ -1535,12 +1571,23 @@ class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
                    }
 
 
-class RangedScoreSystemLegend(flourish.content.ContentProvider):
+class CustomScoreSystemLegend(flourish.content.ContentProvider):
 
-    title = _('Scores')
+    @property
+    def scoresystem(self):
+        return self.context
 
     def getGrades(self):
-        return list(reversed(range(self.context.min, self.context.max+1)))
+        result = []
+        scoresystem = self.scoresystem
+        scores = sorted(scoresystem.scores, key=lambda s: s[3])
+        for score, abbr, val, percent in scores:
+            result.append({
+                'value': score,
+                'points': val,
+                'passing': scoresystem.isPassingScore(score),
+                })
+        return result
 
 
 class SectionJournalLinkViewlet(flourish.page.LinkViewlet):
@@ -1854,6 +1901,93 @@ class JournalModes(flourish.page.RefineLinksViewlet):
     pass
 
 
+def getSectionJournalModes(person, section, request):
+    journal_url = absoluteURL(section, request) + '/journal'
+
+    result = []
+    result.append({
+            'id': 'journal-mode-attendance',
+            'label': _('Attendance'),
+            'url': journal_url + '/index.html',
+            })
+
+    takes_day_attendance = True
+    journal = ISectionJournal(section)
+    homerooms = queryMultiAdapter(
+        (journal, request), name='homeroom.html')
+    if (homerooms is None or
+        not homerooms.all_meetings):
+        takes_day_attendance = False
+    if takes_day_attendance:
+        result.append({
+                'id': 'journal-mode-homeroom',
+                'label': _('Homeroom'),
+                'url': journal_url + '/homeroom.html',
+                })
+
+    result.append({
+            'id': 'journal-mode-grades',
+            'label': _('Scores'),
+            'url': journal_url + '/grades.html',
+            })
+    return result
+
+
+class JournalModeContent(flourish.content.ContentProvider):
+
+    @Lazy
+    def person(self):
+        person = IPerson(self.request.principal, None)
+        return person
+
+    @Lazy
+    def section(self):
+        person = self.person
+        if person is None:
+            return None
+        section = getCurrentSectionTaught(person)
+        if section is None:
+            sections = list(IInstructor(person).sections())
+            if not sections:
+                return None
+            section = sections[0]
+        return section
+
+    def getSchoolModes(self):
+        if not inCrowd(self.request.principal, 'clerks', context=self.context):
+            return []
+        app = ISchoolToolApplication(None)
+        persons = app['persons']
+        persons_url = absoluteURL(persons, self.request)
+        result = []
+        result.append({
+                'id': 'journal-mode-school-attendance',
+                'label': _('School Attendance'),
+                'url': persons_url + '/attendance.html',
+                })
+        return result
+
+    def getSectionModes(self):
+        section = self.section
+        if section is None:
+            return []
+        person = self.person
+        if person is None:
+            return []
+        result = getSectionJournalModes(person, section, self.request)
+        return result
+
+    @Lazy
+    def modes(self):
+        result = []
+        result.extend(self.getSchoolModes())
+        result.extend(self.getSectionModes())
+        return result
+
+    def render(self):
+        return ''
+
+
 class JournalModeSelector(flourish.viewlet.Viewlet):
 
     list_class = 'filter'
@@ -1873,41 +2007,23 @@ class JournalModeSelector(flourish.viewlet.Viewlet):
         </ul>
     ''')
 
+    @Lazy
     def items(self):
-        journal_url = absoluteURL(self.context, self.request)
-        result = []
+        content = self.manager.view.providers.get('lyceum-journal-modes')
+        if not content:
+            return []
 
-        takes_day_attendance = True
-        if (self.manager.view.__name__ != 'homeroom.html'):
-            homerooms = queryMultiAdapter(
-                (self.context, self.request), name='homeroom.html')
-            if (homerooms is None or
-                not homerooms.all_meetings):
-                takes_day_attendance = False
-        if takes_day_attendance:
-            result.append({
-                    'id': 'journal-mode-homeroom',
-                    'label': _('Homeroom'),
-                    'url': journal_url + '/homeroom.html',
-                    'selected': self.manager.view.__name__ == 'homeroom.html',
-                    })
-
-        result.append({
-                'id': 'journal-mode-attendance',
-                'label': _('Attendance'),
-                'url': journal_url + '/index.html',
-                'selected': self.manager.view.__name__ == 'index.html',
-                })
-        result.append({
-                'id': 'journal-mode-grades',
-                'label': _('Scores'),
-                'url': journal_url + '/grades.html',
-                'selected': self.manager.view.__name__ == 'grades.html',
-                })
+        current = getCurrentJournalMode(IPerson(self.request.principal, None)) or ''
+        result = list(content.modes)
+        for mode in result:
+            mode['selected'] = bool(mode['id'] == current)
         return result
 
     def render(self, *args, **kw):
+        if len(self.items) < 2:
+            return ''
         return self.template(*args, **kw)
+
 
 
 class SubPage(flourish.content.ContentProvider,
@@ -2218,6 +2334,19 @@ class FlourishSchoolAttendanceView(flourish.page.Page):
         app = ISchoolToolApplication(None)
         return app['persons'].get(username)
 
+    def updateJournalMode(self):
+        person = IPerson(self.request.principal, None)
+        if person is None:
+            return
+        mode = getCurrentJournalMode(person) or ''
+        if mode == 'journal-mode-school-attendance':
+            return
+        setCurrentJournalMode(person, 'journal-mode-school-attendance')
+
+    def update(self):
+        self.updateJournalMode()
+        super(FlourishSchoolAttendanceView, self).update()
+
 
 class AttendanceFilter(table.ajax.IndexedTableFilter):
 
@@ -2365,6 +2494,8 @@ class FlourishSchoolAttendanceGradebook(flourish.content.ContentProvider,
             self.no_periods = True
             self.render_journal = False
             return
+
+        self.updateJournalMode()
         if 'UPDATE_SUBMIT' in self.request:
             self.updateGradebook()
 

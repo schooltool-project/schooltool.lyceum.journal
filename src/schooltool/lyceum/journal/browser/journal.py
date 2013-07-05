@@ -999,6 +999,21 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
             return None
         return score.value
 
+    def getHint(self, person, meeting):
+        # grade hint is homeroom attendance by default
+        period = getattr(meeting, 'period', None)
+        if period is None:
+            return None
+        if period.activity_type != 'homeroom':
+            return None
+        requirement = HomeroomRequirement(meeting)
+        score = IEvaluateRequirement(requirement).getEvaluation(
+            person, requirement, default=UNSCORED)
+        if (score is UNSCORED or
+            score.value is UNSCORED):
+            return None
+        return score.value
+
     def updateJournalMode(self):
         if self.journal_mode is None:
             return
@@ -1060,10 +1075,12 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
                 grade = self.getGrade(person, insecure_meeting) or ''
+                hint = self.getHint(person, insecure_meeting) or ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
                     'value': grade,
+                    'hint': hint,
                     'editable': True,
                     }
                 grades.append(grade_data)
@@ -1075,6 +1092,7 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                              'sortKey': collator.key(person.title),
                              'url': absoluteURL(person, self.request)},
                  'grades': grades,
+                 'has_hints': any([g['hint'] for g in grades]),
                  'average': self.average(person),
                 })
         self.sortBy = self.request.get('sort_by')
@@ -1139,20 +1157,6 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         ss = self.getDefaultScoreSystem()
         return AttendanceRequirement(meeting, ss)
 
-    def getHomeroomAttendance(self, person, meeting):
-        period = getattr(meeting, 'period', None)
-        if period is None:
-            return None
-        if period.activity_type != 'homeroom':
-            return None
-        requirement = HomeroomRequirement(meeting)
-        score = IEvaluateRequirement(requirement).getEvaluation(
-            person, requirement, default=UNSCORED)
-        if (score is UNSCORED or
-            score.value is UNSCORED):
-            return None
-        return score.value
-
     def table(self):
         result = []
         collator = ICollator(self.request.locale)
@@ -1161,12 +1165,12 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
                 attendance = self.getGrade(person, insecure_meeting) or ''
-                homeroom = self.getHomeroomAttendance(person, insecure_meeting) or ''
+                hint = self.getHint(person, insecure_meeting) or ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
                     'value': attendance,
-                    'homeroom': homeroom,
+                    'hint': hint,
                     'editable': True,
                     }
                 grades.append(grade_data)
@@ -1186,7 +1190,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                         if excusable
                         else ''),
                  'unexcused': excused - excusable if excusable else 1,
-                 'has_homeroom': any([g['homeroom'] for g in grades]),
+                 'has_hints': any([g['hint'] for g in grades]),
                 })
         self.sortBy = self.request.get('sort_by')
         return sorted(result, key=self.sortKey)
@@ -1279,6 +1283,9 @@ class FlourishSectionHomeroomAttendance(FlourishLyceumSectionJournalAttendance):
     journal_mode = 'journal-mode-homeroom'
 
     no_periods_text = _("This section is not scheduled for any homeroom periods.")
+
+    def getHint(self, person, meeting):
+        return None
 
     def isJournalMeeting(self, term, meeting):
         if not FlourishLyceumSectionJournalAttendance.isJournalMeeting(self, term, meeting):

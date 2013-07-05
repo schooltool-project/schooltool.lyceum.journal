@@ -50,10 +50,10 @@
       </thead>
       <tbody>
         <tal:block tal:repeat="row table">
-          <tal:block condition="row/has_homeroom">
+          <tal:block condition="row/has_hints">
             <tal:block condition="repeat/row/even">
               <tr class="grade-hint double-even">
-                <td tal:repeat="grade row/grades" tal:content="grade/homeroom" />
+                <td tal:repeat="grade row/grades" tal:content="grade/hint" />
                 <td class="placeholder">&nbsp;</td>
               </tr>
               <tr class="grade-score double-even">
@@ -63,7 +63,7 @@
             </tal:block>
             <tal:block condition="repeat/row/odd">
               <tr class="grade-hint double-odd">
-                <td tal:repeat="grade row/grades" tal:content="grade/homeroom" />
+                <td tal:repeat="grade row/grades" tal:content="grade/hint" />
                 <td class="placeholder">&nbsp;</td>
               </tr>
               <tr class="grade-score double-odd">
@@ -72,7 +72,7 @@
               </tr>
             </tal:block>
           </tal:block>
-          <tal:block condition="not:row/has_homeroom"
+          <tal:block condition="not:row/has_hints"
                      define="even repeat/row/even;
                              trcls python: even and 'single-even' or 'single-odd'">
             <tr tal:attributes="class trcls">

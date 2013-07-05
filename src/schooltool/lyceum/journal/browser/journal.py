@@ -988,6 +988,17 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
                 unique_meetings.add(event.meeting_id)
         return result
 
+    def getGrade(self, person, meeting):
+        requirement = self.makeRequirement(meeting)
+        score = IEvaluateRequirement(requirement).getEvaluation(
+            person, requirement, default=UNSCORED)
+        if score is UNSCORED:
+            return None
+        grade = score.value
+        if grade is UNSCORED:
+            return None
+        return score.value
+
     def updateJournalMode(self):
         if self.journal_mode is None:
             return
@@ -1048,12 +1059,7 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
-                requirement = self.makeRequirement(insecure_meeting)
-                score = IEvaluateRequirement(requirement).getEvaluation(
-                    person, requirement, default=UNSCORED)
-                grade = score.value
-                if grade is UNSCORED:
-                    grade = ''
+                grade = self.getGrade(person, insecure_meeting) or ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
@@ -1133,6 +1139,20 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         ss = self.getDefaultScoreSystem()
         return AttendanceRequirement(meeting, ss)
 
+    def getHomeroomAttendance(self, person, meeting):
+        period = getattr(meeting, 'period', None)
+        if period is None:
+            return None
+        if period.activity_type != 'homeroom':
+            return None
+        requirement = HomeroomRequirement(meeting)
+        score = IEvaluateRequirement(requirement).getEvaluation(
+            person, requirement, default=UNSCORED)
+        if (score is UNSCORED or
+            score.value is UNSCORED):
+            return None
+        return score.value
+
     def table(self):
         result = []
         collator = ICollator(self.request.locale)
@@ -1140,18 +1160,13 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
-                requirement = self.makeRequirement(insecure_meeting)
-                score = IEvaluateRequirement(requirement).getEvaluation(
-                    person, requirement, default=UNSCORED)
-                grade = score.value
-                if grade is not UNSCORED:
-                    value = grade
-                else:
-                    value = ''
+                attendance = self.getGrade(person, insecure_meeting) or ''
+                homeroom = self.getHomeroomAttendance(person, insecure_meeting) or ''
                 grade_data = {
                     'id': '%s_%s' % (meeting.__name__, person.__name__),
                     'sortKey': meeting.__name__,
-                    'value': value,
+                    'value': attendance,
+                    'homeroom': homeroom,
                     'editable': True,
                     }
                 grades.append(grade_data)
@@ -1171,6 +1186,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                         if excusable
                         else ''),
                  'unexcused': excused - excusable if excusable else 1,
+                 'has_homeroom': any([g['homeroom'] for g in grades]),
                 })
         self.sortBy = self.request.get('sort_by')
         return sorted(result, key=self.sortKey)

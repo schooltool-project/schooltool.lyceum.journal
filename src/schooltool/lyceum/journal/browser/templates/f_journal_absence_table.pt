@@ -49,11 +49,39 @@
         </tr>
       </thead>
       <tbody>
-        <tr tal:repeat="row table">
-          <td tal:repeat="grade row/grades"
-              tal:content="grade/value" />
-          <td class="placeholder">&nbsp;</td>
-        </tr>
+        <tal:block tal:repeat="row table">
+          <tal:block condition="row/has_homeroom">
+            <tal:block condition="repeat/row/even">
+              <tr class="grade-hint double-even">
+                <td tal:repeat="grade row/grades" tal:content="grade/homeroom" />
+                <td class="placeholder">&nbsp;</td>
+              </tr>
+              <tr class="grade-score double-even">
+                <td tal:repeat="grade row/grades" tal:content="grade/value" />
+                <td class="placeholder">&nbsp;</td>
+              </tr>
+            </tal:block>
+            <tal:block condition="repeat/row/odd">
+              <tr class="grade-hint double-odd">
+                <td tal:repeat="grade row/grades" tal:content="grade/homeroom" />
+                <td class="placeholder">&nbsp;</td>
+              </tr>
+              <tr class="grade-score double-odd">
+                <td tal:repeat="grade row/grades" tal:content="grade/value" />
+                <td class="placeholder">&nbsp;</td>
+              </tr>
+            </tal:block>
+          </tal:block>
+          <tal:block condition="not:row/has_homeroom"
+                     define="even repeat/row/even;
+                             trcls python: even and 'single-even' or 'single-odd'">
+            <tr tal:attributes="class trcls">
+              <td tal:repeat="grade row/grades"
+                  tal:content="grade/value" />
+              <td class="placeholder">&nbsp;</td>
+            </tr>
+          </tal:block>
+        </tal:block>
       </tbody>
     </table>
   </div>

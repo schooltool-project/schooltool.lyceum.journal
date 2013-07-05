@@ -175,6 +175,24 @@
       />
 
   <flourish:viewlet
+      name="journal_modes"
+      before="*"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.JournalModes"
+      for="schooltool.person.interfaces.IPersonContainer"
+      title="View"
+      permission="schooltool.edit"
+      view=".journal.FlourishSchoolAttendanceView"
+      />
+
+  <flourish:content
+      name="lyceum-journal-modes"
+      class=".journal.JournalModeContent"
+      render="render"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
       name="journal_modes_selector"
       manager=".journal.JournalModes"
       class=".journal.JournalModeSelector"
@@ -200,10 +218,21 @@
       />
 
   <flourish:viewlet
-      name="help.html"
+      name="journal-help"
+      after="journal-actions"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.FlourishJournalHelpLinks"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       title="Help"
+      permission="schooltool.view"
+      view=".journal.FlourishLyceumSectionJournalBase"
+      />
+
+  <flourish:viewlet
+      name="help.html"
+      title="Score System"
       class=".journal.FlourishJournalHelpViewlet"
-      manager=".journal.FlourishJournalActionsLinks"
+      manager=".journal.FlourishJournalHelpLinks"
       permission="schooltool.view"
       />
 
@@ -224,8 +253,8 @@
 
   <flourish:content
       name="legend"
-      for="schooltool.requirement.interfaces.IRangedValuesScoreSystem"
-      class=".journal.RangedScoreSystemLegend"
+      for="schooltool.requirement.interfaces.ICustomScoreSystem"
+      class=".journal.CustomScoreSystemLegend"
       template="templates/f_journal_grades_legend.pt"
       permission="schooltool.view"
       />

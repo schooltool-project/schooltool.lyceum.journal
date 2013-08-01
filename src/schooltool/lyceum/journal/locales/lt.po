@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: schooltool-developers@lists.launchpad.net\n"
-"POT-Creation-Date: 2012-04-17 21:00+0300\n"
-"PO-Revision-Date: 2012-04-17 22:09+0000\n"
+"POT-Creation-Date: 2012-10-08 20:15+0300\n"
+"PO-Revision-Date: 2013-04-04 14:41+0000\n"
 "Last-Translator: Gediminas Paulauskas <menesis@pov.lt>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-18 05:10+0000\n"
-"X-Generator: Launchpad (build 15108)\n"
+"X-Launchpad-Export-Date: 2013-04-19 05:42+0000\n"
+"X-Generator: Launchpad (build 16567)\n"
 "Language: lt\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
@@ -49,11 +49,7 @@ msgstr "Semestras"
 msgid "Year"
 msgstr "Metai"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:96
-msgid "Enter Attendance"
-msgstr "Žymėti lankomumą"
-
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:112
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:120
 msgid "Actions"
 msgstr "Veiksmai"
 
@@ -69,14 +65,18 @@ msgstr "Ataskaitos"
 msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
-msgstr ""
+msgstr "Excel formato lentelė, kurioje yra visi šio žurnalo lapai."
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid "Journal Export"
-msgstr ""
+msgstr "Eksportuoti žurnalą"
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:241
+msgid "My Journal"
+msgstr "Mano žurnalas"
 
 #. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:76
+#: /src/schooltool/lyceum/journal/browser/journal.py:80
 msgid "Single letter that represents an absent mark for a student"
 msgstr "n"
 
@@ -115,7 +115,19 @@ msgstr "Praleido"
 msgid "Tardy"
 msgstr "Vėlavo"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:811
+#: /src/schooltool/lyceum/journal/browser/journal.py:734
+msgid "Enter Attendance"
+msgstr "Žymėti lankomumą"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:737
+msgid "Section is not scheduled"
+msgstr "Kursas neturi tvarkaraščio"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:739
+msgid "No periods assigned for this section"
+msgstr "Šiam kursui nepriskirtas nei vienas periodas"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:910
 msgid "N/A"
 msgstr "-"
 
@@ -130,6 +142,40 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
 msgstr "Dienyno pagalba"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1252
+msgid "Fill down"
+msgstr "Užpildyti"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1257
+#: /src/schooltool/lyceum/journal/browser/journal.py:1305
+#: /src/schooltool/lyceum/journal/browser/journal.py:1336
+msgid "Sort by"
+msgstr "Rūšiuoti pagal"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+msgid "Student"
+msgstr "Studentas"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1302
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:42
+msgid "Name"
+msgstr "Vardas"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1321
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:103
+msgid "Ave."
+msgstr "Vid."
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1322
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+msgid "Trd."
+msgstr "Vėl."
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1323
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+msgid "Abs."
+msgstr "Pral."
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -166,64 +212,65 @@ msgstr "Tvarkaraštis"
 msgid "You can manage timetables for this section here: ${timetable_link}"
 msgstr "Tvarkaraščius šiam kursui galite tvarkyti čia: ${timetable_link}"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:152
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:167
-msgid "Name"
-msgstr "Vardas"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:51
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:87
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:155
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:170
-msgid "Sort by"
-msgstr "Rūšiuoti pagal"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:44
 msgid "Day"
 msgstr "Diena"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:61
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:47
 msgid "Period"
 msgstr "Periodas"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:144
-msgid "Abs."
-msgstr "Pral."
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:172
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:179
-msgid "Trd."
-msgstr "Vėl."
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:187
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:194
-msgid "Ave."
-msgstr "Vid."
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "S"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Save"
 msgstr "Išsaugoti"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:195
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Shortcut: Alt-S"
 msgstr "Trumpinys: Alt-S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:201
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+msgid "Expand"
+msgstr "Išskleisti"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+msgid "Collapse"
+msgstr "Suskleisti"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
 msgid "Zoom Out"
 msgstr "Mažinti"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:205
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
 msgid "Zoom Normal"
 msgstr "Normalus"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:209
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
 msgid "Zoom In"
 msgstr "Didinti"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
+msgid "Fill empty cells"
+msgstr "Užpildyti tuščius langelius"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
+msgid "Grade"
+msgstr "Pažymys"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
+msgid "Choose a grade to apply to all the students in the gradebook column."
+msgstr "Pasirinkite pažymį, kurį parašyti visiems studentams."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
+msgid "Submit"
+msgstr "Pateikti"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
+msgid "Cancel"
+msgstr "Atsisakyti"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
@@ -234,6 +281,22 @@ msgstr "Paaiškinimai"
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
 msgid "Attendance / grade"
 msgstr "Lankomumas / pažymys"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
+msgid "There are no absences."
+msgstr "Nėra praleistų pamokų."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:33
+msgid "There are no tardies."
+msgstr "Nėra pavėluotų pamokų."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:35
+msgid "Participation"
+msgstr "Dalyvavimas"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:50
+msgid "There are no participation scores."
+msgstr "Nėra pažymių už dalyvavimą."
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
@@ -295,18 +358,20 @@ msgstr "Redaguoti žurnalą"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View Journal"
-msgstr ""
+msgstr "Matyti žurnalą"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View journal data for a section."
-msgstr ""
+msgstr "Matyti kurso žurnalo duomenis."
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
-msgstr ""
+msgstr "Tik kurso dėstytojas gali redaguoti jo žurnalą."
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid ""
 "The instructor of a section and school administration can edit a section's "
 "journal."
 msgstr ""
+"Kurso dėstytojas ir mokymo įstaigos administracija gali redaguoti kurso "
+"žurnalą."

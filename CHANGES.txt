@@ -8,6 +8,12 @@ CHANGES
 - Remote XLS export
 
 
+2.4.1 (2013-07-03)
+------------------
+
+- Update translations
+
+
 2.4.0 (2013-04-04)
 ------------------
 

@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-2.5.0 (unreleased)
+2.5.0 (2013-07-03)
 ------------------
 
-- Remote XLS export
+- Background XLS export
 
 
 2.4.1 (2013-07-03)

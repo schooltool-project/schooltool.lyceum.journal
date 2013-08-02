@@ -2,9 +2,17 @@
 CHANGES
 =======
 
-2.5.1 (unreleased)
+2.5.1 (2013-08-02)
 ------------------
 
+- Split journal into three modes: attendance, scores, and homeroom.
+- Schoolwide attendance view
+- Homeroom attendance grades overlayed in journal attendance gradebook (where available)
+- Rewrite journal storage based on score systems.
+- Customizable journal score systems
+- Excused status, enter ``ae`` or ``te`` in the journal.
+- Score history
+- Only clerks and instructors can edit journals by default.
 
 
 2.5.0 (2013-07-03)

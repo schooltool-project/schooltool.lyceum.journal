@@ -881,10 +881,15 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
     @Lazy
     def activities(self):
         result = []
+        scores = None
+        ss = self.getDefaultScoreSystem()
+        if ss is not None:
+            scores = self.getJSONScores(ss)
         for meeting in self.meetings:
             info = {
                 'hash': meeting.__name__,
                 'cssClass': 'scorable',
+                'scores': scores,
                 }
             insecure_meeting = removeSecurityProxy(meeting)
             meetingDate = insecure_meeting.dtstart.astimezone(self.tzinfo).date()
@@ -1136,6 +1141,20 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
         else:
             return "%.1f" % (float(sum(grades)) / float(len(grades)))
 
+    def getJSONScores(self, scoresystem):
+        encoder = flourish.tal.JSONEncoder()
+        result = []
+        for label, abbr, value, percent in scoresystem.scores:
+            title = label
+            if abbr:
+                title += ': %s' % abbr
+            result.append({
+                'label': title,
+                'value': label,
+            })
+        json = encoder.encode(result)
+        return json
+
 
 class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
 
@@ -1161,6 +1180,20 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
     def makeRequirement(self, meeting):
         ss = self.getDefaultScoreSystem()
         return AttendanceRequirement(meeting, ss)
+
+    def getJSONScores(self, scoresystem):
+        encoder = flourish.tal.JSONEncoder()
+        result = []
+        for label, abbr in scoresystem.scores:
+            title = label
+            if abbr:
+                title += ': %s' % abbr
+            result.append({
+                'label': title,
+                'value': label,
+            })
+        json = encoder.encode(result)
+        return json
 
     def table(self):
         result = []

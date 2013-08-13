@@ -26,7 +26,6 @@ import base64
 import xlwt
 import datetime
 import dateutil
-import pytz
 
 from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
@@ -44,8 +43,7 @@ from zope.interface import implements
 from zope.intid.interfaces import IIntIds
 from zope.traversing.browser.absoluteurl import absoluteURL
 from zope.cachedescriptors.property import Lazy
-from zope.component import getUtility, queryMultiAdapter
-from zope.publisher.browser import BrowserView
+from zope.component import getUtility
 from zope.container.interfaces import INameChooser
 
 import z3c.form.field
@@ -57,7 +55,6 @@ from zc.table.interfaces import IColumn
 from schooltool.skin import flourish
 from schooltool import table
 from schooltool.basicperson.interfaces import IDemographics
-from schooltool.calendar.simple import SimpleCalendarEvent
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
 from schooltool.export import export
@@ -1072,7 +1069,6 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                     except ScoreValidationError:
                         pass
                     except:
-                        import ipdb; ipdb.set_trace()
                         IEvaluateRequirement(requirement).evaluate(
                             person, requirement, cell_value,
                             evaluator=evaluator)
@@ -1525,6 +1521,11 @@ class FlourishJournalSectionNavigationViewlet(FlourishJournalNavigationViewletBa
 
 class FlourishJournalRedirectView(flourish.page.Page):
 
+    @Lazy
+    def person(self):
+        person = IPerson(self.request.principal, None)
+        return person
+
     def getModeUrl(self):
         content = self.providers.get('lyceum-journal-modes')
         if content is None:
@@ -1533,7 +1534,7 @@ class FlourishJournalRedirectView(flourish.page.Page):
         if not modes:
             return
         url = modes[0]['url']
-        current = getCurrentJournalMode(IPerson(self.request.principal, None)) or ''
+        current = getCurrentJournalMode(self.person) or ''
         if not current:
             return url
         for mode in content.modes:
@@ -1541,12 +1542,25 @@ class FlourishJournalRedirectView(flourish.page.Page):
                 return mode['url']
         return url
 
+    def getSchoolYearUrl(self):
+        sections = list(ILearner(self.person).sections())
+        if sections:
+            current_term = getUtility(IDateManager).current_term
+            if current_term is not None:
+                schoolyear = ISchoolYear(current_term)
+                url = (absoluteURL(schoolyear, self.request) +
+                       '/myjournal.html')
+                return url
+
     def render(self):
         url = self.getModeUrl()
         if not url:
+            url = self.getSchoolYearUrl()
+        if not url:
             self.request.response.redirect(
                 absoluteURL(self.context, self.request))
-        self.request.response.redirect(url)
+        else:
+            self.request.response.redirect(url)
 
 
 class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
@@ -2237,19 +2251,19 @@ class FlourishSchoolYearMyJournalView(flourish.page.Page):
         section_journal_data = ISectionJournalData(section)
         for event in ISchoolToolCalendar(section):
             grade = section_journal_data.getGrade(person, event)
+            if not grade:
+                continue
             yield event, grade
 
     def getEventAttendanceScores(self, section):
         person = self.person
         if person is None:
             return
-        default = object()
+        evaluations = removeSecurityProxy(IEvaluations(person))
         for event in ISchoolToolCalendar(section):
             requirement = AttendanceRequirement(removeSecurityProxy(event))
-            score = self.getEvaluation(person, requirement, default=default)
-            if (score is default or
-                score is UNSCORED or
-                score.value is UNSCORED):
+            score = evaluations.get(requirement)
+            if not score:
                 continue
             yield event, score
 

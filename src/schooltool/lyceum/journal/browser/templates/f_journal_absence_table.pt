@@ -97,7 +97,7 @@
             <a class="popup_link" href="" i18n:translate="">Trd.</a>
           </th>
           <th id="column_excused">
-            <a class="popup_link" href="" i18n:translate="">Unexc.</a>
+            <a class="popup_link" href="" i18n:translate="">Exc.</a>
           </th>
         </tr>
       </thead>

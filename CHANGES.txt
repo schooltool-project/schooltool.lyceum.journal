@@ -5,6 +5,7 @@ CHANGES
 2.5.2 (unreleased)
 ------------------
 
+- Update GPL license and file headers from gnu.org (https://launchpad.net/bugs/1211145)
 - Update Portuguese translation.
 
 

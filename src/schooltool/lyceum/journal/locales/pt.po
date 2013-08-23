@@ -1,26 +1,21 @@
-# Portuguese translation for schooltool
-# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
-# This file is distributed under the same license as the schooltool package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-10-08 20:15+0300\n"
-"PO-Revision-Date: 2012-04-17 22:34+0000\n"
-"Last-Translator: Diogo Lavareda <diogolavareda9@hotmail.com>\n"
-"Language-Team: Portuguese <pt@li.org>\n"
+"PO-Revision-Date: 2013-08-02 13:14+0000\n"
+"Last-Translator: Bruno Pinto <brunoabpinto@gmail.com>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-04-19 05:42+0000\n"
-"X-Generator: Launchpad (build 16567)\n"
-"Language: pt\n"
+"X-Launchpad-Export-Date: 2013-08-03 06:06+0000\n"
+"X-Generator: Launchpad (build 16718)\n"
+"Language: pt_BR\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:57
 msgid "Explained:"
-msgstr "Explicação:"
+msgstr "Explicado:"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:172
 msgid "Total"
@@ -35,15 +30,15 @@ msgstr "Total"
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:8
 #: /src/schooltool/lyceum/journal/security.zcml:6
 msgid "Journal"
-msgstr "Diário"
+msgstr "Folha de Presenças"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
 msgid "Section"
-msgstr "Secção"
+msgstr "Turma"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
 msgid "Term"
-msgstr "Período Escolar"
+msgstr "Período"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
 msgid "Year"
@@ -55,7 +50,7 @@ msgstr "Ações"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
 msgid "Reports"
@@ -66,14 +61,16 @@ msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
 msgstr ""
+"Unica folha em formato Excel  contendo todas as folhas de cálculo deste "
+"livro de presenças."
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
 msgid "Journal Export"
-msgstr ""
+msgstr "Exportar Folha de Presenças"
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:241
 msgid "My Journal"
-msgstr ""
+msgstr "Minha Folha de Presenças"
 
 #. Default: "a"
 #: /src/schooltool/lyceum/journal/browser/journal.py:80
@@ -101,7 +98,7 @@ msgstr "Média"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:295
 msgid "Absences"
-msgstr "Faltas"
+msgstr "Ausências"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:319
 msgid "Tardies"
@@ -109,51 +106,53 @@ msgstr "Atrasos"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:326
 msgid "Absent"
-msgstr "Ausente"
+msgstr "Ausência"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:329
 msgid "Tardy"
-msgstr "Atrasado"
+msgstr "Atraso"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:734
 msgid "Enter Attendance"
-msgstr ""
+msgstr "Insira Presença"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:737
 msgid "Section is not scheduled"
-msgstr ""
+msgstr "A turma não está agendada"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:739
 msgid "No periods assigned for this section"
-msgstr ""
+msgstr "Não há tempos designados para esta turma"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:910
 msgid "N/A"
-msgstr ""
+msgstr "N/D"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:849
 msgid ""
 "You have some changes that have not been saved.  Click OK to save now or "
 "CANCEL to continue without saving."
 msgstr ""
+"Tem algumas alterações que não foram guardadas. Clique OK para guardá-las "
+"agora ou CANCELAR para continuar sem guardar."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1093
 msgid "Journal Help"
-msgstr ""
+msgstr "Ajuda com a Folha de Presenças"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1252
 msgid "Fill down"
-msgstr ""
+msgstr "Preencher"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1257
 #: /src/schooltool/lyceum/journal/browser/journal.py:1305
 #: /src/schooltool/lyceum/journal/browser/journal.py:1336
 msgid "Sort by"
-msgstr ""
+msgstr "Ordenar por"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1284
 msgid "Student"
-msgstr ""
+msgstr "Aluno"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1302
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:42
@@ -163,17 +162,17 @@ msgstr "Nome"
 #: /src/schooltool/lyceum/journal/browser/journal.py:1321
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:103
 msgid "Ave."
-msgstr ""
+msgstr "Média"
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1322
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
 msgid "Trd."
-msgstr ""
+msgstr "Atr."
 
 #: /src/schooltool/lyceum/journal/browser/journal.py:1323
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
 msgid "Abs."
-msgstr ""
+msgstr "Aus."
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -182,7 +181,7 @@ msgstr "${group} atendimento para ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:78
 msgid "There have been no meetings in the selected term."
-msgstr "Não houveram reuniões no termo selecionado."
+msgstr "Não houveram reuniões na turma selecionada."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
@@ -190,11 +189,13 @@ msgid ""
 "This section is not scheduled for any term, to use the journal you should "
 "add a timetable first."
 msgstr ""
+"Esta turma não está agendada para nenhum tempo, para usar a folha de "
+"presenças deve em primeiro lugar adicionar um horário."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:10
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
-msgstr ""
+msgstr "Nenhum tempo atribuído no calendário desta turma"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
@@ -206,7 +207,7 @@ msgstr "Agenda"
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
-msgstr ""
+msgstr "Pode gerir horários para esta turma: ${timetable_link}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:44
 msgid "Day"
@@ -214,59 +215,61 @@ msgstr "Dia"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:47
 msgid "Period"
-msgstr ""
+msgstr "Tempo"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "S"
-msgstr ""
+msgstr "S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Save"
-msgstr "Gravar"
+msgstr "Guardar"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
 msgid "Shortcut: Alt-S"
-msgstr ""
+msgstr "Atalho: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
 msgid "Expand"
-msgstr ""
+msgstr "Expandir"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
 msgid "Collapse"
-msgstr ""
+msgstr "Retrair"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
 msgid "Zoom Out"
-msgstr ""
+msgstr "Menos Zoom"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
 msgid "Zoom Normal"
-msgstr ""
+msgstr "Zoom Normal"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
 msgid "Zoom In"
-msgstr ""
+msgstr "Mais Zoom"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
 msgid "Fill empty cells"
-msgstr ""
+msgstr "Preencher células vazias"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
 msgid "Grade"
-msgstr ""
+msgstr "Nota"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
 msgid "Choose a grade to apply to all the students in the gradebook column."
 msgstr ""
+"Escolha uma nota para atribuir para todos os alunos na coluna do livro de "
+"notas."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:2
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:73
@@ -276,32 +279,32 @@ msgstr "Legenda"
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
 msgid "Attendance / grade"
-msgstr "Atendimento / nota"
+msgstr "Presença / nota"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
 msgid "There are no absences."
-msgstr ""
+msgstr "Não existem ausências."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:33
 msgid "There are no tardies."
-msgstr ""
+msgstr "Não existem atrasos."
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:35
 msgid "Participation"
-msgstr ""
+msgstr "Participação"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:50
 msgid "There are no participation scores."
-msgstr ""
+msgstr "Não existem pontuações de participação."
 
 #: /src/schooltool/lyceum/journal/browser/templates/gradebook_tab_viewlet.pt:4
 msgid "Attendance"
-msgstr "Assiduidade"
+msgstr "Presença"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
 msgid "${section} journal for ${month} ${year}"
-msgstr "${section} diário para ${month} ${year}"
+msgstr "${section} folha de presenças para ${month} ${year}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:5
@@ -311,19 +314,19 @@ msgstr "${section} diário para ${month} ${year}"
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:14
 msgid "${section} journal"
-msgstr ""
+msgstr "${section} folha de presenças"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:6
 msgid "${person} gradebook for ${month}"
-msgstr "${person} boletim para ${month}"
+msgstr "Livro de notas de ${person} para ${month}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:9
 msgid "${person} gradebook"
-msgstr ""
+msgstr "Livro de notas de ${person}"
 
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:15
 msgid "${student_name} gradebook for ${month}"
-msgstr "${student_name} boletim para ${month}"
+msgstr "Livro de notas de ${student_name} para ${month}"
 
 #. Default: "Select"
 #: /src/schooltool/lyceum/journal/browser/templates/student_journal.pt:27
@@ -342,30 +345,32 @@ msgstr "Atalho: Alt-S"
 
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
-msgstr "As Minhas Secções"
+msgstr "Minhas Turmas"
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."
-msgstr ""
+msgstr "Criar e editar dados de uma seção da folha de presenças."
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Edit Journal"
-msgstr ""
+msgstr "Editar Folha de Presenças"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View Journal"
-msgstr ""
+msgstr "Ver Folha de Presenças"
 
 #: /src/schooltool/lyceum/journal/security.zcml:16
 msgid "View journal data for a section."
-msgstr ""
+msgstr "Visualizar os dados da folha de presenças para uma turma."
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
-msgstr ""
+msgstr "Só o docente de uma turma pode editar a sua folha de presenças"
 
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid ""
 "The instructor of a section and school administration can edit a section's "
 "journal."
 msgstr ""
+"O docente de uma turma e administração escolar pode editar uma seção do "
+"folha de presenças."

@@ -2,9 +2,11 @@
 CHANGES
 =======
 
-2.5.2 (unreleased)
+2.5.2 (2013-08-23)
 ------------------
 
+- Fix student's journal tab and view.
+- Used jQuery UI autocomplete widget for discrete score systems
 - Update GPL license and file headers from gnu.org (https://launchpad.net/bugs/1211145)
 - Update Portuguese translation.
 

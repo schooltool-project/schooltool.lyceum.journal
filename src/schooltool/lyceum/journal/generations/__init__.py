@@ -13,8 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
 Generations for database version upgrades.
@@ -24,6 +23,6 @@ from zope.app.generations.generations import SchemaManager
 
 
 schemaManager = SchemaManager(
-    minimum_generation=3,
-    generation=3,
+    minimum_generation=4,
+    generation=4,
     package_name='schooltool.lyceum.journal.generations')

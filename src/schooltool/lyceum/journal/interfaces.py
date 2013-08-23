@@ -13,18 +13,31 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
 Lyceum journal interfaces.
 """
+import zope.schema
 from zope.interface import Interface
 from zope.interface import Attribute
 from zope.location.interfaces import ILocation
 
+from schooltool.requirement.interfaces import IScoreSystem
 
-class ISectionJournalData(Interface):
+from schooltool.lyceum.journal import LyceumMessage as _
+
+
+class IEvaluateRequirement(Interface):
+
+    def evaluate(person, requirement, grade, evaluator=None, score_system=None):
+        """Add evaluation of a requirement."""
+
+    def getEvaluation(person, requirement, default=None):
+        """Get evaluation of a requirement."""
+
+
+class ISectionJournalData(IEvaluateRequirement):
     """A journal for a section."""
 
     section = Attribute("""Section this data belongs to.""")
@@ -35,20 +48,17 @@ class ISectionJournalData(Interface):
     def getGrade(person, meeting, default=None):
         """Retrieve a grade for a person and a meeting."""
 
-    def setAbsence(person, meeting, explained=True):
+    def setAbsence(person, meeting, explained=True, value=None):
         """Mark an absence as an explained or unexplained one."""
 
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
-    def setDescription(meeting, description):
-        """Set the description of the meeting."""
+    def gradedMeetings(person):
+        """Returns a list of (meeting, grades) for a person."""
 
-    def getDescription(meeting):
-        """Retrieve the description of a meeting."""
-
-    def recordedMeetings(person):
-        """Returns a list of recorded grades/absences for a person."""
+    def absentMeetings(person):
+        """Returns a list of (meeting, absence) for a person."""
 
 
 class ISectionJournal(ILocation):
@@ -68,17 +78,14 @@ class ISectionJournal(ILocation):
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
-    def setDescription(meeting, description):
-        """Set the description of the meeting."""
-
-    def getDescription(meeting):
-        """Retrieve the description of a meeting."""
-
     def meetings():
         """List all possible meetings for this section."""
 
-    def recordedMeetings(person):
-        """Returns a list of recorded grades/absences for a person."""
+    def gradedMeetings(person):
+        """Returns a list of (meeting, grades) for a person."""
+
+    def absentMeetings(person):
+        """Returns a list of (meeting, absence) for a person."""
 
     def hasMeeting(person, meeting):
         """Returns true if person should participate in a given meeting."""
@@ -90,3 +97,60 @@ class ISectionJournal(ILocation):
         goes through all their calendars to find the meeting.
         """
 
+
+class IAttendanceScoreSystem(IScoreSystem):
+
+    scores = zope.schema.List(
+        title=u'All values',
+        description=u'(score, label)',
+        value_type=zope.schema.Tuple(),
+        required=True)
+
+    tag_absent = zope.schema.List(
+        title=u'Absence scores',
+        value_type=zope.schema.TextLine(),
+        required=True)
+
+    tag_tardy = zope.schema.List(
+        title=u'Tardy scores',
+        value_type=zope.schema.TextLine(),
+        required=True)
+
+    tag_excused = zope.schema.List(
+        title=u'Excused scores',
+        value_type=zope.schema.TextLine(),
+        required=True)
+
+    def isAbsent(score):
+        pass
+
+    def isTardy(score):
+        pass
+
+    def isExcused(score):
+        pass
+
+
+class IPersistentAttendanceScoreSystem(IAttendanceScoreSystem):
+
+    hidden = zope.schema.Bool(
+        title=u"Hidden Score System",
+        required=False
+        )
+
+
+class IJournalScoreSystemPreferences(Interface):
+
+    grading_scoresystem = zope.schema.Choice(
+        title=_("Grading scoresystem"),
+        vocabulary="schooltool.lyceum.journal-grading-scoresystems",
+        required=True)
+
+    attendance_scoresystem = zope.schema.Choice(
+        title=_("Atttendance scoresystem"),
+        vocabulary="schooltool.lyceum.journal-attendance-scoresystems",
+        required=True)
+
+
+class IAvailableScoreSystems(Interface):
+    """A marker interface to get a list of available scoresystems."""

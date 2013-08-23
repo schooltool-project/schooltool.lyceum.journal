@@ -13,8 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
 Lyceum student journal views.
@@ -33,6 +32,7 @@ from schooltool.term.interfaces import ITermContainer
 from schooltool.table.interfaces import ITableFormatter
 from schooltool.course.interfaces import ICourseContainer
 from schooltool.course.interfaces import ILearner
+from schooltool.requirement.scoresystem import UNSCORED
 
 from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
 from schooltool.lyceum.journal.interfaces import ISectionJournalData
@@ -55,8 +55,8 @@ class CourseGradesColumn(object):
             for meeting in journal.recordedMeetings(self.student):
                 if meeting.dtstart.date() == self.date:
                     grade = journal.getGrade(self.student, meeting, default=None)
-                    if (grade is not None) and (grade != ""):
-                        grades.append(grade)
+                    if (grade is not None) and (grade != "") and (grade is not UNSCORED):
+                        grades.append(unicode(grade))
 
         return ", ".join(grades)
 
@@ -80,7 +80,7 @@ class CourseTermAverageGradesColumn(object):
             for meeting in journal.recordedMeetings(self.student):
                 if meeting.dtstart.date() in self.term:
                     grade = journal.getGrade(self.student, meeting, default=None)
-                    if (grade is not None) and (grade != ""):
+                    if (grade is not None) and (grade != "") and (grade is not UNSCORED):
                         grades.append(grade)
         int_grades = []
         for grade in grades:

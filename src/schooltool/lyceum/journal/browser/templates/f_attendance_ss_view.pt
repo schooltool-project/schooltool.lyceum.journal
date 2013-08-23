@@ -1,0 +1,30 @@
+<tal:block replace="resource_library:schooltool.gradebook.flourish" />
+<div i18n:domain="schooltool.gradebook">
+  <table>
+    <thead>
+      <tr>
+        <th i18n:translate="">Value</th>
+        <th i18n:translate="">Description</th>
+        <th i18n:translate="">Report as</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tal:block repeat="score view/scores">
+        <tr>
+          <td>
+            <span tal:content="score/value" />
+          </td>
+          <td>
+            <span tal:content="score/description" />
+          </td>
+          <td>
+            <span tal:content="score/tags" />
+          </td>
+        </tr>
+      </tal:block>
+    </tbody>
+  </table>
+  <h3 class="done-link" i18n:domain="schooltool">
+    <a tal:attributes="href view/done_link" i18n:translate="">Done</a>
+  </h3>
+</div>

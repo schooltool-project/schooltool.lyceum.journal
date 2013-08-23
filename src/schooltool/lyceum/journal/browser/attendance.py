@@ -13,8 +13,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
 Lyceum attendance views.
@@ -99,7 +98,7 @@ class AttendanceColumn(object):
         absences = 0
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences += 1
         if absences == 0:
             return '<td></td>'
@@ -129,7 +128,7 @@ class AttendanceColumn(object):
         absences = 0
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences += 1
 
         name = student.__name__ + "." + self.date.strftime("%Y-%m-%d")
@@ -162,7 +161,7 @@ class AttendanceTotalColumn(object):
         for date, meetings in self.days.items():
             for meeting in meetings:
                 journal = ISectionJournal(meeting)
-                if journal.getGrade(student, meeting, default="") == "n":
+                if journal.getAbsence(student, meeting, default="") == "n":
                     absences += 1
         if absences == 0:
             return '<td></td>'
@@ -185,7 +184,7 @@ class PeriodAttendanceColumn(object):
         absences = []
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences.append(meeting)
         if absences == []:
             return '<td></td>'
@@ -200,7 +199,7 @@ class PeriodAttendanceColumn(object):
         absences = []
         for meeting in self.meetings:
             journal = ISectionJournal(meeting)
-            if journal.getGrade(student, meeting, default="") == "n":
+            if journal.getAbsence(student, meeting, default="") == "n":
                 absences.append(meeting)
         if absences == []:
             return '<td></td>'

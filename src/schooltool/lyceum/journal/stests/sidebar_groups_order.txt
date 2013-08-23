@@ -81,6 +81,7 @@ Print the journal sidebar groups:
 
     >>> for el in tom.query_all.css('.sidebar .content .header'):
     ...     print el.text
+    View
     Section
     Term
     Year

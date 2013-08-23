@@ -2,7 +2,41 @@
 CHANGES
 =======
 
-2.4.1 (unreleased)
+2.5.3 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+2.5.2 (2013-08-23)
+------------------
+
+- Fix student's journal tab and view.
+- Used jQuery UI autocomplete widget for discrete score systems
+- Update GPL license and file headers from gnu.org (https://launchpad.net/bugs/1211145)
+- Update Portuguese translation.
+
+
+2.5.1 (2013-08-02)
+------------------
+
+- Split journal into three modes: attendance, scores, and homeroom.
+- Schoolwide attendance view
+- Homeroom attendance grades overlayed in journal attendance gradebook (where available)
+- Rewrite journal storage based on score systems.
+- Customizable journal score systems
+- Excused status, enter ``ae`` or ``te`` in the journal.
+- Score history
+- Only clerks and instructors can edit journals by default.
+
+
+2.5.0 (2013-07-03)
+------------------
+
+- Background XLS export
+
+
+2.4.1 (2013-07-03)
 ------------------
 
 - Update translations

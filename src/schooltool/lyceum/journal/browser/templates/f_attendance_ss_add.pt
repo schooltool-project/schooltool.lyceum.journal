@@ -1,0 +1,92 @@
+<tal:block replace="resource_library:schooltool.gradebook.flourish" />
+<div i18n:domain="schooltool.gradebook">
+  <form method="post"
+        tal:attributes="action string:${context/@@absolute_url}/add_attendance.html">
+    <input type="hidden" name="form-submitted" value="" />
+    <div class="status"
+         tal:condition="view/message">
+      <div class="summary ui-state-error ui-corner-all">
+        <span class="ui-icon ui-icon-alert">icon</span>
+        <tal:block content="view/message" />
+      </div>
+    </div>
+    <fieldset>
+      <legend><span i18n:translate="">New Score System</span></legend>
+      <div class="row">
+        <div class="label">
+          <label for="title">
+            <span i18n:translate="">
+              Title
+            </span>
+            <span class="required">*</span>
+          </label>
+        </div>
+        <div class="widget">
+          <input type="text" name="title" id="title"
+                 tal:attributes="value request/title|nothing" />
+        </div>
+      </div>
+    </fieldset>
+    <table class="scoresystem-scores">
+      <thead>
+        <tr>
+          <th i18n:translate="">Value (lowercase)</th>
+          <th i18n:translate="">Description</th>
+          <th i18n:translate="">Report as</th>
+          <th i18n:translate="">Excused?</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tal:block repeat="score view/scores">
+          <tr>
+            <td>
+              <input type="text"
+                     tal:attributes="name score/value_name;
+                                     value score/value" />
+            </td>
+            <td>
+              <input type="text"
+                     tal:attributes="name score/title_name;
+                                     value score/title_value" />
+            </td>
+            <td>
+              <select tal:attributes="name score/absence_name">
+                <option value="" i18n:translate=""
+                        tal:attributes="selected score/present">
+                  Present
+                </option>
+                <option value="a" i18n:translate=""
+                        tal:attributes="selected score/absent">
+                  Absent
+                </option>
+                <option value="t" i18n:translate=""
+                        tal:attributes="selected score/tardy">
+                  Tardy
+                </option>
+              </select>
+            </td>
+            <td>
+              <input type="checkbox"
+                     tal:attributes="name score/excused_name;
+                                     checked score/excused" />
+              <label tal:attributes="for score/excused_name">Excused</label>
+            </td>
+            <td class="buttons">
+              <metal:block tal:condition="repeat/score/end">
+                <input type="submit" class="button-ok" name="SAVE" value="Add"
+                       i18n:attributes="value" />
+              </metal:block>
+            </td>
+          </tr>
+        </tal:block>
+      </tbody>
+    </table>
+    <div class="buttons">
+      <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save"
+             i18n:attributes="value" />
+      <input type="submit" class="button-cancel" name="CANCEL" value="Cancel"
+             i18n:attributes="value" />
+    </div>
+  </form>
+</div>

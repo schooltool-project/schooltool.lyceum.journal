@@ -13,9 +13,8 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
 SchoolTool Lyceum Journal setup script.
@@ -53,7 +52,6 @@ setup(
     "License :: OSI Approved :: GNU General Public License (GPL)",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 2.5",
     "Programming Language :: Python :: 2.6",
     "Programming Language :: Python :: 2.7",
     "Programming Language :: Zope",
@@ -61,7 +59,8 @@ setup(
     package_dir={'': 'src'},
     namespace_packages=["schooltool", "schooltool.lyceum"],
     packages=find_packages('src'),
-    install_requires=['schooltool>=2.2',
+    install_requires=['schooltool>=2.5.1',
+                      'schooltool.gradebook>=2.5.1',
                       'pytz',
                       'setuptools',
                       'zc.table',

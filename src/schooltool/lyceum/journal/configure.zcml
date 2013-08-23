@@ -20,18 +20,28 @@
   <class class="schooltool.lyceum.journal.journal.SectionJournal">
     <require
         permission="schooltool.view"
-        attributes="getGrade getAbsence getDescription members
-                    adjacent_sections meetings recordedMeetings
+        attributes="getGrade getAbsence getEvaluation members
+                    adjacent_sections meetings recordedMeetings gradedMeetings absentMeetings
                     hasMeeting findMeeting section __parent__ __name__" />
     <require
         permission="schooltool.edit"
-        attributes="setGrade setAbsence setDescription" />
+        attributes="setGrade setAbsence evaluate" />
   </class>
 
   <adapter
       factory="schooltool.lyceum.journal.journal.getSectionForSectionJournalData" />
   <adapter
       factory="schooltool.lyceum.journal.journal.getSectionForSectionJournal" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getEvaluateRequirementForSection" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getEvaluateRequirementForMeetingRequirement" />
+
+  <adapter
+      for="*"
+      factory="schooltool.lyceum.journal.journal.EvaluateGeneric" />
 
   <adapter
       for="schooltool.course.interfaces.ISection"
@@ -56,6 +66,60 @@
       factory=".journal.JournalAppStartup"
       name="schooltool.lyceum.journal" />
 
+
+  <class class=".journal.JournalXLSReportTask">
+    <require permission="schooltool.view"
+             interface="schooltool.report.interfaces.IReportTask" />
+    <require permission="schooltool.edit"
+             set_schema="schooltool.report.interfaces.IReportTask" />
+  </class>
+
+  <class class=".journal.AttendanceScoreSystem">
+    <require
+        permission="zope.View"
+        interface=".interfaces.IAttendanceScoreSystem"
+        />
+    <require
+        permission="schooltool.edit"
+        set_schema=".interfaces.IAttendanceScoreSystem"
+        />
+  </class>
+
+  <class class=".journal.PersistentAttendanceScoreSystem">
+    <require
+        permission="zope.View"
+        interface=".interfaces.IPersistentAttendanceScoreSystem"
+        />
+    <require
+        permission="schooltool.edit"
+        set_schema=".interfaces.IPersistentAttendanceScoreSystem"
+        />
+  </class>
+
+  <adapter
+      factory=".journal.JournalScoreSystemsStartup"
+      name="schooltool.lyceum.journal-ss-prefs" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getScoreSystemPreferences" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getJournalGradingScoreSystems"
+      name="grading" />
+
+  <adapter
+      factory="schooltool.lyceum.journal.journal.getJournalAttendanceScoreSystems"
+      name="attendance" />
+
+  <utility
+     factory=".journal.journalgradingchoicesfactory"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     name="schooltool.lyceum.journal-grading-scoresystems" />
+
+  <utility
+     factory=".journal.journalattendancechoicesfactory"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     name="schooltool.lyceum.journal-attendance-scoresystems" />
 
   <include package="schooltool.lyceum.journal.browser" />
 

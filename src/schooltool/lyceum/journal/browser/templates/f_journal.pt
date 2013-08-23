@@ -5,8 +5,8 @@
     This section is not scheduled for any term, to use the journal you
     should add a timetable first.
   </p>
-  <p tal:condition="view/no_periods" i18n:translate="">
-    No periods have been assigned in timetables of this section.
+  <p tal:condition="view/no_periods" i18n:translate=""
+     tal:content="view/no_periods_text">
   </p>
   <p i18n:translate="">
     You can manage timetables for this section here:
@@ -20,7 +20,7 @@
   <form method="post" id="grid-form" class="grid-form"
         tal:define="table view/table;
                     activities view/activities"
-        tal:attributes="action string:${context/@@absolute_url}">
+        tal:attributes="action string:${view/@@absolute_url}">
     <input tal:condition="request/month|nothing"
            type="hidden"
            name="month"
@@ -33,90 +33,12 @@
            type="hidden"
            name="student"
            tal:attributes="value request/student" />
-    <div id="gradebook" class="gradebook">
-      <div id="students-part" class="students gradebook-part">
-        <table>
-          <thead>
-            <tr>
-              <th rowspan="2" class="name">
-                <a class="popup_link" href="" i18n:translate="">Name</a>
-              </th>
-              <th i18n:translate="">Day</th>
-            </tr>
-            <tr>
-              <th i18n:translate="">Period</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr tal:repeat="row table">
-              <td colspan="2" tal:attributes="id row/student/id">
-                <a class="popup_link"
-                   href=""
-                   tal:attributes="title row/student/title"
-                   tal:content="row/student/title" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div id="grades-part" class="grades gradebook-part">
-        <table>
-          <thead>
-            <tr>
-              <tal:loop repeat="activity activities">
-                <th tal:attributes="id activity/hash;
-                                    class activity/cssClass">
-                  <a class="popup_link"
-                     href=""
-                     tal:attributes="title activity/longTitle;
-                                     href request/URL;"
-                     tal:content="activity/shortTitle" />
-                </th>
-              </tal:loop>
-              <th class="placeholder" rowspan="2">&nbsp;</th>
-            </tr>
-            <tr>
-              <th tal:repeat="activity activities"
-                  tal:content="activity/period" />
-            </tr>
-          </thead>
-          <tbody>
-            <tr tal:repeat="row table">
-              <td tal:repeat="grade row/grades"
-                  tal:content="grade/value" />
-              <td class="placeholder">&nbsp;</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div id="totals-part" class="totals gradebook-part">
-        <table>
-          <thead>
-            <tr>
-              <th id="column_absences">
-                <a class="popup_link" href="" i18n:translate="">Abs.</a>
-              </th>
-              <th id="column_tardies">
-                <a class="popup_link" href="" i18n:translate="">Trd.</a>
-              </th>
-              <th id="column_average">
-                <a class="popup_link" href="" i18n:translate="">Ave.</a>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr tal:repeat="row table">
-              <td tal:content="row/absences" />
-              <td tal:content="row/tardies" />
-              <td tal:content="row/average" />
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+
+    <div tal:replace="structure view/providers/gradebook-table" />
+
     <div class="gradebook-controls" id="gradebook-controls">
       <div class="buttons">
-        <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save" 
+        <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save"
                title="Shortcut: Alt-S" accesskey="S"
                i18n:attributes="value; title; accesskey" />
       </div>

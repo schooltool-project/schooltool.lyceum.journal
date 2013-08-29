@@ -702,7 +702,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         term = self.selected_term
         date = self.selectedDate()
-        if term.first <= date <= term.last:
+        if (term is not None and
+            term.first <= date <= term.last):
             month = date.month
             if month in available_months:
                 return month

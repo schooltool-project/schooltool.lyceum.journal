@@ -18,7 +18,6 @@
 """
 Lyceum journal content classes.
 """
-from BTrees.OOBTree import OOBTree
 from decimal import Decimal
 from persistent import Persistent
 
@@ -56,6 +55,7 @@ from schooltool.requirement.evaluation import Evaluation
 from schooltool.requirement.scoresystem import AbstractScoreSystem
 from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import CustomScoreSystem
+from schooltool.requirement.scoresystem import PersistentRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.requirement.interfaces import IScoreSystemContainer
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
@@ -629,10 +629,13 @@ def getScoreSystemPreferences(jd):
 class JournalScoreSystemsStartup(StartUpBase):
 
     def updateGradingSS(self, prefs):
-        if prefs.grading_scoresystem is not None:
+        if (prefs.grading_scoresystem is not None and
+            not isinstance(prefs.grading_scoresystem, PersistentRangedValuesScoreSystem)):
             return
         app = ISchoolToolApplication(None)
         ssc = IScoreSystemContainer(app)
+        if prefs.grading_scoresystem is not None:
+            del ssc[prefs.grading_scoresystem.__name__]
         tenPointScoreSystem = CustomScoreSystem(
             u'10 Points', u'10 Points Score System',
             scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))

@@ -521,10 +521,8 @@ class SectionJournal(object):
 
     def gradedMeetings(self, person, requirement_factory=GradeRequirement):
         meetings = []
-        for section in self.adjacent_sections:
-            sd = ISectionJournalData(section)
-            meetings.extend(sd.gradedMeetings(
-                    person, requirement_factory=requirement_factory))
+        sd = ISectionJournalData(removeSecurityProxy(self.section))
+        meetings = sd.gradedMeetings(person, requirement_factory)
         return sorted(meetings)
 
     def absentMeetings(self, person):

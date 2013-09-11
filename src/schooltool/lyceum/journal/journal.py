@@ -630,12 +630,13 @@ class JournalScoreSystemsStartup(StartUpBase):
 
     def updateGradingSS(self, prefs):
         if (prefs.grading_scoresystem is not None and
-            not isinstance(prefs.grading_scoresystem, PersistentRangedValuesScoreSystem)):
+            not (isinstance(prefs.grading_scoresystem, PersistentRangedValuesScoreSystem)
+                 and prefs.grading_scoresystem.title == u'10 Points')):
             return
         app = ISchoolToolApplication(None)
         ssc = IScoreSystemContainer(app)
         if prefs.grading_scoresystem is not None:
-            del ssc[prefs.grading_scoresystem.__name__]
+            del ssc['ten_points']
         tenPointScoreSystem = CustomScoreSystem(
             u'10 Points', u'10 Points Score System',
             scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))

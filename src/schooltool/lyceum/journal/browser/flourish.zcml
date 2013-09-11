@@ -595,7 +595,7 @@
       name="journal_defaults.html"
       manager="schooltool.requirement.browser.scoresystem.FlourishScoreSystemContainerCustomizeLinks"
       class="schooltool.skin.flourish.page.LinkViewlet"
-      title="Journal ScoreSystems"
+      title="Journal Score Systems"
       permission="schooltool.edit"
       />
 

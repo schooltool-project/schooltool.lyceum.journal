@@ -74,6 +74,7 @@ CHANGES
 ------------------
 
 - Refactored month navigation to match new-style gradebook
+- Fill down empty cells in column (https://launchpad.net/bugs/932131)
 - Hide sidebar button
 - Update translations
 

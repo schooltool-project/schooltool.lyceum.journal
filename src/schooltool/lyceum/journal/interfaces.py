@@ -142,12 +142,12 @@ class IPersistentAttendanceScoreSystem(IAttendanceScoreSystem):
 class IJournalScoreSystemPreferences(Interface):
 
     grading_scoresystem = zope.schema.Choice(
-        title=_("Grading scoresystem"),
+        title=_("Grading score system"),
         vocabulary="schooltool.lyceum.journal-grading-scoresystems",
         required=True)
 
     attendance_scoresystem = zope.schema.Choice(
-        title=_("Atttendance scoresystem"),
+        title=_("Atttendance score system"),
         vocabulary="schooltool.lyceum.journal-attendance-scoresystems",
         required=True)
 

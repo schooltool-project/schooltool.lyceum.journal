@@ -725,7 +725,7 @@ class JournalGradingScoreSystemChoices(zope.schema.vocabulary.SimpleVocabulary):
         result.append(self.createTerm(
                 None,
                 z3c.form.widget.SequenceWidget.noValueToken,
-                _("Select a scoresystem"),
+                _("Select a score system"),
                 ))
         scoresystems = self.getScoreSystems()
         for scoresystem in scoresystems:

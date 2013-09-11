@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-08-13 20:39+0300\n"
+"POT-Creation-Date: 2013-09-11 23:35+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -133,10 +133,10 @@ msgid "Attendance System"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:594
-msgid "Journal ScoreSystems"
+msgid "Journal Score Systems"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:110
+#: /src/schooltool/lyceum/journal/browser/journal.py:106
 #. Default: "a"
 msgid "Single letter that represents an absent mark for a student"
 msgstr ""
@@ -545,16 +545,16 @@ msgstr ""
 msgid "My Sections"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/interfaces.py:146
-msgid "Grading scoresystem"
+#: /src/schooltool/lyceum/journal/interfaces.py:145
+msgid "Grading score system"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/interfaces.py:151
-msgid "Atttendance scoresystem"
+#: /src/schooltool/lyceum/journal/interfaces.py:150
+msgid "Atttendance score system"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/journal.py:725
-msgid "Select a scoresystem"
+#: /src/schooltool/lyceum/journal/journal.py:728
+msgid "Select a score system"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/security.zcml:9

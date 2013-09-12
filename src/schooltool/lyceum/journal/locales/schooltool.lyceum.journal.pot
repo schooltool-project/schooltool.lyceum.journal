@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-09-11 23:35+0300\n"
+"POT-Creation-Date: 2013-09-13 00:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -367,10 +367,6 @@ msgstr ""
 msgid "This section is not scheduled for any term, to use the journal you should add a timetable first."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:8
-msgid "${DYNAMIC_CONTENT}"
-msgstr ""
-
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:13
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
@@ -550,10 +546,10 @@ msgid "Grading score system"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/interfaces.py:150
-msgid "Atttendance score system"
+msgid "Attendance score system"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/journal.py:728
+#: /src/schooltool/lyceum/journal/journal.py:726
 msgid "Select a score system"
 msgstr ""
 

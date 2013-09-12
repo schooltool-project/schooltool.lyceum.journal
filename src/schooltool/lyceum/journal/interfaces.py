@@ -147,7 +147,7 @@ class IJournalScoreSystemPreferences(Interface):
         required=True)
 
     attendance_scoresystem = zope.schema.Choice(
-        title=_("Atttendance score system"),
+        title=_("Attendance score system"),
         vocabulary="schooltool.lyceum.journal-attendance-scoresystems",
         required=True)
 

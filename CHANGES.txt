@@ -2,10 +2,12 @@
 CHANGES
 =======
 
-2.5.3 (unreleased)
+2.5.3 (2013-09-13)
 ------------------
 
-- Nothing changed yet.
+- Fix Journal tab clerk attendance view (https://launchpad.net/bugs/1216942)
+- Spell 'score systems' as two words.
+- Update Dutch translation.
 
 
 2.5.2 (2013-08-23)

@@ -58,6 +58,7 @@ from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
 from schooltool.export import export
 from schooltool.person.interfaces import IPerson
+from schooltool.person.interfaces import IPersonFactory
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
@@ -555,13 +556,10 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 yield event
 
     def members(self):
-        members = list(self.context.members)
         collator = ICollator(self.request.locale)
-        members.sort(key=lambda a: collator.key(
-                removeSecurityProxy(a).first_name))
-        members.sort(key=lambda a: collator.key(
-                removeSecurityProxy(a).last_name))
-        return members
+        factory = getUtility(IPersonFactory)
+        sorting_key = lambda x: factory.getSortingKey(x, collator)
+        return sorted(self.context.members, key=sorting_key)
 
     def updateGradebook(self):
         members = self.members()
@@ -1027,6 +1025,10 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
             return
         setCurrentJournalMode(person, self.journal_mode)
 
+    @Lazy
+    def name_sorting_columns(self):
+        return getUtility(IPersonFactory).columns()
+
 
 class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
 
@@ -1076,6 +1078,8 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
     def table(self):
         result = []
         collator = ICollator(self.request.locale)
+        factory = getUtility(IPersonFactory)
+        sorting_key = lambda x: factory.getSortingKey(x, collator)
         for person in self.members():
             grades = []
             for meeting in self.meetings:
@@ -1094,8 +1098,10 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                 person = removeSecurityProxy(person)
             result.append(
                 {'student': {'title': person.title,
+                             'first_name': person.first_name,
+                             'last_name': person.last_name,
                              'id': person.username,
-                             'sortKey': collator.key(person.title),
+                             'sortKey': sorting_key(person),
                              'url': absoluteURL(person, self.request)},
                  'grades': grades,
                  'has_hints': any([g['hint'] for g in grades]),
@@ -1194,6 +1200,8 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
     def table(self):
         result = []
         collator = ICollator(self.request.locale)
+        factory = getUtility(IPersonFactory)
+        sorting_key = lambda x: factory.getSortingKey(x, collator)
         for person in self.members():
             grades = []
             for meeting in self.meetings:
@@ -1213,8 +1221,10 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             excused, excusable = self.excused(person)
             result.append(
                 {'student': {'title': person.title,
+                             'first_name': person.first_name,
+                             'last_name': person.last_name,
                              'id': person.username,
-                             'sortKey': collator.key(person.title),
+                             'sortKey': sorting_key(person),
                              'url': absoluteURL(person, self.request)},
                  'grades': grades,
                  'absences': self.absences(person),
@@ -2326,6 +2336,8 @@ class FlourishSchoolAttendanceView(flourish.page.Page):
       </div>
     ''')
 
+    container_class = 'container widecontainer'
+
     @Lazy
     def year(self):
         year = self.request.get('year', '').strip()
@@ -2407,6 +2419,10 @@ class FlourishSchoolAttendanceView(flourish.page.Page):
     def update(self):
         self.updateJournalMode()
         super(FlourishSchoolAttendanceView, self).update()
+
+    @Lazy
+    def name_sorting_columns(self):
+        return getUtility(IPersonFactory).columns()
 
 
 class AttendanceFilter(table.ajax.IndexedTableFilter):
@@ -2491,22 +2507,10 @@ class AttendanceTable(table.ajax.IndexedTable):
     form_id = 'grid-form'
 
     def columns(self):
-        first_name = table.column.IndexedLocaleAwareGetterColumn(
-            index='first_name',
-            name='first_name',
-            title=_(u'First Name'),
-            getter=lambda i, f: i.first_name,
-            subsort=True)
-        last_name = table.column.IndexedLocaleAwareGetterColumn(
-            index='last_name',
-            name='last_name',
-            title=_(u'Last Name'),
-            getter=lambda i, f: i.last_name,
-            subsort=True)
-        return [first_name, last_name]
+        return getUtility(IPersonFactory).columns()
 
     def sortOn(self):
-        return (("last_name", False), ("first_name", False))
+        return getUtility(IPersonFactory).sortOn()
 
 
 class AttendanceTableTable(flourish.viewlet.Viewlet):
@@ -2843,10 +2847,9 @@ class FlourishSchoolAttendanceInstructorPicker(OptionalViewlet):
                     instructors.update(section.instructors)
 
         collator = ICollator(self.request.locale)
-        instructors = sorted(instructors, key=lambda a: collator.key(
-                removeSecurityProxy(a).first_name))
-        instructors.sort(key=lambda a: collator.key(
-                removeSecurityProxy(a).last_name))
+        factory = getUtility(IPersonFactory)
+        sorting_key = lambda x: factory.getSortingKey(x, collator)
+        instructors = sorted(instructors, key=sorting_key)
 
         result = [
             {'title': instructor.title,

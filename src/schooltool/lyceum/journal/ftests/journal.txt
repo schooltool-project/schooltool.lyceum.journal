@@ -283,14 +283,14 @@ term and the month that is selected should be the same:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for December 2005</title>
 
     >>> teacher.getLink('27').click()
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for December 2005</title>
 
 Grades are still visible in table cells:
@@ -324,7 +324,7 @@ We got a different month:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for November 2005</title>
 
 There are no grades in the table:
@@ -345,7 +345,7 @@ Month and semester still stay the same:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for November 2005</title>
 
 But we get 2 cells with input boxes in them for entering of grades:
@@ -363,7 +363,7 @@ If we click Update, everything stays the same:
     >>> teacher.getControl('Update').click()
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for November 2005</title>
 
 If we select a different term, the first month in the term should get
@@ -375,7 +375,7 @@ activated:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for September 2005</title>
 
 Choosing some day should not change neither the term, nor month:
@@ -384,7 +384,7 @@ Choosing some day should not change neither the term, nor month:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for September 2005</title>
 
 Month switches:
@@ -393,7 +393,7 @@ Month switches:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for October 2005</title>
 
 Updating should work too:
@@ -402,7 +402,7 @@ Updating should work too:
 
     >>> print analyze.queryHTML('//title', teacher.contents)[0]
     <title>
-          Teacher, Pete -- History (1a)
+          Pete Teacher -- History (1a)
           journal for October 2005</title>
 
 Now let's look at the gradebook of the person - we can see his grades:

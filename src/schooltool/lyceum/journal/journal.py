@@ -173,7 +173,18 @@ TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
 # Attendance score system
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
-    u'Absences', u'Attendance Score System')
+    u'Absences', u'Attendance Score System',
+    scores={'a': 'Absent',
+            'n': 'Absent',
+            't': 'Tardy',
+            'p': 'Tardy',
+            'ae': 'Absent (excused)',
+            'te': 'Tardy (excused)',
+            },
+    tag_absent=('a', 'n', 'ae'),
+    tag_tardy=('t', 'p', 'te'),
+    tag_excused=('ae', 'te'),
+    )
 
 
 def getInstructorSections(person):
@@ -409,6 +420,20 @@ class SectionJournalData(Persistent):
             return default
         return score.value
 
+    def isAbsent(self, person, meeting):
+        requirement = AttendanceRequirement(removeSecurityProxy(meeting))
+        score = self.getEvaluation(person, requirement, default=None)
+        if score is None:
+            return False
+        return score.scoreSystem.isAbsent(score)
+
+    def isTardy(self, person, meeting):
+        requirement = AttendanceRequirement(removeSecurityProxy(meeting))
+        score = self.getEvaluation(person, requirement, default=None)
+        if score is None:
+            return False
+        return score.scoreSystem.isTardy(score)
+
     def descriptionKey(self, meeting):
         date = meeting.dtstart.date()
         entry_id = meeting.meeting_id
@@ -490,6 +515,18 @@ class SectionJournal(object):
         owner = calendar.__parent__
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getAbsence(person, meeting, default)
+
+    def isAbsent(self, person, meeting):
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
+        return section_journal_data.isAbsent(person, meeting)
+
+    def isTardy(self, person, meeting):
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
+        return section_journal_data.isTardy(person, meeting)
 
     @Lazy
     def members(self):

@@ -54,6 +54,12 @@ class ISectionJournalData(IEvaluateRequirement):
     def getAbsence(person, meeting, default=False):
         """Retrieve the status of an absence."""
 
+    def isAbsent(person, meeting):
+        """Retrieve the status of an absence."""
+
+    def isTardy(person, meeting):
+        """Retrieve the status of an absence."""
+
     def gradedMeetings(person):
         """Returns a list of (meeting, grades) for a person."""
 
@@ -76,6 +82,12 @@ class ISectionJournal(ILocation):
         """Mark an absence as an explained or unexplained one."""
 
     def getAbsence(person, meeting, default=False):
+        """Retrieve the status of an absence."""
+
+    def isAbsent(person, meeting):
+        """Retrieve the status of an absence."""
+
+    def isTardy(person, meeting):
         """Retrieve the status of an absence."""
 
     def meetings():

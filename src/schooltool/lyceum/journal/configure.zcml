@@ -20,7 +20,7 @@
   <class class="schooltool.lyceum.journal.journal.SectionJournal">
     <require
         permission="schooltool.view"
-        attributes="getGrade getAbsence getEvaluation members
+        attributes="getGrade getAbsence isAbsent isTardy getEvaluation members
                     adjacent_sections meetings recordedMeetings gradedMeetings absentMeetings
                     hasMeeting findMeeting section __parent__ __name__" />
     <require

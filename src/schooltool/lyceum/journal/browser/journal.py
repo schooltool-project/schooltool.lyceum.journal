@@ -511,6 +511,12 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         return self.template()
 
+
+    @Lazy
+    def timezone(self):
+        prefs = IApplicationPreferences(ISchoolToolApplication(None))
+        return pytz.timezone(prefs.timezone)
+
     def getLegendItems(self):
         for grade in journal_grades():
             yield {'keys': u', '.join(grade['keys']),
@@ -552,7 +558,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
     def meetings(self):
         for event in self.all_meetings:
             insecure_event = removeSecurityProxy(event)
-            if insecure_event.dtstart.date().month == self.active_month:
+            meeting_start = insecure_event.dtstart.astimezone(self.timezone)
+            if meeting_start.month == self.active_month:
                 yield event
 
     def members(self):
@@ -649,10 +656,10 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         month = -1
         for meeting in self.all_meetings:
             insecure_meeting = removeSecurityProxy(meeting)
-            # XXX: what about time zones?
-            if insecure_meeting.dtstart.date().month != month:
-                yield insecure_meeting.dtstart.date().month
-                month = insecure_meeting.dtstart.date().month
+            meeting_start = insecure_meeting.dtstart.astimezone(self.timezone)
+            if meeting_start.month != month:
+                yield meeting_start.month
+                month = meeting_start.month
 
     @Lazy
     def selected_months(self):
@@ -687,8 +694,9 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         for meeting in self.all_meetings:
             insecure_meeting = removeSecurityProxy(meeting)
-            if insecure_meeting.dtstart.date().month == selected_month:
-                return insecure_meeting.dtstart.year
+            meeting_start = insecure_meeting.dtstart.astimezone(self.timezone)
+            if meeting_start.month == selected_month:
+                return meeting_start.year
 
     @Lazy
     def active_month(self):
@@ -935,7 +943,8 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
         result = []
         for event in self.all_meetings:
             insecure_event = removeSecurityProxy(event)
-            if insecure_event.dtstart.date().month == self.active_month:
+            meeting_start = insecure_event.dtstart.astimezone(self.timezone)
+            if meeting_start.month == self.active_month:
                 result.append(event)
         return result
 
@@ -1918,7 +1927,8 @@ class FlourishJournalExportBase(export.ExcelExportView):
         result = []
         for event in self.all_meetings:
             insecure_event = removeSecurityProxy(event)
-            if insecure_event.dtstart.date().month == self.active_month:
+            meeting_start = insecure_event.dtstart.astimezone(self.tzinfo)
+            if meeting_start.month == self.active_month:
                 result.append(event)
         return result
 

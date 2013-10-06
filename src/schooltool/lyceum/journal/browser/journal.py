@@ -1088,7 +1088,15 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
         result = []
         collator = ICollator(self.request.locale)
         factory = getUtility(IPersonFactory)
-        sorting_key = lambda x: factory.getSortingKey(x, collator)
+        self.sortBy = self.request.get('sort_by')
+        if self.sortBy == 'last_name':
+            sorting_key = lambda x: (collator.key(x.last_name),
+                                     collator.key(x.first_name))
+        elif self.sortBy == 'first_name':
+            sorting_key = lambda x: (collator.key(x.first_name),
+                                     collator.key(x.last_name))
+        else:
+            sorting_key = lambda x: factory.getSortingKey(x, collator)
         for person in self.members():
             grades = []
             for meeting in self.meetings:
@@ -1116,11 +1124,10 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                  'has_hints': any([g['hint'] for g in grades]),
                  'average': self.average(person),
                 })
-        self.sortBy = self.request.get('sort_by')
         return sorted(result, key=self.sortKey)
 
     def sortKey(self, row):
-        if self.sortBy == 'student':
+        if self.sortBy in ('student', 'first_name', 'last_name'):
             return row['student']['sortKey']
         elif self.sortBy == 'average':
             try:
@@ -1210,7 +1217,15 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         result = []
         collator = ICollator(self.request.locale)
         factory = getUtility(IPersonFactory)
-        sorting_key = lambda x: factory.getSortingKey(x, collator)
+        self.sortBy = self.request.get('sort_by')
+        if self.sortBy == 'last_name':
+            sorting_key = lambda x: (collator.key(x.last_name),
+                                     collator.key(x.first_name))
+        elif self.sortBy == 'first_name':
+            sorting_key = lambda x: (collator.key(x.first_name),
+                                     collator.key(x.last_name))
+        else:
+            sorting_key = lambda x: factory.getSortingKey(x, collator)
         for person in self.members():
             grades = []
             for meeting in self.meetings:
@@ -1245,11 +1260,10 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                  'unexcused': excused - excusable if excusable else 1,
                  'has_hints': any([g['hint'] for g in grades]),
                 })
-        self.sortBy = self.request.get('sort_by')
         return sorted(result, key=self.sortKey)
 
     def sortKey(self, row):
-        if self.sortBy == 'student':
+        if self.sortBy in ('student', 'first_name', 'last_name'):
             return row['student']['sortKey']
         elif self.sortBy == 'absences':
             return (int(row['absences']), row['student']['sortKey'])
@@ -1781,13 +1795,21 @@ class FlourishNamePopupMenuView(flourish.content.ContentProvider):
     def translate(self, message):
         return translate(message, context=self.request)
 
+    @Lazy
+    def name_sorting_columns(self):
+        return getUtility(IPersonFactory).columns()
+
     def __call__(self):
+        column_id = self.request.get('column_id')
+        for column in self.name_sorting_columns:
+            if column.name == column_id:
+                break
         result = {
-            'header': self.translate(_('Name')),
+            'header': self.translate(column.title),
             'options': [
                 {
                     'label': self.translate(_('Sort by')),
-                    'url': '?sort_by=student',
+                    'url': '?sort_by=%s' % column_id,
                     }
                 ],
             }

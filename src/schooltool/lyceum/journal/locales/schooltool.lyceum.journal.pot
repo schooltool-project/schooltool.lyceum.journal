@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-09-13 00:29+0300\n"
+"POT-Creation-Date: 2013-10-07 01:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -254,15 +254,8 @@ msgstr ""
 msgid "History"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1720
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:10
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:10
-#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:10
-msgid "Name"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:1742
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:93
+#: /src/schooltool/lyceum/journal/browser/journal.py:1830
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:101
 msgid "Ave."
 msgstr ""
 
@@ -292,15 +285,7 @@ msgstr ""
 msgid "School Attendance"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:2450
-msgid "First Name"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2456
-msgid "Last Name"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2497
+#: /src/schooltool/lyceum/journal/browser/journal.py:2580
 msgid "There are no school days this month."
 msgstr ""
 

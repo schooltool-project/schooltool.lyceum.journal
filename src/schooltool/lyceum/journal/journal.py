@@ -56,6 +56,7 @@ from schooltool.requirement.scoresystem import AbstractScoreSystem
 from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import CustomScoreSystem
 from schooltool.requirement.scoresystem import PersistentRangedValuesScoreSystem
+from schooltool.requirement.scoresystem import ScoreSystemAppStartup
 from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.requirement.interfaces import IScoreSystemContainer
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
@@ -661,7 +662,8 @@ def getScoreSystemPreferences(jd):
     return ssp
 
 
-class JournalScoreSystemsStartup(StartUpBase):
+class JournalScoreSystemsStartup(ScoreSystemAppStartup):
+    after = ('schooltool.requirement.scoresystem', )
 
     def updateGradingSS(self, prefs):
         if (prefs.grading_scoresystem is not None and
@@ -706,6 +708,7 @@ class JournalScoreSystemsStartup(StartUpBase):
         self.updateAttendanceSS(prefs)
 
     def __call__(self):
+        super(JournalScoreSystemsStartup, self).__call__()
         if 'schooltool.lyceum.journal-ss-prefs' not in self.app:
             prefs = ScoreSystemPreferences()
             self.app['schooltool.lyceum.journal-ss-prefs'] = prefs

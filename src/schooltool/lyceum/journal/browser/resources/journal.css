@@ -39,10 +39,6 @@ div.gradebook_content {
     float: left;
 }
 
-div.gradebook_legend {
-    float: right;
-}
-
 .gradebook_content div.month_tabs {
     padding-top: 1ex;
     padding-bottom: .5ex;
@@ -70,20 +66,6 @@ div.gradebook_legend {
 
 .gradebook_content span.term_tab {
     border-right: solid 1px #bbb;
-}
-
-.gradebook_legend h3 {
-    padding-left: .5ex;
-}
-
-.gradebook_legend table th {
-    padding: .5ex;
-    background: #ccc;
-}
-
-.gradebook_legend table td {
-    padding: .5ex;
-    background: #eee;
 }
 
 .gradebook table th {

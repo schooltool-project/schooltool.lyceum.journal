@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-07 01:55+0300\n"
+"POT-Creation-Date: 2013-10-08 02:47+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -136,18 +136,8 @@ msgstr ""
 msgid "Journal Score Systems"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:106
-#. Default: "a"
-msgid "Single letter that represents an absent mark for a student"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:112
-#. Default: "t"
-msgid "Single letter that represents an tardy mark for a student"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:180
-#: /src/schooltool/lyceum/journal/browser/journal.py:506
+#: /src/schooltool/lyceum/journal/browser/journal.py:171
+#: /src/schooltool/lyceum/journal/browser/journal.py:468
 msgid "Nr."
 msgstr ""
 
@@ -177,17 +167,7 @@ msgstr ""
 msgid "Excused"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:436
-#: /src/schooltool/lyceum/journal/browser/journal.py:1573
-msgid "Absent"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:439
-#: /src/schooltool/lyceum/journal/browser/journal.py:1575
-msgid "Tardy"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:832
+#: /src/schooltool/lyceum/journal/browser/journal.py:793
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
 msgstr ""
@@ -232,7 +212,15 @@ msgstr ""
 msgid "Attendance"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1577
+#: /src/schooltool/lyceum/journal/browser/journal.py:1611
+msgid "Absent"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1613
+msgid "Tardy"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1615
 msgid "Present"
 msgstr ""
 

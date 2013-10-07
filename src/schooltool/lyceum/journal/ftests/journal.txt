@@ -235,29 +235,6 @@ Let's log in with the teacher account:
     | 2   | Grum       | Student   |      |      |      | [_____] |      |      |      |      |      |      |      |      |         |          |         |         |
     +-----+------------+-----------+------+------+------+---------+------+------+------+------+------+------+------+------+---------+----------+---------+---------+
 
-There is a legend explaining valid grade input:
-
-   >>> print teacher.contents
-   <BLANKLINE>
-   ...
-   <h3>Legend</h3>
-   <table>
-     <tr> <th colspan="2">Attendance / grade</th> </tr>
-     <tr> <td>a</td> <td>Absent</td> </tr>
-     <tr> <td>t</td> <td>Tardy</td> </tr>
-     <tr> <td>1</td> <td></td> </tr>
-     <tr> <td>2</td> <td></td> </tr>
-     <tr> <td>3</td> <td></td> </tr>
-     <tr> <td>4</td> <td></td> </tr>
-     <tr> <td>5</td> <td></td> </tr>
-     <tr> <td>6</td> <td></td> </tr>
-     <tr> <td>7</td> <td></td> </tr>
-     <tr> <td>8</td> <td></td> </tr>
-     <tr> <td>9</td> <td></td> </tr>
-     <tr> <td>10</td> <td></td> </tr>
-   </table>
-   ...
-
 You can also access the journal through the section:
 
     >>> teacher.open('http://localhost/persons/frum')

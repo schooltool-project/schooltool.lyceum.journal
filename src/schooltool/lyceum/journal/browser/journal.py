@@ -103,12 +103,6 @@ from schooltool.lyceum.journal.browser.table import SelectableRowTableFormatter
 from schooltool.lyceum.journal import LyceumMessage as _
 
 
-# set up translation from data base data to locale representation and back
-ABSENT_LETTER = translate(_(u"Single letter that represents an absent mark for a student",
-                           default='a'))
-TARDY_LETTER = translate(_(u"Single letter that represents an tardy mark for a student",
-                          default='t'))
-
 JournalCSSViewlet = CSSViewlet("journal.css")
 
 
@@ -426,35 +420,6 @@ class SectionTermExcusedColumn(GradesColumn):
         return '<span>%s</span>' % translate(_("Excused"),
                                              context=formatter.request)
 
-def journal_grades():
-    grades = [
-        {'keys': [ABSENT_LETTER.lower(), ABSENT_LETTER.upper()],
-         'value': ABSENT_LETTER,
-         'legend': _('Absent')},
-        {'keys': [TARDY_LETTER.lower(), TARDY_LETTER.upper()],
-         'value': TARDY_LETTER,
-         'legend': _('Tardy')}]
-    for i in range(9):
-        grades.append({'keys': [chr(i + ord('1'))],
-                       'value': unicode(i+1),
-                       'legend': u''})
-    grades.append({'keys': ['0'],
-                   'value': u'10',
-                   'legend': u''})
-    return grades
-
-
-class SectionJournalJSView(BrowserView):
-
-    def grading_events(self):
-        for grade in journal_grades():
-            event_check = ' || '.join([
-                'event.which == %d' % ord(key)
-                for key in grade['keys']])
-            yield {'js_condition': event_check,
-                   'grade_value': "'%s'" % grade['value']}
-
-
 class StudentSelectionMixin(object):
 
     selected_students = None
@@ -511,17 +476,10 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         return self.template()
 
-
     @Lazy
     def timezone(self):
         prefs = IApplicationPreferences(ISchoolToolApplication(None))
         return pytz.timezone(prefs.timezone)
-
-    def getLegendItems(self):
-        for grade in journal_grades():
-            yield {'keys': u', '.join(grade['keys']),
-                   'value': grade['value'],
-                   'description': grade['legend']}
 
     def encodedSelectedEventId(self):
         event = self.selectedEvent()

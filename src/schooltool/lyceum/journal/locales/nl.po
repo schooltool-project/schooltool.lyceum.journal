@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-08-13 20:39+0300\n"
-"PO-Revision-Date: 2013-08-30 20:44+0000\n"
+"POT-Creation-Date: 2013-10-07 01:55+0300\n"
+"PO-Revision-Date: 2013-09-13 01:57+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-08-31 05:31+0000\n"
-"X-Generator: Launchpad (build 16750)\n"
+"X-Launchpad-Export-Date: 2013-10-07 06:00+0000\n"
+"X-Generator: Launchpad (build 16791)\n"
 "Language: nl\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:58
@@ -243,15 +243,8 @@ msgstr "Leerling"
 msgid "History"
 msgstr "Historie"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1720
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:10
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:10
-#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:10
-msgid "Name"
-msgstr "Naam"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:1321
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:103
+#: /src/schooltool/lyceum/journal/browser/journal.py:1830
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:101
 msgid "Ave."
 msgstr "Gem."
 
@@ -281,15 +274,7 @@ msgstr "Thuisklas"
 msgid "School Attendance"
 msgstr "Schoolaanwezigheid"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:2450
-msgid "First Name"
-msgstr "Voornaam"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2456
-msgid "Last Name"
-msgstr "Achternaam"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2497
+#: /src/schooltool/lyceum/journal/browser/journal.py:2580
 msgid "There are no school days this month."
 msgstr "Er zijn geen schooldagen deze maand."
 
@@ -533,11 +518,11 @@ msgstr "Mijn secties"
 msgid "Grading score system"
 msgstr "Beoordelingsscoresysteem"
 
-#: /src/schooltool/lyceum/journal/interfaces.py:151
-msgid "Atttendance score system"
+#: /src/schooltool/lyceum/journal/interfaces.py:150
+msgid "Attendance score system"
 msgstr "Aanwezigheidsscoresysteem"
 
-#: /src/schooltool/lyceum/journal/journal.py:725
+#: /src/schooltool/lyceum/journal/journal.py:726
 msgid "Select a score system"
 msgstr "Selecteer een scoresystem"
 

@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-08 02:47+0300\n"
+"POT-Creation-Date: 2013-10-08 03:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -522,7 +522,31 @@ msgstr ""
 msgid "Attendance score system"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/journal.py:726
+#: /src/schooltool/lyceum/journal/journal.py:98
+#: /src/schooltool/lyceum/journal/journal.py:183
+msgid "Absent (excused)"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:99
+#: /src/schooltool/lyceum/journal/journal.py:184
+msgid "Tardy (excused)"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:171
+#: /src/schooltool/lyceum/journal/journal.py:679
+msgid "10 Points"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:171
+#: /src/schooltool/lyceum/journal/journal.py:679
+msgid "10 Points Score System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:178
+msgid "Attendance Score System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:767
 msgid "Select a score system"
 msgstr ""
 

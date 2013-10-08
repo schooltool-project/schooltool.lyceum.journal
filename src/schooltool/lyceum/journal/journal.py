@@ -71,6 +71,7 @@ from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.interfaces import IAvailableScoreSystems
 from schooltool.lyceum.journal import LyceumMessage as _
 
+# BBB
 ABSENT = 'n' #n means absent in lithuanian
 TARDY = 'p' #p means tardy in lithuanian
 
@@ -92,10 +93,10 @@ class AttendanceScoreSystem(AbstractScoreSystem):
 
     def initDefaults(self, **kw):
         if 'scores' not in kw:
-            self.scores = (('a', 'Absent'),
-                           ('t', 'Tardy'),
-                           ('ae', 'Absent (excused)'),
-                           ('te', 'Tardy (excused)'))
+            self.scores = (('a', _('Absent')),
+                           ('t', _('Tardy')),
+                           ('ae', _('Absent (excused)')),
+                           ('te', _('Tardy (excused)')))
             self.tag_absent = 'a', 'ae',
             self.tag_tardy = 't', 'te',
             self.tag_excused = 'ae', 'te',
@@ -167,20 +168,20 @@ class GlobalJournalRangedValuesScoreSystem(GlobalRangedValuesScoreSystem):
 # The score system used in the old journal
 TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
     'TenPointScoreSystem',
-    u'10 Points', u'10 Points Score System',
+    _('10 Points'), _('10 Points Score System'),
     min=Decimal(1), max=Decimal(10))
 
 
 # Attendance score system
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
-    u'Absences', u'Attendance Score System',
-    scores={'a': 'Absent',
-            'n': 'Absent',
-            't': 'Tardy',
-            'p': 'Tardy',
-            'ae': 'Absent (excused)',
-            'te': 'Tardy (excused)',
+    _('Absences'), _('Attendance Score System'),
+    scores={'a': _('Absent'),
+            'n': _('Absent'),
+            't': _('Tardy'),
+            'p': _('Tardy'),
+            'ae': _('Absent (excused)'),
+            'te': _('Tardy (excused)'),
             },
     tag_absent=('a', 'n', 'ae'),
     tag_tardy=('t', 'p', 'te'),
@@ -675,7 +676,7 @@ class JournalScoreSystemsStartup(ScoreSystemAppStartup):
         if prefs.grading_scoresystem is not None:
             del ssc['ten_points']
         tenPointScoreSystem = CustomScoreSystem(
-            u'10 Points', u'10 Points Score System',
+            _('10 Points'), _('10 Points Score System'),
             scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))
                     for i in range(1, 11)],
             bestScore='10',
@@ -697,7 +698,7 @@ class JournalScoreSystemsStartup(ScoreSystemAppStartup):
                 attendanceScoreSystem = ss
                 break
         if attendanceScoreSystem is None:
-            attendanceScoreSystem = PersistentAttendanceScoreSystem('Attendance')
+            attendanceScoreSystem = PersistentAttendanceScoreSystem(_('Attendance'))
             chooser = INameChooser(ssc)
             name = chooser.chooseName(attendanceScoreSystem.title, attendanceScoreSystem)
             ssc[name] = attendanceScoreSystem

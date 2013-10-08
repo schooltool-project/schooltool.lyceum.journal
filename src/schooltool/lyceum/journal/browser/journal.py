@@ -1969,7 +1969,7 @@ def getSectionJournalModes(person, section, request):
     result.append({
             'id': 'journal-mode-attendance',
             'label': _('Attendance'),
-            'url': journal_url + '/index.html',
+            'url': journal_url,
             })
 
     takes_day_attendance = True

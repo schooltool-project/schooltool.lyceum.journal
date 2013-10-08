@@ -38,7 +38,7 @@ Log in as the teacher:
 We'll define a helper function for entering into journal cells.
 
     >>> def enter_cell(col, value):
-    ...     cell = teacher.query_all.css('tbody > tr > td')[col]
+    ...     cell = teacher.query_all.css('#grades-part tbody > tr > td')[col]
     ...     cell.click()
     ...     cell.query.css('input').type(value)
 

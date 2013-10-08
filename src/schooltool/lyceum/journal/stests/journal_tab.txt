@@ -128,9 +128,9 @@ be Math (2):
     *Math (2)*
     Physics (3)
 
-Add teacher to the School Administrators group:
+Add teacher to the Clerks group:
 
-    >>> manager.ui.group.members.add('2013', 'School Administrators',
+    >>> manager.ui.group.members.add('2013', 'Clerks',
     ...                              ['jeffrey'])
 
 This gives the teacher ability to see other teachers' journals:

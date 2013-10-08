@@ -168,14 +168,14 @@ class GlobalJournalRangedValuesScoreSystem(GlobalRangedValuesScoreSystem):
 # The score system used in the old journal
 TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
     'TenPointScoreSystem',
-    _('10 Points'), _('10 Points Score System'),
+    _('10 Points'),
     min=Decimal(1), max=Decimal(10))
 
 
 # Attendance score system
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
-    _('Absences'), _('Attendance Score System'),
+    _('Absences'),
     scores={'a': _('Absent'),
             'n': _('Absent'),
             't': _('Tardy'),
@@ -676,7 +676,7 @@ class JournalScoreSystemsStartup(ScoreSystemAppStartup):
         if prefs.grading_scoresystem is not None:
             del ssc['ten_points']
         tenPointScoreSystem = CustomScoreSystem(
-            _('10 Points'), _('10 Points Score System'),
+            _('10 Points'),
             scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))
                     for i in range(1, 11)],
             bestScore='10',

@@ -415,6 +415,12 @@
       permission="schooltool.view"
       />
 
+  <flourish:activeViewlet
+      name="journal"
+      manager="schooltool.skin.flourish.page.IHeaderNavigationManager"
+      view=".journal.FlourishSchoolAttendanceView"
+      />
+
   <flourish:viewlet
       name="table"
       for="schooltool.person.interfaces.IPersonContainer"
@@ -595,7 +601,7 @@
       name="journal_defaults.html"
       manager="schooltool.requirement.browser.scoresystem.FlourishScoreSystemContainerCustomizeLinks"
       class="schooltool.skin.flourish.page.LinkViewlet"
-      title="Journal ScoreSystems"
+      title="Journal Score Systems"
       permission="schooltool.edit"
       />
 

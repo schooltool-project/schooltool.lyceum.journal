@@ -18,7 +18,6 @@
 """
 Lyceum journal content classes.
 """
-from BTrees.OOBTree import OOBTree
 from decimal import Decimal
 from persistent import Persistent
 
@@ -56,6 +55,8 @@ from schooltool.requirement.evaluation import Evaluation
 from schooltool.requirement.scoresystem import AbstractScoreSystem
 from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import CustomScoreSystem
+from schooltool.requirement.scoresystem import PersistentRangedValuesScoreSystem
+from schooltool.requirement.scoresystem import ScoreSystemAppStartup
 from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.requirement.interfaces import IScoreSystemContainer
 from schooltool.securitypolicy.crowds import ConfigurableCrowd
@@ -70,6 +71,7 @@ from schooltool.lyceum.journal.interfaces import ISectionJournalData
 from schooltool.lyceum.journal.interfaces import IAvailableScoreSystems
 from schooltool.lyceum.journal import LyceumMessage as _
 
+# BBB
 ABSENT = 'n' #n means absent in lithuanian
 TARDY = 'p' #p means tardy in lithuanian
 
@@ -91,10 +93,10 @@ class AttendanceScoreSystem(AbstractScoreSystem):
 
     def initDefaults(self, **kw):
         if 'scores' not in kw:
-            self.scores = (('a', 'Absent'),
-                           ('t', 'Tardy'),
-                           ('ae', 'Absent (excused)'),
-                           ('te', 'Tardy (excused)'))
+            self.scores = (('a', _('Absent')),
+                           ('t', _('Tardy')),
+                           ('ae', _('Absent (excused)')),
+                           ('te', _('Tardy (excused)')))
             self.tag_absent = 'a', 'ae',
             self.tag_tardy = 't', 'te',
             self.tag_excused = 'ae', 'te',
@@ -166,14 +168,25 @@ class GlobalJournalRangedValuesScoreSystem(GlobalRangedValuesScoreSystem):
 # The score system used in the old journal
 TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
     'TenPointScoreSystem',
-    u'10 Points', u'10 Points Score System',
+    _('10 Points'), _('10 Points Score System'),
     min=Decimal(1), max=Decimal(10))
 
 
 # Attendance score system
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
-    u'Absences', u'Attendance Score System')
+    _('Absences'), _('Attendance Score System'),
+    scores={'a': _('Absent'),
+            'n': _('Absent'),
+            't': _('Tardy'),
+            'p': _('Tardy'),
+            'ae': _('Absent (excused)'),
+            'te': _('Tardy (excused)'),
+            },
+    tag_absent=('a', 'n', 'ae'),
+    tag_tardy=('t', 'p', 'te'),
+    tag_excused=('ae', 'te'),
+    )
 
 
 def getInstructorSections(person):
@@ -409,6 +422,20 @@ class SectionJournalData(Persistent):
             return default
         return score.value
 
+    def isAbsent(self, person, meeting):
+        requirement = AttendanceRequirement(removeSecurityProxy(meeting))
+        score = self.getEvaluation(person, requirement, default=None)
+        if score is None:
+            return False
+        return score.scoreSystem.isAbsent(score)
+
+    def isTardy(self, person, meeting):
+        requirement = AttendanceRequirement(removeSecurityProxy(meeting))
+        score = self.getEvaluation(person, requirement, default=None)
+        if score is None:
+            return False
+        return score.scoreSystem.isTardy(score)
+
     def descriptionKey(self, meeting):
         date = meeting.dtstart.date()
         entry_id = meeting.meeting_id
@@ -491,6 +518,18 @@ class SectionJournal(object):
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.getAbsence(person, meeting, default)
 
+    def isAbsent(self, person, meeting):
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
+        return section_journal_data.isAbsent(person, meeting)
+
+    def isTardy(self, person, meeting):
+        calendar = meeting.__parent__
+        owner = calendar.__parent__
+        section_journal_data = ISectionJournalData(owner)
+        return section_journal_data.isTardy(person, meeting)
+
     @Lazy
     def members(self):
         return [member for member in self.section.members
@@ -521,10 +560,8 @@ class SectionJournal(object):
 
     def gradedMeetings(self, person, requirement_factory=GradeRequirement):
         meetings = []
-        for section in self.adjacent_sections:
-            sd = ISectionJournalData(section)
-            meetings.extend(sd.gradedMeetings(
-                    person, requirement_factory=requirement_factory))
+        sd = ISectionJournalData(removeSecurityProxy(self.section))
+        meetings = sd.gradedMeetings(person, requirement_factory)
         return sorted(meetings)
 
     def absentMeetings(self, person):
@@ -626,15 +663,20 @@ def getScoreSystemPreferences(jd):
     return ssp
 
 
-class JournalScoreSystemsStartup(StartUpBase):
+class JournalScoreSystemsStartup(ScoreSystemAppStartup):
+    after = ('schooltool.requirement.scoresystem', )
 
     def updateGradingSS(self, prefs):
-        if prefs.grading_scoresystem is not None:
+        if (prefs.grading_scoresystem is not None and
+            not (isinstance(prefs.grading_scoresystem, PersistentRangedValuesScoreSystem)
+                 and prefs.grading_scoresystem.title == u'10 Points')):
             return
         app = ISchoolToolApplication(None)
         ssc = IScoreSystemContainer(app)
+        if prefs.grading_scoresystem is not None:
+            del ssc['ten_points']
         tenPointScoreSystem = CustomScoreSystem(
-            u'10 Points', u'10 Points Score System',
+            _('10 Points'), _('10 Points Score System'),
             scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))
                     for i in range(1, 11)],
             bestScore='10',
@@ -656,7 +698,7 @@ class JournalScoreSystemsStartup(StartUpBase):
                 attendanceScoreSystem = ss
                 break
         if attendanceScoreSystem is None:
-            attendanceScoreSystem = PersistentAttendanceScoreSystem('Attendance')
+            attendanceScoreSystem = PersistentAttendanceScoreSystem(_('Attendance'))
             chooser = INameChooser(ssc)
             name = chooser.chooseName(attendanceScoreSystem.title, attendanceScoreSystem)
             ssc[name] = attendanceScoreSystem
@@ -667,6 +709,7 @@ class JournalScoreSystemsStartup(StartUpBase):
         self.updateAttendanceSS(prefs)
 
     def __call__(self):
+        super(JournalScoreSystemsStartup, self).__call__()
         if 'schooltool.lyceum.journal-ss-prefs' not in self.app:
             prefs = ScoreSystemPreferences()
             self.app['schooltool.lyceum.journal-ss-prefs'] = prefs
@@ -721,7 +764,7 @@ class JournalGradingScoreSystemChoices(zope.schema.vocabulary.SimpleVocabulary):
         result.append(self.createTerm(
                 None,
                 z3c.form.widget.SequenceWidget.noValueToken,
-                _("Select a scoresystem"),
+                _("Select a score system"),
                 ))
         scoresystems = self.getScoreSystems()
         for scoresystem in scoresystems:

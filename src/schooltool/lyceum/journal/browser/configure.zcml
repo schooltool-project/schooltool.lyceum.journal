@@ -73,14 +73,6 @@
       />
 
   <page
-      name="journal.js"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      class=".journal.SectionJournalJSView"
-      template="templates/journal_js.pt"
-      permission="schooltool.view"
-      />
-
-  <page
       name="ajax.xml"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
       class=".journal.SectionJournalAjaxView"

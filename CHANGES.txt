@@ -2,10 +2,18 @@
 CHANGES
 =======
 
-2.5.3 (unreleased)
+2.5.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed unsupported translations (less than 25% translated).
+
+
+2.5.3 (2013-09-13)
+------------------
+
+- Fix Journal tab clerk attendance view (https://launchpad.net/bugs/1216942)
+- Spell 'score systems' as two words.
+- Update Dutch translation.
 
 
 2.5.2 (2013-08-23)
@@ -74,6 +82,7 @@ CHANGES
 ------------------
 
 - Refactored month navigation to match new-style gradebook
+- Fill down empty cells in column (https://launchpad.net/bugs/932131)
 - Hide sidebar button
 - Update translations
 

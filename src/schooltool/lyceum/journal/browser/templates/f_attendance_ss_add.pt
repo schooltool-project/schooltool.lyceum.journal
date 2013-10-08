@@ -70,7 +70,7 @@
               <input type="checkbox"
                      tal:attributes="name score/excused_name;
                                      checked score/excused" />
-              <label tal:attributes="for score/excused_name">Excused</label>
+              <label tal:attributes="for score/excused_name" i18n:translate="">Excused</label>
             </td>
             <td class="buttons">
               <metal:block tal:condition="repeat/score/end">

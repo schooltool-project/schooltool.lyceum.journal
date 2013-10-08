@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-08-13 20:39+0300\n"
+"POT-Creation-Date: 2013-10-08 03:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -133,21 +133,11 @@ msgid "Attendance System"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/flourish.zcml:594
-msgid "Journal ScoreSystems"
+msgid "Journal Score Systems"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:110
-#. Default: "a"
-msgid "Single letter that represents an absent mark for a student"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:112
-#. Default: "t"
-msgid "Single letter that represents an tardy mark for a student"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:180
-#: /src/schooltool/lyceum/journal/browser/journal.py:506
+#: /src/schooltool/lyceum/journal/browser/journal.py:171
+#: /src/schooltool/lyceum/journal/browser/journal.py:468
 msgid "Nr."
 msgstr ""
 
@@ -177,17 +167,7 @@ msgstr ""
 msgid "Excused"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:436
-#: /src/schooltool/lyceum/journal/browser/journal.py:1573
-msgid "Absent"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:439
-#: /src/schooltool/lyceum/journal/browser/journal.py:1575
-msgid "Tardy"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:832
+#: /src/schooltool/lyceum/journal/browser/journal.py:793
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
 msgstr ""
@@ -232,7 +212,15 @@ msgstr ""
 msgid "Attendance"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1577
+#: /src/schooltool/lyceum/journal/browser/journal.py:1611
+msgid "Absent"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1613
+msgid "Tardy"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1615
 msgid "Present"
 msgstr ""
 
@@ -254,15 +242,8 @@ msgstr ""
 msgid "History"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1720
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:10
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:10
-#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:10
-msgid "Name"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:1742
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:93
+#: /src/schooltool/lyceum/journal/browser/journal.py:1830
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:101
 msgid "Ave."
 msgstr ""
 
@@ -292,15 +273,7 @@ msgstr ""
 msgid "School Attendance"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:2450
-msgid "First Name"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2456
-msgid "Last Name"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2497
+#: /src/schooltool/lyceum/journal/browser/journal.py:2580
 msgid "There are no school days this month."
 msgstr ""
 
@@ -365,10 +338,6 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid "This section is not scheduled for any term, to use the journal you should add a timetable first."
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:8
-msgid "${DYNAMIC_CONTENT}"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:13
@@ -545,16 +514,40 @@ msgstr ""
 msgid "My Sections"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/interfaces.py:146
-msgid "Grading scoresystem"
+#: /src/schooltool/lyceum/journal/interfaces.py:145
+msgid "Grading score system"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/interfaces.py:151
-msgid "Atttendance scoresystem"
+#: /src/schooltool/lyceum/journal/interfaces.py:150
+msgid "Attendance score system"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/journal.py:725
-msgid "Select a scoresystem"
+#: /src/schooltool/lyceum/journal/journal.py:98
+#: /src/schooltool/lyceum/journal/journal.py:183
+msgid "Absent (excused)"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:99
+#: /src/schooltool/lyceum/journal/journal.py:184
+msgid "Tardy (excused)"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:171
+#: /src/schooltool/lyceum/journal/journal.py:679
+msgid "10 Points"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:171
+#: /src/schooltool/lyceum/journal/journal.py:679
+msgid "10 Points Score System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:178
+msgid "Attendance Score System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:767
+msgid "Select a score system"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/security.zcml:9

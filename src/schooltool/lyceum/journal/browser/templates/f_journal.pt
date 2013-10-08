@@ -5,7 +5,7 @@
     This section is not scheduled for any term, to use the journal you
     should add a timetable first.
   </p>
-  <p tal:condition="view/no_periods" i18n:translate=""
+  <p tal:condition="view/no_periods"
      tal:content="view/no_periods_text">
   </p>
   <p i18n:translate="">

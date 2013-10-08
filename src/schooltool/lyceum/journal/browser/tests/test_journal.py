@@ -31,32 +31,6 @@ from zope.traversing.interfaces import IContainmentRoot
 from zope.interface import directlyProvides
 
 
-def doctest_SectionJournalJSView():
-    """Tests for SectionJournalJSView.
-
-        >>> from schooltool.lyceum.journal.browser.journal import SectionJournalJSView
-        >>> view = SectionJournalJSView(object(), TestRequest())
-
-    Test the JavaScript elements provided by grading_events method.
-
-        >>> for event in view.grading_events():
-        ...     print '%4s %s' % (event['grade_value'], event['js_condition'])
-        'a'  event.which == 97 || event.which == 65
-        't'  event.which == 116 || event.which == 84
-        '1'  event.which == 49
-        '2'  event.which == 50
-        '3'  event.which == 51
-        '4'  event.which == 52
-        '5'  event.which == 53
-        '6'  event.which == 54
-        '7'  event.which == 55
-        '8'  event.which == 56
-        '9'  event.which == 57
-        '10' event.which == 48
-
-    """
-
-
 def doctest_JournalCalendarEventViewlet():
     """Tests for JournalCalendarEventViewlet.
 
@@ -500,49 +474,6 @@ def doctest_StudentSelectionMixin():
         >>> print mixin.selected_students
         ['indexed <John>']
 
-    """
-
-
-def doctest_LyceumSectionJournalView_getLegendItems():
-    """Test for LyceumSectionJournalView.getLegendItems.
-
-        >>> from schooltool.lyceum.journal.browser.journal import LyceumSectionJournalView
-
-        >>> view = LyceumSectionJournalView(object(), TestRequest())
-
-    List grade values, shortcut keys and descriptions for the grades.
-
-        >>> for grade in view.getLegendItems():
-        ...     print '%3s %6s %s' % (grade['value'], grade['keys'],
-        ...                           grade['description'])
-        a   a, A Absent
-        t   t, T Tardy
-        1      1
-        2      2
-        3      3
-        4      4
-        5      5
-        6      6
-        7      7
-        8      8
-        9      9
-        10     0
-
-    """
-
-
-def doctest_LyceumSectionJournalView():
-    """
-    """
-
-
-def doctest_JournalAbsoluteURL():
-    """
-    """
-
-
-def doctest_JournalBreadcrumbs():
-    """
     """
 
 

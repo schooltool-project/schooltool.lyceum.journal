@@ -75,6 +75,9 @@ def collect_student_names(section):
 
 
 def evolveSectionJournal(section, journal):
+    if not getattr(journal, '__grade_data__', {}):
+        return
+
     adjacent_journals = sorted([
         (ITerm(adj_sec).first,
          ISectionJournalData(adj_sec),
@@ -103,6 +106,8 @@ def evolveSectionJournal(section, journal):
                         (k, v)
                         for k, v in journal.__grade_data__[key]
                         if k != eid])
+                if not getattr(adj_journal, '__grade_data__', {}):
+                    continue
                 adj_journal.__grade_data__[key] = tuple(sorted(
                         [(k, v)
                          for k, v in adj_journal.__grade_data__.get(key, ())

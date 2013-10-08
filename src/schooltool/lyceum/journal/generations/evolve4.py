@@ -127,7 +127,9 @@ def evolveJournal(app, journal):
     persons = app['persons']
     calendar = ISchoolToolCalendar(journal.section)
     meeting_guessmap = {}
-    for key, grades in journal.__grade_data__.items():
+
+    grade_data = getattr(journal, '__grade_data__', {})
+    for key, grades in grade_data.items():
         username, date = key
         student = persons.get(username)
         if student is None:
@@ -164,11 +166,15 @@ def evolveJournal(app, journal):
                     last_requirement = requirement
                 elif last_requirement is not None:
                     journal.evaluate(student, last_requirement, '', evaluator=None)
-    del journal.__grade_data__
 
-    # Also delete these two, because they've been unused for a long time now
-    del journal.__attendance_data__
-    del journal.__description_data__
+    try:
+        del journal.__grade_data__
+
+        # Also delete these two, because they've been unused for a long time now
+        del journal.__attendance_data__
+        del journal.__description_data__
+    except AttributeError:
+        pass
 
 
 def evolve(context):

@@ -15,9 +15,6 @@
           tal:attributes="href context/++resource++journal_non_ie.css" />
   <!--<![endif]-->
   <script tal:content="string: var here = '${context/@@absolute_url}/';"/>
-  <script language="javascript" type="text/javascript"
-	  tal:attributes="src string:${context/@@absolute_url}/@@journal.js">
-  </script>
 </tal:block>
 
 <metal:block metal:fill-slot="content-header">
@@ -67,19 +64,6 @@
     </div>
 
   </form>
-</div>
-
-<div class="gradebook_legend">
-  <h3 i18n:translate="">Legend</h3>
-  <table>
-    <tr>
-      <th i18n:translate="" colspan="2">Attendance / grade</th>
-    </tr>
-    <tr tal:repeat="item view/getLegendItems">
-      <td tal:content="item/value" />
-      <td tal:content="item/description" />
-    </tr>
-  </table>
 </div>
 
 </metal:block>

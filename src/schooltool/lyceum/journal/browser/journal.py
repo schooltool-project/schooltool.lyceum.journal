@@ -1122,9 +1122,9 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
         encoder = flourish.tal.JSONEncoder()
         result = []
         for label, abbr, value, percent in scoresystem.scores:
-            title = translate(label, context=self.request)
+            title = label
             if abbr:
-                title += ': %s' % abbr
+                title += ': %s' % translate(abbr, context=self.request)
             result.append({
                 'label': title,
                 'value': label,
@@ -1162,9 +1162,9 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         encoder = flourish.tal.JSONEncoder()
         result = []
         for label, abbr in scoresystem.scores:
-            title = translate(label, context=self.request)
+            title = label
             if abbr:
-                title += ': %s' % abbr
+                title += ': %s' % translate(abbr, context=self.request)
             result.append({
                 'label': title,
                 'value': label,

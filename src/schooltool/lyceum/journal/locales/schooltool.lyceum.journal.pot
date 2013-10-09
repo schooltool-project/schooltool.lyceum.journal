@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-08 20:22+0300\n"
+"POT-Creation-Date: 2013-10-09 16:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -297,33 +297,8 @@ msgstr ""
 msgid "Duplicate title: ${title}"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:2955
-msgid "absent"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2957
-msgid "tardy"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2959
-msgid "present"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2961
-msgid "excused"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2979
+#: /src/schooltool/lyceum/journal/browser/journal.py:3020
 msgid "Customize"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2986
-msgid "Done"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2993
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
-msgid "Cancel"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
@@ -429,27 +404,6 @@ msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
 msgid "Choose a grade to apply to all the students in the gradebook column."
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
-msgid "Submit"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:7
-msgid "Score"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:8
-msgid "Point Value"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:9
-msgid "Passing"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
-msgid "Attendance / grade"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18

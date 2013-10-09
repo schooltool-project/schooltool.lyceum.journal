@@ -56,6 +56,7 @@ from schooltool import table
 from schooltool.basicperson.interfaces import IDemographics
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
+from schooltool.common import SchoolToolMessage as s_
 from schooltool.export import export
 from schooltool.person.interfaces import IPerson
 from schooltool.person.interfaces import IPersonFactory
@@ -1608,13 +1609,13 @@ class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
         for grade, title in score_system.scores:
             meaning = []
             if grade in score_system.tag_absent:
-                meaning.append(translate(_('Absent'), self.request))
+                meaning.append(translate(_('Absent'), context=self.request))
             if grade in score_system.tag_tardy:
-                meaning.append(translate(_('Tardy'), self.request))
+                meaning.append(translate(_('Tardy'), context=self.request))
             if not meaning:
-                meaning.append(translate(_('Present'), self.request))
+                meaning.append(translate(_('Present'), context=self.request))
             if grade in score_system.tag_excused:
-                meaning.append(translate(_('Excused'), self.request))
+                meaning.append(translate(_('Excused'), context=self.request))
             yield {'value': grade,
                    'description': title,
                    'meaning': ', '.join(meaning)
@@ -2216,7 +2217,7 @@ class SectionJournalAttendanceHistory(SectionJournalGradeHistory):
             description = dict(requirement.score_system.scores).get(grade, u'')
         else:
             description = ''
-        result = ' - '.join([translate(i, self.request)
+        result = ' - '.join([translate(i, context=self.request)
                              for i in (grade, description)])
         return result
 
@@ -2992,13 +2993,13 @@ class FlourishAttendanceScoreSystemView(BrowserView):
             tags = []
             value = score[0]
             if value in scoresystem.tag_absent:
-                tags.append(_('absent'))
+                tags.append(_('Absent'))
             if value in scoresystem.tag_tardy:
-                tags.append(_('tardy'))
+                tags.append(_('Tardy'))
             if not tags:
-                tags.append(_('present'))
+                tags.append(_('Present'))
             if value in scoresystem.tag_excused:
-                tags.append(_('excused'))
+                tags.append(_('Excused'))
             tags = ', '.join([translate(t, self.request)
                               for t in tags])
             results.append({
@@ -3023,14 +3024,14 @@ class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm)
         self.actions['apply'].addClass('button-ok')
         self.actions['cancel'].addClass('button-cancel')
 
-    @z3c.form.button.buttonAndHandler(_('Done'), name="apply")
+    @z3c.form.button.buttonAndHandler(s_('Done'), name="apply")
     def handle_apply_action(self, action):
         super(EditDefaultJournalScoreSystems,self).handleApply.func(self, action)
         if (self.status == self.successMessage or
             self.status == self.noChangesMessage):
             self.request.response.redirect(self.nextURL())
 
-    @z3c.form.button.buttonAndHandler(_('Cancel'))
+    @z3c.form.button.buttonAndHandler(s_('Cancel'))
     def handle_cancel_action(self, action):
         self.request.response.redirect(self.nextURL())
 

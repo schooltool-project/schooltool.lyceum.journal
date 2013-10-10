@@ -357,6 +357,8 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
         >>> class ScoreStub(object):
         ...     def __init__(self, value):
         ...         self.value = value
+        ...     def __repr__(self):
+        ...         return '<ScoreStub(%r)>' % self.value
         >>> MS = MeetingStub
         >>> SS = ScoreStub
         >>> dt = datetime
@@ -365,7 +367,7 @@ def doctest_SectionTermAverageGradesColumn_getGrades():
         ...                                     (MS(dt(2006, 1, 3, 10, 15)), SS(UNSCORED)),
         ...                                     (MS(dt(2006, 2, 1, 10, 15)), SS('3'))]
         >>> column.getGrades(item)
-        ['4']
+        [<ScoreStub('4')>]
 
     """
 
@@ -382,9 +384,18 @@ def doctest_SectionTermAverageGradesColumn_renderCell_renderHeader():
         >>> from schooltool.lyceum.journal.browser.journal import SectionTermAverageGradesColumn
         >>> class TermStub(object):
         ...     __name__ = "2006-Spring"
-        >>> column = SectionTermAverageGradesColumn("journal", TermStub())
+        >>> class ScoreSystemStub(object):
+        ...     getNumericalValue = lambda self, x: int(x)
+        >>> class ScoreStub(object):
+        ...     scoreSystem = ScoreSystemStub()
+        ...     def __init__(self, value):
+        ...         self.value = value
+        ...     def __repr__(self):
+        ...         return '<ScoreStub(%r)>' % self.value
+        >>> s = ScoreStub
 
-        >>> column.getGrades = lambda person: ["1", "2", "n"]
+        >>> column = SectionTermAverageGradesColumn("journal", TermStub())
+        >>> column.getGrades = lambda person: [s("1"), s("2")]
         >>> print_u(column.renderCell("john", "formatter"))
         1.500
 
@@ -402,13 +413,17 @@ def doctest_SectionTermAttendanceColumn_renderCell_renderHeader():
         >>> from schooltool.lyceum.journal.browser.journal import SectionTermAttendanceColumn
         >>> class TermStub(object):
         ...     __name__ = "2006-Spring"
+
+        >>> from schooltool.requirement.evaluation import Score
+        >>> from schooltool.lyceum.journal.journal import AbsenceScoreSystem
+        >>> s = lambda x: Score(AbsenceScoreSystem, x)
         >>> column = SectionTermAttendanceColumn("journal", TermStub())
 
-        >>> column.getAbsences = lambda person: ["1", "2", "n"]
+        >>> column.getAbsences = lambda person: [s("a")]
         >>> column.renderCell("john", "formatter")
         '1'
 
-        >>> column.getAbsences = lambda person: ["1", "n", "n", "N"]
+        >>> column.getAbsences = lambda person: [s("a"), s("a"), s("a")]
         >>> column.renderCell("john", "formatter")
         '3'
 

@@ -56,6 +56,7 @@ from schooltool import table
 from schooltool.basicperson.interfaces import IDemographics
 from schooltool.course.interfaces import ILearner, IInstructor
 from schooltool.common.inlinept import InlineViewPageTemplate
+from schooltool.common import SchoolToolMessage as s_
 from schooltool.export import export
 from schooltool.person.interfaces import IPerson
 from schooltool.person.interfaces import IPersonFactory
@@ -1121,9 +1122,9 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
         encoder = flourish.tal.JSONEncoder()
         result = []
         for label, abbr, value, percent in scoresystem.scores:
-            title = translate(label, context=self.request)
+            title = label
             if abbr:
-                title += ': %s' % abbr
+                title += ': %s' % translate(abbr, context=self.request)
             result.append({
                 'label': title,
                 'value': label,
@@ -1161,9 +1162,9 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         encoder = flourish.tal.JSONEncoder()
         result = []
         for label, abbr in scoresystem.scores:
-            title = translate(label, context=self.request)
+            title = label
             if abbr:
-                title += ': %s' % abbr
+                title += ': %s' % translate(abbr, context=self.request)
             result.append({
                 'label': title,
                 'value': label,
@@ -1608,13 +1609,13 @@ class AbsenceScoreSystemLegend(flourish.content.ContentProvider):
         for grade, title in score_system.scores:
             meaning = []
             if grade in score_system.tag_absent:
-                meaning.append(translate(_('Absent'), self.request))
+                meaning.append(translate(_('Absent'), context=self.request))
             if grade in score_system.tag_tardy:
-                meaning.append(translate(_('Tardy'), self.request))
+                meaning.append(translate(_('Tardy'), context=self.request))
             if not meaning:
-                meaning.append(translate(_('Present'), self.request))
+                meaning.append(translate(_('Present'), context=self.request))
             if grade in score_system.tag_excused:
-                meaning.append(translate(_('Excused'), self.request))
+                meaning.append(translate(_('Excused'), context=self.request))
             yield {'value': grade,
                    'description': title,
                    'meaning': ', '.join(meaning)
@@ -1969,7 +1970,7 @@ def getSectionJournalModes(person, section, request):
     result.append({
             'id': 'journal-mode-attendance',
             'label': _('Attendance'),
-            'url': journal_url + '/index.html',
+            'url': journal_url,
             })
 
     takes_day_attendance = True
@@ -2216,7 +2217,7 @@ class SectionJournalAttendanceHistory(SectionJournalGradeHistory):
             description = dict(requirement.score_system.scores).get(grade, u'')
         else:
             description = ''
-        result = ' - '.join([translate(i, self.request)
+        result = ' - '.join([translate(i, context=self.request)
                              for i in (grade, description)])
         return result
 
@@ -2738,15 +2739,6 @@ class FlourishSchoolAttendanceTermNavigation(flourish.page.RefineLinksViewlet):
 
 
 class FlourishSchoolAttendanceCurrentTerm(OptionalViewlet):
-    template = InlineViewPageTemplate('''
-    <ul tal:repeat="term view/view/terms">
-      <li i18n:translate="">
-        School year
-        <tal:block i18n:name="schoolyear" content="term/__parent__/@@title" />,
-        term <tal:block i18n:name="term" content="term/@@title" />.
-      </li>
-    </ul>
-    ''')
 
     @property
     def enabled(self):
@@ -2758,21 +2750,6 @@ class FlourishSchoolAttendanceGroupNavigation(flourish.page.RefineLinksViewlet):
 
 
 class FlourishSchoolAttendanceGroupPicker(OptionalViewlet):
-    template = InlineViewPageTemplate('''
-    <select name="group" class="navigator"
-            onchange="$(this).closest('form').submit()">
-      <option i18n:translate="" value="">Everybody</option>
-      <tal:block repeat="year view/groups_by_year">
-        <option disabled="disabled"
-                class="separator"
-                tal:content="year/title" />
-        <option tal:repeat="group year/groups"
-                tal:attributes="value group/value;
-                                selected group/selected"
-                tal:content="group/title" />
-      </tal:block>
-    </select>
-    ''')
 
     @property
     def enabled(self):
@@ -2809,16 +2786,6 @@ class FlourishSchoolAttendanceInstructorNavigation(flourish.page.RefineLinksView
 
 
 class FlourishSchoolAttendanceInstructorPicker(OptionalViewlet):
-    template = InlineViewPageTemplate('''
-    <select name="instructor" class="navigator"
-            onchange="$(this).closest('form').submit()">
-      <option i18n:translate="" value="">All instructors</option>
-      <option tal:repeat="instructor view/instructors"
-              tal:attributes="value instructor/value;
-                              selected instructor/selected"
-              tal:content="instructor/title" />
-    </select>
-    ''')
 
     @property
     def enabled(self):
@@ -2992,13 +2959,13 @@ class FlourishAttendanceScoreSystemView(BrowserView):
             tags = []
             value = score[0]
             if value in scoresystem.tag_absent:
-                tags.append(_('absent'))
+                tags.append(_('Absent'))
             if value in scoresystem.tag_tardy:
-                tags.append(_('tardy'))
+                tags.append(_('Tardy'))
             if not tags:
-                tags.append(_('present'))
+                tags.append(_('Present'))
             if value in scoresystem.tag_excused:
-                tags.append(_('excused'))
+                tags.append(_('Excused'))
             tags = ', '.join([translate(t, self.request)
                               for t in tags])
             results.append({
@@ -3023,14 +2990,14 @@ class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm)
         self.actions['apply'].addClass('button-ok')
         self.actions['cancel'].addClass('button-cancel')
 
-    @z3c.form.button.buttonAndHandler(_('Done'), name="apply")
+    @z3c.form.button.buttonAndHandler(s_('Done'), name="apply")
     def handle_apply_action(self, action):
         super(EditDefaultJournalScoreSystems,self).handleApply.func(self, action)
         if (self.status == self.successMessage or
             self.status == self.noChangesMessage):
             self.request.response.redirect(self.nextURL())
 
-    @z3c.form.button.buttonAndHandler(_('Cancel'))
+    @z3c.form.button.buttonAndHandler(s_('Cancel'))
     def handle_cancel_action(self, action):
         self.request.response.redirect(self.nextURL())
 

@@ -22,7 +22,7 @@
           </div>
         </div>
       </fieldset>
-      <div class="buttons">
+      <div class="buttons" i18n:domain="schooltool">
         <input type="submit" class="button-ok filldown-submit" name="SUBMIT"
                value="Submit" i18n:attributes="value" />
         <input type="submit" class="button-cancel filldown-cancel" name="CANCEL"

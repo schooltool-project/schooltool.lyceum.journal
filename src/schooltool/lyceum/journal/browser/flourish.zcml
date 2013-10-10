@@ -532,6 +532,7 @@
   <flourish:viewlet
       name="terms_selected"
       class=".journal.FlourishSchoolAttendanceCurrentTerm"
+      template="templates/f_school_current_term.pt"
       manager=".journal.FlourishSchoolAttendanceTermNavigation"
       permission="schooltool.edit"
       />
@@ -549,6 +550,7 @@
   <flourish:viewlet
       name="select_group"
       class=".journal.FlourishSchoolAttendanceGroupPicker"
+      template="templates/f_school_group_picker.pt"
       manager=".journal.FlourishSchoolAttendanceGroupNavigation"
       permission="schooltool.edit"
       />
@@ -566,6 +568,7 @@
   <flourish:viewlet
       name="select_instructor"
       class=".journal.FlourishSchoolAttendanceInstructorPicker"
+      template="templates/f_school_instructor_picker.pt"
       manager=".journal.FlourishSchoolAttendanceInstructorNavigation"
       permission="schooltool.edit"
       />

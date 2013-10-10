@@ -1,0 +1,15 @@
+<div i18n:domain="schooltool.lyceum.journal">
+  <select name="group" class="navigator"
+          onchange="$(this).closest('form').submit()">
+    <option i18n:translate="" value="">Everybody</option>
+    <tal:block repeat="year view/groups_by_year">
+      <option disabled="disabled"
+              class="separator"
+              tal:content="year/title" />
+      <option tal:repeat="group year/groups"
+              tal:attributes="value group/value;
+                              selected group/selected"
+              tal:content="group/title" />
+    </tal:block>
+  </select>
+</div>

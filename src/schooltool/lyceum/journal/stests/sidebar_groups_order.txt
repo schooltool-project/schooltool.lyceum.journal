@@ -85,5 +85,5 @@ Print the journal sidebar groups:
     Section
     Term
     Year
-    Actions
+    Help
     Reports

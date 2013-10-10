@@ -55,7 +55,6 @@ from schooltool.requirement.evaluation import Evaluation
 from schooltool.requirement.scoresystem import AbstractScoreSystem
 from schooltool.requirement.scoresystem import GlobalRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import CustomScoreSystem
-from schooltool.requirement.scoresystem import PersistentRangedValuesScoreSystem
 from schooltool.requirement.scoresystem import ScoreSystemAppStartup
 from schooltool.requirement.scoresystem import ScoreValidationError, UNSCORED
 from schooltool.requirement.interfaces import IScoreSystemContainer
@@ -168,14 +167,14 @@ class GlobalJournalRangedValuesScoreSystem(GlobalRangedValuesScoreSystem):
 # The score system used in the old journal
 TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
     'TenPointScoreSystem',
-    _('10 Points'), _('10 Points Score System'),
+    _('10 Points'),
     min=Decimal(1), max=Decimal(10))
 
 
 # Attendance score system
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
-    _('Absences'), _('Attendance Score System'),
+    _('Absences'),
     scores={'a': _('Absent'),
             'n': _('Absent'),
             't': _('Tardy'),
@@ -667,18 +666,17 @@ class JournalScoreSystemsStartup(ScoreSystemAppStartup):
     after = ('schooltool.requirement.scoresystem', )
 
     def updateGradingSS(self, prefs):
-        if (prefs.grading_scoresystem is not None and
-            not (isinstance(prefs.grading_scoresystem, PersistentRangedValuesScoreSystem)
-                 and prefs.grading_scoresystem.title == u'10 Points')):
-            return
-        app = ISchoolToolApplication(None)
-        ssc = IScoreSystemContainer(app)
+        ssc = IScoreSystemContainer(self.app)
         if prefs.grading_scoresystem is not None:
-            del ssc['ten_points']
+            ten = ssc.get('ten_points')
+            if isinstance(ten, CustomScoreSystem) and ten.scores[0][0] == u'1':
+                # Values need to be in descending order
+                ten.scores = list(reversed(ten.scores))
+            return
         tenPointScoreSystem = CustomScoreSystem(
-            _('10 Points'), _('10 Points Score System'),
+            _('10 Points'),
             scores=[(unicode(i), u'', Decimal(i), Decimal((i-1)*10))
-                    for i in range(1, 11)],
+                    for i in reversed(range(1, 11))],
             bestScore='10',
             minPassingScore='4')
         chooser = INameChooser(ssc)
@@ -689,8 +687,7 @@ class JournalScoreSystemsStartup(ScoreSystemAppStartup):
     def updateAttendanceSS(self, prefs):
         if prefs.attendance_scoresystem is not None:
             return
-        app = ISchoolToolApplication(None)
-        ssc = IScoreSystemContainer(app)
+        ssc = IScoreSystemContainer(self.app)
         attendanceScoreSystem = None
         for ss in ssc.values():
             if (IAttendanceScoreSystem.providedBy(ss) and

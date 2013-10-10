@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-08 03:02+0300\n"
+"POT-Creation-Date: 2013-10-10 03:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -297,33 +297,8 @@ msgstr ""
 msgid "Duplicate title: ${title}"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:2955
-msgid "absent"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2957
-msgid "tardy"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2959
-msgid "present"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2961
-msgid "excused"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2979
+#: /src/schooltool/lyceum/journal/browser/journal.py:3020
 msgid "Customize"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2986
-msgid "Done"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2993
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
-msgid "Cancel"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
@@ -431,27 +406,6 @@ msgstr ""
 msgid "Choose a grade to apply to all the students in the gradebook column."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
-msgid "Submit"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:7
-msgid "Score"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:8
-msgid "Point Value"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:9
-msgid "Passing"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
-msgid "Attendance / grade"
-msgstr ""
-
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
 msgid "There are no absences."
 msgstr ""
@@ -468,8 +422,20 @@ msgstr ""
 msgid "There are no participation scores."
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_current_term.pt:6
+msgid "School year ${schoolyear}, term ${term}."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_group_picker.pt:4
+msgid "Everybody"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_instructor_picker.pt:4
+msgid "All instructors"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:23
 msgid "${section} journal for ${month} ${year}"
 msgstr ""
 
@@ -535,15 +501,6 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/journal.py:171
 #: /src/schooltool/lyceum/journal/journal.py:679
 msgid "10 Points"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/journal.py:171
-#: /src/schooltool/lyceum/journal/journal.py:679
-msgid "10 Points Score System"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/journal.py:178
-msgid "Attendance Score System"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/journal.py:767

@@ -14,14 +14,6 @@
   <include package="schooltool.requirement" />
   <include package="schooltool.lyceum.journal" />
 
-  <interface
-      interface="schooltool.basicperson.ftesting.IBasicPersonFtestingSkin"
-      type="zope.publisher.interfaces.browser.IBrowserSkinType"
-      name="BasicPerson"
-      />
-
-  <includeOverrides package="schooltool.basicperson" file="overrides.zcml" />
-
-  <browser:defaultSkin name="BasicPerson" />
+  <browser:defaultSkin name="SchoolTool" />
 
 </configure>

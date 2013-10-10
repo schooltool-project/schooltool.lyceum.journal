@@ -2,10 +2,15 @@
 CHANGES
 =======
 
-2.5.4 (unreleased)
+2.6.0 (2013-10-10)
 ------------------
 
-- Removed unsupported translations (less than 25% translated).
+- Respect name sorting setting to order columns, allow sorting by either name.
+- Initialize score systems container before adding new ones.
+- Order the scores in the '10 points' in descending order.
+- Translate score system titles and options.
+- Journal attendance / grade months should respect the configured time zone (https://launchpad.net/bugs/1233995)
+- Update translations, remove unsupported ones.
 
 
 2.5.3 (2013-09-13)

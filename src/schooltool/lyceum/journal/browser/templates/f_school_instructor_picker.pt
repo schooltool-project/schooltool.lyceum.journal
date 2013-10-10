@@ -1,0 +1,10 @@
+<div i18n:domain="schooltool.lyceum.journal">
+  <select name="instructor" class="navigator"
+          onchange="$(this).closest('form').submit()">
+    <option i18n:translate="" value="">All instructors</option>
+    <option tal:repeat="instructor view/instructors"
+            tal:attributes="value instructor/value;
+                            selected instructor/selected"
+            tal:content="instructor/title" />
+  </select>
+</div>

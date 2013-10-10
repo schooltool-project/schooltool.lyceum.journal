@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-09 16:53+0300\n"
+"POT-Creation-Date: 2013-10-10 03:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -422,8 +422,20 @@ msgstr ""
 msgid "There are no participation scores."
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_current_term.pt:6
+msgid "School year ${schoolyear}, term ${term}."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_group_picker.pt:4
+msgid "Everybody"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_instructor_picker.pt:4
+msgid "All instructors"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:23
 msgid "${section} journal for ${month} ${year}"
 msgstr ""
 

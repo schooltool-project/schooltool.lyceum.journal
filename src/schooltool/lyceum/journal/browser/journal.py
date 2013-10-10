@@ -2739,15 +2739,6 @@ class FlourishSchoolAttendanceTermNavigation(flourish.page.RefineLinksViewlet):
 
 
 class FlourishSchoolAttendanceCurrentTerm(OptionalViewlet):
-    template = InlineViewPageTemplate('''
-    <ul tal:repeat="term view/view/terms">
-      <li i18n:translate="">
-        School year
-        <tal:block i18n:name="schoolyear" content="term/__parent__/@@title" />,
-        term <tal:block i18n:name="term" content="term/@@title" />.
-      </li>
-    </ul>
-    ''')
 
     @property
     def enabled(self):
@@ -2759,21 +2750,6 @@ class FlourishSchoolAttendanceGroupNavigation(flourish.page.RefineLinksViewlet):
 
 
 class FlourishSchoolAttendanceGroupPicker(OptionalViewlet):
-    template = InlineViewPageTemplate('''
-    <select name="group" class="navigator"
-            onchange="$(this).closest('form').submit()">
-      <option i18n:translate="" value="">Everybody</option>
-      <tal:block repeat="year view/groups_by_year">
-        <option disabled="disabled"
-                class="separator"
-                tal:content="year/title" />
-        <option tal:repeat="group year/groups"
-                tal:attributes="value group/value;
-                                selected group/selected"
-                tal:content="group/title" />
-      </tal:block>
-    </select>
-    ''')
 
     @property
     def enabled(self):
@@ -2810,16 +2786,6 @@ class FlourishSchoolAttendanceInstructorNavigation(flourish.page.RefineLinksView
 
 
 class FlourishSchoolAttendanceInstructorPicker(OptionalViewlet):
-    template = InlineViewPageTemplate('''
-    <select name="instructor" class="navigator"
-            onchange="$(this).closest('form').submit()">
-      <option i18n:translate="" value="">All instructors</option>
-      <option tal:repeat="instructor view/instructors"
-              tal:attributes="value instructor/value;
-                              selected instructor/selected"
-              tal:content="instructor/title" />
-    </select>
-    ''')
 
     @property
     def enabled(self):

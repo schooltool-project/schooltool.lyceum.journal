@@ -1,0 +1,9 @@
+<div i18n:domain="schooltool.lyceum.journal">
+  <ul tal:repeat="term view/view/terms">
+    <li i18n:translate="">
+      School year
+      <tal:block i18n:name="schoolyear" content="term/__parent__/@@title" />,
+      term <tal:block i18n:name="term" content="term/@@title" />.
+    </li>
+  </ul>
+</div>

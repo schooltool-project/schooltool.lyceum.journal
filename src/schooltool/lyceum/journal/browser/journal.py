@@ -492,7 +492,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         return SelectableRowTableFormatter(*args, **kwargs)
 
     def isJournalMeeting(self, term, meeting):
-        return meeting.dtstart.date() in term
+        starts = meeting.dtstart.astimezone(self.timezone)
+        return starts.date() in term
 
     def allMeetings(self):
         term = removeSecurityProxy(self.selected_term)

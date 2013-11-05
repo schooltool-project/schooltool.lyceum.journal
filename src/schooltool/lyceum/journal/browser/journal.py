@@ -970,11 +970,6 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
 
     def getHint(self, person, meeting):
         # grade hint is homeroom attendance by default
-        period = getattr(meeting, 'period', None)
-        if period is None:
-            return None
-        if period.activity_type != 'homeroom':
-            return None
         requirement = HomeroomRequirement(meeting)
         score = IEvaluateRequirement(requirement).getEvaluation(
             person, requirement, default=UNSCORED)

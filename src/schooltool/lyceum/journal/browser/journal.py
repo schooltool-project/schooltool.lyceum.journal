@@ -121,6 +121,19 @@ def makeSchoolAttendanceMeeting(date):
     return meeting
 
 
+class SectionFinder(object):
+
+    def getFromYear(self, sections, active):
+        in_active = filter(lambda x: ISchoolYear(x) is active, sections)
+        if not in_active:
+            return sections[0]
+        current_term = getUtility(IDateManager).current_term
+        in_current_term = filter(lambda x: ITerm(x) is current_term, in_active)
+        if in_current_term:
+            return in_current_term[0]
+        return in_active[0]
+
+
 class JournalCalendarEventViewlet(object):
     """Viewlet for section meeting calendar events.
 
@@ -1991,7 +2004,7 @@ def getSectionJournalModes(person, section, request):
     return result
 
 
-class JournalModeContent(flourish.content.ContentProvider):
+class JournalModeContent(flourish.content.ContentProvider, SectionFinder):
 
     @Lazy
     def person(self):
@@ -2008,7 +2021,9 @@ class JournalModeContent(flourish.content.ContentProvider):
             sections = list(IInstructor(person).sections())
             if not sections:
                 return None
-            section = sections[0]
+            schoolyears = ISchoolYearContainer(ISchoolToolApplication(None))
+            active = schoolyears.getActiveSchoolYear()
+            section = self.getFromYear(sections, active)
         return section
 
     def getSchoolModes(self):

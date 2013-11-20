@@ -3001,7 +3001,7 @@ class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm)
         self.actions['apply'].addClass('button-ok')
         self.actions['cancel'].addClass('button-cancel')
 
-    @z3c.form.button.buttonAndHandler(s_('Done'), name="apply")
+    @z3c.form.button.buttonAndHandler(s_('Save'), name="apply")
     def handle_apply_action(self, action):
         super(EditDefaultJournalScoreSystems,self).handleApply.func(self, action)
         if (self.status == self.successMessage or

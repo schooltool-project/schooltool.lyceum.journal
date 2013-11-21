@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-10 03:41+0300\n"
+"POT-Creation-Date: 2013-11-21 19:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -392,18 +392,6 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:25
 #: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:15
 msgid "Period"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
-msgid "Fill empty cells"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
-msgid "Grade"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
-msgid "Choose a grade to apply to all the students in the gradebook column."
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18

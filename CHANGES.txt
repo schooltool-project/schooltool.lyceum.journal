@@ -2,15 +2,12 @@
 CHANGES
 =======
 
-2.6.1 (unreleased)
+2.6.1 (2013-11-24)
 ------------------
 
-- Nothing changed yet.
-
-
-2.6.0.1 (2013-10-17)
---------------------
-
+- Display homeroom attendance hint in all periods (https://launchpad.net/bugs/1247853)
+- Journal tab should display a section in the active school year when first
+  opened (https://launchpad.net/bugs/1243781)
 - Fix periods disappearing in exotic time zones (https://launchpad.net/bugs/1239468)
 
 

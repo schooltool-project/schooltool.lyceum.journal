@@ -1,5 +1,5 @@
 <tal:block replace="resource_library:schooltool.gradebook.flourish" />
-<div i18n:domain="schooltool.gradebook">
+<div i18n:domain="schooltool.lyceum.journal">
   <form method="post"
         tal:attributes="action string:${context/@@absolute_url}/add_attendance.html">
     <input type="hidden" name="form-submitted" value="" />
@@ -11,11 +11,13 @@
       </div>
     </div>
     <fieldset>
-      <legend><span i18n:translate="">New Score System</span></legend>
+      <legend>
+        <span i18n:translate="" i18n:domain="schooltool.gradebook">New Score System</span>
+      </legend>
       <div class="row">
         <div class="label">
           <label for="title">
-            <span i18n:translate="">
+            <span i18n:translate="" i18n:domain="schooltool.gradebook">
               Title
             </span>
             <span class="required">*</span>
@@ -30,8 +32,8 @@
     <table class="scoresystem-scores">
       <thead>
         <tr>
-          <th i18n:translate="">Value (lowercase)</th>
-          <th i18n:translate="">Description</th>
+          <th i18n:translate="" i18n:domain="schooltool.gradebook">Value</th>
+          <th i18n:translate="" i18n:domain="schooltool.gradebook">Description</th>
           <th i18n:translate="">Report as</th>
           <th i18n:translate="">Excused?</th>
           <th>&nbsp;</th>
@@ -75,7 +77,7 @@
             <td class="buttons">
               <metal:block tal:condition="repeat/score/end">
                 <input type="submit" class="button-ok" name="SAVE" value="Add"
-                       i18n:attributes="value" />
+                       i18n:attributes="value" i18n:domain="schooltool.gradebook" />
               </metal:block>
             </td>
           </tr>
@@ -84,9 +86,9 @@
     </table>
     <div class="buttons">
       <input type="submit" class="button-ok" name="UPDATE_SUBMIT" value="Save"
-             i18n:attributes="value" />
+             i18n:attributes="value" i18n:domain="schooltool.gradebook" />
       <input type="submit" class="button-cancel" name="CANCEL" value="Cancel"
-             i18n:attributes="value" />
+             i18n:attributes="value" i18n:domain="schooltool.gradebook" />
     </div>
   </form>
 </div>

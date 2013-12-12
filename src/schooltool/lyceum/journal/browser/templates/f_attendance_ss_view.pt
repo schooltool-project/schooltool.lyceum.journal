@@ -1,10 +1,10 @@
 <tal:block replace="resource_library:schooltool.gradebook.flourish" />
-<div i18n:domain="schooltool.gradebook">
+<div i18n:domain="schooltool.lyceum.journal">
   <table>
     <thead>
       <tr>
-        <th i18n:translate="">Value</th>
-        <th i18n:translate="">Description</th>
+        <th i18n:translate="" i18n:domain="schooltool.gradebook">Value</th>
+        <th i18n:translate="" i18n:domain="schooltool.gradebook">Description</th>
         <th i18n:translate="">Report as</th>
       </tr>
     </thead>

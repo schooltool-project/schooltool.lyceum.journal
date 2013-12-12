@@ -123,23 +123,17 @@ class AttendanceScoreSystem(AbstractScoreSystem):
         return rawScore.strip().lower()
 
     def isTardy(self, score):
-        if (score is None or
-            score is UNSCORED or
-            score.value is UNSCORED):
+        if not score:
             return False
         return score.value in self.tag_tardy
 
     def isAbsent(self, score):
-        if (score is None or
-            score is UNSCORED or
-            score.value is UNSCORED):
+        if not score:
             return False
         return score.value in self.tag_absent
 
     def isExcused(self, score):
-        if (score is None or
-            score is UNSCORED or
-            score.value is UNSCORED):
+        if not score:
             return False
         return score.value in self.tag_excused
 

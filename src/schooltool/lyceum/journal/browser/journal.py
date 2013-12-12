@@ -2858,8 +2858,7 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
                 except SSValidationError, e:
                     self.message = e.message
                     return
-                target = PersistentAttendanceScoreSystem(self.validTitle)
-                self.updateScoreSystem(target)
+                target = self.createScoreSystem()
                 self.addScoreSystem(target)
                 self.request.response.redirect(self.nextURL())
 
@@ -2921,7 +2920,7 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
 
         scores = []
         for value, title, absence, excused in self.getRequestScores():
-            value = value.strip().lower()
+            value = value.strip()
             title = title.strip()
             scores.append([value, title, absence, excused])
         self.validScores = scores
@@ -2933,10 +2932,10 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
         all_values = set()
         all_titles = set()
         for value, title, absence, excused in self.validScores:
-            if value in all_values:
+            if value.lower() in all_values:
                 raise SSValidationError(_('Duplicate value: ${value}',
                                           mapping={'value': value}))
-            all_values.add(value)
+            all_values.add(value.lower())
             if not title.strip():
                 raise SSValidationError(_('Title required for: ${value}',
                                           mapping={'value': value}))
@@ -2945,11 +2944,17 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
                                           mapping={'title': title}))
             all_titles.add(title)
 
-    def updateScoreSystem(self, target):
-        target.scores = tuple([(s[0], s[1]) for s in self.validScores])
-        target.tag_absent = tuple([s[0] for s in self.validScores if s[2] == 'a'])
-        target.tag_tardy = tuple([s[0] for s in self.validScores if s[2] == 't'])
-        target.tag_excused = tuple([s[0] for s in self.validScores if s[3]])
+    def createScoreSystem(self):
+        scores = tuple([(s[0], s[1]) for s in self.validScores])
+        tag_absent = tuple([s[0] for s in self.validScores if s[2] == 'a'])
+        tag_tardy = tuple([s[0] for s in self.validScores if s[2] == 't'])
+        tag_excused = tuple([s[0] for s in self.validScores if s[3]])
+        target = PersistentAttendanceScoreSystem(self.validTitle,
+                                                 scores=scores,
+                                                 tag_absent=tag_absent,
+                                                 tag_tardy=tag_tardy,
+                                                 tag_excused=tag_excused)
+        return target
 
 
 class FlourishAttendanceScoreSystemView(BrowserView):

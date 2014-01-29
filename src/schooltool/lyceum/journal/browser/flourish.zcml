@@ -620,4 +620,29 @@
         />
   </configure>
 
+  <flourish:viewlet
+      name="journal_enrollment_modes"
+      after="journal_year_navigation"
+      before="*"
+      manager="schooltool.skin.flourish.page.IPageRefineManager"
+      class=".journal.EnrollmentModes"
+      view=".journal.FlourishLyceumSectionJournalBase"
+      title="View Students"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="journal-enrollment-modes"
+      class=".journal.EnrollmentModeContent"
+      render="render"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="enrollment_modes_selector"
+      manager=".journal.EnrollmentModes"
+      class=".journal.EnrollmentModesSelector"
+      permission="schooltool.edit"
+      />
+
 </configure>

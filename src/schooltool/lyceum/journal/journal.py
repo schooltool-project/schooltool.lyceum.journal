@@ -76,6 +76,7 @@ TARDY = 'p' #p means tardy in lithuanian
 
 CURRENT_SECTION_TAUGHT_KEY = 'schooltool.gradebook.currentsectiontaught'
 CURRENT_JOURNAL_MODE_KEY = 'schooltool.gradebook.currentjournalmode'
+CURRENT_ENROLLMENT_MODE_KEY = 'schooltool.gradebook.currentenrollmentmode'
 
 
 class AttendanceScoreSystem(AbstractScoreSystem):
@@ -223,6 +224,18 @@ def getCurrentJournalMode(person):
 def setCurrentJournalMode(person, mode):
     ann = IAnnotations(removeSecurityProxy(person))
     ann[CURRENT_JOURNAL_MODE_KEY] = mode
+
+
+def getCurrentEnrollmentMode(person):
+    ann = IAnnotations(removeSecurityProxy(person))
+    if CURRENT_ENROLLMENT_MODE_KEY not in ann:
+        ann[CURRENT_ENROLLMENT_MODE_KEY] = None
+    return ann.get(CURRENT_ENROLLMENT_MODE_KEY, None)
+
+
+def setCurrentEnrollmentMode(person, mode):
+    ann = IAnnotations(removeSecurityProxy(person))
+    ann[CURRENT_ENROLLMENT_MODE_KEY] = mode
 
 
 class LyceumJournalContainer(BTreeContainer):
@@ -529,10 +542,9 @@ class SectionJournal(object):
         section_journal_data = ISectionJournalData(owner)
         return section_journal_data.isTardy(person, meeting)
 
-    @Lazy
+    @property
     def members(self):
-        return [member for member in self.section.members
-                if IPerson.providedBy(member)]
+        return self.section.members.all()
 
     @Lazy
     def meetings(self):

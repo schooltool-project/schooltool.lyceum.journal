@@ -60,11 +60,15 @@ from schooltool.common import SchoolToolMessage as s_
 from schooltool.export import export
 from schooltool.person.interfaces import IPerson
 from schooltool.person.interfaces import IPersonFactory
+from schooltool.person.interfaces import IPersonContainer
 from schooltool.app.browser.cal import month_names
 from schooltool.app.interfaces import IApplicationPreferences
 from schooltool.app.interfaces import ISchoolToolApplication
 from schooltool.app.interfaces import ISchoolToolCalendar
 from schooltool.app.relationships import Instruction
+from schooltool.app.interfaces import IRelationshipStateContainer
+from schooltool.app.membership import Membership
+from schooltool.app.states import ACTIVE
 from schooltool.course.interfaces import ISection
 from schooltool.export.export import RequestXLSReportDialog
 from schooltool.task.progress import normalized_progress
@@ -87,6 +91,8 @@ from schooltool.lyceum.journal.journal import getCurrentSectionTaught
 from schooltool.lyceum.journal.journal import setCurrentSectionTaught
 from schooltool.lyceum.journal.journal import getCurrentJournalMode
 from schooltool.lyceum.journal.journal import setCurrentJournalMode
+from schooltool.lyceum.journal.journal import getCurrentEnrollmentMode
+from schooltool.lyceum.journal.journal import setCurrentEnrollmentMode
 from schooltool.lyceum.journal.journal import JournalXLSReportTask
 from schooltool.lyceum.journal.journal import PersistentAttendanceScoreSystem
 from schooltool.lyceum.journal.journal import GradeRequirement
@@ -536,10 +542,7 @@ class LyceumSectionJournalView(StudentSelectionMixin):
                 yield event
 
     def members(self):
-        collator = ICollator(self.request.locale)
-        factory = getUtility(IPersonFactory)
-        sorting_key = lambda x: factory.getSortingKey(x, collator)
-        return sorted(self.context.members, key=sorting_key)
+        return self.context.members
 
     def updateGradebook(self):
         members = self.members()
@@ -1006,6 +1009,17 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
     def name_sorting_columns(self):
         return getUtility(IPersonFactory).columns()
 
+    def getTodayState(self, student, section):
+        relationships = Membership.bind(member=student).all().relationships
+        for link_info in relationships:
+            if link_info.target is section:
+                return link_info.state.today
+
+    @Lazy
+    def app_states(self):
+        app = ISchoolToolApplication(None)
+        return IRelationshipStateContainer(app)['section-membership']
+
 
 class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
 
@@ -1065,7 +1079,23 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
                                      collator.key(x.last_name))
         else:
             sorting_key = lambda x: factory.getSortingKey(x, collator)
-        for person in self.members():
+        students = self.members()
+        section = removeSecurityProxy(self.context.section)
+        active_students = students.on(self.request.util.today).any(ACTIVE)
+        current_mode = getCurrentEnrollmentMode(
+            IPerson(self.request.principal, None))
+        if current_mode == 'gradebook-enrollment-mode-enrolled':
+            students = active_students
+        for person in students:
+            css_class = ['popup_link']
+            person = removeSecurityProxy(person)
+            title = person.title
+            if person not in active_students:
+                css_class.append('inactive-student')
+                meaning, code = self.getTodayState(person, section)
+                state = self.app_states.states.get(code)
+                if state is not None:
+                    title = '%s (%s)' % (title, state.title)
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
@@ -1082,7 +1112,8 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             if flourish.canView(person):
                 person = removeSecurityProxy(person)
             result.append(
-                {'student': {'title': person.title,
+                {'student': {'title': title,
+                             'css_class': ' '.join(css_class),
                              'first_name': person.first_name,
                              'last_name': person.last_name,
                              'id': person.username,
@@ -1194,7 +1225,29 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                                      collator.key(x.last_name))
         else:
             sorting_key = lambda x: factory.getSortingKey(x, collator)
-        for person in self.members():
+        students = self.members()
+        section = None
+        active_students = ()
+        current_mode = None
+        is_persons_view = IPersonContainer.providedBy(self.context)
+        if not is_persons_view:
+            section = removeSecurityProxy(self.context.section)
+            active_students = students.on(self.request.util.today).any(ACTIVE)
+            current_mode = getCurrentEnrollmentMode(
+                IPerson(self.request.principal, None))
+            if current_mode == 'gradebook-enrollment-mode-enrolled':
+                students = active_students
+        for person in students:
+            css_class = ['popup_link']
+            person = removeSecurityProxy(person)
+            title = person.title
+            if not is_persons_view:
+                if not person not in active_students:
+                    css_class.append('inactive-student')
+                    meaning, code = self.getTodayState(person, section)
+                    state = self.app_states.states.get(code)
+                    if state is not None:
+                        title = '%s (%s)' % (title, state.title)
             grades = []
             for meeting in self.meetings:
                 insecure_meeting = removeSecurityProxy(meeting)
@@ -1212,7 +1265,8 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
                 person = removeSecurityProxy(person)
             excused, excusable = self.excused(person)
             result.append(
-                {'student': {'title': person.title,
+                {'student': {'title': title,
+                             'css_class': ' '.join(css_class),
                              'first_name': person.first_name,
                              'last_name': person.last_name,
                              'id': person.username,
@@ -2467,7 +2521,7 @@ class AttendanceFilter(table.ajax.IndexedTableFilter):
         ids = {}
         for section in sections:
             unsecure_section = removeSecurityProxy(section)
-            for person in unsecure_section.members:
+            for person in unsecure_section.members.all():
                 if person in ids:
                     continue
                 intid = int_ids.queryId(person, None)
@@ -2488,7 +2542,7 @@ class AttendanceFilter(table.ajax.IndexedTableFilter):
         int_ids = getUtility(IIntIds)
         group_person_ids = set([
                 int_ids.queryId(person)
-                for person in self.view.group.members
+                for person in self.view.group.members.all()
                 ])
         items = [item for item in items
                  if item['id'] in group_person_ids]
@@ -2811,7 +2865,7 @@ class FlourishSchoolAttendanceInstructorPicker(OptionalViewlet):
         for term in self.view.terms:
             sections = ISectionContainer(term)
             for section in sections.values():
-                if len(section.members):
+                if len(section.members.all()):
                     instructors.update(section.instructors)
 
         collator = ICollator(self.request.locale)
@@ -3024,3 +3078,117 @@ class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm)
         app = ISchoolToolApplication(None)
         prefs = IJournalScoreSystemPreferences(app)
         return prefs
+
+
+class EnrollmentModes(flourish.page.RefineLinksViewlet):
+
+    pass
+
+
+class EnrollmentModeContent(flourish.content.ContentProvider):
+
+    enrollment_mode_name = 'gradebook-enrollment-mode'
+    enrolled_mode = 'gradebook-enrollment-mode-enrolled'
+    all_mode = 'gradebook-enrollment-mode-all'
+
+    @Lazy
+    def default_mode(self):
+        return self.enrolled_mode
+
+    @Lazy
+    def enrollment_modes(self):
+        return (self.enrolled_mode, self.all_mode)
+
+    @Lazy
+    def modes(self):
+        person = self.person
+        if person is None:
+            return []
+        gradebook_url = '%s/%s' % (absoluteURL(self.context, self.request), self.view.__name__)
+        result = []
+        result.append({
+                'id': self.enrolled_mode,
+                'label': _('Enrolled'),
+                'url': '%s?%s' % (
+                    gradebook_url,
+                    urllib.urlencode({
+                            self.enrollment_mode_name: self.enrolled_mode,
+                            }))
+                })
+        result.append({
+                'id': self.all_mode,
+                'label': _('All'),
+                'url': '%s?%s' % (
+                    gradebook_url,
+                    urllib.urlencode({
+                            self.enrollment_mode_name: self.all_mode,
+                            }))
+                })
+        return result
+
+    @Lazy
+    def person(self):
+        person = IPerson(self.request.principal, None)
+        return person
+
+    def render(self):
+        return ''
+
+
+class EnrollmentModesSelector(flourish.viewlet.Viewlet):
+
+    list_class = 'filter'
+
+    template = InlineViewPageTemplate('''
+        <ul tal:attributes="class view/list_class"
+            tal:condition="view/items">
+          <li tal:repeat="item view/items">
+            <input type="radio"
+                   onclick="ST.redirect($(this).context.value)"
+                   tal:attributes="value item/url;
+                                   id item/id;
+                                   checked item/selected;" />
+            <label tal:content="item/label"
+                   tal:attributes="for item/id" />
+          </li>
+        </ul>
+    ''')
+
+    @Lazy
+    def content(self):
+        return self.manager.view.providers.get('journal-enrollment-modes')
+
+    @Lazy
+    def items(self):
+        if not self.content:
+            return []
+        result = list(self.content.modes)
+        for mode in result:
+            mode['selected'] = bool(mode['id'] == self.current_mode)
+        return result
+
+    @Lazy
+    def person(self):
+        person = IPerson(self.request.principal, None)
+        return person
+
+    @property
+    def current_mode(self):
+        mode = getCurrentEnrollmentMode(self.person)
+        if mode is None:
+            mode = self.content.default_mode
+            setCurrentEnrollmentMode(self.person, mode)
+        return mode
+
+    def update(self):
+        if self.content:
+            name = self.content.enrollment_mode_name
+            requested_mode = self.request.get(name)
+            if (requested_mode in self.content.enrollment_modes and
+                requested_mode != self.current_mode):
+                setCurrentEnrollmentMode(self.person, requested_mode)
+
+    def render(self, *args, **kw):
+        if len(self.items) < 2:
+            return ''
+        return self.template(*args, **kw)

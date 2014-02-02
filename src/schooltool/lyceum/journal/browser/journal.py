@@ -3108,7 +3108,7 @@ class EnrollmentModeContent(flourish.content.ContentProvider):
         result = []
         result.append({
                 'id': self.enrolled_mode,
-                'label': _('Enrolled'),
+                'label': _('Active'),
                 'url': '%s?%s' % (
                     gradebook_url,
                     urllib.urlencode({

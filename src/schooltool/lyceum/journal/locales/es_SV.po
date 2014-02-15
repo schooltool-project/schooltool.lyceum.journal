@@ -1,21 +1,21 @@
 # Spanish (El Salvador) translation for schooltool.lyceum.journal
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the schooltool.lyceum.journal package.
-# Douglas Cerna <douglascerna@yahoo.com>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 01:55+0300\n"
+"POT-Creation-Date: 2013-12-12 22:46+0200\n"
 "PO-Revision-Date: 2013-08-23 10:30+0000\n"
-"Last-Translator: Douglas Cerna <douglascerna@yahoo.com>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish (El Salvador) <es_SV@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-10-07 06:00+0000\n"
-"X-Generator: Launchpad (build 16791)\n"
+"X-Launchpad-Export-Date: 2013-12-17 06:17+0000\n"
+"X-Generator: Launchpad (build 16869)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:58
 msgid "Explained:"
@@ -48,7 +48,12 @@ msgstr "Período"
 msgid "Year"
 msgstr "Año"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:120
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:166
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:177
+msgid "View"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:209
 msgid "Actions"
 msgstr "Acciones"
 
@@ -56,11 +61,20 @@ msgstr "Acciones"
 msgid "Help"
 msgstr "Ayuda"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:162
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:231
+msgid "Score System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:334
 msgid "Reports"
 msgstr "Reportes"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:173
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+msgid "Journal Scores Export"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:363
 msgid ""
 "A single Excel-formatted spreadsheet containing all the worksheets for this "
 "journal."
@@ -74,18 +88,42 @@ msgstr ""
 msgid "My Journal"
 msgstr ""
 
-#. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:80
-msgid "Single letter that represents an absent mark for a student"
-msgstr "a"
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:500
+msgid "Month"
+msgstr ""
 
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:75
-msgid "Single letter that represents an tardy mark for a student"
-msgstr "r"
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:516
+msgid "Term(s)"
+msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:116
-#: /src/schooltool/lyceum/journal/browser/journal.py:396
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:533
+msgid "Filter group"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:550
+msgid "Filter instructor"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:567
+msgid "Add Attendance Score System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:567
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:585
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:603
+msgid "Score Systems"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:577
+msgid "Attendance System"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:594
+msgid "Journal Score Systems"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:171
+#: /src/schooltool/lyceum/journal/browser/journal.py:468
 msgid "Nr."
 msgstr "Núm."
 
@@ -107,15 +145,12 @@ msgstr "Ausencias"
 msgid "Tardies"
 msgstr "Retrasos"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:326
-msgid "Absent"
-msgstr "Ausente"
+#: /src/schooltool/lyceum/journal/browser/journal.py:429
+#: /src/schooltool/lyceum/journal/browser/journal.py:1579
+msgid "Excused"
+msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:329
-msgid "Tardy"
-msgstr "Retraso"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:832
+#: /src/schooltool/lyceum/journal/browser/journal.py:793
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
 msgstr "No se han asignado períodos en el horario de esta sección."
@@ -163,7 +198,15 @@ msgstr "Ayuda del Diario"
 msgid "Attendance"
 msgstr "Asistencia"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1577
+#: /src/schooltool/lyceum/journal/browser/journal.py:1611
+msgid "Absent"
+msgstr "Ausente"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1613
+msgid "Tardy"
+msgstr "Retraso"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1615
 msgid "Present"
 msgstr ""
 
@@ -200,6 +243,50 @@ msgstr "Tar."
 msgid "Abs."
 msgstr "Aus."
 
+#: /src/schooltool/lyceum/journal/browser/journal.py:1745
+msgid "Exc."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1846
+msgid "Exporting"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1938
+msgid "Homeroom"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1979
+msgid "School Attendance"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:2580
+msgid "There are no school days this month."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:2901
+msgid "The title field must not be empty"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:2913
+msgid "A score system must have at least one value."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:2919
+msgid "Duplicate value: ${value}"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:2923
+msgid "Title required for: ${value}"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:2926
+msgid "Duplicate title: ${title}"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:3020
+msgid "Customize"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
 msgid "${group} attendance for ${month}"
@@ -209,7 +296,17 @@ msgstr "Asistencia de ${group} para ${month}"
 msgid "There have been no meetings in the selected term."
 msgstr "No ha habido reuniones en el período seleccionado."
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_add.pt:37
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_view.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_legend.pt:8
+msgid "Report as"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_add.pt:38
+msgid "Excused?"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
@@ -271,15 +368,11 @@ msgstr "Aumentar"
 msgid "Legend"
 msgstr "Leyenda"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_legend.pt:8
-msgid "Report as"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:16
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:16
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:24
-#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:16
 msgid "Day"
 msgstr "Día"
 
@@ -290,39 +383,6 @@ msgstr "Día"
 #: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:15
 msgid "Period"
 msgstr "Período"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
-msgid "Fill empty cells"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
-msgid "Grade"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
-msgid "Choose a grade to apply to all the students in the gradebook column."
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
-msgid "Submit"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:7
-msgid "Score"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:8
-msgid "Point Value"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:9
-msgid "Passing"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
-msgid "Attendance / grade"
-msgstr "Asistencia / Nota"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
 msgid "There are no absences."
@@ -340,8 +400,20 @@ msgstr ""
 msgid "There are no participation scores."
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_current_term.pt:6
+msgid "School year ${schoolyear}, term ${term}."
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_group_picker.pt:4
+msgid "Everybody"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_instructor_picker.pt:4
+msgid "All instructors"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:23
 msgid "${section} journal for ${month} ${year}"
 msgstr "Diario de ${section} para ${month} ${year}"
 
@@ -385,6 +457,33 @@ msgstr "Atajo: Alt-S"
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:12
 msgid "My Sections"
 msgstr "Mis Secciones"
+
+#: /src/schooltool/lyceum/journal/interfaces.py:145
+msgid "Grading score system"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/interfaces.py:150
+msgid "Attendance score system"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:98
+#: /src/schooltool/lyceum/journal/journal.py:183
+msgid "Absent (excused)"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:99
+#: /src/schooltool/lyceum/journal/journal.py:184
+msgid "Tardy (excused)"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:171
+#: /src/schooltool/lyceum/journal/journal.py:679
+msgid "10 Points"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/journal.py:767
+msgid "Select a score system"
+msgstr ""
 
 #: /src/schooltool/lyceum/journal/security.zcml:9
 msgid "Create and edit journal data for a section."

@@ -121,6 +121,19 @@ def makeSchoolAttendanceMeeting(date):
     return meeting
 
 
+class SectionFinder(object):
+
+    def getFromYear(self, sections, active):
+        in_active = filter(lambda x: ISchoolYear(x) is active, sections)
+        if not in_active:
+            return sections[0]
+        current_term = getUtility(IDateManager).current_term
+        in_current_term = filter(lambda x: ITerm(x) is current_term, in_active)
+        if in_current_term:
+            return in_current_term[0]
+        return in_active[0]
+
+
 class JournalCalendarEventViewlet(object):
     """Viewlet for section meeting calendar events.
 
@@ -492,7 +505,8 @@ class LyceumSectionJournalView(StudentSelectionMixin):
         return SelectableRowTableFormatter(*args, **kwargs)
 
     def isJournalMeeting(self, term, meeting):
-        return meeting.dtstart.date() in term
+        starts = meeting.dtstart.astimezone(self.timezone)
+        return starts.date() in term
 
     def allMeetings(self):
         term = removeSecurityProxy(self.selected_term)
@@ -969,11 +983,6 @@ class FlourishLyceumSectionJournalBase(flourish.page.WideContainerPage,
 
     def getHint(self, person, meeting):
         # grade hint is homeroom attendance by default
-        period = getattr(meeting, 'period', None)
-        if period is None:
-            return None
-        if period.activity_type != 'homeroom':
-            return None
         requirement = HomeroomRequirement(meeting)
         score = IEvaluateRequirement(requirement).getEvaluation(
             person, requirement, default=UNSCORED)
@@ -1995,7 +2004,7 @@ def getSectionJournalModes(person, section, request):
     return result
 
 
-class JournalModeContent(flourish.content.ContentProvider):
+class JournalModeContent(flourish.content.ContentProvider, SectionFinder):
 
     @Lazy
     def person(self):
@@ -2012,7 +2021,9 @@ class JournalModeContent(flourish.content.ContentProvider):
             sections = list(IInstructor(person).sections())
             if not sections:
                 return None
-            section = sections[0]
+            schoolyears = ISchoolYearContainer(ISchoolToolApplication(None))
+            active = schoolyears.getActiveSchoolYear()
+            section = self.getFromYear(sections, active)
         return section
 
     def getSchoolModes(self):
@@ -2847,8 +2858,7 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
                 except SSValidationError, e:
                     self.message = e.message
                     return
-                target = PersistentAttendanceScoreSystem(self.validTitle)
-                self.updateScoreSystem(target)
+                target = self.createScoreSystem()
                 self.addScoreSystem(target)
                 self.request.response.redirect(self.nextURL())
 
@@ -2910,7 +2920,7 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
 
         scores = []
         for value, title, absence, excused in self.getRequestScores():
-            value = value.strip().lower()
+            value = value.strip()
             title = title.strip()
             scores.append([value, title, absence, excused])
         self.validScores = scores
@@ -2922,10 +2932,10 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
         all_values = set()
         all_titles = set()
         for value, title, absence, excused in self.validScores:
-            if value in all_values:
+            if value.lower() in all_values:
                 raise SSValidationError(_('Duplicate value: ${value}',
                                           mapping={'value': value}))
-            all_values.add(value)
+            all_values.add(value.lower())
             if not title.strip():
                 raise SSValidationError(_('Title required for: ${value}',
                                           mapping={'value': value}))
@@ -2934,11 +2944,17 @@ class FlourishAttendanceScoreSystemAddView(BrowserView):
                                           mapping={'title': title}))
             all_titles.add(title)
 
-    def updateScoreSystem(self, target):
-        target.scores = tuple([(s[0], s[1]) for s in self.validScores])
-        target.tag_absent = tuple([s[0] for s in self.validScores if s[2] == 'a'])
-        target.tag_tardy = tuple([s[0] for s in self.validScores if s[2] == 't'])
-        target.tag_excused = tuple([s[0] for s in self.validScores if s[3]])
+    def createScoreSystem(self):
+        scores = tuple([(s[0], s[1]) for s in self.validScores])
+        tag_absent = tuple([s[0] for s in self.validScores if s[2] == 'a'])
+        tag_tardy = tuple([s[0] for s in self.validScores if s[2] == 't'])
+        tag_excused = tuple([s[0] for s in self.validScores if s[3]])
+        target = PersistentAttendanceScoreSystem(self.validTitle,
+                                                 scores=scores,
+                                                 tag_absent=tag_absent,
+                                                 tag_tardy=tag_tardy,
+                                                 tag_excused=tag_excused)
+        return target
 
 
 class FlourishAttendanceScoreSystemView(BrowserView):
@@ -2990,7 +3006,7 @@ class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm)
         self.actions['apply'].addClass('button-ok')
         self.actions['cancel'].addClass('button-cancel')
 
-    @z3c.form.button.buttonAndHandler(s_('Done'), name="apply")
+    @z3c.form.button.buttonAndHandler(s_('Save'), name="apply")
     def handle_apply_action(self, action):
         super(EditDefaultJournalScoreSystems,self).handleApply.func(self, action)
         if (self.status == self.successMessage or

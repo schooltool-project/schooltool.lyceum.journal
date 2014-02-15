@@ -100,7 +100,7 @@ class AttendanceScoreSystem(AbstractScoreSystem):
             self.tag_tardy = 't', 'te',
             self.tag_excused = 'ae', 'te',
         else:
-            self.scores = tuple(kw['scores'].items())
+            self.scores = kw['scores']
             for attr in ('tag_absent', 'tag_tardy', 'tag_excused'):
                 setattr(self, attr, tuple(kw.get(attr, ())))
 
@@ -110,38 +110,38 @@ class AttendanceScoreSystem(AbstractScoreSystem):
             return True
         if not isinstance(score, (str, unicode)):
             return False
-        if score.lower() in dict(self.scores):
-            return True
+        for s in self.scoresDict.keys():
+            if s.lower() == score.lower():
+                return True
         return False
 
     def fromUnicode(self, rawScore):
         """See interfaces.IScoreSystem"""
         if not rawScore:
             return UNSCORED
-        if not self.isValidScore(rawScore):
-            raise ScoreValidationError(rawScore)
-        return rawScore.strip().lower()
+        for score in self.scoresDict.keys():
+            if score.lower() == rawScore.lower():
+                return score
+        raise ScoreValidationError(rawScore)
 
     def isTardy(self, score):
-        if (score is None or
-            score is UNSCORED or
-            score.value is UNSCORED):
+        if not score:
             return False
         return score.value in self.tag_tardy
 
     def isAbsent(self, score):
-        if (score is None or
-            score is UNSCORED or
-            score.value is UNSCORED):
+        if not score:
             return False
         return score.value in self.tag_absent
 
     def isExcused(self, score):
-        if (score is None or
-            score is UNSCORED or
-            score.value is UNSCORED):
+        if not score:
             return False
         return score.value in self.tag_excused
+
+    @Lazy
+    def scoresDict(self):
+        return dict(self.scores)
 
 
 class PersistentAttendanceScoreSystem(AttendanceScoreSystem, Persistent):
@@ -175,13 +175,13 @@ TenPointScoreSystem = GlobalJournalRangedValuesScoreSystem(
 AbsenceScoreSystem = GlobalAbsenceScoreSystem(
     'AbsenceScoreSystem',
     _('Absences'),
-    scores={'a': _('Absent'),
-            'n': _('Absent'),
-            't': _('Tardy'),
-            'p': _('Tardy'),
-            'ae': _('Absent (excused)'),
-            'te': _('Tardy (excused)'),
-            },
+    scores=(('a', _('Absent')),
+            ('n', _('Absent')),
+            ('t', _('Tardy')),
+            ('p', _('Tardy')),
+            ('ae', _('Absent (excused)')),
+            ('te', _('Tardy (excused)')),
+           ),
     tag_absent=('a', 'n', 'ae'),
     tag_tardy=('t', 'p', 'te'),
     tag_excused=('ae', 'te'),

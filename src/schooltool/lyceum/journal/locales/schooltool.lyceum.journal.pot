@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: schooltool.lyceum.journal\n"
-"POT-Creation-Date: 2013-10-10 03:41+0300\n"
+"POT-Creation-Date: 2013-12-12 22:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Schooltool Development Team <schooltool-dev@schooltool.org>\n"
@@ -310,6 +310,16 @@ msgstr ""
 msgid "There have been no meetings in the selected term."
 msgstr ""
 
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_add.pt:37
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_view.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_legend.pt:8
+msgid "Report as"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_add.pt:38
+msgid "Excused?"
+msgstr ""
+
 #: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid "This section is not scheduled for any term, to use the journal you should add a timetable first."
@@ -374,15 +384,11 @@ msgstr ""
 msgid "Legend"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_legend.pt:8
-msgid "Report as"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:16
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:16
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:24
-#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:16
 msgid "Day"
 msgstr ""
 
@@ -392,18 +398,6 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:25
 #: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:15
 msgid "Period"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
-msgid "Fill empty cells"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
-msgid "Grade"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
-msgid "Choose a grade to apply to all the students in the gradebook column."
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18

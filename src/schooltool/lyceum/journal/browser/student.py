@@ -52,11 +52,10 @@ class CourseGradesColumn(object):
         grades = []
         for section in self.courses[course.__name__]:
             journal = ISectionJournalData(section)
-            for meeting in journal.recordedMeetings(self.student):
+            for meeting, score in journal.gradedMeetings(self.student):
                 if meeting.dtstart.date() == self.date:
-                    grade = journal.getGrade(self.student, meeting, default=None)
-                    if (grade is not None) and (grade != "") and (grade is not UNSCORED):
-                        grades.append(unicode(grade))
+                    if score:
+                        grades.append(unicode(score.value))
 
         return ", ".join(grades)
 
@@ -77,24 +76,21 @@ class CourseTermAverageGradesColumn(object):
         grades = []
         for section in self.courses[course.__name__]:
             journal = ISectionJournalData(section)
-            for meeting in journal.recordedMeetings(self.student):
+            for meeting, score in journal.gradedMeetings(self.student):
                 if meeting.dtstart.date() in self.term:
-                    grade = journal.getGrade(self.student, meeting, default=None)
-                    if (grade is not None) and (grade != "") and (grade is not UNSCORED):
+                    if score:
+                        grade = score.value
+                        try:
+                            grade = score.scoreSystem.getNumericalValue(grade)
+                        except ValueError:
+                            continue
                         grades.append(grade)
-        int_grades = []
-        for grade in grades:
-            try:
-                grade = int(grade)
-            except ValueError:
-                continue
-            int_grades.append(grade)
-        return int_grades
+        return grades
 
     def renderCell(self, course, formatter):
         grades = self.courseGrades(course)
         if grades:
-            return "%.3f" % (sum(grades) / float(len(grades)))
+            return "%.3f" % (sum(grades) / len(grades))
 
         return ""
 

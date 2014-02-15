@@ -4,7 +4,7 @@ PACKAGE=schooltool.lyceum.journal
 LOCALES=src/schooltool/lyceum/journal/locales
 TRANSLATIONS_ZCML=schooltool/lyceum/journal/translations.zcml
 
-DIST=/home/ftp/pub/schooltool/trunk
+DIST=/home/ftp/pub/schooltool/2.6
 PYTHON=python
 
 INSTANCE_TYPE=schooltool

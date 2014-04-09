@@ -9,21 +9,25 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-17 06:17+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-02-15 07:43+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 "Language: pt_BR\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:58
 msgid "Explained:"
 msgstr "Explicado:"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:172
+#: /src/schooltool/lyceum/journal/browser/attendance.py:173
+#: /src/schooltool/lyceum/journal/browser/journal.py:1741
 msgid "Total"
 msgstr "Total"
 
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:38
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
-#: /src/schooltool/lyceum/journal/browser/journal.py:644
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:56
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:19
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:24
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:262
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:603
+#: /src/schooltool/lyceum/journal/browser/journal.py:1842
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
@@ -32,15 +36,19 @@ msgstr "Total"
 msgid "Journal"
 msgstr "Folha de Presenças"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:39
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:363
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:40
 msgid "Section"
 msgstr "Turma"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:49
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:39
 msgid "Term"
 msgstr "Período"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:59
 msgid "Year"
 msgstr "Ano"
 
@@ -53,7 +61,7 @@ msgstr ""
 msgid "Actions"
 msgstr "Ações"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:220
 msgid "Help"
 msgstr "Ajuda"
 
@@ -136,11 +144,13 @@ msgstr ""
 msgid "Average"
 msgstr "Média"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:295
+#: /src/schooltool/lyceum/journal/browser/journal.py:374
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:5
 msgid "Absences"
 msgstr "Ausências"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:319
+#: /src/schooltool/lyceum/journal/browser/journal.py:398
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:20
 msgid "Tardies"
 msgstr "Atrasos"
 
@@ -171,11 +181,12 @@ msgstr ""
 msgid "Section is not scheduled"
 msgstr "A turma não está agendada"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:739
+#: /src/schooltool/lyceum/journal/browser/journal.py:1041
+#: /src/schooltool/lyceum/journal/browser/journal.py:1152
 msgid "No periods assigned for this section"
 msgstr "Não há tempos designados para esta turma"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:910
+#: /src/schooltool/lyceum/journal/browser/journal.py:1135
 msgid "N/A"
 msgstr "N/D"
 
@@ -213,13 +224,13 @@ msgstr ""
 msgid "Fill down"
 msgstr "Preencher"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1257
-#: /src/schooltool/lyceum/journal/browser/journal.py:1305
-#: /src/schooltool/lyceum/journal/browser/journal.py:1336
+#: /src/schooltool/lyceum/journal/browser/journal.py:1662
+#: /src/schooltool/lyceum/journal/browser/journal.py:1723
+#: /src/schooltool/lyceum/journal/browser/journal.py:1758
 msgid "Sort by"
 msgstr "Ordenar por"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+#: /src/schooltool/lyceum/journal/browser/journal.py:1694
 msgid "Student"
 msgstr "Aluno"
 
@@ -232,13 +243,13 @@ msgstr ""
 msgid "Ave."
 msgstr "Média"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1322
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+#: /src/schooltool/lyceum/journal/browser/journal.py:1743
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:96
 msgid "Trd."
 msgstr "Atr."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1323
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+#: /src/schooltool/lyceum/journal/browser/journal.py:1744
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:93
 msgid "Abs."
 msgstr "Aus."
 
@@ -320,7 +331,7 @@ msgstr ""
 msgid "Schedule"
 msgstr "Agenda"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:13
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
@@ -331,31 +342,38 @@ msgstr "Pode gerir horários para esta turma: ${timetable_link}"
 msgid "S"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Save"
 msgstr "Guardar"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Shortcut: Alt-S"
 msgstr "Atalho: Alt-S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:46
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:47
 msgid "Expand"
 msgstr "Expandir"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:50
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:51
 msgid "Collapse"
 msgstr "Retrair"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:54
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:55
 msgid "Zoom Out"
 msgstr "Menos Zoom"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:59
 msgid "Zoom Normal"
 msgstr "Zoom Normal"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:62
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:63
 msgid "Zoom In"
 msgstr "Mais Zoom"
 
@@ -506,3 +524,32 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
 msgstr "Só o docente de uma turma pode editar a sua folha de presenças"
+
+#~ msgid "Single letter that represents an absent mark for a student"
+#~ msgstr "f"
+
+#~ msgid "Single letter that represents an tardy mark for a student"
+#~ msgstr "a"
+
+#~ msgid "Name"
+#~ msgstr "Nome"
+
+#~ msgid "Attendance / grade"
+#~ msgstr "Presença / nota"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Choose a grade to apply to all the students in the gradebook column."
+#~ msgstr ""
+#~ "Escolha uma nota para atribuir para todos os alunos na coluna do livro de "
+#~ "notas."
+
+#~ msgid "Fill empty cells"
+#~ msgstr "Preencher células vazias"
+
+#~ msgid "Grade"
+#~ msgstr "Nota"
+
+#~ msgid "Submit"
+#~ msgstr "Enviar"

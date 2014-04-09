@@ -11,22 +11,26 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-17 06:17+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-02-15 07:43+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 "Language: \n"
 "Generated-By: i18nextract.py\n"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:57
+#: /src/schooltool/lyceum/journal/browser/attendance.py:58
 msgid "Explained:"
 msgstr "ពន្យល់ ៖"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:172
+#: /src/schooltool/lyceum/journal/browser/attendance.py:173
+#: /src/schooltool/lyceum/journal/browser/journal.py:1741
 msgid "Total"
 msgstr "សរុប"
 
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:38
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
-#: /src/schooltool/lyceum/journal/browser/journal.py:644
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:56
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:19
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:24
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:262
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:603
+#: /src/schooltool/lyceum/journal/browser/journal.py:1842
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
@@ -35,15 +39,19 @@ msgstr "សរុប"
 msgid "Journal"
 msgstr "ទិនានុប្បវត្តិ"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:39
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:363
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:40
 msgid "Section"
 msgstr "ផ្នែក"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:49
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:39
 msgid "Term"
 msgstr "វគ្គ​សិក្សា"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:59
 msgid "Year"
 msgstr "ឆ្នាំ"
 
@@ -56,7 +64,7 @@ msgstr ""
 msgid "Actions"
 msgstr "អំពើ"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:220
 msgid "Help"
 msgstr ""
 
@@ -137,11 +145,13 @@ msgstr ""
 msgid "Average"
 msgstr "មធ្យម"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:295
+#: /src/schooltool/lyceum/journal/browser/journal.py:374
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:5
 msgid "Absences"
 msgstr "អវត្តមាន"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:319
+#: /src/schooltool/lyceum/journal/browser/journal.py:398
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:20
 msgid "Tardies"
 msgstr ""
 
@@ -170,11 +180,12 @@ msgstr ""
 msgid "Section is not scheduled"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:739
+#: /src/schooltool/lyceum/journal/browser/journal.py:1041
+#: /src/schooltool/lyceum/journal/browser/journal.py:1152
 msgid "No periods assigned for this section"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:910
+#: /src/schooltool/lyceum/journal/browser/journal.py:1135
 msgid "N/A"
 msgstr ""
 
@@ -212,13 +223,13 @@ msgstr ""
 msgid "Fill down"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1257
-#: /src/schooltool/lyceum/journal/browser/journal.py:1305
-#: /src/schooltool/lyceum/journal/browser/journal.py:1336
+#: /src/schooltool/lyceum/journal/browser/journal.py:1662
+#: /src/schooltool/lyceum/journal/browser/journal.py:1723
+#: /src/schooltool/lyceum/journal/browser/journal.py:1758
 msgid "Sort by"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+#: /src/schooltool/lyceum/journal/browser/journal.py:1694
 msgid "Student"
 msgstr ""
 
@@ -231,13 +242,13 @@ msgstr ""
 msgid "Ave."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1322
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+#: /src/schooltool/lyceum/journal/browser/journal.py:1743
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:96
 msgid "Trd."
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1323
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+#: /src/schooltool/lyceum/journal/browser/journal.py:1744
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:93
 msgid "Abs."
 msgstr ""
 
@@ -319,7 +330,7 @@ msgstr ""
 msgid "Schedule"
 msgstr "ចែកពេល"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:13
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
@@ -331,31 +342,38 @@ msgstr ""
 msgid "S"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Save"
 msgstr "រក្សា​ទុក"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Shortcut: Alt-S"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:46
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:47
 msgid "Expand"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:50
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:51
 msgid "Collapse"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:54
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:55
 msgid "Zoom Out"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:59
 msgid "Zoom Normal"
 msgstr ""
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:62
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:63
 msgid "Zoom In"
 msgstr ""
 
@@ -411,7 +429,7 @@ msgid "All instructors"
 msgstr ""
 
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:23
 msgid "${section} journal for ${month} ${year}"
 msgstr "${section} ទិនានុប្បវត្តិ ${month} ${year}"
 
@@ -506,3 +524,9 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
 msgstr ""
+
+#~ msgid "Attendance / grade"
+#~ msgstr "វត្តមាន / ថ្នាក់"
+
+#~ msgid "Name"
+#~ msgstr "ឈ្មោះ"

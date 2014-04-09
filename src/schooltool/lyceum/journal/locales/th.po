@@ -14,20 +14,24 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-17 06:17+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-02-15 07:44+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:58
 msgid "Explained:"
 msgstr "คำอธิบาย"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:172
+#: /src/schooltool/lyceum/journal/browser/attendance.py:173
+#: /src/schooltool/lyceum/journal/browser/journal.py:1741
 msgid "Total"
 msgstr "รวมทั้งหมด"
 
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:38
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
-#: /src/schooltool/lyceum/journal/browser/journal.py:644
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:56
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:19
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:24
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:262
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:603
+#: /src/schooltool/lyceum/journal/browser/journal.py:1842
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
@@ -36,15 +40,19 @@ msgstr "รวมทั้งหมด"
 msgid "Journal"
 msgstr "บทความทางการศึกษา"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:39
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:363
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:40
 msgid "Section"
 msgstr "เซกชั่น"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:49
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:39
 msgid "Term"
 msgstr "ภาคเรียน"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:59
 msgid "Year"
 msgstr "ปี"
 
@@ -57,7 +65,7 @@ msgstr ""
 msgid "Actions"
 msgstr "การดำเนินการ"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:220
 msgid "Help"
 msgstr "ช่วยเหลือ"
 
@@ -138,11 +146,13 @@ msgstr ""
 msgid "Average"
 msgstr "เฉลี่ย"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:295
+#: /src/schooltool/lyceum/journal/browser/journal.py:374
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:5
 msgid "Absences"
 msgstr "การขาด"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:319
+#: /src/schooltool/lyceum/journal/browser/journal.py:398
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:20
 msgid "Tardies"
 msgstr "สาย"
 
@@ -173,11 +183,12 @@ msgstr ""
 msgid "Section is not scheduled"
 msgstr "เซกชั่นที่ยังไม่ถูกจัดลงตารางเวลา"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:739
+#: /src/schooltool/lyceum/journal/browser/journal.py:1041
+#: /src/schooltool/lyceum/journal/browser/journal.py:1152
 msgid "No periods assigned for this section"
 msgstr "ไม่มีช่วงเวลาตามที่ระบุสำหรับเซกชั่นนี้"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:910
+#: /src/schooltool/lyceum/journal/browser/journal.py:1135
 msgid "N/A"
 msgstr "ไม่มีข้อมูล"
 
@@ -215,13 +226,13 @@ msgstr ""
 msgid "Fill down"
 msgstr "วิธีการคัดลอกข้อมูลให้กับเซลล์ที่ติดกัน"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1257
-#: /src/schooltool/lyceum/journal/browser/journal.py:1305
-#: /src/schooltool/lyceum/journal/browser/journal.py:1336
+#: /src/schooltool/lyceum/journal/browser/journal.py:1662
+#: /src/schooltool/lyceum/journal/browser/journal.py:1723
+#: /src/schooltool/lyceum/journal/browser/journal.py:1758
 msgid "Sort by"
 msgstr "เรียงตาม"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+#: /src/schooltool/lyceum/journal/browser/journal.py:1694
 msgid "Student"
 msgstr "นักเรียน"
 
@@ -234,13 +245,13 @@ msgstr ""
 msgid "Ave."
 msgstr "ค่าเฉลี่ย"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1322
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+#: /src/schooltool/lyceum/journal/browser/journal.py:1743
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:96
 msgid "Trd."
 msgstr "สาย"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1323
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+#: /src/schooltool/lyceum/journal/browser/journal.py:1744
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:93
 msgid "Abs."
 msgstr "ขาด"
 
@@ -322,7 +333,7 @@ msgstr ""
 msgid "Schedule"
 msgstr "ตารางเวลา"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:13
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
@@ -333,31 +344,38 @@ msgstr "คุณสามารถจัดการตารางเวลา
 msgid "S"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Save"
 msgstr "บันทึก"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Shortcut: Alt-S"
 msgstr "แป้นลัด: Alt-S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:46
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:47
 msgid "Expand"
 msgstr "ขยาย"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:50
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:51
 msgid "Collapse"
 msgstr "ยุบเข้า"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:54
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:55
 msgid "Zoom Out"
 msgstr "ลดขนาดการแสดงผล"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:59
 msgid "Zoom Normal"
 msgstr "แสดงขนาดปกติ"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:62
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:63
 msgid "Zoom In"
 msgstr "เพิ่มขนาดการแสดงผล"
 
@@ -508,3 +526,30 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
 msgstr "ผู้สอนของเซกชั่นนี้เท่านั้นที่สามารถแก้ไขวารสารวิชาการได้"
+
+#~ msgid "Single letter that represents an tardy mark for a student"
+#~ msgstr "จดหมายที่แสดงถึงการมาสาย"
+
+#~ msgid "Single letter that represents an absent mark for a student"
+#~ msgstr "จดหมายที่แสดงถึงการไม่มาหรือขาดเรียน"
+
+#~ msgid "Name"
+#~ msgstr "ชื่อ"
+
+#~ msgid "Attendance / grade"
+#~ msgstr "การเข้าชั้นเรียน"
+
+#~ msgid "Choose a grade to apply to all the students in the gradebook column."
+#~ msgstr "เลือกระดับชั้นสำหรับนักเรียนทุกคนในคอลัมน์ gradebook"
+
+#~ msgid "Cancel"
+#~ msgstr "ยกเลิก"
+
+#~ msgid "Fill empty cells"
+#~ msgstr "ทำเป็นช่องว่าง"
+
+#~ msgid "Submit"
+#~ msgstr "ส่งข้อมูล"
+
+#~ msgid "Grade"
+#~ msgstr "เกรด"

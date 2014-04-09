@@ -14,21 +14,25 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-12-17 06:17+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-02-15 07:43+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 "Language: da\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:58
 msgid "Explained:"
 msgstr "Forklaret:"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:172
+#: /src/schooltool/lyceum/journal/browser/attendance.py:173
+#: /src/schooltool/lyceum/journal/browser/journal.py:1741
 msgid "Total"
 msgstr "Ialt"
 
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:38
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
-#: /src/schooltool/lyceum/journal/browser/journal.py:644
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:56
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:19
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:24
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:262
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:603
+#: /src/schooltool/lyceum/journal/browser/journal.py:1842
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
@@ -37,15 +41,19 @@ msgstr "Ialt"
 msgid "Journal"
 msgstr "Journal"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:39
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:363
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:40
 msgid "Section"
 msgstr "Sektion"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:49
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:39
 msgid "Term"
 msgstr "Termin"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:59
 msgid "Year"
 msgstr "År"
 
@@ -58,7 +66,7 @@ msgstr ""
 msgid "Actions"
 msgstr "Handlinger"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:220
 msgid "Help"
 msgstr "Hjælp"
 
@@ -141,11 +149,13 @@ msgstr ""
 msgid "Average"
 msgstr "Gennemsnit"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:295
+#: /src/schooltool/lyceum/journal/browser/journal.py:374
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:5
 msgid "Absences"
 msgstr "Fravær"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:319
+#: /src/schooltool/lyceum/journal/browser/journal.py:398
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:20
 msgid "Tardies"
 msgstr "For sent"
 
@@ -176,11 +186,12 @@ msgstr ""
 msgid "Section is not scheduled"
 msgstr "Sektionen er ikke skemalagt"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:739
+#: /src/schooltool/lyceum/journal/browser/journal.py:1041
+#: /src/schooltool/lyceum/journal/browser/journal.py:1152
 msgid "No periods assigned for this section"
 msgstr "Der er ikke tildelt perioder til denne sektion"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:910
+#: /src/schooltool/lyceum/journal/browser/journal.py:1135
 msgid "N/A"
 msgstr "Utilg."
 
@@ -218,13 +229,13 @@ msgstr ""
 msgid "Fill down"
 msgstr "Udfyld nedad"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1257
-#: /src/schooltool/lyceum/journal/browser/journal.py:1305
-#: /src/schooltool/lyceum/journal/browser/journal.py:1336
+#: /src/schooltool/lyceum/journal/browser/journal.py:1662
+#: /src/schooltool/lyceum/journal/browser/journal.py:1723
+#: /src/schooltool/lyceum/journal/browser/journal.py:1758
 msgid "Sort by"
 msgstr "Sorter efter"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+#: /src/schooltool/lyceum/journal/browser/journal.py:1694
 msgid "Student"
 msgstr "Studerende"
 
@@ -237,13 +248,13 @@ msgstr ""
 msgid "Ave."
 msgstr "Gennemsnit"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1322
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+#: /src/schooltool/lyceum/journal/browser/journal.py:1743
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:96
 msgid "Trd."
 msgstr "For sent"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1323
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+#: /src/schooltool/lyceum/journal/browser/journal.py:1744
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:93
 msgid "Abs."
 msgstr "Fravær"
 
@@ -325,7 +336,7 @@ msgstr ""
 msgid "Schedule"
 msgstr "Planlæg"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:15
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:13
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:26
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:27
 msgid "You can manage timetables for this section here: ${timetable_link}"
@@ -336,31 +347,38 @@ msgstr "Du kan styre tidsplaner for dette afsnit her${timetable_link}"
 msgid "S"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Save"
 msgstr "Gem"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Shortcut: Alt-S"
 msgstr "Genvej: Alt-S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:46
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:47
 msgid "Expand"
 msgstr "Fold ud"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:50
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:51
 msgid "Collapse"
 msgstr "Fold sammen"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:54
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:55
 msgid "Zoom Out"
 msgstr "Zoom Ud"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:59
 msgid "Zoom Normal"
 msgstr "Zoom til normal niveau"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:62
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:63
 msgid "Zoom In"
 msgstr "Zoom Ind"
 
@@ -511,3 +529,33 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
 msgstr "Kun instrutøren for en sektion kan redigere sektionens journal."
+
+#~ msgid "Single letter that represents an absent mark for a student"
+#~ msgstr ""
+#~ "Enkelt bogstav, der repræsenterer et  fraværende mærke for en studerende"
+
+#~ msgid "Attendance / grade"
+#~ msgstr "Deltagerliste / stilling"
+
+#~ msgid "Name"
+#~ msgstr "Navn"
+
+#~ msgid "Single letter that represents an tardy mark for a student"
+#~ msgstr ""
+#~ "Enkelt bogstav, der repræsenterer et for sent mærke for en studerende"
+
+#~ msgid "Fill empty cells"
+#~ msgstr "Udfyld tomme celler"
+
+#~ msgid "Grade"
+#~ msgstr "Karakter"
+
+#~ msgid "Submit"
+#~ msgstr "Send"
+
+#~ msgid "Cancel"
+#~ msgstr "Annullér"
+
+#~ msgid "Choose a grade to apply to all the students in the gradebook column."
+#~ msgstr ""
+#~ "Vælg en karakter, der tildeles alle studerende, i karakterbog-kolonnen."

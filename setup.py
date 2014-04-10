@@ -61,6 +61,7 @@ setup(
     packages=find_packages('src'),
     install_requires=['schooltool>=2.7dev',
                       'schooltool.gradebook>=2.6',
+                      'python-dateutil',   # XXX used only once
                       'pytz',
                       'setuptools',
                       'zc.table',

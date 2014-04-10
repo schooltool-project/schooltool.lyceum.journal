@@ -7,28 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: schooltool\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-10-07 01:55+0300\n"
-"PO-Revision-Date: 2013-09-13 01:57+0000\n"
+"POT-Creation-Date: 2013-12-12 22:46+0200\n"
+"PO-Revision-Date: 2013-12-07 19:07+0000\n"
 "Last-Translator: rob <linuxned@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-10-07 06:00+0000\n"
-"X-Generator: Launchpad (build 16791)\n"
+"X-Launchpad-Export-Date: 2014-02-15 07:43+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 "Language: nl\n"
 
 #: /src/schooltool/lyceum/journal/browser/attendance.py:58
 msgid "Explained:"
 msgstr "Uitleg:"
 
-#: /src/schooltool/lyceum/journal/browser/attendance.py:172
+#: /src/schooltool/lyceum/journal/browser/attendance.py:173
+#: /src/schooltool/lyceum/journal/browser/journal.py:1741
 msgid "Total"
 msgstr "Totaal"
 
-#: /src/schooltool/lyceum/journal/browser/configure.zcml:38
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:18
-#: /src/schooltool/lyceum/journal/browser/journal.py:644
+#: /src/schooltool/lyceum/journal/browser/configure.zcml:56
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:19
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:24
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:262
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:603
+#: /src/schooltool/lyceum/journal/browser/journal.py:1842
 #: /src/schooltool/lyceum/journal/browser/templates/journal_tab_viewlet.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/section_journal_viewlet.pt:1
 #: /src/schooltool/lyceum/journal/browser/templates/teacher_journal.pt:3
@@ -37,15 +41,19 @@ msgstr "Totaal"
 msgid "Journal"
 msgstr "Logboek"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:37
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:39
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:344
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:363
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:40
 msgid "Section"
 msgstr "Sectie"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:47
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:49
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:39
 msgid "Term"
 msgstr "Termijn"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:57
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:59
 msgid "Year"
 msgstr "Jaar"
 
@@ -58,7 +66,7 @@ msgstr ""
 msgid "Actions"
 msgstr "Acties"
 
-#: /src/schooltool/lyceum/journal/browser/flourish.zcml:123
+#: /src/schooltool/lyceum/journal/browser/flourish.zcml:220
 msgid "Help"
 msgstr "Help"
 
@@ -124,18 +132,8 @@ msgstr "Aanwezigheidssysteem"
 msgid "Journal Score Systems"
 msgstr "Logboekscoresystemen"
 
-#. Default: "a"
-#: /src/schooltool/lyceum/journal/browser/journal.py:110
-msgid "Single letter that represents an absent mark for a student"
-msgstr "Enkele letter die de absentie van een leerling aanduidt."
-
-#. Default: "t"
-#: /src/schooltool/lyceum/journal/browser/journal.py:75
-msgid "Single letter that represents an tardy mark for a student"
-msgstr "Enkele letter die aanduidt dat een leerling te laat is."
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:116
-#: /src/schooltool/lyceum/journal/browser/journal.py:396
+#: /src/schooltool/lyceum/journal/browser/journal.py:171
+#: /src/schooltool/lyceum/journal/browser/journal.py:468
 msgid "Nr."
 msgstr "Nr."
 
@@ -150,11 +148,13 @@ msgstr "Scores"
 msgid "Average"
 msgstr "Gemiddelde"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:295
+#: /src/schooltool/lyceum/journal/browser/journal.py:374
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:5
 msgid "Absences"
 msgstr "Absenties"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:319
+#: /src/schooltool/lyceum/journal/browser/journal.py:398
+#: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:20
 msgid "Tardies"
 msgstr "Laatkomers"
 
@@ -163,16 +163,7 @@ msgstr "Laatkomers"
 msgid "Excused"
 msgstr "Geëxcuseerd"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:436
-#: /src/schooltool/lyceum/journal/browser/journal.py:1573
-msgid "Absent"
-msgstr "Absent"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:329
-msgid "Tardy"
-msgstr "Te laat"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:832
+#: /src/schooltool/lyceum/journal/browser/journal.py:793
 #: /src/schooltool/lyceum/journal/browser/templates/no_periods_journal.pt:20
 msgid "No periods have been assigned in timetables of this section."
 msgstr "Er zijn geen periodes toegewezen aan roosters van deze sectie."
@@ -199,7 +190,7 @@ msgstr "Deze sectie is niet ingepland"
 msgid "No periods assigned for this section"
 msgstr "Er zijn geen periodes toegewezen voor deze sectie."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:910
+#: /src/schooltool/lyceum/journal/browser/journal.py:1135
 msgid "N/A"
 msgstr "N/A"
 
@@ -221,7 +212,15 @@ msgstr "Logboek-hulp"
 msgid "Attendance"
 msgstr "Aanwezigheid"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1577
+#: /src/schooltool/lyceum/journal/browser/journal.py:1611
+msgid "Absent"
+msgstr "Absent"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1613
+msgid "Tardy"
+msgstr "Te laat"
+
+#: /src/schooltool/lyceum/journal/browser/journal.py:1615
 msgid "Present"
 msgstr "Aanwezig"
 
@@ -235,7 +234,7 @@ msgstr "Invullen"
 msgid "Sort by"
 msgstr "Sorteren op"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1284
+#: /src/schooltool/lyceum/journal/browser/journal.py:1694
 msgid "Student"
 msgstr "Leerling"
 
@@ -248,13 +247,13 @@ msgstr "Historie"
 msgid "Ave."
 msgstr "Gem."
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1322
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:100
+#: /src/schooltool/lyceum/journal/browser/journal.py:1743
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:96
 msgid "Trd."
 msgstr "Te laat"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:1323
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:97
+#: /src/schooltool/lyceum/journal/browser/journal.py:1744
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:93
 msgid "Abs."
 msgstr "Absent"
 
@@ -298,34 +297,9 @@ msgstr "Titel vereist voor: ${value}"
 msgid "Duplicate title: ${title}"
 msgstr "Duplicaattitel: ${title}"
 
-#: /src/schooltool/lyceum/journal/browser/journal.py:2955
-msgid "absent"
-msgstr "absent"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2957
-msgid "tardy"
-msgstr "te laat"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2959
-msgid "present"
-msgstr "aanwezig"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2961
-msgid "excused"
-msgstr "geëxcuseerd"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2979
+#: /src/schooltool/lyceum/journal/browser/journal.py:3020
 msgid "Customize"
 msgstr "Aanpassen"
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2986
-msgid "Done"
-msgstr ""
-
-#: /src/schooltool/lyceum/journal/browser/journal.py:2993
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:28
-msgid "Cancel"
-msgstr "Annuleren"
 
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:6
 #: /src/schooltool/lyceum/journal/browser/templates/attendance.pt:20
@@ -336,7 +310,17 @@ msgstr "${group} aanwezigheid voor ${month}"
 msgid "There have been no meetings in the selected term."
 msgstr "Er zijn geen bijeenkomsten geweest in de geselecteerde termijn."
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:6
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_add.pt:37
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_view.pt:8
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_legend.pt:8
+msgid "Report as"
+msgstr "Rapporteren als"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_attendance_ss_add.pt:38
+msgid "Excused?"
+msgstr ""
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:4
 #: /src/schooltool/lyceum/journal/browser/templates/no_timetable_journal.pt:20
 msgid ""
 "This section is not scheduled for any term, to use the journal you should "
@@ -362,31 +346,38 @@ msgstr "U kunt hier de roosters van deze sectie beheren: ${timetable_link}"
 msgid "S"
 msgstr "S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Save"
 msgstr "Opslaan"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:119
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:41
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:18
 msgid "Shortcut: Alt-S"
 msgstr "Sneltoets: Alt-S"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:124
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:46
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:47
 msgid "Expand"
 msgstr "Uitklappen"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:128
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:50
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:51
 msgid "Collapse"
 msgstr "Inklappen"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:132
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:54
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:55
 msgid "Zoom Out"
 msgstr "Uitzoomen"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:136
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:58
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:59
 msgid "Zoom Normal"
 msgstr "Normaal zoomen"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:140
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal.pt:62
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_attendance.pt:63
 msgid "Zoom In"
 msgstr "Inzoomen"
 
@@ -397,15 +388,11 @@ msgstr "Inzoomen"
 msgid "Legend"
 msgstr "Legenda"
 
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_legend.pt:8
-msgid "Report as"
-msgstr "Rapporteren als"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:12
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_absence_table.pt:16
+#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grade_table.pt:16
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:9
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:24
-#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:12
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:16
 msgid "Day"
 msgstr "Dag"
 
@@ -416,41 +403,6 @@ msgstr "Dag"
 #: /src/schooltool/lyceum/journal/browser/templates/f_school_absence_table.pt:15
 msgid "Period"
 msgstr "Periode"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:3
-msgid "Fill empty cells"
-msgstr "Lege cellen invullen"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:12
-msgid "Grade"
-msgstr "Cijfer"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:15
-msgid "Choose a grade to apply to all the students in the gradebook column."
-msgstr ""
-"Selecteer een cijfer om toe te passen voor alle leerlingen in de "
-"cijferlijstkolom."
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_filldown_dialog.pt:26
-msgid "Submit"
-msgstr "Indienen"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:7
-msgid "Score"
-msgstr "Score"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:8
-msgid "Point Value"
-msgstr "Puntwaarde"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_grades_legend.pt:9
-msgid "Passing"
-msgstr "Slagen"
-
-#: /src/schooltool/lyceum/journal/browser/templates/f_journal_help.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:76
-msgid "Attendance / grade"
-msgstr "Aanwezigheid / cijfer"
 
 #: /src/schooltool/lyceum/journal/browser/templates/f_myjournal.pt:18
 msgid "There are no absences."
@@ -468,8 +420,20 @@ msgstr "Deelname"
 msgid "There are no participation scores."
 msgstr "Er zijn geen deelnamescores."
 
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_current_term.pt:6
+msgid "School year ${schoolyear}, term ${term}."
+msgstr "Schooljaar ${schoolyear}, termijn ${term}."
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_group_picker.pt:4
+msgid "Everybody"
+msgstr "Iedereen"
+
+#: /src/schooltool/lyceum/journal/browser/templates/f_school_instructor_picker.pt:4
+msgid "All instructors"
+msgstr "Alle instructeurs"
+
 #: /src/schooltool/lyceum/journal/browser/templates/journal.pt:6
-#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:26
+#: /src/schooltool/lyceum/journal/browser/templates/journal.pt:23
 msgid "${section} journal for ${month} ${year}"
 msgstr "${section} logboek van ${month} ${year}"
 
@@ -514,7 +478,7 @@ msgstr "Sneltoets: Alt-S"
 msgid "My Sections"
 msgstr "Mijn secties"
 
-#: /src/schooltool/lyceum/journal/interfaces.py:146
+#: /src/schooltool/lyceum/journal/interfaces.py:145
 msgid "Grading score system"
 msgstr "Beoordelingsscoresysteem"
 
@@ -522,7 +486,22 @@ msgstr "Beoordelingsscoresysteem"
 msgid "Attendance score system"
 msgstr "Aanwezigheidsscoresysteem"
 
-#: /src/schooltool/lyceum/journal/journal.py:726
+#: /src/schooltool/lyceum/journal/journal.py:98
+#: /src/schooltool/lyceum/journal/journal.py:183
+msgid "Absent (excused)"
+msgstr "Absent (geëxcuseerd)"
+
+#: /src/schooltool/lyceum/journal/journal.py:99
+#: /src/schooltool/lyceum/journal/journal.py:184
+msgid "Tardy (excused)"
+msgstr "Te laat (geëxcuseerd)"
+
+#: /src/schooltool/lyceum/journal/journal.py:171
+#: /src/schooltool/lyceum/journal/journal.py:679
+msgid "10 Points"
+msgstr "10 punten"
+
+#: /src/schooltool/lyceum/journal/journal.py:767
 msgid "Select a score system"
 msgstr "Selecteer een scoresystem"
 
@@ -550,3 +529,32 @@ msgstr ""
 #: /src/schooltool/lyceum/journal/security.zcml:25
 msgid "Only the instructor of a section can edit its journal."
 msgstr "Alleen de instructeur van een sectie kan het sectielogboek bewerken."
+
+#~ msgid "Attendance / grade"
+#~ msgstr "Aanwezigheid / cijfer"
+
+#~ msgid "Single letter that represents an tardy mark for a student"
+#~ msgstr "Enkele letter die aanduidt dat een leerling te laat is."
+
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#~ msgid "Single letter that represents an absent mark for a student"
+#~ msgstr "Enkele letter die de absentie van een leerling aanduidt."
+
+#~ msgid "Grade"
+#~ msgstr "Cijfer"
+
+#~ msgid "Submit"
+#~ msgstr "Indienen"
+
+#~ msgid "Choose a grade to apply to all the students in the gradebook column."
+#~ msgstr ""
+#~ "Selecteer een cijfer om toe te passen voor alle leerlingen in de "
+#~ "cijferlijstkolom."
+
+#~ msgid "Cancel"
+#~ msgstr "Annuleren"
+
+#~ msgid "Fill empty cells"
+#~ msgstr "Lege cellen invullen"

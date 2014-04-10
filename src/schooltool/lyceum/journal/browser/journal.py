@@ -708,7 +708,8 @@ class SectionJournalAjaxView(BrowserView):
         person = app['persons'].get(person_id)
         if not person:
             raise UserError('Person was invalid!')
-        meeting = self.context.findMeeting(base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8"))
+        event_id = base64.decodestring(urllib.unquote(self.request['event_id'])).decode("utf-8")
+        meeting = self.context.findMeeting(event_id)
         grade = self.request['grade']
         evaluator = getEvaluator(self.request)
         try:

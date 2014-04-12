@@ -2,9 +2,10 @@
 CHANGES
 =======
 
-2.7.0 (unreleased)
+2.7.0 (2014-04-12)
 ------------------
 
+- Added enrollment modes to journal
 
 
 2.6.3 (2014-04-12)

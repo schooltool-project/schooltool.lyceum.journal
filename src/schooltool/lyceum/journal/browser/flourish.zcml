@@ -38,6 +38,7 @@
 
   <flourish:viewlet
       name="journal_section_navigation"
+      after="journal_modes"
       before="journal_term_navigation"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.FlourishJournalSectionNavigation"
@@ -48,6 +49,7 @@
 
   <flourish:viewlet
       name="journal_term_navigation"
+      after="journal_section_navigation"
       before="journal_year_navigation"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.FlourishJournalTermNavigation"
@@ -58,7 +60,8 @@
 
   <flourish:viewlet
       name="journal_year_navigation"
-      before="journal_overview"
+      after="journal_term_navigation"
+      before="journal_enrollment_modes"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.FlourishJournalYearNavigation"
       title="Year"
@@ -165,7 +168,7 @@
 
   <flourish:viewlet
       name="journal_modes"
-      before="*"
+      before="journal_section_navigation"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.JournalModes"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
@@ -176,7 +179,7 @@
 
   <flourish:viewlet
       name="journal_modes"
-      before="*"
+      before="journal_section_navigation"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.JournalModes"
       for="schooltool.person.interfaces.IPersonContainer"
@@ -207,19 +210,8 @@
       />
 
   <flourish:viewlet
-      name="journal-actions"
-      after="journal_year_navigation"
-      manager="schooltool.skin.flourish.page.IPageRefineManager"
-      class=".journal.FlourishJournalActionsLinks"
-      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
-      title="Actions"
-      permission="schooltool.view"
-      view=".journal.FlourishLyceumSectionJournalBase"
-      />
-
-  <flourish:viewlet
       name="journal-help"
-      after="journal-actions"
+      after="journal_enrollment_modes"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.FlourishJournalHelpLinks"
       for="schooltool.lyceum.journal.interfaces.ISectionJournal"
@@ -333,7 +325,8 @@
 
   <flourish:viewlet
       name="journal-reports-links"
-      after="journal-actions"
+      after="journal_year_navigation"
+      before="journal_enrollment_modes"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class="schooltool.report.browser.report.ReportsLinks"
       title="Reports"
@@ -622,8 +615,8 @@
 
   <flourish:viewlet
       name="journal_enrollment_modes"
-      after="journal_year_navigation"
-      before="*"
+      after="journal-reports-links"
+      before="journal-help"
       manager="schooltool.skin.flourish.page.IPageRefineManager"
       class=".journal.EnrollmentModes"
       view=".journal.FlourishLyceumSectionJournalBase"

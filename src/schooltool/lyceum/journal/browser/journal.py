@@ -1619,10 +1619,6 @@ class FlourishJournalRedirectView(flourish.page.Page):
             self.request.response.redirect(url)
 
 
-class FlourishJournalActionsLinks(flourish.page.RefineLinksViewlet):
-    """Journal action links viewlet."""
-
-
 class FlourishJournalHelpLinks(flourish.page.RefineLinksViewlet):
     """Journal help links viewlet."""
 

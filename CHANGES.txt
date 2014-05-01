@@ -5,7 +5,7 @@ CHANGES
 2.6.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update translations
 
 
 2.6.3 (2014-04-12)

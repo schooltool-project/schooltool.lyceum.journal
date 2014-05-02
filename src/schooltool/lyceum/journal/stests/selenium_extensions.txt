@@ -1,0 +1,332 @@
+Selenium browser extensions tests
+=================================
+
+Let's test the selenium extensions created in the
+schooltool.app.stesting module.
+
+See the README.selenium.txt file in the schooltool/testing directory
+for instructions on how to use them.
+
+Log in as manager:
+
+    >>> manager = browsers.manager
+    >>> manager.ui.login('manager', 'schooltool')
+
+Add a school year and a term:
+
+    >>> manager.ui.schoolyear.add('2014', '2014-01-01', '2014-12-31')
+    >>> manager.ui.term.add('2014', '2014', '2014-01-01', '2014-12-31')
+
+Add some people:
+
+    >>> manager.ui.person.add('Tom', 'Hoffman', 'tom', 'schooltool')
+    >>> manager.ui.person.add('Jeffrey', 'Elkner', 'jeffrey', 'schooltool')
+    >>> manager.ui.person.add('David', 'Welsh', 'david', 'schooltool')
+    >>> manager.ui.person.add('Camila', 'Cerna', 'camila', 'schooltool')
+    >>> manager.ui.person.add('Mario', 'Tejada', 'mario', 'schooltool')
+    >>> manager.ui.person.add('Nestor', 'Guzman', 'nestor', 'schooltool')
+
+Add a timetable with 3 periods, setting the first one as homeroom:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Timetables').click()
+    >>> manager.query.link('Timetable').click()
+    >>> manager.query.id('field.title').clear()
+    >>> manager.query.id('field.title').ui.set_value('3 periods')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Days of the week').click()
+    >>> manager.query.button('Same time each day').click()
+    >>> manager.query.id('field.times').clear()
+    >>> times = '\n'.join([
+    ...     '9:30-10:25',
+    ...     '10:30-11:25',
+    ...     '11:30-12:25',
+    ... ])
+    >>> manager.query.id('field.times').ui.set_value(times)
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Have names').click()
+    >>> manager.query.id('field.periods').ui.set_value('A\nB\nC')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Same').click()
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Yes').click()
+    >>> manager.query.id('homeroom_0_A').click()
+    >>> manager.query.id('homeroom_1_A').click()
+    >>> manager.query.id('homeroom_2_A').click()
+    >>> manager.query.id('homeroom_3_A').click()
+    >>> manager.query.id('homeroom_4_A').click()
+    >>> manager.query.id('homeroom_5_A').click()
+    >>> manager.query.id('homeroom_6_A').click()
+    >>> manager.query.button('Next').click()
+
+Add a few courses and sections with schedules:
+
+    >>> manager.ui.course.add('2014', 'Baseball')
+    >>> manager.ui.course.add('2014', 'TV')
+
+    >>> manager.ui.section.add('2014', '2014', 'Baseball')
+    >>> manager.ui.section.instructors.add('2014', '2014', 'Baseball (1)',
+    ...                                    ['tom'],
+    ...                                    date='2014-01-01')
+    >>> manager.ui.section.students.add('2014', '2014', 'Baseball (1)',
+    ...                                 ['camila', 'nestor', 'mario'],
+    ...                                 date='2014-01-01')
+    >>> manager.ui.section.go('2014', '2014', 'Baseball (1)')
+    >>> manager.query.link('Schedule').click()
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.query.button('Submit').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-"]').click()
+    >>> manager.query.button('Save').click()
+
+    >>> manager.ui.section.add('2014', '2014', 'TV')
+    >>> manager.ui.section.instructors.add('2014', '2014', 'TV (2)',
+    ...                                    ['david'],
+    ...                                    date='2014-01-01')
+    >>> manager.ui.section.students.add('2014', '2014', 'TV (2)',
+    ...                                 ['camila', 'nestor', 'mario'],
+    ...                                 date='2014-01-01')
+    >>> manager.ui.section.go('2014', '2014', 'TV (2)')
+    >>> manager.query.link('Schedule').click()
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.query.button('Submit').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-3-"]').click()
+    >>> manager.query.button('Save').click()
+
+Set today's date:
+
+    >>> manager.open('http://localhost/time?value=2014-04-14')
+
+
+browser.ui.worksheet.score()
+----------------------------
+
+Used for scoring a period for a student.
+
+Let's login as Tom and visit his section's journal:
+
+    >>> tom = browsers.tom
+    >>> tom.ui.login('tom', 'schooltool')
+
+    >>> tom.ui.section.go('2014', '2014', 'Baseball (1)')
+    >>> sel = '//ul[contains(@class, "navigation")]//a[text()="Journal"]'
+    >>> tom.query.xpath(sel).click()
+
+To score a student in a specific period we use the student's title,
+set in the popup menus of their names:
+
+    >>> sel = '.students tbody td:first-child a.popup_link'
+    >>> for link in tom.driver.execute_script(
+    ...     'return $(arguments[0])', sel):
+    ...     print link.get_attribute('title')
+    Camila Cerna
+    Nestor Guzman
+    Mario Tejada
+
+We also need the day labels set in the popup menus of each column:
+
+    >>> sel = '.grades thead a.popup_link'
+    >>> for link in tom.driver.execute_script(
+    ...     'return $(arguments[0])', sel):
+    ...     print link.text
+    01
+    02
+    03
+    04
+    07
+    08
+    09
+    10
+    11
+    14
+    15
+    16
+    17
+    18
+    21
+    22
+    23
+    24
+    25
+    28
+    29
+    30
+
+Let's grade the students using the homeroom functionality:
+
+    >>> tom.query.id('journal-mode-homeroom').click()
+    >>> tom.ui.gradebook.worksheet.score('Camila Cerna', '01', 'a')
+    >>> tom.ui.gradebook.worksheet.score('Camila Cerna', '02', 't')
+    >>> tom.ui.gradebook.worksheet.score('Camila Cerna', '07', 'te')
+    >>> tom.ui.gradebook.worksheet.score('Camila Cerna', '10', 'ae')
+
+    >>> tom.ui.gradebook.worksheet.score('Nestor Guzman', '02', 't')
+    >>> tom.ui.gradebook.worksheet.score('Nestor Guzman', '03', 't')
+    >>> tom.ui.gradebook.worksheet.score('Nestor Guzman', '04', 'te')
+
+    >>> tom.query.button('Save').click()
+
+We'll check that our changes were correctly saved using our next
+browser extension.
+
+
+browser.ui.worksheet.pprint()
+-----------------------------
+
+Used for printing the current worksheet.
+
+    >>> tom.ui.gradebook.worksheet.pprint()
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc.  |
+    |           |            | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  |      |      |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |    | ae |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 2    | 2    | 2 / 4 |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 3    | 1 / 3 |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+
+Let's change some scores:
+
+    >>> tom.ui.gradebook.worksheet.score('Camila Cerna', '10', 'te')
+
+    >>> tom.ui.gradebook.worksheet.score('Nestor Guzman', '11', 'a')
+    >>> tom.ui.gradebook.worksheet.score('Nestor Guzman', '14', 'x')
+
+and print the gradebook before saving the changes to see the input
+fields showing some validation codes. The letters next to each input
+field mean:
+
+* v: valid score
+* i: invalid score
+
+    >>> tom.ui.gradebook.worksheet.pprint(show_validation=True)
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----------+----------+----------+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10       | 11       | 14       | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc.  |
+    |           |            | A  | A  | A  | A  | A  | A  | A  | A        | A        | A        | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  |      |      |       |
+    +-----------+------------+----+----+----+----+----+----+----+----------+----------+----------+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |    | [te___]v |          |          |    |    |    |    |    |    |    |    |    |    |    |    | 2    | 2    | 2 / 4 |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |    |          | [a____]v | [x____]i |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 3    | 1 / 3 |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |          |          |          |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |       |
+    +-----------+------------+----+----+----+----+----+----+----+----------+----------+----------+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+
+Let's fix the invalid score and see the totals columns recalculated:
+
+    >>> tom.ui.gradebook.worksheet.score('Nestor Guzman', '14', 'ae')
+    >>> tom.query.button('Save').click()
+    >>> tom.ui.gradebook.worksheet.pprint()
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc.  |
+    |           |            | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  |      |      |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |    | te |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 1    | 3    | 2 / 4 |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |    |    | a  | ae |    |    |    |    |    |    |    |    |    |    |    |    | 2    | 3    | 2 / 5 |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+
+If we print the worksheet with the validation flag set, but there are
+no input fields, we get the same output:
+
+    >>> tom.ui.gradebook.worksheet.pprint(show_validation=True)
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc.  |
+    |           |            | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  | A  |      |      |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |    | te |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 1    | 3    | 2 / 4 |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |    |    | a  | ae |    |    |    |    |    |    |    |    |    |    |    |    | 2    | 3    | 2 / 5 |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+
+We'll check that the score functionality works when the homeroom row
+is displayed. We'll create another browser for David:
+
+    >>> david = browsers.david
+    >>> david.ui.login('david', 'schooltool')
+
+    >>> david.ui.section.go('2014', '2014', 'TV (2)')
+    >>> sel = '//ul[contains(@class, "navigation")]//a[text()="Journal"]'
+    >>> david.query.xpath(sel).click()
+    >>> david.ui.gradebook.worksheet.pprint()
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc. |
+    |           |            | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  |      |      |      |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |    | te |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |      |
+    |           |            |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |      |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |    |    | a  | ae |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |      |
+    |           |            |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |      |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |      |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+
+    >>> david.ui.gradebook.worksheet.score('Camila Cerna', '09', 't')
+    >>> david.ui.gradebook.worksheet.score('Camila Cerna', '10', 'ae')
+    >>> david.ui.gradebook.worksheet.score('Nestor Guzman', '09', 'a')
+    >>> david.ui.gradebook.worksheet.score('Mario Tejada', '09', 't')
+    >>> david.ui.gradebook.worksheet.pprint(show_validation=True)
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----------+----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09       | 10       | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc. |
+    |           |            | C  | C  | C  | C  | C  | C  | C        | C        | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  |      |      |      |
+    +-----------+------------+----+----+----+----+----+----+----------+----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |          | te       |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |      |
+    |           |            |    |    |    |    |    |    | [t____]v | [ae___]v |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |      |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |          |          | a  | ae |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |      |
+    |           |            |    |    |    |    |    |    | [a____]v |          |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |      |
+    | Tejada    | Mario      |    |    |    |    |    |    | [t____]v |          |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 0    |      |
+    +-----------+------------+----+----+----+----+----+----+----------+----------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+
+    >>> david.query.button('Save').click()
+    >>> david.ui.gradebook.worksheet.pprint()
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc.  |
+    |           |            | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  |      |      |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Cerna     | Camila     | a  | t  |    |    | te |    |    | te |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 1    | 1    | 1 / 2 |
+    |           |            |    |    |    |    |    |    | t  | ae |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |       |
+    | Guzman    | Nestor     |    | t  | t  | te |    |    |    |    | a  | ae |    |    |    |    |    |    |    |    |    |    |    |    | 1    | 0    | 0 / 1 |
+    |           |            |    |    |    |    |    |    | a  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |       |
+    | Tejada    | Mario      |    |    |    |    |    |    | t  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 1    | 0 / 1 |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+
+We can hide the homeroom row:
+
+    >>> david.ui.gradebook.worksheet.pprint(hide_homeroom=True)
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc.  |
+    |           |            | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  |      |      |       |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+
+    | Cerna     | Camila     |    |    |    |    |    |    | t  | ae |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 1    | 1    | 1 / 2 |
+    | Guzman    | Nestor     |    |    |    |    |    |    | a  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 1    | 0    | 0 / 1 |
+    | Tejada    | Mario      |    |    |    |    |    |    | t  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | 0    | 1    | 0 / 1 |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+-------+

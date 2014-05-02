@@ -24,7 +24,7 @@ import urllib
 import base64
 import xlwt
 import datetime
-import dateutil
+from dateutil.parser import parse
 
 from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
@@ -660,8 +660,11 @@ class LyceumSectionJournalView(StudentSelectionMixin):
 
         available_months = list(self.selected_months)
         selected_month = None
-        if 'month' in self.request:
-            month = int(self.request['month'])
+        try:
+            month = int(self.request.get('month'))
+        except (TypeError, ValueError):
+            pass
+        else:
             if month in available_months:
                 selected_month = month
 
@@ -677,8 +680,11 @@ class LyceumSectionJournalView(StudentSelectionMixin):
     @Lazy
     def active_month(self):
         available_months = list(self.selected_months)
-        if 'month' in self.request:
-            month = int(self.request['month'])
+        try:
+            month = int(self.request.get('month'))
+        except (TypeError, ValueError):
+            pass
+        else:
             if month in available_months:
                 return month
 
@@ -1243,7 +1249,7 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
             person = removeSecurityProxy(person)
             title = person.title
             if not is_persons_view:
-                if not person not in active_students:
+                if person not in active_students:
                     css_class.append('inactive-student')
                     meaning, code = self.getTodayState(person, section)
                     state = self.app_states.states.get(code)
@@ -2700,7 +2706,7 @@ class FlourishAttendanceValidateScoreView(flourish.ajax.AJAXPart):
             return None
         dts = base64.decodestring(activity_id.strip())
         try:
-            dt = dateutil.parser.parse(dts)
+            dt = parse(dts)
         except ValueError:
             return None
         meeting = makeSchoolAttendanceMeeting(dt)

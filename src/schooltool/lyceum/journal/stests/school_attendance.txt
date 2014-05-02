@@ -1,0 +1,173 @@
+School Attendance Grades
+========================
+
+Log in as manager:
+
+    >>> manager = browsers.manager
+    >>> manager.ui.login('manager', 'schooltool')
+
+Add a school year and a term:
+
+    >>> manager.ui.schoolyear.add('2014', '2014-01-01', '2014-12-31')
+    >>> manager.ui.term.add('2014', '2014', '2014-01-01', '2014-12-31')
+
+Add some people:
+
+    >>> manager.ui.person.add('Tom', 'Hoffman', 'tom', 'schooltool')
+    >>> manager.ui.person.add('Jeffrey', 'Elkner', 'jeffrey', 'schooltool')
+    >>> manager.ui.person.add('David', 'Welsh', 'david', 'schooltool')
+    >>> manager.ui.person.add('Camila', 'Cerna', 'camila', 'schooltool')
+    >>> manager.ui.person.add('Mario', 'Tejada', 'mario', 'schooltool')
+
+Add a timetable with 3 periods, setting the first one as homeroom:
+
+    >>> manager.query.link('School').click()
+    >>> manager.query.link('Timetables').click()
+    >>> manager.query.link('Timetable').click()
+    >>> manager.query.id('field.title').clear()
+    >>> manager.query.id('field.title').ui.set_value('3 periods')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Days of the week').click()
+    >>> manager.query.button('Same time each day').click()
+    >>> manager.query.id('field.times').clear()
+    >>> times = '\n'.join([
+    ...     '9:30-10:25',
+    ...     '10:30-11:25',
+    ...     '11:30-12:25',
+    ... ])
+    >>> manager.query.id('field.times').ui.set_value(times)
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Have names').click()
+    >>> manager.query.id('field.periods').ui.set_value('A\nB\nC')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Same').click()
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Yes').click()
+    >>> manager.query.id('homeroom_0_A').click()
+    >>> manager.query.id('homeroom_1_A').click()
+    >>> manager.query.id('homeroom_2_A').click()
+    >>> manager.query.id('homeroom_3_A').click()
+    >>> manager.query.id('homeroom_4_A').click()
+    >>> manager.query.id('homeroom_5_A').click()
+    >>> manager.query.id('homeroom_6_A').click()
+    >>> manager.query.button('Next').click()
+
+Add a few courses and sections with schedules:
+
+    >>> manager.ui.course.add('2014', 'Baseball')
+    >>> manager.ui.course.add('2014', 'Programming')
+    >>> manager.ui.course.add('2014', 'TV')
+
+    >>> manager.ui.section.add('2014', '2014', 'Baseball')
+    >>> manager.ui.section.instructors.add('2014', '2014', 'Baseball (1)',
+    ...                                    ['tom'],
+    ...                                    date='2014-01-01')
+    >>> manager.ui.section.students.add('2014', '2014', 'Baseball (1)',
+    ...                                 ['camila'],
+    ...                                 date='2014-01-01')
+    >>> manager.ui.section.go('2014', '2014', 'Baseball (1)')
+    >>> manager.query.link('Schedule').click()
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.query.button('Submit').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-"]').click()
+    >>> manager.query.button('Save').click()
+
+    >>> manager.ui.section.add('2014', '2014', 'Programming')
+    >>> manager.ui.section.instructors.add('2014', '2014', 'Programming (2)',
+    ...                                    ['jeffrey'],
+    ...                                    date='2014-01-01')
+    >>> manager.ui.section.students.add('2014', '2014', 'Programming (2)',
+    ...                                 ['camila', 'mario'],
+    ...                                 date='2014-01-01')
+    >>> manager.ui.section.go('2014', '2014', 'Programming (2)')
+    >>> manager.query.link('Schedule').click()
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.query.button('Submit').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-2-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-2-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-2-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-2-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-2-"]').click()
+    >>> manager.query.button('Save').click()
+
+    >>> manager.ui.section.add('2014', '2014', 'TV')
+    >>> manager.ui.section.instructors.add('2014', '2014', 'TV (3)',
+    ...                                    ['david'],
+    ...                                    date='2014-01-01')
+    >>> manager.ui.section.students.add('2014', '2014', 'TV (3)',
+    ...                                 ['mario'],
+    ...                                 date='2014-01-01')
+    >>> manager.ui.section.go('2014', '2014', 'TV (3)')
+    >>> manager.query.link('Schedule').click()
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.query.button('Submit').click()
+    >>> manager.query.xpath('//input[@name="period.0-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.1-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.2-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.3-.Period-3-"]').click()
+    >>> manager.query.xpath('//input[@name="period.4-.Period-3-"]').click()
+    >>> manager.query.button('Save').click()
+
+Set today's date:
+
+    >>> manager.open('http://localhost/time?value=2014-04-28')
+
+Let's record some attendance data for Mario using the School
+Attendance view:
+
+    >>> manager.open('http://localhost')
+    >>> sel = '//ul[contains(@class, "navigation")]//a[text()="Journal"]'
+    >>> manager.query.xpath(sel).click()
+
+    >>> manager.ui.gradebook.worksheet.score('Mario Tejada', '27', 'ae')
+    >>> manager.ui.gradebook.worksheet.score('Mario Tejada', '28', 't')
+    >>> manager.ui.gradebook.worksheet.pprint(show_validation=True)
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----------+----------+----+----+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27       | 28       | 29 | 30 |
+    |           |            |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |          |          |    |    |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----------+----------+----+----+
+    | Cerna     | Camila     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |          |          |    |    |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | [ae___]v | [t____]v |    |    |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----------+----------+----+----+
+
+    >>> manager.query.button('Save').click()
+    >>> manager.query.xpath(sel).click()
+    >>> manager.ui.gradebook.worksheet.pprint()
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 |
+    |           |            |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+    | Cerna     | Camila     |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | ae | t  |    |    |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
+
+These grades should be reflected in Mario's section journal:
+
+    >>> manager.ui.section.go('2014', '2014', 'TV (3)')
+    >>> sel = '//div[contains(@class, "sidebar")]//a[text()="Journal"]'
+    >>> manager.query.xpath(sel).click()
+    >>> manager.ui.gradebook.worksheet.pprint()
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    | January | February | March | *April* | May | June | July | August | September | October | November | December |
+    +---------+----------+-------+---------+-----+------+------+--------+-----------+---------+----------+----------+
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+    | Last Name | First Name | 01 | 02 | 03 | 04 | 07 | 08 | 09 | 10 | 11 | 14 | 15 | 16 | 17 | 18 | 21 | 22 | 23 | 24 | 25 | 28 | 29 | 30 | Abs. | Trd. | Exc. |
+    |           |            | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  | C  |      |      |      |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+    | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | t  |    |    | 0    | 0    |      |
+    |           |            |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |      |      |      |
+    +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+------+------+------+
+
+Since school attendance is linked to the homeroom functionality, if a
+teacher records attendance in the homeroom period, it should be
+reflected in the school attendance view:
+
+    >>> tom = browsers.tom
+    >>> tom.ui.login('tom', 'schooltool')

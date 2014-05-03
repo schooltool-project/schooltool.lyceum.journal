@@ -12,23 +12,112 @@ Set today's date:
 
 Add a school year:
 
-    >>> manager.ui.schoolyear.add('2010', '2010-01-01', '2010-12-31')
+    >>> manager.ui.schoolyear.add('2011-2012', '2011-09-05', '2012-07-01')
 
-Let's specify a test file with just a single section with one teacher and one
-student that is scheduled.
+Let's specify just a single section with one teacher and one student
+that is scheduled.
 
-    >>> import os
-    >>> dirname = os.path.abspath(os.path.dirname(__file__))
-    >>> filename = os.path.join(dirname, 'myjournal_sections.xls')
+    >>> manager.ui.term.add('2011-2012', '2011 Fall', '2011-09-05', '2012-01-01',
+    ...                     weekends=['Saturday', 'Sunday'])
+    >>> manager.ui.term.add('2011-2012', '2012 Spring', '2012-01-02', '2012-07-01',
+    ...                     weekends=['Saturday', 'Sunday'])
 
     >>> manager.query.link('School').click()
-    >>> manager.query.link('Import XLS').click()
-    >>> import pkg_resources
-    >>> elem = manager.query.name('xlsfile')
-    >>> manager.query.name('xlsfile').type(filename)
-    >>> page = manager.query.tag('html')
+    >>> manager.query.link('Timetables').click()
+    >>> manager.query.link('Timetable').click()
+    >>> manager.query.id('field.title').clear()
+    >>> manager.query.id('field.title').ui.set_value('simple')
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Days of the week').click()
+    >>> manager.query.button('Same time each day').click()
+    >>> manager.query.id('field.times').clear()
+    >>> times = '\n'.join([
+    ...     '08:00-08:55',
+    ...     '09:00-09:55',
+    ...     '10:00-10:55',
+    ...     '11:00-11:55',
+    ...     '12:30-13:25',
+    ...     '13:30-14:30',
+    ... ])
+    >>> manager.query.id('field.times').ui.set_value(times)
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Have names').click()
+    >>> names = '\n'.join(['A', 'B', 'C', 'D', 'E', 'F'])
+    >>> manager.query.id('field.periods').ui.set_value(names)
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Different').click()
+    >>> period_columns = [
+    ...     ['A', 'B', 'C', 'D', 'E', 'F'],
+    ...     ['B', 'C', 'D', 'E', 'F', 'A'],
+    ...     ['C', 'D', 'E', 'F', 'A', 'B'],
+    ...     ['D', 'E', 'F', 'A', 'B', 'C'],
+    ...     ['E', 'F', 'A', 'B', 'C', 'D'],
+    ... ]
+    >>> for column_index, column in enumerate(period_columns):
+    ...     for period_index, period in enumerate(column):
+    ...         period_name = 'period_%d_%d' % (column_index, period_index)
+    ...         manager.query.css('select[name="%s"]' % period_name).ui.set_value(period)
+    >>> manager.query.button('Next').click()
+    >>> manager.query.button('Yes').click()
+    >>> manager.query.id('homeroom_0_A').click()
+    >>> manager.query.id('homeroom_1_B').click()
+    >>> manager.query.id('homeroom_2_C').click()
+    >>> manager.query.id('homeroom_3_D').click()
+    >>> manager.query.id('homeroom_4_E').click()
+    >>> manager.query.button('Next').click()
+
+    >>> manager.ui.person.add('Florian', 'Hart', 'student000', 'student000')
+    >>> manager.ui.person.add('Lu', 'Russell', 'teacher000', 'teacher000')
+
+    >>> manager.ui.course.add('2011-2012', 'Art A')
+    >>> manager.ui.course.add('2011-2012', 'English A')
+    >>> manager.ui.course.add('2011-2012', 'History')
+
+    >>> manager.ui.section.add('2011-2012', '2011 Fall', 'Art A',
+    ...                        title='Art A Fall', ends='2012 Spring',
+    ...                        instructors=['teacher000'],
+    ...                        students=['student000'])
+    >>> manager.ui.section.go('2011-2012', '2012 Spring', 'Art A Fall')
+    >>> manager.query.css('a[title="Edit this section"]').click()
+    >>> manager.query.id('form-widgets-title').clear()
+    >>> manager.query.id('form-widgets-title').ui.set_value('Art A Spring')
     >>> manager.query.button('Submit').click()
-    >>> manager.wait(lambda: page.expired)
+    >>> manager.ui.section.add('2011-2012', '2011 Fall', 'English A',
+    ...                        title='English A Fall',
+    ...                        instructors=['teacher000'],
+    ...                        students=['student000'])
+    >>> manager.ui.section.add('2011-2012', '2012 Spring', 'History A',
+    ...                        title='History A Spring',
+    ...                        instructors=['teacher000'],
+    ...                        students=['student000'])
+
+    >>> def schedule_section(browser, starts=None, ends=None):
+    ...     browser.query.link('Schedule').click()
+    ...     sel = '//div[contains(@class, "sidebar")]//a[text()="Schedule"]'
+    ...     browser.query.xpath(sel).click()
+    ...     if starts is not None:
+    ...         browser.query.id('form-widgets-first').ui.set_value(starts)
+    ...     if ends is not None:
+    ...         browser.query.id('form-widgets-last').ui.set_value(ends)
+    ...     browser.query.button('Submit').click()
+    ...     browser.query.xpath('//input[@name="period.0-.Period-"]').click()
+    ...     browser.query.xpath('//input[@name="period.1-.Period-"]').click()
+    ...     browser.query.xpath('//input[@name="period.2-.Period-"]').click()
+    ...     browser.query.xpath('//input[@name="period.3-.Period-"]').click()
+    ...     browser.query.xpath('//input[@name="period.0-.Period-3-"]').click()
+    ...     browser.query.xpath('//input[@name="period.1-.Period-3-"]').click()
+    ...     browser.query.xpath('//input[@name="period.2-.Period-5-"]').click()
+    ...     browser.query.xpath('//input[@name="period.3-.Period-5-"]').click()
+    ...     browser.query.button('Save').click()
+
+    >>> manager.ui.section.go('2011-2012', '2011 Fall', 'Art A Fall')
+    >>> schedule_section(manager, '2011 Fall', '2012 Spring')
+
+    >>> manager.ui.section.go('2011-2012', '2011 Fall', 'English A Fall')
+    >>> schedule_section(manager)
+
+    >>> manager.ui.section.go('2011-2012', '2012 Spring', 'History A Spring')
+    >>> schedule_section(manager)
 
 Log in as the teacher:
 
@@ -38,7 +127,7 @@ Log in as the teacher:
 We'll define a helper function for entering into journal cells.
 
     >>> def enter_cell(col, value):
-    ...     cell = teacher.query_all.css('#grades-part tbody > tr > td')[col]
+    ...     cell = teacher.query_all.css('#grades-part tbody > tr > td')[col-1]
     ...     cell.click()
     ...     cell.query.css('input').type(value)
 
@@ -47,46 +136,64 @@ default section:
 
     >>> teacher.query.link('Journal').click()
     >>> print teacher.url
-    http://localhost/schoolyears/2011-2012/2011-fall/sections/art_a_2011-fall/journal
+    http://localhost/schoolyears/2011-2012/2011-fall/sections/1/journal
+    >>> print teacher.query.css('ul.breadcrumbs li:nth-child(2) a').text
+    Art A Fall
 
 We'll fill in some scores for our student.
 
-    >>> enter_cell(1, '9')
-    >>> enter_cell(2, '7')
+    >>> teacher.query.id('journal-mode-attendance').click()
     >>> enter_cell(3, 'a')
     >>> enter_cell(4, 't')
     >>> enter_cell(5, 'a')
     >>> enter_cell(6, 'a')
     >>> enter_cell(7, 'a')
+    >>> enter_cell(13, 't')
+    >>> enter_cell(14, 't')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.query.id('journal-mode-grades').click()
+    >>> enter_cell(1, '9')
+    >>> enter_cell(2, '7')
     >>> enter_cell(8, '8')
     >>> enter_cell(9, '5')
     >>> enter_cell(10, '9')
     >>> enter_cell(11, '6')
     >>> enter_cell(12, '6')
-    >>> enter_cell(13, 't')
-    >>> enter_cell(14, 't')
     >>> enter_cell(15, '5')
     >>> enter_cell(16, '4')
     >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
 
     >>> teacher.wait_page(teacher.query.name('currentSection').query_all.css('option')[1].click)
+    >>> teacher.query.id('journal-mode-attendance').click()
     >>> enter_cell(1, 'a')
     >>> enter_cell(2, 't')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.query.id('journal-mode-grades').click()
     >>> enter_cell(3, '8')
     >>> enter_cell(4, '9')
     >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
 
     >>> teacher.wait_page(teacher.query.name('currentSection').query_all.css('option')[0].click)
     >>> teacher.wait_page(teacher.query.name('currentTerm').query_all.css('option')[1].click)
+    >>> teacher.query.id('journal-mode-attendance').click()
     >>> enter_cell(3, 'a')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.query.id('journal-mode-grades').click()
     >>> enter_cell(4, '8')
     >>> enter_cell(5, '7')
     >>> enter_cell(6, '5')
     >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
 
     >>> teacher.wait_page(teacher.query.name('currentSection').query_all.css('option')[1].click)
+    >>> teacher.query.id('journal-mode-attendance').click()
     >>> enter_cell(5, 'a')
     >>> enter_cell(6, 't')
+    >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
+
+    >>> teacher.query.id('journal-mode-grades').click()
     >>> enter_cell(7, '6')
     >>> enter_cell(8, '9')
     >>> teacher.wait_page(teacher.query.name('UPDATE_SUBMIT').click)
@@ -143,4 +250,3 @@ correctly because C really does come before A in day 3 of the schedule.
     2012 Spring
     History A Spring
     7.5
-

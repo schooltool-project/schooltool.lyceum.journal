@@ -411,6 +411,7 @@
   <flourish:activeViewlet
       name="journal"
       manager="schooltool.skin.flourish.page.IHeaderNavigationManager"
+      for="schooltool.person.interfaces.IPersonContainer"
       view=".journal.FlourishSchoolAttendanceView"
       />
 

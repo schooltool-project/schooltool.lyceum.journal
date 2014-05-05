@@ -148,6 +148,11 @@ Attendance view:
     | Tejada    | Mario      |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    | ae | t  |    |    |
     +-----------+------------+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+
 
+The active tab for this view should be the Journal tab:
+
+    >>> print manager.query.css('ul.navigation li.active a').text
+    Journal
+
 These grades should be reflected in Mario's section journal:
 
     >>> manager.ui.section.go('2014', '2014', 'TV (3)')

@@ -8,6 +8,12 @@ CHANGES
 - Nothing changed yet.
 
 
+2.6.4 (2014-05-05)
+------------------
+
+- Update translations
+
+
 2.7.0 (2014-04-12)
 ------------------
 

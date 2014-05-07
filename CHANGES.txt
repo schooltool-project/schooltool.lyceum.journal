@@ -2,10 +2,12 @@
 CHANGES
 =======
 
-2.7.1 (unreleased)
+2.8.0 (2014-05-08)
 ------------------
 
-- Nothing changed yet.
+- Fixed cell validation in school attendance view
+- Fixed highlighting of inactive students in the journal 
+- Fixed active tab in school attendance view
 
 
 2.6.4 (2014-05-05)

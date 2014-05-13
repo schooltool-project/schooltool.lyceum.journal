@@ -3054,6 +3054,7 @@ class FlourishAttendanceScoreSystemView(BrowserView):
 
 class EditDefaultJournalScoreSystems(flourish.form.Form, z3c.form.form.EditForm):
 
+    template = flourish.templates.Inherit(flourish.page.Page.template)
     fields = z3c.form.field.Fields(IJournalScoreSystemPreferences)
 
     legend = _('Customize')

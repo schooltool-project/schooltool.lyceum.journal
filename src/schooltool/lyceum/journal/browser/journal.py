@@ -1088,7 +1088,8 @@ class FlourishLyceumSectionJournalGrades(FlourishLyceumSectionJournalBase):
             sorting_key = lambda x: factory.getSortingKey(x, collator)
         students = self.members()
         section = removeSecurityProxy(self.context.section)
-        active_students = students.on(self.request.util.today).any(ACTIVE)
+        today = getUtility(IDateManager).today
+        active_students = students.on(today).any(ACTIVE)
         current_mode = getCurrentEnrollmentMode(
             IPerson(self.request.principal, None))
         if current_mode == 'gradebook-enrollment-mode-enrolled':
@@ -1239,7 +1240,8 @@ class FlourishLyceumSectionJournalAttendance(FlourishLyceumSectionJournalBase):
         is_persons_view = IPersonContainer.providedBy(self.context)
         if not is_persons_view:
             section = removeSecurityProxy(self.context.section)
-            active_students = students.on(self.request.util.today).any(ACTIVE)
+            today = getUtility(IDateManager).today
+            active_students = students.on(today).any(ACTIVE)
             current_mode = getCurrentEnrollmentMode(
                 IPerson(self.request.principal, None))
             if current_mode == 'gradebook-enrollment-mode-enrolled':

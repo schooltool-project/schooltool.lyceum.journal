@@ -84,6 +84,7 @@ setup(
     extras_require={'test': ['zope.app.testing',
                              'zope.testing',
                              'zope.ucol',
+                             'schooltool>=2.8',
                              'schooltool.devtools>=0.6',
                              'selenium']},
     include_package_data=True,

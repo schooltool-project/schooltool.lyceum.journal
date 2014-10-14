@@ -644,7 +644,7 @@
       for="schooltool.term.interfaces.ITerm"
       permission="schooltool.view"
       group="Term"
-      description="xxx description xxx"
+      description="An Excel workbook with multiple worksheets (attendance, scores, homeroom if relevant) for each section in the term."
       title="Journal Data Export"
       file_type="pdf"
       link="request_journal_data_export.html"

@@ -2,10 +2,12 @@
 CHANGES
 =======
 
-2.8.1 (unreleased)
+2.8.1 (2014-10-14)
 ------------------
 
-- Nothing changed yet.
+- Fixed template error in journal default score system view
+- Changed today access in journal attendance export report (https://launchpad.net/bugs/1341519)
+- Added journal data export for terms
 
 
 2.8.0 (2014-05-08)

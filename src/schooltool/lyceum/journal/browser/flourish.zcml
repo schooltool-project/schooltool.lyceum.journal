@@ -639,4 +639,29 @@
       permission="schooltool.edit"
       />
 
+  <report:reportLink
+      name="journal_data_export"
+      for="schooltool.term.interfaces.ITerm"
+      permission="schooltool.view"
+      group="Term"
+      description="xxx description xxx"
+      title="Journal Data Export"
+      file_type="pdf"
+      link="request_journal_data_export.html"
+      />
+
+  <flourish:page
+      name="request_journal_data_export.html"
+      for="schooltool.term.interfaces.ITerm"
+      class=".journal.JournalDataExportRequestView"
+      permission="schooltool.edit"
+      />
+
+  <flourish:page
+      name="journal_data_export.xls"
+      for="schooltool.term.interfaces.ITerm"
+      class=".journal.JournalDataExportView"
+      permission="schooltool.edit"
+      />
+
 </configure>

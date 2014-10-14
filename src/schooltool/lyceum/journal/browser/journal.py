@@ -3198,3 +3198,155 @@ class EnrollmentModesSelector(flourish.viewlet.Viewlet):
         if len(self.items) < 2:
             return ''
         return self.template(*args, **kw)
+
+
+class JournalDataExportRequestView(RequestXLSReportDialog):
+
+    report_builder = 'journal_data_export.xls'
+
+
+class JournalDataExportView(export.ExcelExportView):
+
+    @property
+    def base_filename(self):
+        term = self.context
+        schoolyear = ISchoolYear(term)
+        filename = '%s-%s journal scores' % (term.title, schoolyear.title)
+        filename = filename.replace(' ', '_')
+        return filename
+
+    def studentSortKey(self, value):
+        student = self.persons[value['student']['id']]
+        return IDemographics(student).get('ID', '')
+
+    def addImporters(self, progress):
+        self.task_progress.add('journal', title=_('Journal'), progress=0.0)
+
+    def __call__(self):
+        app = ISchoolToolApplication(None)
+        self.persons = app['persons']
+        self.tzinfo = pytz.timezone(IApplicationPreferences(app).timezone)
+        self.makeProgress()
+        self.task_progress.title = _("Exporting")
+        self.addImporters(self.task_progress)
+        workbook = xlwt.Workbook()
+        self.export_data(workbook)
+        return workbook
+
+    def export_data(self, wb):
+        sections = sorted(ISectionContainer(self.context).values(),
+                          key=lambda s: s.title)
+        count = len(sections)
+        for i, section in enumerate(sections):
+            schedules = IScheduleContainer(section)
+            if not schedules:
+                continue
+            self.add_attendance_worksheet(wb, section)
+            self.add_homeroom_worksheet(wb, section)
+            self.add_scores_worksheet(wb, section)
+            self.progress('journal', normalized_progress(i, count))
+        self.finish('journal')
+
+    def add_attendance_worksheet(self, wb, section):
+        journal = ISectionJournal(section)
+        view = queryMultiAdapter(
+            (journal, self.request), name='index.html')
+        title = '%s-%s' % (translate(_('Attendance'), context=self.request),
+                           section.__name__)
+        ws = wb.add_sheet(title[:31])
+        self.print_section_details(ws, section, _('Attendance'))
+        activities = self.getActivities(view)
+        self.print_headers(ws, activities)
+        self.print_grades(ws, view.table())
+
+    def add_homeroom_worksheet(self, wb, section):
+        takes_day_attendance = True
+        journal = ISectionJournal(section)
+        view = queryMultiAdapter(
+            (journal, self.request), name='homeroom.html')
+        if (view is None or
+            not view.all_meetings):
+            takes_day_attendance = False
+        if takes_day_attendance:
+            title = '%s-%s' % (translate(_('Homeroom'), context=self.request),
+                               section.__name__)
+            ws = wb.add_sheet(title[:31])
+            self.print_section_details(ws, section, _('Homeroom'))
+            activities = self.getActivities(view)
+            self.print_headers(ws, activities)
+            self.print_grades(ws, view.table())
+
+    def add_scores_worksheet(self, wb, section):
+        journal = ISectionJournal(section)
+        view = queryMultiAdapter(
+            (journal, self.request), name='grades.html')
+        title = '%s-%s' % (translate(_('Scores'), context=self.request),
+                           section.__name__)
+        ws = wb.add_sheet(title[:31])
+        self.print_section_details(ws, section, _('Scores'))
+        activities = self.getActivities(view)
+        self.print_headers(ws, activities)
+        self.print_grades(ws, view.table())
+
+    def getActivities(self, view):
+        activities = []
+        for meeting in view.all_meetings:
+            info = {}
+            insecure_meeting = removeSecurityProxy(meeting)
+            meetingDate = insecure_meeting.dtstart.astimezone(self.tzinfo).date()
+            info['date'] = meetingDate
+            try:
+                if meeting.period is not None:
+                    short_title = meeting.period.title
+                else:
+                    short_title = ''
+                period = short_title
+                if period[-1] == ':':
+                    period = period[:-1]
+            except:
+                period = ''
+            info['period'] = period
+            activities.append(info)
+        return activities
+
+    def print_section_details(self, ws, section, title):
+        starting_row = 0
+        header = export.Header(translate(_('Section'), context=self.request))
+        self.write(ws, starting_row, 0, header.data, **header.style)
+        header = export.Text(section.title)
+        self.write(ws, starting_row, 1, header.data, **header.style)
+        header = export.Header(translate(_('Term'), context=self.request))
+        self.write(ws, starting_row+1, 0, header.data, **header.style)
+        header = export.Text(ITerm(section).title)
+        self.write(ws, starting_row+1, 1, header.data, **header.style)
+        header = export.Header(translate(_('Type'), context=self.request))
+        self.write(ws, starting_row+2, 0, header.data, **header.style)
+        header = export.Text(title)
+        self.write(ws, starting_row+2, 1, header.data, **header.style)
+
+    def print_grades(self, ws, table):
+        starting_row = 6
+        table = sorted(table, key=lambda x:self.studentSortKey)
+        for i, row in enumerate(table):
+            student = self.persons[row['student']['id']]
+            cells = [export.Text(IDemographics(student).get('ID', '')),
+                     export.Text(student.first_name),
+                     export.Text(student.last_name)]
+            for grade in row['grades']:
+                value = grade['value']
+                cells.append(export.Text(value))
+            for col, cell in enumerate(cells):
+                self.write(ws, starting_row+i, col, cell.data, **cell.style)
+
+    def print_headers(self, ws, activities):
+        starting_row = 4
+        row_1_headers = [export.Header(label)
+                         for label in ['ID', 'First name', 'Last name']]
+        row_2_headers = [export.Header('') for i in range(3)]
+        for activity_info in activities:
+            row_1_headers.append(DateHeader(activity_info['date']))
+            row_2_headers.append(export.Header(activity_info['period']))
+        for col, header in enumerate(row_1_headers):
+            self.write(ws, starting_row, col, header.data, **header.style)
+        for col, header in enumerate(row_2_headers):
+            self.write(ws, starting_row+1, col, header.data, **header.style)

@@ -1,0 +1,37 @@
+<metal:block
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="schooltool.lyceum.journal"
+    tal:define="blank_line view/blank_line;
+                center_columns view/center_columns">
+
+  <blockTableStyle id="attendance-summary-multi-table.header">
+    <blockValign value="TOP" start="0,0" stop="-1,-1"/>
+    <blockFont start="0,0" stop="-1,-1" size="8"
+               name="Ubuntu_Bold" />
+    <blockBackground start="0,0" stop="-1,-1"
+                     colorName="table.header.background" />
+   <blockAlignment value="center" tal:condition="center_columns"
+                   start="3,0" stop="-1,-1" />
+    <blockTextColor  start="0,0" stop="-1,-1"
+                     colorName="table.header.text" />
+  </blockTableStyle>
+
+ <blockTableStyle id="attendance-summary">
+   <blockValign value="TOP" start="0,0" stop="-1,-1"/>
+   <blockAlignment value="center" tal:condition="center_columns"
+                   start="3,0" stop="-1,-1" />
+   <blockFont start="0,0" stop="-1,-1" size="8" name="Ubuntu_Regular" />
+   <blockBackground start="0,0" stop="-1,-1"
+                    colorsByRow="table.row-alt.background,table.row.background" />
+   <blockTextColor  start="0,0" stop="-1,-1" colorName="table.text" />
+   <lineStyle tal:condition="blank_line"
+              tal:attributes="start blank_line/start;
+                              stop blank_line/stop;"
+              thickness="1"
+              kind="linebefore"
+              colorName="white" />
+ </blockTableStyle>
+
+</metal:block>

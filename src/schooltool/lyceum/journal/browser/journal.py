@@ -73,7 +73,9 @@ from schooltool.course.interfaces import ISection
 from schooltool.export.export import RequestXLSReportDialog
 from schooltool.task.progress import normalized_progress
 from schooltool.group.interfaces import IGroupContainer
+from schooltool.group.browser.group import number_getter
 from schooltool.course.interfaces import ISectionContainer
+from schooltool.report.browser.report import RequestRemoteReportDialog
 from schooltool.requirement.scoresystem import ScoreValidationError
 from schooltool.requirement.scoresystem import UNSCORED
 from schooltool.requirement.interfaces import IEvaluations
@@ -83,6 +85,7 @@ from schooltool.term.interfaces import IDateManager
 from schooltool.table.interfaces import ITableFormatter, IIndexedTableFormatter
 from schooltool.timetable.interfaces import IScheduleContainer
 from schooltool.timetable.calendar import ScheduleCalendarEvent
+from schooltool.resource.interfaces import ILocation
 from schooltool.schoolyear.interfaces import ISchoolYearContainer
 from schooltool.schoolyear.interfaces import ISchoolYear
 from schooltool.securitypolicy.crowds import inCrowd
@@ -3350,3 +3353,215 @@ class JournalDataExportView(export.ExcelExportView):
             self.write(ws, starting_row, col, header.data, **header.style)
         for col, header in enumerate(row_2_headers):
             self.write(ws, starting_row+1, col, header.data, **header.style)
+
+
+class AttendanceSummaryRequestView(RequestRemoteReportDialog):
+
+    report_builder = 'attendance_summary.pdf'
+
+
+class AttendanceSummaryPDFView(flourish.report.PlainPDFPage):
+
+    name = _('Attendance Summary')
+    message_title = _('attendance summary report')
+
+    @property
+    def base_filename(self):
+        return 'attendance_summary'
+
+    @property
+    def section(self):
+        return ISection(self.context)
+
+    @property
+    def subtitles_left(self):
+        section = removeSecurityProxy(self.section)
+        instructors = '; '.join([person.title
+                                 for person in section.instructors])
+        locations =  '; '.join([r.title for r in self.section.resources
+                                if ILocation(r, None) is not None])
+        instructors_message = _('Instructors: ${instructors}',
+                                mapping={'instructors': instructors})
+        locations_message = _('Locations: ${locations}',
+                              mapping={'locations': locations})
+        subtitles = [
+            '%s (%s)' % (section.title, section.__name__),
+            instructors_message,
+            locations_message,
+            ]
+        return subtitles
+
+    @property
+    def scope(self):
+        term = ITerm(self.section)
+        schoolyear = term.__parent__
+        return '%s | %s' % (term.title, schoolyear.title)
+
+    @property
+    def title(self):
+        return ', '.join([course.title for course in self.section.courses])
+
+    @Lazy
+    def scoresystem(self):
+        prefs = IJournalScoreSystemPreferences(self.context)
+        ss = prefs.attendance_scoresystem
+        if ss is not None:
+            return ss
+        return AttendanceRequirement.score_system
+
+    @Lazy
+    def members(self):
+        return self.section.members
+
+    @Lazy
+    def scores(self):
+        result = {}
+        factory = AttendanceRequirement
+        for person in self.members:
+            result[person] = {}
+            for meeting, score in self.context.gradedMeetings(person, factory):
+                if (score is not None and
+                    score is not UNSCORED and
+                    score.value is not UNSCORED):
+                    tag = score.value.lower()
+                    if tag not in result[person]:
+                        result[person][tag] = []
+                    result[person][tag].append(1)
+        return result
+
+    def score_column(self, tag):
+        def getter(i, f):
+            person = removeSecurityProxy(i)
+            scores = self.scores[person]
+            if tag in scores:
+                return len(scores[tag])
+        return getter
+
+
+    @Lazy
+    def absent_columns(self):
+        ss = self.scoresystem
+        result = []
+        absent_excused = []
+        absent = []
+        collator = ICollator(self.request.locale)
+        sorting_key = lambda tag: collator.key(tag)
+        for tag in ss.tag_absent:
+            if tag in ss.tag_excused:
+                absent_excused.append(tag)
+            else:
+                absent.append(tag)
+        absent_excused.sort(key=sorting_key)
+        absent.sort(key=sorting_key)
+        for tag in (absent_excused + absent):
+            result.append(GetterColumn(
+                name=tag,
+                title=tag,
+                getter=self.score_column(tag.lower())))
+        return result
+
+    @Lazy
+    def tardy_columns(self):
+        ss = self.scoresystem
+        result = []
+        tardy_excused = []
+        tardy = []
+        collator = ICollator(self.request.locale)
+        sorting_key = lambda tag: collator.key(tag)
+        for tag in ss.tag_tardy:
+            if tag in ss.tag_excused:
+                tardy_excused.append(tag)
+            else:
+                tardy.append(tag)
+        tardy_excused.sort(key=sorting_key)
+        tardy.sort(key=sorting_key)
+        for tag in (tardy_excused + tardy):
+            result.append(GetterColumn(
+                name=tag,
+                title=tag,
+                getter=self.score_column(tag.lower())))
+        return result
+
+
+class AttendanceSummaryTablePart(table.pdf.RMLTablePart):
+
+    table_name = 'attendance_summary_table'
+    table_style = 'attendance-summary'
+    template = flourish.templates.XMLFile('rml/attendance_summary.pt')
+
+    def getColumnWidths(self, rml_columns):
+        column_percentages = [5, 25, 15]
+        scores_count = len(rml_columns) - len(column_percentages)
+        if scores_count:
+            score_percentage = ((100 - sum(column_percentages)) /
+                                 float(scores_count))
+            column_percentages += [score_percentage] * scores_count
+        return ' '.join(['%f%%' % p for p in column_percentages])
+
+
+class AttendanceSummaryTable(table.ajax.Table):
+
+    batch_size = 0
+
+    def __init__(self, *args, **kw):
+        super(AttendanceSummaryTable, self).__init__(*args, **kw)
+        self._grade_cache = {}
+
+    @property
+    def visible_column_names(self):
+        result = ['number', 'title', 'periods']
+        for column in self.scoresystem_columns:
+            result.append(column.name)
+        return result
+
+    def items(self):
+        return self.view.members
+
+    def sortOn(self):
+        return getUtility(IPersonFactory).sortOn()
+
+    def columns(self):
+        first_name = table.column.LocaleAwareGetterColumn(
+            name='first_name',
+            title=_(u'First Name'),
+            getter=lambda i, f: i.first_name,
+            subsort=True)
+        last_name = table.column.LocaleAwareGetterColumn(
+            name='last_name',
+            title=_(u'Last Name'),
+            getter=lambda i, f: i.last_name,
+            subsort=True)
+        number = GetterColumn(
+            name='number',
+            title=u'#',
+            getter=number_getter)
+        title = table.column.LocaleAwareGetterColumn(
+            name='title',
+            title=_(u'Name'),
+            getter=lambda i, f: i.title,
+            subsort=True)
+        total = len(self.context.meetings)
+        periods = GetterColumn(
+            name='periods',
+            title=_('Total periods'),
+            getter=lambda i, f: total)
+        return ([first_name, last_name, number, title, periods] +
+                self.scoresystem_columns)
+
+    @Lazy
+    def scoresystem_columns(self):
+        return self.view.absent_columns[:] + self.view.tardy_columns[:]
+
+
+class AttendanceSummaryStylesPart(flourish.report.PDFPart):
+
+    def blank_line(self):
+        if self.view.tardy_columns:
+            col = -len(self.view.tardy_columns)
+            return {
+                'start': '%d,0' % col,
+                'stop': '%d,-1' % col,
+            }
+
+    def center_columns(self):
+        return self.view.absent_columns or self.view_tardy_columns

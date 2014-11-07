@@ -3362,12 +3362,12 @@ class AttendanceSummaryRequestView(RequestRemoteReportDialog):
 
 class AttendanceSummaryPDFView(flourish.report.PlainPDFPage):
 
-    name = _('Attendance Summary')
-    message_title = _('attendance summary report')
+    name = _('Attendance by Student')
+    message_title = _('attendance by student report')
 
     @property
     def base_filename(self):
-        return 'attendance_summary'
+        return 'attendance_by_student'
 
     @property
     def section(self):

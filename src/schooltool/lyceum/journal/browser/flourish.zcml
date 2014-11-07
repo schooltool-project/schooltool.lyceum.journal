@@ -670,8 +670,8 @@
       layer="schooltool.skin.flourish.IFlourishLayer"
       permission="schooltool.edit"
       group="Section"
-      description="xxx description xxx."
-      title="Attendance Summary"
+      description="Table of absences and tardies for the term for each student in the section."
+      title="Attendance by Student"
       file_type="pdf"
       link="request_journal_attendance_summary.html"
       />

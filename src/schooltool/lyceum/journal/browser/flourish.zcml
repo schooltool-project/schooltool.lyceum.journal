@@ -664,4 +664,55 @@
       permission="schooltool.edit"
       />
 
+  <report:reportLink
+      name="journal_attendance_summary"
+      view=".journal.FlourishLyceumSectionJournalBase"
+      layer="schooltool.skin.flourish.IFlourishLayer"
+      permission="schooltool.edit"
+      group="Section"
+      description="Table of absences and tardies for the term for each student in the section."
+      title="Attendance by Student"
+      file_type="pdf"
+      link="request_journal_attendance_summary.html"
+      />
+
+  <flourish:page
+      name="request_journal_attendance_summary.html"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.AttendanceSummaryRequestView"
+      permission="schooltool.edit"
+      />
+
+  <flourish:pdf
+      name="attendance_summary.pdf"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.AttendanceSummaryPDFView"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="table"
+      manager="schooltool.skin.flourish.report.PDFStory"
+      view=".journal.AttendanceSummaryPDFView"
+      class=".journal.AttendanceSummaryTablePart"
+      permission="schooltool.view"
+      />
+
+  <flourish:content
+      name="attendance_summary_table"
+      for="schooltool.lyceum.journal.interfaces.ISectionJournal"
+      class=".journal.AttendanceSummaryTable"
+      permission="schooltool.view"
+      />
+
+  <flourish:viewlet
+      name="attendance_summary_styles"
+      after="*"
+      manager="schooltool.skin.flourish.report.PDFStylesheetSection"
+      view=".journal.AttendanceSummaryPDFView"
+      class=".journal.AttendanceSummaryStylesPart"
+      template="rml/attendance_summary_styles.pt"
+      permission="zope.Public"
+      />
+
 </configure>

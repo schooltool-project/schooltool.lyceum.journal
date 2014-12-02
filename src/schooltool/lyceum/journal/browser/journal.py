@@ -96,6 +96,7 @@ from schooltool.lyceum.journal.journal import getCurrentJournalMode
 from schooltool.lyceum.journal.journal import setCurrentJournalMode
 from schooltool.lyceum.journal.journal import getCurrentEnrollmentMode
 from schooltool.lyceum.journal.journal import setCurrentEnrollmentMode
+from schooltool.lyceum.journal.journal import JournalPDFReportTask
 from schooltool.lyceum.journal.journal import JournalXLSReportTask
 from schooltool.lyceum.journal.journal import PersistentAttendanceScoreSystem
 from schooltool.lyceum.journal.journal import GradeRequirement
@@ -3358,6 +3359,7 @@ class JournalDataExportView(export.ExcelExportView):
 class AttendanceSummaryRequestView(RequestRemoteReportDialog):
 
     report_builder = 'attendance_summary.pdf'
+    task_factory = JournalPDFReportTask
 
 
 class AttendanceSummaryPDFView(flourish.report.PlainPDFPage):

@@ -49,6 +49,7 @@ from schooltool.course.interfaces import IInstructor
 from schooltool.course.interfaces import ISection
 from schooltool.export.export import XLSReportTask
 from schooltool.person.interfaces import IPerson
+from schooltool.report.report import ReportTask
 from schooltool.requirement.interfaces import ICustomScoreSystem
 from schooltool.requirement.interfaces import IEvaluations
 from schooltool.requirement.evaluation import Evaluation
@@ -645,6 +646,20 @@ class JournalXLSReportTask(XLSReportTask):
     def context(self, value):
         section = ISection(value)
         XLSReportTask.context.fset(self, section)
+
+
+class JournalPDFReportTask(ReportTask):
+
+    @property
+    def context(self):
+        section = ReportTask.context.fget(self)
+        journal = ISectionJournal(section)
+        return journal
+
+    @context.setter
+    def context(self, value):
+        section = ISection(value)
+        ReportTask.context.fset(self, section)
 
 
 @adapter(MeetingRequirement)

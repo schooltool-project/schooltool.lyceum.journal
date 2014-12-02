@@ -74,6 +74,13 @@
              set_schema="schooltool.report.interfaces.IReportTask" />
   </class>
 
+  <class class=".journal.JournalPDFReportTask">
+    <require permission="schooltool.view"
+             interface="schooltool.report.interfaces.IReportTask" />
+    <require permission="schooltool.edit"
+             set_schema="schooltool.report.interfaces.IReportTask" />
+  </class>
+
   <class class=".journal.AttendanceScoreSystem">
     <require
         permission="zope.View"

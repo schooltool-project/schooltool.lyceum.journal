@@ -2,13 +2,7 @@
 CHANGES
 =======
 
-2.8.3 (unreleased)
-------------------
-
-- Nothing changed yet.
-
-
-2.8.2 (2014-11-11)
+2.8.2 (2014-12-03)
 ------------------
 
 - Added attendance by student report
